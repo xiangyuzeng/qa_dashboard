@@ -172,4 +172,107 @@ export function brandStats(insp: InspectionRecord[]): BrandStat[] {
   });
 }
 
+export const BENCH_BRANDS = ["Luckin Coffee", ...COMPETITOR_BRANDS];
+
+/** Top categories × brand → grouped bar (x = category, series = brand). */
+export function categoryByBrand(
+  insp: InspectionRecord[],
+  brands: string[] = BENCH_BRANDS,
+  topN = 8,
+): Record<string, string | number>[] {
+  return topCategories(insp, topN).map((c) => {
+    const row: Record<string, string | number> = {
+      catId: c.id,
+      labelZh: c.labelZh,
+      labelEn: c.labelEn,
+    };
+    for (const b of brands) {
+      row[b] = insp.filter(
+        (r) =>
+          r.brand === b &&
+          (r.standardizedCategoryId === c.id || r.standardizedCategoriesAll.includes(c.id)),
+      ).length;
+    }
+    return row;
+  });
+}
+
+/** Result mix per brand → stacked bar. */
+export function resultMixByBrand(insp: InspectionRecord[]): Record<string, string | number>[] {
+  return BrandEnum.options
+    .map((b) => {
+      const rows = insp.filter((r) => r.brand === b);
+      const e: Record<string, string | number> = { brand: b, __total: rows.length };
+      for (const res of ResultEnum.options) e[res] = rows.filter((r) => r.inspectionResult === res).length;
+      return e;
+    })
+    .filter((e) => (e.__total as number) > 0);
+}
+
+/** Monthly time-series (fixed period axis for static data). */
+export function trendsOverTime(insp: InspectionRecord[]): Record<string, string | number>[] {
+  const byMonth: Record<string, { inspections: number; highRisk: number; fail: number }> = {};
+  for (const r of insp) {
+    if (!r.inspectionDate) continue;
+    const m = r.inspectionDate.slice(0, 7);
+    byMonth[m] ??= { inspections: 0, highRisk: 0, fail: 0 };
+    byMonth[m].inspections++;
+    if (r.riskLevel === "高风险") byMonth[m].highRisk++;
+    if (FAIL_RESULTS.includes(r.inspectionResult as string)) byMonth[m].fail++;
+  }
+  return Object.entries(byMonth)
+    .sort((a, b) => a[0].localeCompare(b[0]))
+    .map(([period, v]) => ({ period, ...v }));
+}
+
+/** Critical vs non-critical per top category → stacked bar. */
+export function severityByCategory(
+  insp: InspectionRecord[],
+  topN = 10,
+): { catId: number; labelZh: string; labelEn: string; critical: number; nonCritical: number }[] {
+  return topCategories(insp, topN).map((c) => {
+    const rows = insp.filter(
+      (r) => r.standardizedCategoryId === c.id || r.standardizedCategoriesAll.includes(c.id),
+    );
+    return {
+      catId: c.id,
+      labelZh: c.labelZh,
+      labelEn: c.labelEn,
+      critical: rows.filter((r) => r.violationSeverity === "严重（主要）Critical").length,
+      nonCritical: rows.filter((r) => r.violationSeverity === "一般 Non-critical").length,
+    };
+  });
+}
+
+export type RepeatGroup = {
+  groupId: string;
+  brand: string | null;
+  jurisdiction: string | null;
+  categoryId: number | null;
+  count: number;
+  members: { id: string; storeName: string | null; date: string | null; result: string | null }[];
+};
+
+/** Repeat-violation groups (same brand/area + category, ≥2), keyed by repeatViolationGroupId. */
+export function repeatGroups(insp: InspectionRecord[]): RepeatGroup[] {
+  const groups: Record<string, InspectionRecord[]> = {};
+  for (const r of insp) if (r.repeatViolationGroupId) (groups[r.repeatViolationGroupId] ??= []).push(r);
+  return Object.entries(groups)
+    .filter(([, rows]) => rows.length >= 2)
+    .map(([groupId, rows]) => ({
+      groupId,
+      brand: rows[0].brand,
+      jurisdiction: rows[0].jurisdiction,
+      categoryId: rows[0].standardizedCategoryId,
+      count: rows.length,
+      members: rows.map((r) => ({
+        id: r.id,
+        storeName: r.storeName,
+        date: r.inspectionDate,
+        result: r.inspectionResult,
+      })),
+    }))
+    .sort((a, b) => b.count - a.count);
+}
+
 export { passRate, failRate };

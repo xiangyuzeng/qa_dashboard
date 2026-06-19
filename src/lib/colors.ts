@@ -32,3 +32,14 @@ export const RISK_LABEL: Record<string, { zh: string; en: string }> = {
 
 export const riskLabel = (risk: string, locale: Locale) =>
   locale === "zh" ? (RISK_LABEL[risk]?.zh ?? risk) : (RISK_LABEL[risk]?.en ?? risk);
+
+/** Brand accent colors for benchmarking (Luckin = brand navy, emphasized). */
+export const BRAND_COLORS: Record<string, string> = {
+  "Luckin Coffee": "#1F4E79",
+  Starbucks: "#00704A",
+  Dunkin: "#FF6E0C",
+  "Pret A Manger": "#7A1F2B",
+  "Blue Bottle Coffee": "#1E66F5",
+  "McDonald's": "#DA291C",
+  "其他 Other": "#94A3B8",
+};

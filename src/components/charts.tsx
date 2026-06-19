@@ -72,11 +72,13 @@ export function StackedBar({
   data,
   series,
   categoryKey,
+  colors,
   height,
 }: {
   data: Record<string, string | number>[];
   series: string[];
   categoryKey: string;
+  colors?: Record<string, string>;
   height?: number;
 }) {
   if (!data.length) return <Empty />;
@@ -88,7 +90,7 @@ export function StackedBar({
         <Tooltip />
         <Legend wrapperStyle={{ fontSize: 11 }} />
         {series.map((s) => (
-          <Bar key={s} dataKey={s} stackId="a" fill={RESULT_COLORS[s] ?? "#94A3B8"} />
+          <Bar key={s} dataKey={s} stackId="a" fill={colors?.[s] ?? RESULT_COLORS[s] ?? "#94A3B8"} />
         ))}
       </BarChart>
     </ResponsiveContainer>
@@ -133,7 +135,7 @@ export function MultiLine({
   height,
 }: {
   data: Record<string, string | number>[];
-  series: { key: string; color: string }[];
+  series: { key: string; color: string; name?: string }[];
   xKey: string;
   height?: number;
 }) {
@@ -146,7 +148,7 @@ export function MultiLine({
         <Tooltip />
         <Legend wrapperStyle={{ fontSize: 11 }} />
         {series.map((s) => (
-          <Line key={s.key} type="monotone" dataKey={s.key} stroke={s.color} strokeWidth={2} dot={{ r: 2 }} />
+          <Line key={s.key} type="monotone" dataKey={s.key} name={s.name ?? s.key} stroke={s.color} strokeWidth={2} dot={{ r: 2 }} />
         ))}
       </LineChart>
     </ResponsiveContainer>
