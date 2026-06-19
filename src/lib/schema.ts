@@ -433,6 +433,7 @@ export const ImportExportRecordSchema = z.object({
   documentationRequirement: z.string().nullable().default(null), // 文件要求
   riskLevel: RiskLevelEnum.nullable().default(null), // 风险等级
   sourceUrl: z.string().url().nullable().default(null), // 原文链接
+  recommendedAction: z.string().nullable().default(null), // 建议行动
   // ── enrichment ──
   relevanceTags: z.array(RelevanceTagEnum).default([]),
   ...AlertMixin,
@@ -445,6 +446,7 @@ export const SHEET3_COLUMNS: (keyof ImportExportRecord)[] = [
   "no", "category", "chineseTitle", "englishTitle", "agency", "countryRegion",
   "productInvolved", "publicationDate", "regulatoryAction", "chineseSummary",
   "englishSummary", "importExportImpact", "documentationRequirement", "riskLevel", "sourceUrl",
+  "recommendedAction",
 ];
 
 /* ────────────────────────────────────────────────────────────────────────────
@@ -469,6 +471,7 @@ export const RegulationRecordSchema = z.object({
   businessImpact: z.string().nullable().default(null), // 对甲方影响
   riskLevel: RiskLevelEnum.nullable().default(null), // 风险等级
   sourceUrl: z.string().url().nullable().default(null), // 原文链接
+  recommendedAction: z.string().nullable().default(null), // 建议行动
   // ── enrichment ──
   topic: RegTopicEnum.nullable().default(null),
   ...AlertMixin,
@@ -481,6 +484,7 @@ export const SHEET4_COLUMNS: (keyof RegulationRecord)[] = [
   "no", "jurisdiction", "regulationBillName", "chineseTitle", "englishTitle", "status",
   "publicationPassageDate", "effectiveDate", "coveredEntities", "keyRequirements",
   "chineseSummary", "englishSummary", "businessImpact", "riskLevel", "sourceUrl",
+  "recommendedAction",
 ];
 
 /* ────────────────────────────────────────────────────────────────────────────

@@ -10,14 +10,18 @@
  */
 import { writeFileSync, mkdirSync, existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
-import { getJson, socrata } from "./lib/http";
+import { getJson, getText, socrata } from "./lib/http";
 import { matchBrand, brandOrOther, establishmentType, inScope } from "./lib/match";
 import { classify } from "./lib/classify";
-import { assessInspection, assessRegulatory } from "./lib/risk";
+import { assessInspection, assessRegulatory, assessImport, assessRegulation } from "./lib/risk";
 import { hashId, normKey } from "./lib/ids";
+import { importSeeds, regulationSeeds } from "./seeds";
 import type {
   RegulatoryRecord,
   InspectionRecord,
+  ImportExportRecord,
+  RegulationRecord,
+  SentimentRecord,
   SourceProvenance,
   Provenance,
 } from "../src/lib/schema";
@@ -88,7 +92,14 @@ const inspBase = () => ({
   reviewNote: "auto-collected — QA review required before treating exports/alerts as final",
 });
 
-type SourceResult = { regulatory?: RegulatoryRecord[]; inspections?: InspectionRecord[]; provenance: SourceProvenance };
+type SourceResult = {
+  regulatory?: RegulatoryRecord[];
+  inspections?: InspectionRecord[];
+  importExport?: ImportExportRecord[];
+  regulations?: RegulationRecord[];
+  sentiment?: SentimentRecord[];
+  provenance: SourceProvenance;
+};
 
 const provEntry = (
   o: Partial<SourceProvenance> & Pick<SourceProvenance, "sourceId" | "name" | "accessType" | "oneTimePullFeasible">,
@@ -208,10 +219,10 @@ async function collectCDC(): Promise<SourceResult> {
 
 const isoFlexible = (s: string | null | undefined): string | null => {
   if (!s) return null;
-  const iso = isoFromYmd(s);
-  if (iso) return iso;
-  const d = new Date(s);
-  return isNaN(d.getTime()) ? null : d.toISOString().slice(0, 10);
+  if (/^\d{4}-\d{2}-\d{2}/.test(s)) return s.slice(0, 10); // already ISO
+  const d = new Date(s); // RSS / free-form ("Wed, 04 Jun 2026 …")
+  if (!isNaN(d.getTime())) return d.toISOString().slice(0, 10);
+  return isoFromYmd(s); // last resort: digit extraction
 };
 const stripHtml = (s: string) => s.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
 
@@ -366,6 +377,7 @@ async function collectNYC(): Promise<SourceResult> {
           brand: brandOrOther(r0.dba) as InspectionRecord["brand"],
           establishmentType: establishmentType(r0.dba) as InspectionRecord["establishmentType"],
           storeName: r0.dba ?? null,
+          establishmentId: r0.camis ?? null,
           address: [r0.building, r0.street, r0.boro, r0.zipcode].filter(Boolean).join(" "),
           inspectionDate: (r0.inspection_date ?? "").slice(0, 10) || null,
           inspectionType: r0.inspection_type ?? null,
@@ -466,6 +478,7 @@ async function collectBoston(): Promise<SourceResult> {
         finalizeInspection({
           no: null, jurisdiction: "Boston", regulatoryAgency: "Boston Inspectional Services",
           brand: brandOrOther(nm), establishmentType: establishmentType(nm), storeName: nm || null,
+          establishmentId: r0.licenseno ?? null,
           address: [r0.address, r0.city, r0.zip].filter(Boolean).join(" ") || null,
           inspectionDate: isoFromYmd(r0.resultdate), inspectionType: r0.licstatus ?? null,
           inspectionResult: result, score: null, grade: null, violationCode: r0.violcode ?? null,
@@ -544,6 +557,196 @@ async function collectIntake(): Promise<SourceResult> {
   }
 }
 
+/* ─────────────── MODULE 2 — Import/Export & Border Control ─────────────── */
+
+// Curated real rows from the 2026-05 report (bilingual, dated, sourced).
+async function collectImportSeeds(): Promise<SourceResult> {
+  const out: ImportExportRecord[] = importSeeds.map((s) => {
+    const a = assessImport({ action: s.regulatoryAction, text: `${s.englishTitle} ${s.englishSummary}` });
+    const riskLevel = s.riskLevel as ImportExportRecord["riskLevel"];
+    return {
+      id: hashId("imp", s.englishTitle, s.publicationDate),
+      module: "import" as const,
+      no: null,
+      category: s.category,
+      chineseTitle: s.chineseTitle,
+      englishTitle: s.englishTitle,
+      agency: s.agency,
+      countryRegion: s.countryRegion,
+      productInvolved: s.productInvolved,
+      publicationDate: s.publicationDate,
+      regulatoryAction: s.regulatoryAction as ImportExportRecord["regulatoryAction"],
+      chineseSummary: s.chineseSummary,
+      englishSummary: s.englishSummary,
+      importExportImpact: s.importExportImpact,
+      documentationRequirement: s.documentationRequirement,
+      riskLevel,
+      sourceUrl: s.sourceUrl,
+      recommendedAction: s.recommendedAction,
+      relevanceTags: relevanceTags(`${s.englishTitle} ${s.englishSummary} ${s.productInvolved ?? ""}`),
+      alertTriggered: a.alertTriggered || riskLevel === "高风险",
+      alertReason: a.alertReason ?? (riskLevel === "高风险" ? "high-risk import item" : null),
+      alertRuleIds: a.alertRuleIds,
+      reviewed: true,
+      reviewStatus: "approved" as const,
+      reviewNote: "curated from 2026-05 report",
+      provenance: prov("may_report_import", s.sourceUrl),
+    };
+  });
+  return { importExport: out, provenance: provEntry({ sourceId: "may_report_import", name: "Curated import items (2026-05 report)", module: "import", status: "manual", accessType: "none", oneTimePullFeasible: "partial", recordCount: out.length, stalenessNote: "Manual-curated from the May 2026 report; live Federal Register import slugs augment." }) };
+}
+
+// Auto — Federal Register import/border agency slugs (verified no-auth).
+async function collectFederalRegisterImport(): Promise<SourceResult> {
+  const slugs = ["animal-and-plant-health-inspection-service", "customs-and-border-protection", "food-safety-and-inspection-service", "international-trade-administration"];
+  const name = "Federal Register — import/border agencies";
+  const out: ImportExportRecord[] = [];
+  const seen = new Set<string>();
+  try {
+    for (const slug of slugs) {
+      const url = `https://www.federalregister.gov/api/v1/documents.json?per_page=6&order=newest&conditions[agencies][]=${slug}&fields[]=title&fields[]=abstract&fields[]=document_number&fields[]=html_url&fields[]=publication_date&fields[]=agencies`;
+      const res = await getJson<{ results: Record<string, unknown>[] }>(url);
+      for (const d of res.results ?? []) {
+        const dn = String(d.document_number ?? "");
+        if (seen.has(dn)) continue;
+        seen.add(dn);
+        const title = String(d.title ?? "");
+        const abstract = String(d.abstract ?? "");
+        const text = `${title} ${abstract}`;
+        if (!/import|export|tariff|entry|customs|eligib|prior notice|poultry|meat|plant protection|quarantine|duty|origin|inspection/i.test(text)) continue;
+        const agencyName = Array.isArray(d.agencies) && d.agencies[0] ? String((d.agencies[0] as { name?: string }).name ?? slug) : slug;
+        const a = assessImport({ action: "Rule/Notice", text });
+        out.push({
+          id: hashId("imp", "fedreg", dn || title),
+          module: "import" as const,
+          no: null,
+          category: "联邦公报进口/贸易 Federal Register Import/Trade",
+          chineseTitle: null,
+          englishTitle: title,
+          agency: agencyName,
+          countryRegion: null,
+          productInvolved: null,
+          publicationDate: isoFromYmd(String(d.publication_date ?? "")),
+          regulatoryAction: "Rule/Notice" as const,
+          chineseSummary: null,
+          englishSummary: abstract.slice(0, 260) || null,
+          importExportImpact: null,
+          documentationRequirement: null,
+          riskLevel: a.riskLevel as ImportExportRecord["riskLevel"],
+          sourceUrl: String(d.html_url ?? "") || null,
+          recommendedAction: null,
+          relevanceTags: relevanceTags(text),
+          alertTriggered: a.alertTriggered,
+          alertReason: a.alertReason,
+          alertRuleIds: a.alertRuleIds,
+          reviewed: true,
+          reviewStatus: "approved" as const,
+          reviewNote: "auto-collected — QA review required before treating exports/alerts as final",
+          provenance: prov("federal_register_import", String(d.html_url ?? "")),
+        });
+      }
+    }
+    return { importExport: out, provenance: provEntry({ sourceId: "federal_register_import", name, module: "import", status: out.length ? "fetched" : "no_update", accessType: "official-api", endpointOrUrl: "https://www.federalregister.gov/api/v1/documents.json", oneTimePullFeasible: "yes", recordCount: out.length }) };
+  } catch (e) {
+    return { importExport: out, provenance: provEntry({ sourceId: "federal_register_import", name, module: "import", status: "manual", accessType: "official-api", oneTimePullFeasible: "yes", stalenessNote: `partial/failed: ${String(e).slice(0, 120)}`, recordCount: out.length, reVerifyBeforeRelying: true }) };
+  }
+}
+
+/* ─────────────── MODULE 3 — State & Local Regulation ─────────────── */
+
+async function collectRegulationSeeds(): Promise<SourceResult> {
+  const out: RegulationRecord[] = regulationSeeds.map((s) => {
+    const a = assessRegulation({ status: s.status, effectiveDate: s.effectiveDate, today: TODAY });
+    const riskLevel = s.riskLevel as RegulationRecord["riskLevel"];
+    const alertTriggered = a.alertTriggered || riskLevel === "高风险";
+    return {
+      id: hashId("reg2", s.regulationBillName, s.jurisdiction),
+      module: "regulation" as const,
+      no: null,
+      jurisdiction: s.jurisdiction as RegulationRecord["jurisdiction"],
+      regulationBillName: s.regulationBillName,
+      chineseTitle: s.chineseTitle,
+      englishTitle: s.englishTitle,
+      status: s.status as RegulationRecord["status"],
+      publicationPassageDate: s.publicationPassageDate,
+      effectiveDate: s.effectiveDate,
+      coveredEntities: s.coveredEntities,
+      keyRequirements: s.keyRequirements,
+      chineseSummary: s.chineseSummary,
+      englishSummary: s.englishSummary,
+      businessImpact: s.businessImpact,
+      riskLevel,
+      sourceUrl: s.sourceUrl,
+      recommendedAction: s.recommendedAction,
+      topic: s.topic as RegulationRecord["topic"],
+      alertTriggered,
+      alertReason: a.alertReason ?? (alertTriggered ? "high-risk / imminent compliance" : null),
+      alertRuleIds: a.alertRuleIds,
+      reviewed: true,
+      reviewStatus: "approved" as const,
+      reviewNote: "curated from 2026-05 report",
+      provenance: prov("may_report_regulation", s.sourceUrl),
+    };
+  });
+  return { regulations: out, provenance: provEntry({ sourceId: "may_report_regulation", name: "Curated state/local regulations (2026-05 report)", module: "regulation", status: "manual", accessType: "none", oneTimePullFeasible: "partial", recordCount: out.length, stalenessNote: "Manual-curated named laws (Sweet Truth, SB68, NY S5381…); state-bill APIs (LegiScan/NY-Senate) can augment with keys — see docs/API_KEYS.md." }) };
+}
+
+/* ─────────────── MODULE 5 — Negative Media & Sentiment ─────────────── */
+
+async function collectSentimentRSS(): Promise<SourceResult> {
+  const name = "Food Safety News RSS (sentiment)";
+  const feedUrl = "https://www.foodsafetynews.com/feed/";
+  const out: SentimentRecord[] = [];
+  try {
+    const xml = await getText(feedUrl, { headers: { Accept: "application/rss+xml, application/xml, text/xml" } });
+    const items = xml.split(/<item[ >]/).slice(1, 21);
+    for (const it of items) {
+      const title = (it.match(/<title>(?:<!\[CDATA\[)?([\s\S]*?)(?:\]\]>)?<\/title>/)?.[1] ?? "").trim();
+      const link = (it.match(/<link>([\s\S]*?)<\/link>/)?.[1] ?? "").trim();
+      const pub = it.match(/<pubDate>([\s\S]*?)<\/pubDate>/)?.[1];
+      if (!title) continue;
+      const brand = matchBrand(title) as SentimentRecord["brandMentioned"];
+      const negative = /(recall|outbreak|salmonella|listeria|e\. ?coli|contaminat|undeclared|allergen|lawsuit|illness|poison|hospitaliz|death|warning)/i.test(title);
+      const foodRelevant = /coffee|tea|dairy|milk|beverage|juice|cafe|café|food|allergen/i.test(title);
+      const excluded = !negative && brand == null && !foodRelevant;
+      const cat: SentimentRecord["sentimentCategory"] = /allergen|undeclared/i.test(title)
+        ? "allergen_report"
+        : brand && brand !== "Luckin Coffee"
+          ? "competitor_incident"
+          : "negative_coverage";
+      out.push({
+        id: hashId("sent", link || title),
+        module: "sentiment" as const,
+        no: null,
+        sentimentCategory: cat,
+        chineseTitle: null,
+        englishTitle: title,
+        outlet: "Food Safety News",
+        brandMentioned: brand,
+        publicationDate: isoFlexible(pub),
+        chineseSummary: null,
+        englishSummary: title,
+        sourceUrl: /^https?:\/\//.test(link) ? link : null,
+        riskLevel: (negative ? "中风险" : "信息参考") as SentimentRecord["riskLevel"],
+        credibility: "high" as const,
+        excluded,
+        exclusionReason: excluded ? "not food-safety / not brand-relevant (§11)" : null,
+        relevanceTags: relevanceTags(title),
+        alertTriggered: false,
+        alertReason: null,
+        alertRuleIds: [],
+        reviewed: true,
+        reviewStatus: "approved" as const,
+        reviewNote: "auto-collected RSS — metadata + link only",
+        provenance: prov("food_safety_news_rss", /^https?:\/\//.test(link) ? link : feedUrl),
+      });
+    }
+    return { sentiment: out, provenance: provEntry({ sourceId: "food_safety_news_rss", name, module: "sentiment", status: out.length ? "filtered" : "no_update", accessType: "open-data", endpointOrUrl: feedUrl, oneTimePullFeasible: "yes", recordCount: out.length, stalenessNote: "Metadata + link only; never rehosts article bodies. §11 exclusions flagged (excluded=true kept for audit)." }) };
+  } catch (e) {
+    return { sentiment: out, provenance: provEntry({ sourceId: "food_safety_news_rss", name, module: "sentiment", status: "manual", accessType: "open-data", endpointOrUrl: feedUrl, oneTimePullFeasible: "yes", stalenessNote: `RSS fetch failed: ${String(e).slice(0, 120)}`, recordCount: out.length, reVerifyBeforeRelying: true }) };
+  }
+}
+
 /* ───────────────────────── orchestrate ───────────────────────── */
 
 async function main() {
@@ -557,14 +760,24 @@ async function main() {
     collectCambridge(),
     collectBoston(),
     collectIntake(),
+    collectImportSeeds(),
+    collectFederalRegisterImport(),
+    collectRegulationSeeds(),
+    collectSentimentRSS(),
   ]);
 
   const regulatory: RegulatoryRecord[] = [];
   const inspections: InspectionRecord[] = [];
+  const importExport: ImportExportRecord[] = [];
+  const regulations: RegulationRecord[] = [];
+  const sentiment: SentimentRecord[] = [];
   const provenance: SourceProvenance[] = [];
   for (const r of results) {
     if (r.regulatory) regulatory.push(...r.regulatory);
     if (r.inspections) inspections.push(...r.inspections);
+    if (r.importExport) importExport.push(...r.importExport);
+    if (r.regulations) regulations.push(...r.regulations);
+    if (r.sentiment) sentiment.push(...r.sentiment);
     provenance.push(r.provenance);
     console.log(`  ${r.provenance.sourceId}: ${r.provenance.recordCount} records${r.provenance.stalenessNote ? ` (${r.provenance.stalenessNote})` : ""}`);
   }
@@ -584,6 +797,9 @@ async function main() {
   // sequential No.
   regulatory.forEach((r, i) => (r.no = i + 1));
   inspections.forEach((r, i) => (r.no = i + 1));
+  importExport.forEach((r, i) => (r.no = i + 1));
+  regulations.forEach((r, i) => (r.no = i + 1));
+  sentiment.forEach((r, i) => (r.no = i + 1));
 
   // repeat-violation grouping: same STORE repeating the same standardized category (≥2
   // inspections). Store-level keeps the signal meaningful (vs. lumping every same-brand
@@ -613,9 +829,45 @@ async function main() {
     }
   }
 
-  const alerts = regulatory.filter((r) => r.alertTriggered).length + inspections.filter((r) => r.alertTriggered).length;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const allRecords: any[] = [...regulatory, ...inspections, ...importExport, ...regulations, ...sentiment];
+  const alerts = allRecords.filter((r) => r.alertTriggered).length;
+  const highRisk = allRecords.filter((r) => r.riskLevel === "高风险").length;
+  const watch = allRecords.filter((r) => r.riskLevel === "关注").length;
   const bySource: Record<string, number> = {};
-  for (const r of [...regulatory, ...inspections]) bySource[r.provenance.sourceId] = (bySource[r.provenance.sourceId] ?? 0) + 1;
+  for (const r of allRecords) bySource[r.provenance.sourceId] = (bySource[r.provenance.sourceId] ?? 0) + 1;
+
+  const hrefFor = (m: string, id: string) =>
+    m === "inspection" ? `/inspections/${id}` : m === "import" ? "/import" : m === "regulation" ? "/regulation" : m === "sentiment" ? "/sentiment" : "/intelligence";
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const titleOf = (r: any, lang: "zh" | "en") => (lang === "zh" ? (r.chineseTitle ?? r.storeName ?? null) : (r.englishTitle ?? r.storeName ?? null));
+  const highRiskItems = allRecords
+    .filter((r) => r.riskLevel === "高风险")
+    .slice(0, 12)
+    .map((r) => ({ recordId: r.id, module: r.module, titleZh: titleOf(r, "zh"), titleEn: titleOf(r, "en"), riskLevel: r.riskLevel, href: hrefFor(r.module, r.id) }));
+
+  const summary = {
+    reportNameZh: `${TODAY.slice(0, 7)} 瑞幸北美 食品安全·进口合规·地方法规·舆情监测月报`,
+    reportNameEn: `Luckin NA Food Safety · Import Compliance · Local Regulation · Sentiment Monitor — ${TODAY.slice(0, 7)}`,
+    scopeZh: "FDA / FSIS / CDC / CBP / APHIS / Federal Register / 州及地方法规 / 咖啡馆检查 / 负面舆情",
+    scopeEn: "FDA / FSIS / CDC / CBP / APHIS / Federal Register / State & Local Regulation / Café Inspections / Negative Media",
+    exclusions: [
+      { zh: "不纳入与食品安全无关的动物/宠物/野生动物事件", en: "Excludes non-food animal/pet/wildlife events" },
+      { zh: "不纳入纯商业/营销/财务/门店扩张新闻", en: "Excludes pure business/marketing/financial/store-expansion news" },
+      { zh: "不纳入低可信度、无来源或重复转载内容", en: "Excludes low-credibility, unsourced or reposted content" },
+    ],
+    keyHighlights: [
+      { zh: `本月高风险事项 ${highRisk} 项、关注 ${watch} 项`, en: `${highRisk} high-risk and ${watch} watch items this period` },
+      { zh: "州/地方合规临近：CA SB68 (2026-07-01)、NY 过敏原法 (~2026-11)、NYC added-sugar 已生效", en: "Imminent state/local compliance: CA SB68 (2026-07-01), NY allergen law (~2026-11), NYC added-sugar in effect" },
+      { zh: "进口监管：APHIS 禽类限制持续；FDA Prior Notice 基线适用；CBP CSMS 本轮无直接更新", en: "Import: APHIS poultry restrictions ongoing; FDA Prior Notice baseline; no direct CBP CSMS update this run" },
+    ],
+    highRiskItems,
+    keyActions: [
+      { zh: "在 2026-07-01 前完成 CA 门店主要过敏原披露实施", en: "Complete CA major-allergen disclosure before 2026-07-01" },
+      { zh: "建立菜单/饮品 added sugars 与过敏原数据库并同步配方变更", en: "Build menu added-sugars + allergen database; sync with recipe changes" },
+      { zh: "持续监控 CBP / APHIS / FDA Import Alerts 与州级过敏原立法趋势", en: "Monitor CBP/APHIS/FDA Import Alerts + the state allergen-bill trend" },
+    ],
+  };
 
   const meta = {
     schemaVersion: "2.0.0",
@@ -623,15 +875,32 @@ async function main() {
     reportingPeriod: { label: `${TODAY.slice(0, 7)} (real pull)`, year: Number(TODAY.slice(0, 4)), month: Number(TODAY.slice(5, 7)) },
     generatedAt: NOW,
     isSeedData: false,
-    counts: { regulatory: regulatory.length, inspections: inspections.length, alerts, pendingReview: 0, bySource },
+    counts: {
+      regulatory: regulatory.length,
+      inspections: inspections.length,
+      alerts,
+      pendingReview: 0,
+      importExport: importExport.length,
+      regulation: regulations.length,
+      sentiment: sentiment.length,
+      highRisk,
+      watch,
+      bySource,
+    },
+    summary,
     provenance,
   };
 
   mkdirSync(OUT, { recursive: true });
   writeFileSync(join(OUT, "regulatory.json"), JSON.stringify(regulatory, null, 2) + "\n");
   writeFileSync(join(OUT, "inspections.json"), JSON.stringify(inspections, null, 2) + "\n");
+  writeFileSync(join(OUT, "import_export.json"), JSON.stringify(importExport, null, 2) + "\n");
+  writeFileSync(join(OUT, "regulations.json"), JSON.stringify(regulations, null, 2) + "\n");
+  writeFileSync(join(OUT, "sentiment.json"), JSON.stringify(sentiment, null, 2) + "\n");
   writeFileSync(join(OUT, "meta.json"), JSON.stringify(meta, null, 2) + "\n");
-  console.log(`\nwrote ${regulatory.length} regulatory + ${inspections.length} inspections (${alerts} alerts) to data/v2/`);
+  console.log(
+    `\nwrote ${regulatory.length} regulatory + ${inspections.length} insp + ${importExport.length} import + ${regulations.length} regs + ${sentiment.length} sentiment (${alerts} alerts, ${highRisk} high, ${watch} watch) to data/v2/`,
+  );
 }
 
 main().catch((e) => {

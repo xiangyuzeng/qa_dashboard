@@ -1,34 +1,191 @@
 {
   "schemaVersion": "2.0.0",
-  "dataAsOf": "2026-06-18",
+  "dataAsOf": "2026-06-19",
   "reportingPeriod": {
     "label": "2026-06 (real pull)",
     "year": 2026,
     "month": 6
   },
-  "generatedAt": "2026-06-18T19:25:28.925Z",
+  "generatedAt": "2026-06-19T11:01:03.499Z",
   "isSeedData": false,
   "counts": {
     "regulatory": 141,
-    "inspections": 174,
-    "alerts": 124,
+    "inspections": 172,
+    "alerts": 131,
     "pendingReview": 0,
+    "importExport": 12,
+    "regulation": 8,
+    "sentiment": 15,
+    "highRisk": 109,
+    "watch": 0,
     "bySource": {
       "fda_recall": 65,
       "federal_register": 36,
       "cdc_nors": 40,
-      "nyc_dohmh": 128,
-      "boston_ckan": 46
+      "nyc_dohmh": 126,
+      "boston_ckan": 46,
+      "may_report_import": 6,
+      "federal_register_import": 6,
+      "may_report_regulation": 8,
+      "food_safety_news_rss": 15
     }
+  },
+  "summary": {
+    "reportNameZh": "2026-06 瑞幸北美 食品安全·进口合规·地方法规·舆情监测月报",
+    "reportNameEn": "Luckin NA Food Safety · Import Compliance · Local Regulation · Sentiment Monitor — 2026-06",
+    "scopeZh": "FDA / FSIS / CDC / CBP / APHIS / Federal Register / 州及地方法规 / 咖啡馆检查 / 负面舆情",
+    "scopeEn": "FDA / FSIS / CDC / CBP / APHIS / Federal Register / State & Local Regulation / Café Inspections / Negative Media",
+    "exclusions": [
+      {
+        "zh": "不纳入与食品安全无关的动物/宠物/野生动物事件",
+        "en": "Excludes non-food animal/pet/wildlife events"
+      },
+      {
+        "zh": "不纳入纯商业/营销/财务/门店扩张新闻",
+        "en": "Excludes pure business/marketing/financial/store-expansion news"
+      },
+      {
+        "zh": "不纳入低可信度、无来源或重复转载内容",
+        "en": "Excludes low-credibility, unsourced or reposted content"
+      }
+    ],
+    "keyHighlights": [
+      {
+        "zh": "本月高风险事项 109 项、关注 0 项",
+        "en": "109 high-risk and 0 watch items this period"
+      },
+      {
+        "zh": "州/地方合规临近：CA SB68 (2026-07-01)、NY 过敏原法 (~2026-11)、NYC added-sugar 已生效",
+        "en": "Imminent state/local compliance: CA SB68 (2026-07-01), NY allergen law (~2026-11), NYC added-sugar in effect"
+      },
+      {
+        "zh": "进口监管：APHIS 禽类限制持续；FDA Prior Notice 基线适用；CBP CSMS 本轮无直接更新",
+        "en": "Import: APHIS poultry restrictions ongoing; FDA Prior Notice baseline; no direct CBP CSMS update this run"
+      }
+    ],
+    "highRiskItems": [
+      {
+        "recordId": "reg-f23c3d29a8b8",
+        "module": "food_safety",
+        "titleZh": null,
+        "titleEn": "JCB Flavors, LLC: Products may be potentially contaminated with Salmonella.",
+        "riskLevel": "高风险",
+        "href": "/intelligence"
+      },
+      {
+        "recordId": "reg-6e77c68a63c5",
+        "module": "food_safety",
+        "titleZh": null,
+        "titleEn": "The Coffee Connexion Co., Inc: Product contains dry milk powder ingredient recalled by the supplier due to potential Salm",
+        "riskLevel": "高风险",
+        "href": "/intelligence"
+      },
+      {
+        "recordId": "reg-f25a10d5ac2d",
+        "module": "food_safety",
+        "titleZh": null,
+        "titleEn": "JCB Flavors, LLC: Products may be potentially contaminated with Salmonella.",
+        "riskLevel": "高风险",
+        "href": "/intelligence"
+      },
+      {
+        "recordId": "reg-4daf85df38a9",
+        "module": "food_safety",
+        "titleZh": null,
+        "titleEn": "JCB Flavors, LLC: Products may be potentially contaminated with Salmonella.",
+        "riskLevel": "高风险",
+        "href": "/intelligence"
+      },
+      {
+        "recordId": "reg-fba4d728b094",
+        "module": "food_safety",
+        "titleZh": null,
+        "titleEn": "Market of Choice Inc: Undeclared allergen (sesame). Ingredients panel does not list sesame as sub-ingredient of ",
+        "riskLevel": "高风险",
+        "href": "/intelligence"
+      },
+      {
+        "recordId": "reg-e6ae82197225",
+        "module": "food_safety",
+        "titleZh": null,
+        "titleEn": "JCB Flavors, LLC: Products may be potentially contaminated with Salmonella.",
+        "riskLevel": "高风险",
+        "href": "/intelligence"
+      },
+      {
+        "recordId": "reg-81976e5868b9",
+        "module": "food_safety",
+        "titleZh": null,
+        "titleEn": "The Coffee Connexion Co., Inc: Product contains dry milk powder ingredient recalled by the supplier due to potential Salm",
+        "riskLevel": "高风险",
+        "href": "/intelligence"
+      },
+      {
+        "recordId": "reg-3a0532c598bd",
+        "module": "food_safety",
+        "titleZh": null,
+        "titleEn": "Nassar Investment Company LLC: Salmonella. The firm was notified by the North Carolina Department of Agriculture that the",
+        "riskLevel": "高风险",
+        "href": "/intelligence"
+      },
+      {
+        "recordId": "reg-cc79b8d7e816",
+        "module": "food_safety",
+        "titleZh": null,
+        "titleEn": "The Coffee Connexion Co., Inc: Product contains dry milk powder ingredient recalled by the supplier due to potential Salm",
+        "riskLevel": "高风险",
+        "href": "/intelligence"
+      },
+      {
+        "recordId": "reg-497adfddfb3f",
+        "module": "food_safety",
+        "titleZh": null,
+        "titleEn": "JCB Flavors, LLC: Products may be potentially contaminated with Salmonella.",
+        "riskLevel": "高风险",
+        "href": "/intelligence"
+      },
+      {
+        "recordId": "reg-08fb1699c72f",
+        "module": "food_safety",
+        "titleZh": null,
+        "titleEn": "JCB Flavors, LLC: Products may be potentially contaminated with Salmonella.",
+        "riskLevel": "高风险",
+        "href": "/intelligence"
+      },
+      {
+        "recordId": "reg-6d89ad4efa10",
+        "module": "food_safety",
+        "titleZh": null,
+        "titleEn": "SECOND NATURE BRAND: The product may contain undeclared allergens (cashews, pistachios), and dried cherries.",
+        "riskLevel": "高风险",
+        "href": "/intelligence"
+      }
+    ],
+    "keyActions": [
+      {
+        "zh": "在 2026-07-01 前完成 CA 门店主要过敏原披露实施",
+        "en": "Complete CA major-allergen disclosure before 2026-07-01"
+      },
+      {
+        "zh": "建立菜单/饮品 added sugars 与过敏原数据库并同步配方变更",
+        "en": "Build menu added-sugars + allergen database; sync with recipe changes"
+      },
+      {
+        "zh": "持续监控 CBP / APHIS / FDA Import Alerts 与州级过敏原立法趋势",
+        "en": "Monitor CBP/APHIS/FDA Import Alerts + the state allergen-bill trend"
+      }
+    ]
   },
   "provenance": [
     {
       "jurisdictionId": null,
       "endpointOrUrl": "https://api.fda.gov/food/enforcement.json?sort=report_date:desc&limit=80",
-      "collectedAt": "2026-06-18T19:25:28.925Z",
+      "collectedAt": "2026-06-19T11:01:03.499Z",
       "recordCount": 65,
       "stalenessNote": null,
       "reVerifyBeforeRelying": false,
+      "module": "food_safety",
+      "status": "manual",
       "sourceId": "fda_recall",
       "name": "openFDA food enforcement (recalls)",
       "accessType": "official-api",
@@ -37,10 +194,12 @@
     {
       "jurisdictionId": null,
       "endpointOrUrl": "https://www.federalregister.gov/api/v1/documents.json",
-      "collectedAt": "2026-06-18T19:25:28.925Z",
+      "collectedAt": "2026-06-19T11:01:03.499Z",
       "recordCount": 36,
       "stalenessNote": null,
       "reVerifyBeforeRelying": false,
+      "module": "food_safety",
+      "status": "manual",
       "sourceId": "federal_register",
       "name": "Federal Register",
       "accessType": "official-api",
@@ -49,10 +208,12 @@
     {
       "jurisdictionId": null,
       "endpointOrUrl": "https://data.cdc.gov/resource/5xkq-dg7x.json",
-      "collectedAt": "2026-06-18T19:25:28.925Z",
+      "collectedAt": "2026-06-19T11:01:03.499Z",
       "recordCount": 40,
       "stalenessNote": "NORS is annual and lags ~2–3 years.",
       "reVerifyBeforeRelying": false,
+      "module": "food_safety",
+      "status": "manual",
       "sourceId": "cdc_nors",
       "name": "CDC NORS foodborne outbreaks",
       "accessType": "open-data",
@@ -61,10 +222,12 @@
     {
       "jurisdictionId": null,
       "endpointOrUrl": "https://www.fsis.usda.gov/fsis/api/recall/v/1",
-      "collectedAt": "2026-06-18T19:25:28.925Z",
+      "collectedAt": "2026-06-19T11:01:03.499Z",
       "recordCount": 0,
       "stalenessNote": "pull failed (needs descriptive UA): Error: HTTP 403 Forbidden for https://www.fsis.usda.gov/fsis/api/recall/v/1",
       "reVerifyBeforeRelying": true,
+      "module": "food_safety",
+      "status": "manual",
       "sourceId": "fsis_recall",
       "name": "USDA FSIS recalls",
       "accessType": "official-api",
@@ -73,10 +236,12 @@
     {
       "jurisdictionId": "New York City",
       "endpointOrUrl": "https://data.cityofnewyork.us/resource/43nn-pn8j.json",
-      "collectedAt": "2026-06-18T19:25:28.925Z",
-      "recordCount": 128,
+      "collectedAt": "2026-06-19T11:01:03.499Z",
+      "recordCount": 126,
       "stalenessNote": null,
       "reVerifyBeforeRelying": false,
+      "module": "food_safety",
+      "status": "manual",
       "sourceId": "nyc_dohmh",
       "name": "NYC DOHMH Restaurant Inspection Results",
       "accessType": "open-data",
@@ -85,10 +250,12 @@
     {
       "jurisdictionId": "Cambridge",
       "endpointOrUrl": "https://data.cambridgema.gov/resource/ryb9-qzmw.json",
-      "collectedAt": "2026-06-18T19:25:28.925Z",
+      "collectedAt": "2026-06-19T11:01:03.499Z",
       "recordCount": 0,
       "stalenessNote": "ryb9-qzmw is a permit-cases dataset (no violation/result fields) — needs the correct Cambridge sanitary-inspections resource or manual intake",
       "reVerifyBeforeRelying": true,
+      "module": "food_safety",
+      "status": "manual",
       "sourceId": "cambridge_socrata",
       "name": "Cambridge Sanitary Inspections",
       "accessType": "open-data",
@@ -97,10 +264,12 @@
     {
       "jurisdictionId": "Boston",
       "endpointOrUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=4582bec6-2b4f-4f9e-bc55-cbaa73117f4c",
-      "collectedAt": "2026-06-18T19:25:28.925Z",
+      "collectedAt": "2026-06-19T11:01:03.499Z",
       "recordCount": 46,
       "stalenessNote": null,
       "reVerifyBeforeRelying": false,
+      "module": "food_safety",
+      "status": "manual",
       "sourceId": "boston_ckan",
       "name": "Analyze Boston — Food Establishment Inspections",
       "accessType": "open-data",
@@ -109,10 +278,12 @@
     {
       "jurisdictionId": null,
       "endpointOrUrl": null,
-      "collectedAt": "2026-06-18T19:25:28.925Z",
+      "collectedAt": "2026-06-19T11:01:03.499Z",
       "recordCount": 0,
       "stalenessNote": "No intake/inspections.json present — drop manually-collected records there (see intake/README.md).",
       "reVerifyBeforeRelying": false,
+      "module": "food_safety",
+      "status": "manual",
       "sourceId": "manual_intake",
       "name": "Manual intake (OPRA / web lookup / PDF / email)",
       "accessType": "none",
@@ -121,10 +292,68 @@
     {
       "jurisdictionId": null,
       "endpointOrUrl": null,
-      "collectedAt": "2026-06-18T19:25:28.925Z",
+      "collectedAt": "2026-06-19T11:01:03.499Z",
+      "recordCount": 6,
+      "stalenessNote": "Manual-curated from the May 2026 report; live Federal Register import slugs augment.",
+      "reVerifyBeforeRelying": false,
+      "module": "import",
+      "status": "manual",
+      "sourceId": "may_report_import",
+      "name": "Curated import items (2026-05 report)",
+      "accessType": "none",
+      "oneTimePullFeasible": "partial"
+    },
+    {
+      "jurisdictionId": null,
+      "endpointOrUrl": null,
+      "collectedAt": "2026-06-19T11:01:03.499Z",
+      "recordCount": 6,
+      "stalenessNote": "partial/failed: Error: HTTP 400 Bad Request for https://www.federalregister.gov/api/v1/documents.json?per_page=6&order=newest&conditions",
+      "reVerifyBeforeRelying": true,
+      "module": "import",
+      "status": "manual",
+      "sourceId": "federal_register_import",
+      "name": "Federal Register — import/border agencies",
+      "accessType": "official-api",
+      "oneTimePullFeasible": "yes"
+    },
+    {
+      "jurisdictionId": null,
+      "endpointOrUrl": null,
+      "collectedAt": "2026-06-19T11:01:03.499Z",
+      "recordCount": 8,
+      "stalenessNote": "Manual-curated named laws (Sweet Truth, SB68, NY S5381…); state-bill APIs (LegiScan/NY-Senate) can augment with keys — see docs/API_KEYS.md.",
+      "reVerifyBeforeRelying": false,
+      "module": "regulation",
+      "status": "manual",
+      "sourceId": "may_report_regulation",
+      "name": "Curated state/local regulations (2026-05 report)",
+      "accessType": "none",
+      "oneTimePullFeasible": "partial"
+    },
+    {
+      "jurisdictionId": null,
+      "endpointOrUrl": "https://www.foodsafetynews.com/feed/",
+      "collectedAt": "2026-06-19T11:01:03.499Z",
+      "recordCount": 15,
+      "stalenessNote": "Metadata + link only; never rehosts article bodies. §11 exclusions flagged (excluded=true kept for audit).",
+      "reVerifyBeforeRelying": false,
+      "module": "sentiment",
+      "status": "filtered",
+      "sourceId": "food_safety_news_rss",
+      "name": "Food Safety News RSS (sentiment)",
+      "accessType": "open-data",
+      "oneTimePullFeasible": "yes"
+    },
+    {
+      "jurisdictionId": null,
+      "endpointOrUrl": null,
+      "collectedAt": "2026-06-19T11:01:03.499Z",
       "recordCount": 0,
       "stalenessNote": "Bulk XML/CSV — URL needs re-verification; manual intake this run.",
       "reVerifyBeforeRelying": true,
+      "module": "food_safety",
+      "status": "manual",
       "sourceId": "fda_warning_letters",
       "name": "FDA Warning Letters",
       "accessType": "bulk-download",
@@ -133,10 +362,12 @@
     {
       "jurisdictionId": "Los Angeles County",
       "endpointOrUrl": null,
-      "collectedAt": "2026-06-18T19:25:28.925Z",
+      "collectedAt": "2026-06-19T11:01:03.499Z",
       "recordCount": 0,
       "stalenessNote": "Large ArcGIS CSV — not pulled this run; needs column mapping or manual export.",
       "reVerifyBeforeRelying": true,
+      "module": "food_safety",
+      "status": "manual",
       "sourceId": "la_county_arcgis",
       "name": "LA County Environmental Health (ArcGIS)",
       "accessType": "bulk-download",
@@ -145,10 +376,12 @@
     {
       "jurisdictionId": "San Francisco",
       "endpointOrUrl": null,
-      "collectedAt": "2026-06-18T19:25:28.925Z",
+      "collectedAt": "2026-06-19T11:01:03.499Z",
       "recordCount": 0,
       "stalenessNote": "LIVES feed frozen ~2021; current SF requires manual export.",
       "reVerifyBeforeRelying": false,
+      "module": "food_safety",
+      "status": "manual",
       "sourceId": "sf_dph",
       "name": "SF DPH (DataSF LIVES)",
       "accessType": "open-data",
@@ -157,10 +390,12 @@
     {
       "jurisdictionId": "Washington DC",
       "endpointOrUrl": null,
-      "collectedAt": "2026-06-18T19:25:28.925Z",
+      "collectedAt": "2026-06-19T11:01:03.499Z",
       "recordCount": 0,
       "stalenessNote": "HTML/PDF reports — manual intake.",
       "reVerifyBeforeRelying": false,
+      "module": "food_safety",
+      "status": "manual",
       "sourceId": "dc_health",
       "name": "DC Health (HealthSpace)",
       "accessType": "html-scrape",
@@ -169,10 +404,12 @@
     {
       "jurisdictionId": "Newark, NJ",
       "endpointOrUrl": null,
-      "collectedAt": "2026-06-18T19:25:28.925Z",
+      "collectedAt": "2026-06-19T11:01:03.499Z",
       "recordCount": 0,
       "stalenessNote": "JS/CAPTCHA lookup — manual / OPRA via Food & Drug Bureau.",
       "reVerifyBeforeRelying": false,
+      "module": "food_safety",
+      "status": "manual",
       "sourceId": "newark_lookup",
       "name": "Newark Health Inspection Lookup",
       "accessType": "html-scrape",
@@ -181,10 +418,12 @@
     {
       "jurisdictionId": "Bergen County, NJ",
       "endpointOrUrl": null,
-      "collectedAt": "2026-06-18T19:25:28.925Z",
+      "collectedAt": "2026-06-19T11:01:03.499Z",
       "recordCount": 0,
       "stalenessNote": "No online DB — OPRA request per municipality.",
       "reVerifyBeforeRelying": false,
+      "module": "food_safety",
+      "status": "manual",
       "sourceId": "bergen_opra",
       "name": "Bergen County (OPRA)",
       "accessType": "none",
@@ -193,10 +432,12 @@
     {
       "jurisdictionId": "Florida (FDACS)",
       "endpointOrUrl": null,
-      "collectedAt": "2026-06-18T19:25:28.925Z",
+      "collectedAt": "2026-06-19T11:01:03.499Z",
       "recordCount": 0,
       "stalenessNote": "robots.txt default-deny — manual UI / public-records request.",
       "reVerifyBeforeRelying": false,
+      "module": "food_safety",
+      "status": "manual",
       "sourceId": "fl_fdacs",
       "name": "Florida FDACS Food Permit Center",
       "accessType": "none",

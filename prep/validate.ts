@@ -10,6 +10,9 @@ import { join } from "node:path";
 import {
   RegulatoryFileSchema,
   InspectionFileSchema,
+  ImportExportFileSchema,
+  RegulationFileSchema,
+  SentimentFileSchema,
   ViolationCategoriesFileSchema,
   BrandsFileSchema,
   JurisdictionsFileSchema,
@@ -26,6 +29,9 @@ const checks: Check[] = [
   { file: "jurisdictions.json", run: () => JurisdictionsFileSchema.parse(load("jurisdictions.json")) },
   { file: "regulatory.json", run: () => RegulatoryFileSchema.parse(load("regulatory.json")) },
   { file: "inspections.json", run: () => InspectionFileSchema.parse(load("inspections.json")) },
+  { file: "import_export.json", run: () => ImportExportFileSchema.parse(load("import_export.json")) },
+  { file: "regulations.json", run: () => RegulationFileSchema.parse(load("regulations.json")) },
+  { file: "sentiment.json", run: () => SentimentFileSchema.parse(load("sentiment.json")) },
   { file: "meta.json", run: () => MetaSchema.parse(load("meta.json")) },
 ];
 
