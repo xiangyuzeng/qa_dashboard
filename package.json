@@ -11,28 +11,29 @@
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit -p tsconfig.json && tsc --noEmit -p tsconfig.prep.json",
-    "prep:validate": "tsx prep/validate.ts",
+    "prep:seed": "tsx prep/seed.ts",
     "prep:collect": "tsx prep/collect.ts",
-    "prep:build": "tsx prep/build.ts"
+    "prep:validate": "tsx prep/validate.ts",
+    "prep:export": "python3 prep/export_xlsx.py",
+    "prep:build": "npm run prep:collect && npm run prep:validate && npm run prep:export"
   },
   "dependencies": {
+    "@tanstack/react-table": "^8.20.6",
     "next": "^15.1.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-to-print": "^3.0.5",
     "recharts": "^2.15.0",
-    "@tanstack/react-table": "^8.20.6",
-    "zod": "^3.24.1",
-    "xlsx-populate": "^1.21.0",
-    "react-to-print": "^3.0.5"
+    "zod": "^3.24.1"
   },
   "devDependencies": {
-    "typescript": "^5.7.2",
     "@types/node": "^22.10.5",
     "@types/react": "^19.0.2",
     "@types/react-dom": "^19.0.2",
-    "tailwindcss": "^3.4.17",
-    "postcss": "^8.4.49",
     "autoprefixer": "^10.4.20",
-    "tsx": "^4.19.2"
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.17",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
   }
 }

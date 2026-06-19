@@ -111,7 +111,8 @@ function TopBar({ meta }: { meta: ShellMeta }) {
       <LocaleToggle />
 
       <a
-        href="/api/export"
+        href="/exports/monthly_report.xlsx"
+        download="luckin_na_food_safety.xlsx"
         title={t.top.exportNote}
         className="rounded-md bg-brandnavy px-3 py-1.5 text-xs font-medium text-white hover:bg-brandnavy/90"
       >
