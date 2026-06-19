@@ -33,11 +33,12 @@ Each section below: **where to register · what you get · free-tier limit · `.
 - **`.env`:** `NY_SENATE_KEY`.
 - **Activation:** `collectNYSenateBills()` — **BUILT**. `/api/3/bills/search` for NY food-labeling/allergen bills (e.g. NY S5381). Dormant until `NY_SENATE_KEY` is set.
 
-## OpenStates — multi-state bills (Module 3, optional)
-- **Register:** openstates.org/accounts → free API key.
-- **Free-tier:** per published terms.
+## OpenStates — multi-state bills (Module 3)
+- **Register:** openstates.org/accounts → free API key (request on the profile page).
+- **Auth:** header `X-API-KEY: <OPENSTATES_KEY>`.
+- **Free-tier:** ~500 requests/day (strict) — the collector keeps to ≤10 calls (CA/NY/NJ/MA/FL).
 - **`.env`:** `OPENSTATES_KEY`.
-- **Activation:** optional alternative to LegiScan for multi-state coverage. **NOT built**.
+- **Activation:** `collectOpenStates()` — **BUILT**. `v3.openstates.org/bills` search for food-labeling/allergen/added-sugar bills. Dormant until `OPENSTATES_KEY` is set. Overlaps LegiScan/NY-Senate (all real; QA dedupes).
 
 ## Socrata App Token (optional — already supported, LIVE)
 - **Register:** any Socrata portal (e.g. data.cityofnewyork.us) → app token.

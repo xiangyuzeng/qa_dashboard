@@ -237,7 +237,11 @@ async function collectFSIS(): Promise<SourceResult> {
       const title = stripHtml(r.field_title ?? "FSIS recall");
       const text = `${title} ${stripHtml(r.field_summary ?? "")} ${r.field_recall_reason ?? ""} ${r.field_product_items ?? ""}`;
       const tags = relevanceTags(text);
-      if (!tags.length) continue; // keep only café-relevant (dairy/allergen/labeling/packaging)
+      // FSIS is meat/poultry/egg — almost all of it is out of scope for a coffee company, and the
+      // relevanceTags heuristic over-matches (its "beverage" keyword "ice " hits "notice"/"service",
+      // so ~1650 meat recalls slip through). Gate on a TIGHT café-product regex: keep only the rare
+      // items that explicitly touch café beverages/breakfast items. (FSIS dairy is FDA's domain, not here.)
+      if (!/coffee|espresso|latte|cappuccino|macchiato|cold[ -]?brew|\bchai\b|matcha|frappe|breakfast sandwich|croissant|\bpastr/i.test(text)) continue;
       const a = assessRegulatory({ category: "召回事件", text, classification: r.field_recall_classification });
       out.push({
         id: hashId("reg", "fsis", r.field_recall_number ?? title),
@@ -250,7 +254,7 @@ async function collectFSIS(): Promise<SourceResult> {
         provenance: prov("fsis_recall", "https://www.fsis.usda.gov/recalls"),
       });
     }
-    return { regulatory: out, provenance: provEntry({ sourceId: "fsis_recall", name, accessType: "official-api", endpointOrUrl: url, oneTimePullFeasible: "yes", recordCount: out.length, stalenessNote: "Mostly meat/poultry; only café-relevant (dairy/allergen/labeling) items kept." }) };
+    return { regulatory: out, provenance: provEntry({ sourceId: "fsis_recall", name, accessType: "official-api", endpointOrUrl: url, oneTimePullFeasible: "yes", recordCount: out.length, stalenessNote: "FSIS is meat/poultry/egg — kept only items whose text matches café beverages/breakfast/pastry; out-of-scope meat recalls excluded. Set FSIS_USER_AGENT to avoid the 403." }) };
   } catch (e) {
     return { regulatory: [], provenance: provEntry({ sourceId: "fsis_recall", name, accessType: "official-api", endpointOrUrl: url, oneTimePullFeasible: "yes", stalenessNote: `pull failed (needs descriptive UA): ${String(e).slice(0, 100)}`, reVerifyBeforeRelying: true }) };
   }
@@ -503,6 +507,54 @@ async function collectBoston(): Promise<SourceResult> {
 // Reads intake/inspections.json (manually-collected via OPRA / web lookup / PDF / email).
 // Lets QA represent no-API jurisdictions truthfully (incl. NJ 'not_public_online') without
 // fabricating. See intake/README.md + intake/inspections.example.json.
+// LA County restaurant inspection GRADES (ArcGIS, no auth). Recency-gated: if the dataset is stale
+// (newest inspection older than ~18 months), emit a truthful stub rather than ship old grades (cf. SF).
+async function collectLA(): Promise<SourceResult> {
+  const name = "LA County Environmental Health (ArcGIS grades)";
+  const base = "https://services1.arcgis.com/JXBurs0uwQlwOiHt/arcgis/rest/services/Restaurant_Inspection_Grades/FeatureServer/0/query";
+  const url = `${base}?where=1%3D1&outFields=facilityname,Address,City,Zip,InspectionDate,7score&orderByFields=InspectionDate%20DESC&resultRecordCount=2000&f=json`;
+  try {
+    const res = await getJson<{ features?: { attributes: Record<string, unknown> }[] }>(url);
+    const feats = res.features ?? [];
+    const newest = feats.length ? Math.max(...feats.map((f) => Number(f.attributes?.InspectionDate ?? 0))) : 0;
+    const cutoff = Date.parse(TODAY) - 550 * 86400000; // ~18 months
+    if (!feats.length || newest < cutoff) {
+      const newestStr = newest ? new Date(newest).toISOString().slice(0, 10) : "n/a";
+      return { inspections: [], provenance: provEntry({ sourceId: "la_county_arcgis", name, jurisdictionId: "Los Angeles County", accessType: "open-data", endpointOrUrl: base, oneTimePullFeasible: "partial", recordCount: 0, stalenessNote: `ArcGIS grades dataset is stale (newest ${newestStr}) — no current LA County feed; manual export needed. No stale rows shipped.`, reVerifyBeforeRelying: true }) };
+    }
+    const out: InspectionRecord[] = [];
+    for (const f of feats) {
+      const a = f.attributes;
+      const nm = String(a.facilityname ?? "");
+      if (!inScope(nm)) continue;
+      const score = a["7score"] != null ? Number(a["7score"]) : null;
+      const ts = Number(a.InspectionDate ?? 0);
+      out.push(
+        finalizeInspection({
+          no: null, jurisdiction: "Los Angeles County", regulatoryAgency: "LA County Public Health",
+          brand: brandOrOther(nm) as InspectionRecord["brand"],
+          establishmentType: establishmentType(nm) as InspectionRecord["establishmentType"],
+          storeName: nm || null,
+          address: [a.Address, a.City, a.Zip].filter(Boolean).join(", ") || null,
+          inspectionDate: ts ? new Date(ts).toISOString().slice(0, 10) : null,
+          inspectionType: "Routine",
+          inspectionResult: (score == null ? "N/A" : score >= 90 ? "Pass" : score >= 80 ? "Conditional Pass" : "Fail") as InspectionRecord["inspectionResult"],
+          score, grade: null, violationCode: null,
+          chineseViolationSummary: null, englishViolationSummary: null,
+          violationSeverity: (score != null && score < 80 ? "严重（主要）Critical" : "一般 Non-critical") as InspectionRecord["violationSeverity"],
+          followupRequired: (score != null && score < 80 ? "是 Yes" : "否 No") as InspectionRecord["followupRequired"],
+          sourceType: "Open Data API", sourceUrlOrDocRef: base, recommendedAction: null,
+          violationText: "", sourceId: "la_county_arcgis", sourceUrl: base,
+        }),
+      );
+      if (out.length >= 80) break;
+    }
+    return { inspections: out, provenance: provEntry({ sourceId: "la_county_arcgis", name, jurisdictionId: "Los Angeles County", accessType: "open-data", endpointOrUrl: base, oneTimePullFeasible: "yes", recordCount: out.length, stalenessNote: "Grades only (no per-violation detail); café/priority-brand scope." }) };
+  } catch (e) {
+    return { inspections: [], provenance: provEntry({ sourceId: "la_county_arcgis", name, jurisdictionId: "Los Angeles County", accessType: "open-data", endpointOrUrl: base, oneTimePullFeasible: "partial", stalenessNote: `pull failed: ${String(e).slice(0, 120)}`, recordCount: 0, reVerifyBeforeRelying: true }) };
+  }
+}
+
 async function collectIntake(): Promise<SourceResult> {
   const file = join(process.cwd(), "intake", "inspections.json");
   const name = "Manual intake (OPRA / web lookup / PDF / email)";
@@ -598,7 +650,7 @@ async function collectImportSeeds(): Promise<SourceResult> {
 
 // Auto — Federal Register import/border agency slugs (verified no-auth).
 async function collectFederalRegisterImport(): Promise<SourceResult> {
-  const slugs = ["animal-and-plant-health-inspection-service", "customs-and-border-protection", "food-safety-and-inspection-service", "international-trade-administration"];
+  const slugs = ["animal-and-plant-health-inspection-service", "u-s-customs-and-border-protection", "food-safety-and-inspection-service", "international-trade-administration"];
   const name = "Federal Register — import/border agencies";
   const out: ImportExportRecord[] = [];
   const seen = new Set<string>();
@@ -873,6 +925,54 @@ async function collectNYSenateBills(): Promise<SourceResult> {
   }
 }
 
+// Key-gated — OpenStates v3 bill search (GET, X-API-KEY header). Activates when OPENSTATES_KEY set; else dormant.
+// Free tier ~500 req/day — keep to a few states. Augments Module 3 alongside LegiScan / NY-Senate.
+async function collectOpenStates(): Promise<SourceResult> {
+  const name = "OpenStates — state food bills";
+  const base = "https://v3.openstates.org/bills";
+  const key = process.env.OPENSTATES_KEY;
+  if (!key) {
+    return { regulations: [], provenance: provEntry({ sourceId: "openstates_bills", name, module: "regulation", status: "manual", accessType: "official-api", endpointOrUrl: base, oneTimePullFeasible: "yes", recordCount: 0, stalenessNote: "OPENSTATES_KEY not set — collector dormant. Add key + re-run prep:collect to activate (docs/API_KEYS.md). No rows fabricated.", reVerifyBeforeRelying: true }) };
+  }
+  const STATE_MAP: Record<string, RegulationRecord["jurisdiction"]> = { ca: "California", ny: "New York State", nj: "New Jersey", ma: "Massachusetts", fl: "Florida" };
+  const out: RegulationRecord[] = [];
+  const seen = new Set<string>();
+  try {
+    const q = encodeURIComponent("food labeling allergen added sugar");
+    for (const st of Object.keys(STATE_MAP)) {
+      const res = await getJson<{ results?: Record<string, unknown>[] }>(`${base}?jurisdiction=${st}&q=${q}&sort=latest_action_date&per_page=15`, { headers: { "X-API-KEY": key } });
+      for (const b of res.results ?? []) {
+        const identifier = String(b.identifier ?? "");
+        if (!identifier) continue;
+        const id = hashId("reg2", identifier, st);
+        if (seen.has(id)) continue;
+        seen.add(id);
+        const title = String(b.title ?? "");
+        const a = assessRegulation({ status: "Monitoring", effectiveDate: null, today: TODAY });
+        out.push({
+          id, module: "regulation" as const, no: null,
+          jurisdiction: STATE_MAP[st],
+          regulationBillName: `${identifier} ${title}`.trim().slice(0, 160),
+          chineseTitle: null, englishTitle: title || identifier,
+          status: "Monitoring", publicationPassageDate: isoFromYmd(String(b.latest_action_date ?? "")), effectiveDate: null,
+          coveredEntities: null, keyRequirements: null,
+          chineseSummary: null, englishSummary: title || null, businessImpact: null,
+          riskLevel: a.riskLevel as RegulationRecord["riskLevel"],
+          sourceUrl: String(b.openstates_url ?? "") || null,
+          recommendedAction: null, topic: regTopicFromText(title),
+          alertTriggered: a.alertTriggered, alertReason: a.alertReason, alertRuleIds: a.alertRuleIds,
+          reviewed: true, reviewStatus: "approved" as const,
+          reviewNote: "auto-collected (OpenStates) — QA review required before treating exports/alerts as final",
+          provenance: prov("openstates_bills", String(b.openstates_url ?? "") || null),
+        });
+      }
+    }
+    return { regulations: out, provenance: provEntry({ sourceId: "openstates_bills", name, module: "regulation", status: out.length ? "fetched" : "no_update", accessType: "official-api", endpointOrUrl: base, oneTimePullFeasible: "yes", recordCount: out.length, stalenessNote: "OpenStates free tier ~500 req/day; CA/NY/NJ/MA/FL food bills. May overlap LegiScan/seeds — QA dedupes." }) };
+  } catch (e) {
+    return { regulations: out, provenance: provEntry({ sourceId: "openstates_bills", name, module: "regulation", status: "manual", accessType: "official-api", endpointOrUrl: base, oneTimePullFeasible: "yes", stalenessNote: `pull failed: ${String(e).slice(0, 120)}`, recordCount: out.length, reVerifyBeforeRelying: true }) };
+  }
+}
+
 /* ─────────────── MODULE 5 — Negative Media & Sentiment ─────────────── */
 
 async function collectSentimentRSS(): Promise<SourceResult> {
@@ -941,6 +1041,7 @@ async function main() {
     collectNYC(),
     collectCambridge(),
     collectBoston(),
+    collectLA(),
     collectIntake(),
     collectImportSeeds(),
     collectFederalRegisterImport(),
@@ -948,6 +1049,7 @@ async function main() {
     collectRegulationSeeds(),
     collectLegiScanBills(),
     collectNYSenateBills(),
+    collectOpenStates(),
     collectSentimentRSS(),
   ]);
 
@@ -970,9 +1072,8 @@ async function main() {
   // Manual / pending sources (no usable one-time API this run) — recorded for transparency
   // on the /sources view, per the hybrid plan (real pull where feasible + truthful stubs).
   provenance.push(
-    provEntry({ sourceId: "fda_warning_letters", name: "FDA Warning Letters", accessType: "bulk-download", oneTimePullFeasible: "partial", stalenessNote: "Bulk XML/CSV — URL needs re-verification; manual intake this run.", reVerifyBeforeRelying: true }),
-    provEntry({ sourceId: "la_county_arcgis", name: "LA County Environmental Health (ArcGIS)", jurisdictionId: "Los Angeles County", accessType: "bulk-download", oneTimePullFeasible: "yes", stalenessNote: "Large ArcGIS CSV — not pulled this run; needs column mapping or manual export.", reVerifyBeforeRelying: true }),
-    provEntry({ sourceId: "sf_dph", name: "SF DPH (DataSF LIVES)", jurisdictionId: "San Francisco", accessType: "open-data", oneTimePullFeasible: "partial", stalenessNote: "LIVES feed frozen ~2021; current SF requires manual export." }),
+    provEntry({ sourceId: "fda_warning_letters", name: "FDA Warning Letters", accessType: "bulk-download", oneTimePullFeasible: "partial", stalenessNote: "No clean public JSON feed (healthdata.gov cj9t-m28d is non-tabular); HTML-scrape or manual intake only.", reVerifyBeforeRelying: true }),
+    provEntry({ sourceId: "sf_dph", name: "SF DPH (DataSF LIVES)", jurisdictionId: "San Francisco", accessType: "open-data", oneTimePullFeasible: "partial", stalenessNote: "LIVES feed (pyih-qa8i) frozen at 2019; real 2019 café rows seeded via intake/inspections.json." }),
     provEntry({ sourceId: "dc_health", name: "DC Health (HealthSpace)", jurisdictionId: "Washington DC", accessType: "html-scrape", oneTimePullFeasible: "partial", stalenessNote: "HTML/PDF reports — manual intake." }),
     provEntry({ sourceId: "newark_lookup", name: "Newark Health Inspection Lookup", jurisdictionId: "Newark, NJ", accessType: "html-scrape", oneTimePullFeasible: "partial", stalenessNote: "JS/CAPTCHA lookup — manual / OPRA via Food & Drug Bureau." }),
     provEntry({ sourceId: "bergen_opra", name: "Bergen County (OPRA)", jurisdictionId: "Bergen County, NJ", accessType: "none", oneTimePullFeasible: "no", stalenessNote: "No online DB — OPRA request per municipality." }),
