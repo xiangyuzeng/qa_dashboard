@@ -10,7 +10,7 @@
  */
 import { writeFileSync, mkdirSync, existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
-import { getJson, getText, socrata } from "./lib/http";
+import { getJson, getText, postJson, socrata } from "./lib/http";
 import { matchBrand, brandOrOther, establishmentType, inScope } from "./lib/match";
 import { classify } from "./lib/classify";
 import { assessInspection, assessRegulatory, assessImport, assessRegulation } from "./lib/risk";
@@ -652,6 +652,67 @@ async function collectFederalRegisterImport(): Promise<SourceResult> {
   }
 }
 
+// Key-gated — FDA OII Import Refusals (POST). Activates when FDA_OII_USER + FDA_OII_KEY are
+// set; otherwise a truthful dormant stub (0 rows, status manual). Never fabricates. See docs/API_KEYS.md.
+async function collectImportRefusals(): Promise<SourceResult> {
+  const name = "FDA OII — Import Refusals";
+  const endpoint = "https://api-datadashboard.fda.gov/v1/import_refusals";
+  const ref = "https://datadashboard.fda.gov/oii/cd/importrefusals.htm";
+  const user = process.env.FDA_OII_USER;
+  const key = process.env.FDA_OII_KEY;
+  if (!user || !key) {
+    return { importExport: [], provenance: provEntry({ sourceId: "fda_oii_import_refusals", name, module: "import", status: "manual", accessType: "official-api", endpointOrUrl: endpoint, oneTimePullFeasible: "yes", recordCount: 0, stalenessNote: "FDA_OII_USER/FDA_OII_KEY not set — collector dormant. Add keys + re-run prep:collect to activate (docs/API_KEYS.md). No rows fabricated.", reVerifyBeforeRelying: true }) };
+  }
+  const out: ImportExportRecord[] = [];
+  try {
+    const res = await postJson<{ result?: Record<string, unknown>[] }>(
+      endpoint,
+      { sort: "RefusalDate", sortorder: "desc", start: 1, rows: 500, returntotalcount: true, columns: ["FirmName", "ProductCodeDescription", "ProductCategory", "RefusalDate", "RefusalCharges", "CountryName"] },
+      { headers: { "Authorization-User": user, "Authorization-Key": key } },
+    );
+    for (const d of res.result ?? []) {
+      const category = String(d.ProductCategory ?? "");
+      const product = String(d.ProductCodeDescription ?? "");
+      // §7 scope: keep human-food rows or coffee/tea/dairy/beverage product matches; never fabricate the rest.
+      if (!/human food|food/i.test(category) && !/coffee|tea|dairy|milk|beverage|juice|cocoa|sugar|syrup|flavor/i.test(product)) continue;
+      const firm = String(d.FirmName ?? "");
+      const charges = String(d.RefusalCharges ?? "");
+      const a = assessImport({ action: "Import Refusal", text: `${product} ${charges}` });
+      out.push({
+        id: hashId("imp", "fda_oii", firm, String(d.RefusalDate ?? ""), product),
+        module: "import" as const,
+        no: null,
+        category: "进口拒绝 Import Refusal (FDA OII)",
+        chineseTitle: null,
+        englishTitle: (firm ? `Import refusal — ${firm}` : `Import refusal — ${product}`).slice(0, 200),
+        agency: "FDA / OII",
+        countryRegion: String(d.CountryName ?? "") || null,
+        productInvolved: product || null,
+        publicationDate: isoFromYmd(String(d.RefusalDate ?? "")),
+        regulatoryAction: "Import Refusal" as const,
+        chineseSummary: null,
+        englishSummary: charges.slice(0, 260) || null,
+        importExportImpact: null,
+        documentationRequirement: null,
+        riskLevel: a.riskLevel as ImportExportRecord["riskLevel"],
+        sourceUrl: ref,
+        recommendedAction: null,
+        relevanceTags: relevanceTags(`${product} ${charges}`),
+        alertTriggered: a.alertTriggered,
+        alertReason: a.alertReason,
+        alertRuleIds: a.alertRuleIds,
+        reviewed: true,
+        reviewStatus: "approved" as const,
+        reviewNote: "auto-collected (FDA OII) — QA review required before treating exports/alerts as final",
+        provenance: prov("fda_oii_import_refusals", ref),
+      });
+    }
+    return { importExport: out, provenance: provEntry({ sourceId: "fda_oii_import_refusals", name, module: "import", status: out.length ? "fetched" : "no_update", accessType: "official-api", endpointOrUrl: endpoint, oneTimePullFeasible: "yes", recordCount: out.length, stalenessNote: "Food-relevant refusals only (coffee/tea/dairy/beverage + human-food)." }) };
+  } catch (e) {
+    return { importExport: out, provenance: provEntry({ sourceId: "fda_oii_import_refusals", name, module: "import", status: "manual", accessType: "official-api", endpointOrUrl: endpoint, oneTimePullFeasible: "yes", stalenessNote: `pull failed: ${String(e).slice(0, 120)}`, recordCount: out.length, reVerifyBeforeRelying: true }) };
+  }
+}
+
 /* ─────────────── MODULE 3 — State & Local Regulation ─────────────── */
 
 async function collectRegulationSeeds(): Promise<SourceResult> {
@@ -689,6 +750,127 @@ async function collectRegulationSeeds(): Promise<SourceResult> {
     };
   });
   return { regulations: out, provenance: provEntry({ sourceId: "may_report_regulation", name: "Curated state/local regulations (2026-05 report)", module: "regulation", status: "manual", accessType: "none", oneTimePullFeasible: "partial", recordCount: out.length, stalenessNote: "Manual-curated named laws (Sweet Truth, SB68, NY S5381…); state-bill APIs (LegiScan/NY-Senate) can augment with keys — see docs/API_KEYS.md." }) };
+}
+
+// LegiScan numeric status → RegStatusEnum; NY Senate statusType → RegStatusEnum.
+const LEGISCAN_STATUS: Record<number, RegulationRecord["status"]> = {
+  1: "Proposed", 2: "Proposed", 3: "Passed", 4: "In effect", 5: "Repealed", 6: "Repealed",
+};
+const NY_STATUS: Record<string, RegulationRecord["status"]> = {
+  INTRODUCED: "Proposed", IN_SENATE_COMM: "Proposed", IN_ASSEMBLY_COMM: "Proposed",
+  PASSED_SENATE: "Passed", PASSED_ASSEMBLY: "Passed", DELIVERED_TO_GOV: "Passed",
+  SIGNED_BY_GOV: "In effect", ADOPTED: "In effect", VETOED: "Repealed",
+};
+const regTopicFromText = (text: string): RegulationRecord["topic"] => {
+  const t = text.toLowerCase();
+  if (/menu label/.test(t)) return "menu_labeling";
+  if (/added sugar|sugar warning/.test(t)) return "added_sugar";
+  if (/sodium|salt warning/.test(t)) return "sodium";
+  if (/allergen/.test(t)) return "allergen_disclosure";
+  if (/additive|food color|food dye|preservative/.test(t)) return "food_additives";
+  if (/pfas|packaging|single-use|polystyrene|foam/.test(t)) return "pfas_packaging";
+  if (/delivery|third-party|third party|platform/.test(t)) return "delivery_platform";
+  return "other";
+};
+
+// Key-gated — LegiScan state-bill search (GET). Activates when LEGISCAN_KEY is set; else dormant stub.
+// Without the key the output is identical to today; with it, CA/NY/NJ/MA/FL food-bill rows augment Module 3.
+async function collectLegiScanBills(): Promise<SourceResult> {
+  const name = "LegiScan — state food bills";
+  const base = "https://api.legiscan.com/";
+  const key = process.env.LEGISCAN_KEY;
+  if (!key) {
+    return { regulations: [], provenance: provEntry({ sourceId: "legiscan_bills", name, module: "regulation", status: "manual", accessType: "official-api", endpointOrUrl: base, oneTimePullFeasible: "yes", recordCount: 0, stalenessNote: "LEGISCAN_KEY not set — collector dormant. Add key + re-run prep:collect to activate (docs/API_KEYS.md). No rows fabricated.", reVerifyBeforeRelying: true }) };
+  }
+  const STATE_MAP: Record<string, RegulationRecord["jurisdiction"]> = { CA: "California", NY: "New York State", NJ: "New Jersey", MA: "Massachusetts", FL: "Florida" };
+  const out: RegulationRecord[] = [];
+  const seen = new Set<string>();
+  try {
+    const query = encodeURIComponent("food labeling OR allergen OR added sugar OR menu labeling OR PFAS packaging");
+    for (const st of Object.keys(STATE_MAP)) {
+      const res = await getJson<{ searchresult?: Record<string, unknown> }>(`${base}?key=${key}&op=getSearch&state=${st}&query=${query}`);
+      const sr = res.searchresult ?? {};
+      for (const k of Object.keys(sr)) {
+        if (k === "summary") continue;
+        const b = sr[k] as Record<string, unknown>;
+        const billNumber = String(b.bill_number ?? b.number ?? "");
+        if (!billNumber) continue;
+        const id = hashId("reg2", billNumber, st);
+        if (seen.has(id)) continue;
+        seen.add(id);
+        const title = String(b.title ?? "");
+        const status = LEGISCAN_STATUS[Number(b.status ?? 0)] ?? "Monitoring";
+        const a = assessRegulation({ status, effectiveDate: null, today: TODAY });
+        out.push({
+          id, module: "regulation" as const, no: null,
+          jurisdiction: STATE_MAP[st],
+          regulationBillName: `${billNumber} ${title}`.trim().slice(0, 160),
+          chineseTitle: null, englishTitle: title || billNumber,
+          status, publicationPassageDate: isoFromYmd(String(b.last_action_date ?? "")), effectiveDate: null,
+          coveredEntities: null, keyRequirements: null,
+          chineseSummary: null, englishSummary: title || null, businessImpact: null,
+          riskLevel: a.riskLevel as RegulationRecord["riskLevel"],
+          sourceUrl: String(b.state_link ?? b.url ?? "") || null,
+          recommendedAction: null, topic: regTopicFromText(title),
+          alertTriggered: a.alertTriggered, alertReason: a.alertReason, alertRuleIds: a.alertRuleIds,
+          reviewed: true, reviewStatus: "approved" as const,
+          reviewNote: "auto-collected (LegiScan) — QA review required before treating exports/alerts as final",
+          provenance: prov("legiscan_bills", String(b.state_link ?? b.url ?? "") || null),
+        });
+      }
+    }
+    return { regulations: out, provenance: provEntry({ sourceId: "legiscan_bills", name, module: "regulation", status: out.length ? "fetched" : "no_update", accessType: "official-api", endpointOrUrl: base, oneTimePullFeasible: "yes", recordCount: out.length, stalenessNote: "Keyword search across CA/NY/NJ/MA/FL; may overlap curated seeds (both real) — QA dedupes at review." }) };
+  } catch (e) {
+    return { regulations: out, provenance: provEntry({ sourceId: "legiscan_bills", name, module: "regulation", status: "manual", accessType: "official-api", endpointOrUrl: base, oneTimePullFeasible: "yes", stalenessNote: `pull failed: ${String(e).slice(0, 120)}`, recordCount: out.length, reVerifyBeforeRelying: true }) };
+  }
+}
+
+// Key-gated — NY Senate OpenLegislation bill search (GET). Activates when NY_SENATE_KEY is set; else dormant stub.
+async function collectNYSenateBills(): Promise<SourceResult> {
+  const name = "NY Senate OpenLegislation — food bills";
+  const base = "https://legislation.nysenate.gov/api/3";
+  const key = process.env.NY_SENATE_KEY;
+  if (!key) {
+    return { regulations: [], provenance: provEntry({ sourceId: "ny_senate_bills", name, module: "regulation", status: "manual", accessType: "official-api", endpointOrUrl: base, oneTimePullFeasible: "yes", recordCount: 0, stalenessNote: "NY_SENATE_KEY not set — collector dormant. Add key + re-run prep:collect to activate (docs/API_KEYS.md). No rows fabricated.", reVerifyBeforeRelying: true }) };
+  }
+  const out: RegulationRecord[] = [];
+  const seen = new Set<string>();
+  try {
+    const term = encodeURIComponent("food labeling allergen added sugar menu");
+    const res = await getJson<{ result?: { items?: Record<string, unknown>[] } }>(`${base}/bills/search?key=${key}&term=${term}&limit=50`);
+    for (const it of res.result?.items ?? []) {
+      const b = ((it as Record<string, unknown>).result ?? it) as Record<string, unknown>;
+      const printNo = String(b.basePrintNo ?? b.printNo ?? "");
+      if (!printNo) continue;
+      const id = hashId("reg2", printNo, "NY");
+      if (seen.has(id)) continue;
+      seen.add(id);
+      const title = String(b.title ?? "");
+      const summary = String(b.summary ?? "");
+      const statusObj = (b.status ?? {}) as Record<string, unknown>;
+      const status = NY_STATUS[String(statusObj.statusType ?? "")] ?? "Monitoring";
+      const a = assessRegulation({ status, effectiveDate: null, today: TODAY });
+      const url = `https://www.nysenate.gov/legislation/bills/${String(b.session ?? "")}/${printNo}`;
+      out.push({
+        id, module: "regulation" as const, no: null,
+        jurisdiction: "New York State",
+        regulationBillName: `${printNo} ${title}`.trim().slice(0, 160),
+        chineseTitle: null, englishTitle: title || printNo,
+        status, publicationPassageDate: isoFromYmd(String(statusObj.actionDate ?? "")), effectiveDate: null,
+        coveredEntities: null, keyRequirements: null,
+        chineseSummary: null, englishSummary: summary.slice(0, 260) || title || null, businessImpact: null,
+        riskLevel: a.riskLevel as RegulationRecord["riskLevel"],
+        sourceUrl: url, recommendedAction: null, topic: regTopicFromText(`${title} ${summary}`),
+        alertTriggered: a.alertTriggered, alertReason: a.alertReason, alertRuleIds: a.alertRuleIds,
+        reviewed: true, reviewStatus: "approved" as const,
+        reviewNote: "auto-collected (NY Senate) — QA review required before treating exports/alerts as final",
+        provenance: prov("ny_senate_bills", url),
+      });
+    }
+    return { regulations: out, provenance: provEntry({ sourceId: "ny_senate_bills", name, module: "regulation", status: out.length ? "fetched" : "no_update", accessType: "official-api", endpointOrUrl: base, oneTimePullFeasible: "yes", recordCount: out.length }) };
+  } catch (e) {
+    return { regulations: out, provenance: provEntry({ sourceId: "ny_senate_bills", name, module: "regulation", status: "manual", accessType: "official-api", endpointOrUrl: base, oneTimePullFeasible: "yes", stalenessNote: `pull failed: ${String(e).slice(0, 120)}`, recordCount: out.length, reVerifyBeforeRelying: true }) };
+  }
 }
 
 /* ─────────────── MODULE 5 — Negative Media & Sentiment ─────────────── */
@@ -762,7 +944,10 @@ async function main() {
     collectIntake(),
     collectImportSeeds(),
     collectFederalRegisterImport(),
+    collectImportRefusals(),
     collectRegulationSeeds(),
+    collectLegiScanBills(),
+    collectNYSenateBills(),
     collectSentimentRSS(),
   ]);
 

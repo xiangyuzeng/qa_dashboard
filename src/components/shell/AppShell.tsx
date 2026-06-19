@@ -143,6 +143,14 @@ function TopBar({ meta }: { meta: ShellMeta }) {
       >
         {t.top.export}
       </a>
+      <a
+        href="/exports/monthly_report.docx"
+        download="luckin_na_food_safety.docx"
+        title={t.top.exportNote}
+        className="rounded-md border border-brandnavy px-3 py-1.5 text-xs font-medium text-brandnavy hover:bg-brandnavy/5"
+      >
+        {t.top.exportWord}
+      </a>
       <button
         onClick={() => window.print()}
         className="rounded-md border border-slate-300 px-3 py-1.5 text-xs font-medium text-slate-600 hover:bg-slate-50"

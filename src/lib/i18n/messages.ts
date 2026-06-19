@@ -30,6 +30,7 @@ export const en = {
   top: {
     search: "Search store, address, violation…",
     export: "Export Excel",
+    exportWord: "Export Word",
     exportNote: "Reviewed data only",
     print: "Print / PDF",
     period: "Period",
@@ -245,6 +246,7 @@ export const zh: Messages = {
   top: {
     search: "搜索门店、地址、违规…",
     export: "导出 Excel",
+    exportWord: "导出 Word",
     exportNote: "仅限已复核数据",
     print: "打印 / PDF",
     period: "周期",

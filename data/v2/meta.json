@@ -10,7 +10,7 @@
   "isSeedData": false,
   "counts": {
     "regulatory": 141,
-    "inspections": 172,
+    "inspections": 182,
     "alerts": 131,
     "pendingReview": 0,
     "importExport": 12,
@@ -27,7 +27,8 @@
       "may_report_import": 6,
       "federal_register_import": 6,
       "may_report_regulation": 8,
-      "food_safety_news_rss": 12
+      "food_safety_news_rss": 12,
+      "manual_intake": 10
     }
   },
   "summary": {
@@ -279,20 +280,6 @@
       "jurisdictionId": null,
       "endpointOrUrl": null,
       "collectedAt": "2026-06-19T11:01:03.499Z",
-      "recordCount": 0,
-      "stalenessNote": "No intake/inspections.json present — drop manually-collected records there (see intake/README.md).",
-      "reVerifyBeforeRelying": false,
-      "module": "food_safety",
-      "status": "manual",
-      "sourceId": "manual_intake",
-      "name": "Manual intake (OPRA / web lookup / PDF / email)",
-      "accessType": "none",
-      "oneTimePullFeasible": "partial"
-    },
-    {
-      "jurisdictionId": null,
-      "endpointOrUrl": null,
-      "collectedAt": "2026-06-19T11:01:03.499Z",
       "recordCount": 6,
       "stalenessNote": "Manual-curated from the May 2026 report; live Federal Register import slugs augment.",
       "reVerifyBeforeRelying": false,
@@ -442,6 +429,62 @@
       "name": "Florida FDACS Food Permit Center",
       "accessType": "none",
       "oneTimePullFeasible": "no"
+    },
+    {
+      "jurisdictionId": null,
+      "endpointOrUrl": null,
+      "collectedAt": "2026-06-19T20:03:29.861Z",
+      "recordCount": 10,
+      "stalenessNote": "Manually-collected records — verify each before approving.",
+      "reVerifyBeforeRelying": false,
+      "module": "food_safety",
+      "status": "manual",
+      "sourceId": "manual_intake",
+      "name": "Manual intake (OPRA / web lookup / PDF / email)",
+      "accessType": "none",
+      "oneTimePullFeasible": "partial"
+    },
+    {
+      "jurisdictionId": null,
+      "endpointOrUrl": "https://api-datadashboard.fda.gov/v1/import_refusals",
+      "collectedAt": "2026-06-19T20:03:29.861Z",
+      "recordCount": 0,
+      "stalenessNote": "FDA_OII_USER/FDA_OII_KEY not set — collector dormant. Add keys + re-run prep:collect to activate (docs/API_KEYS.md). No rows fabricated.",
+      "reVerifyBeforeRelying": true,
+      "module": "import",
+      "status": "manual",
+      "sourceId": "fda_oii_import_refusals",
+      "name": "FDA OII — Import Refusals",
+      "accessType": "official-api",
+      "oneTimePullFeasible": "yes"
+    },
+    {
+      "jurisdictionId": null,
+      "endpointOrUrl": "https://api.legiscan.com/",
+      "collectedAt": "2026-06-19T20:03:29.861Z",
+      "recordCount": 0,
+      "stalenessNote": "LEGISCAN_KEY not set — collector dormant. Add key + re-run prep:collect to activate (docs/API_KEYS.md). No rows fabricated.",
+      "reVerifyBeforeRelying": true,
+      "module": "regulation",
+      "status": "manual",
+      "sourceId": "legiscan_bills",
+      "name": "LegiScan — state food bills",
+      "accessType": "official-api",
+      "oneTimePullFeasible": "yes"
+    },
+    {
+      "jurisdictionId": null,
+      "endpointOrUrl": "https://legislation.nysenate.gov/api/3",
+      "collectedAt": "2026-06-19T20:03:29.861Z",
+      "recordCount": 0,
+      "stalenessNote": "NY_SENATE_KEY not set — collector dormant. Add key + re-run prep:collect to activate (docs/API_KEYS.md). No rows fabricated.",
+      "reVerifyBeforeRelying": true,
+      "module": "regulation",
+      "status": "manual",
+      "sourceId": "ny_senate_bills",
+      "name": "NY Senate OpenLegislation — food bills",
+      "accessType": "official-api",
+      "oneTimePullFeasible": "yes"
     }
   ]
 }

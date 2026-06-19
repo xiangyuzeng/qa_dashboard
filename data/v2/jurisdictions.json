@@ -38,7 +38,7 @@
       "accessType": "open-data", "accessMethod": "查询页 / 浏览器自动化 / 人工导出",
       "mainTargets": "咖啡馆、重点品牌",
       "endpointOrUrl": "https://data.sfgov.org/resource/pyih-qa8i.json",
-      "oneTimePullFeasible": "partial", "stalenessNote": "LIVES feed frozen ~2021; successor 6ud7-8ksb returns empty. Treat current SF as MANUAL until a live export is confirmed.", "reVerifyBeforeRelying": true
+      "oneTimePullFeasible": "partial", "stalenessNote": "SF LIVES feed (pyih-qa8i) confirmed frozen — last inspection 2019-11-28; no current per-establishment successor (ramz-vejd/6ud7-8ksb are aggregated views). Real 2019 café/brand rows seeded via intake/inspections.json (true dates, so staleness is visible); treat as historical until a live SF export is confirmed.", "reVerifyBeforeRelying": true
     },
     {
       "region": "Massachusetts", "jurisdiction": "Boston",

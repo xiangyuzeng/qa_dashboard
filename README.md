@@ -13,9 +13,9 @@ prep + redeploying is the "refresh."
 
 ## Stack
 Next.js 15 (App Router) · TypeScript · Tailwind · Recharts 3 · TanStack Table · Zod.
-Data: versioned JSON under `/data/v2`, read at build time. Excel export: a static file
-**built from scratch by `openpyxl`** (a 7-sheet styled workbook — see below). **Zero serverless
-functions** — the entire app is static/SSG on the CDN.
+Data: versioned JSON under `/data/v2`, read at build time. Report export: static files
+**built from scratch** — a 7-sheet styled Excel (`openpyxl`) + a matching bilingual Word `.docx`
+(`python-docx`); see below. **Zero serverless functions** — the entire app is static/SSG on the CDN.
 
 ## Monitoring modules (V2)
 Six modules: **Food Safety** · **Import/Export & Border Control** · **State & Local Regulation** ·
@@ -46,20 +46,23 @@ HTTP_USER_AGENT="LuckinNA-QA-FoodSafety-Monitor/1.0 (contact: you@luckin)" npm r
 # 2. (optional) add manual records for no-API jurisdictions in intake/inspections.json
 # 3. QA REVIEW the prepared /data, then validate + export
 npm run prep:validate
-npm run prep:export    # → public/exports/monthly_report.xlsx (Python + openpyxl, 7 sheets)
+npm run prep:export    # → monthly_report.xlsx (openpyxl, 7 sheets) + .docx (python-docx)
 # 4. commit /data + public/exports and redeploy
 ```
 `npm run prep:build` chains collect → validate → export.
-**Prereqs for prep:** Node ≥ 20; Python 3 + `openpyxl` for the export step (`pip install openpyxl`).
+**Prereqs for prep:** Node ≥ 20; Python 3 + `openpyxl` + `python-docx` for the export step (`pip install openpyxl python-docx`).
 
 **Excel export (7 sheets, built from scratch):** Monthly Summary · Food-Safety main · Import/Export ·
 State/Local Regulation · Café Inspections (incl. 门店编号 Establishment ID) · Sources Log · Field Guide —
 with 5-level Risk-Level cell fills, navy bilingual frozen headers, and autofilter. The exporter
 (`prep/export_xlsx.py`) reopens the file and asserts the 7 sheets / risk fills / est-id col / pull-log.
+A matching **bilingual Word (`.docx`) report** (`prep/export_docx.py`, python-docx) covers the same
+sections with risk-shaded tables, for stakeholders who prefer Word/PDF.
 
-**Optional key-gated collectors** (FDA Import Refusals, LegiScan/NY-Senate state bills) are documented
-in [docs/API_KEYS.md](docs/API_KEYS.md) — not yet wired; the modules run on Federal-Register + curated
-seeds + RSS today.
+**Key-gated collectors** (FDA Import Refusals, LegiScan, NY-Senate state bills) are **built** in
+`prep/collect.ts` but ship **dormant** — add a free key to `.env` (see [docs/API_KEYS.md](docs/API_KEYS.md))
+and re-run `prep:collect` to activate; without a key each emits a truthful `manual` provenance stub
+(never a fabricated row). Modules 2/3 also run on Federal-Register + curated seeds; Module 5 on RSS.
 
 ## Deploy (Vercel)
 1. Push the repo to GitHub/GitLab/Bitbucket (`/data` and `public/exports` are committed).
@@ -79,5 +82,6 @@ Curated from the May 2026 reference report: **Import/Export** named actions (APH
 FSIS Mexico list) and **State/Local Regulation** named laws (CA SB68, NYC added-sugar/sodium, NY S5381).
 Manual/pending (no usable API — see `/sources` + docs/JURISDICTION_PLAYBOOK.md): FDA Warning Letters
 (bulk XML), USDA/FSIS (CDN blocks bots), LA County (large ArcGIS CSV), San Francisco (frozen feed),
-Washington DC, Newark & Bergen NJ (OPRA), Florida FDACS (robots-deny). Key-gated import/state-bill
-collectors are documented in [docs/API_KEYS.md](docs/API_KEYS.md) (not yet wired).
+Washington DC, Newark & Bergen NJ (OPRA), Florida FDACS (robots-deny) — `intake/inspections.json` ships
+real SF café/brand rows (frozen 2019 LIVES) + documented `not_public_online` gap markers for the rest.
+Key-gated import/state-bill collectors are **built** (dormant without keys) — see [docs/API_KEYS.md](docs/API_KEYS.md).

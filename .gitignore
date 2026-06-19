@@ -32,6 +32,8 @@ config/suppliers.json
 # prep pipeline cache / raw pulls
 prep/.cache/
 prep/.raw/
+__pycache__/
+*.pyc
 
 # vercel
 .vercel

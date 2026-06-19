@@ -5,11 +5,11 @@ QA-review, then commit + redeploy. Nothing runs on Vercel except serving static 
 
 ## Prerequisites
 - Node ≥ 20, npm
-- Python 3 + `openpyxl` (`pip install openpyxl`) — for the Excel export step
+- Python 3 + `openpyxl` + `python-docx` (`pip install openpyxl python-docx`) — for the Excel & Word export steps
 - A descriptive `HTTP_USER_AGENT` (and `FSIS_USER_AGENT`) — copy `.env.example` → `.env`
 - Optional: `SOCRATA_APP_TOKEN` (raises throttle ceiling; not required)
 - Optional: `config/store_list.json` (gitignored) to precisely tag owned Luckin stores
-- Optional: key-gated collector keys (FDA Import Refusals, LegiScan/NY-Senate) — **not yet wired**; see "Optional collectors" below + [API_KEYS.md](API_KEYS.md)
+- Optional: key-gated collector keys (FDA Import Refusals, LegiScan, NY-Senate) — collectors are **built but dormant**; add a key to activate. See "Optional collectors" below + [API_KEYS.md](API_KEYS.md)
 
 ## Steps
 1. **Collect** real data from official sources:
@@ -23,9 +23,11 @@ QA-review, then commit + redeploy. Nothing runs on Vercel except serving static 
    source is fault-isolated — a failure records 0 rows + a provenance note (never a fabricated row).
    Review the console summary. (Key-gated collectors are **not** run here — see "Optional collectors".)
 
-2. **Manual intake** (no-API jurisdictions: DC, Newark, Bergen, FL, current SF) — optional:
-   add records to `intake/inspections.json` (see `intake/README.md`). NJ/unavailable data uses
-   `dataAvailability:"not_public_online"`; never record missing data as "no inspection".
+2. **Manual intake** (no-current-API jurisdictions: DC, Newark, Bergen, FL, SF) — `intake/inspections.json`
+   already ships with **real SF café/brand rows** (from the frozen 2019 SF LIVES open feed; true dates so
+   the staleness is visible) plus documented `not_public_online` gap markers for DC/Newark/Bergen/FL.
+   Add more records as obtained (see `intake/README.md`); NJ/unavailable data uses
+   `dataAvailability:"not_public_online"` — never record missing data as "no inspection".
 
 3. **HUMAN-REVIEW GATE.** Inspect `data/v2/*.json`. Auto-collected records are marked
    `reviewNote:"auto-collected …"`; manual records start `reviewed:false`. Verify classifications,
@@ -38,12 +40,13 @@ QA-review, then commit + redeploy. Nothing runs on Vercel except serving static 
    npm run prep:validate
    ```
 
-5. **Export** the bilingual Excel — builds the **7-sheet styled workbook from scratch** with openpyxl
+5. **Export** the bilingual report — builds the **7-sheet styled Excel from scratch** with openpyxl
    (Monthly Summary · Food-Safety main · Import/Export · State/Local Reg · Café Inspections incl.
-   门店编号 · Sources Log · Field Guide; 5-level risk fills, frozen bilingual headers, autofilter).
-   The script verifies the sheets / fills / est-id col / pull-log on save:
+   门店编号 · Sources Log · Field Guide; 5-level risk fills, frozen bilingual headers, autofilter)
+   **and a matching bilingual Word (.docx)** report (python-docx; same sections, risk-shaded tables).
+   Both verify their structure on save:
    ```bash
-   npm run prep:export      # → public/exports/monthly_report.xlsx
+   npm run prep:export      # → public/exports/monthly_report.{xlsx,docx}
    ```
 
 6. **Commit & deploy:**
@@ -56,13 +59,14 @@ QA-review, then commit + redeploy. Nothing runs on Vercel except serving static 
 
 `npm run prep:build` runs steps 1 + 4 + 5 in sequence.
 
-## Optional collectors (key-gated — not yet wired)
-Modules 2/3 currently run on Federal-Register-import (auto) + curated May-report seeds; Module 5 on RSS.
-To move toward full auto later, obtain the relevant free keys (FDA OII Import Refusals, LegiScan, NY
-Senate OpenLegislation, optional OpenStates) and build the matching collector — the POST infra
-(`postJson()` in `prep/lib/http.ts`) is already in place. Full step-by-step (where to register, fields,
-free-tier limits, `.env` vars) is in [docs/API_KEYS.md](API_KEYS.md). Until a collector is built, an
-absent key emits a truthful `manual`/`no_update` provenance stub — never a fabricated row.
+## Optional collectors (key-gated — built, dormant without keys)
+Modules 2/3 run on Federal-Register-import (auto) + curated May-report seeds; Module 5 on RSS. Three
+key-gated collectors are **built** in `prep/collect.ts` — `collectImportRefusals()` (FDA OII Import
+Refusals, POST), `collectLegiScanBills()` and `collectNYSenateBills()` (state bills, GET) — and ship
+**dormant**: with no key they emit a truthful `manual` provenance stub (0 rows, never fabricated,
+visible on `/sources`). Add the relevant free key to `.env` and re-run `npm run prep:collect` to
+activate (full step-by-step — where to register, fields, free-tier limits, `.env` vars — in
+[docs/API_KEYS.md](API_KEYS.md)).
 
 ## Translation enrichment (follow-up)
 Source text is English; the schema's Chinese free-text fields (`chineseTitle`, `chineseSummary`,
