@@ -275,4 +275,121 @@ export function repeatGroups(insp: InspectionRecord[]): RepeatGroup[] {
     .sort((a, b) => b.count - a.count);
 }
 
+const RISK_W: Record<string, number> = { 高风险: 3, 中风险: 2, 低风险: 1, 信息参考: 0 };
+const riskW = (r: string | null) => (r ? (RISK_W[r] ?? 0) : -1);
+
+export type ChecklistItem = {
+  id: number;
+  labelZh: string;
+  labelEn: string;
+  note: string | null;
+  frequency: number;
+  critical: number;
+  composite: number;
+  cafe: boolean;
+};
+
+/**
+ * Self-inspection checklist (spec §11.2 café risks × dataset frequency/severity).
+ * composite = frequency + critical (severity-weighted); café-★ categories pinned on top.
+ */
+export function actionChecklist(insp: InspectionRecord[]): ChecklistItem[] {
+  const items = getViolationCategories().map((c) => {
+    const rows = insp.filter(
+      (r) => r.standardizedCategoryId === c.id || r.standardizedCategoriesAll.includes(c.id),
+    );
+    const critical = rows.filter((r) => r.violationSeverity === "严重（主要）Critical").length;
+    return {
+      id: c.id,
+      labelZh: `${c.id} ${c.zh}`,
+      labelEn: `${c.id} ${c.en}`,
+      note: c.note,
+      frequency: rows.length,
+      critical,
+      composite: rows.length + critical,
+      cafe: c.cafeHighFrequency,
+    };
+  });
+  const cafe = items.filter((i) => i.cafe).sort((a, b) => b.composite - a.composite);
+  const rest = items.filter((i) => !i.cafe && i.frequency > 0).sort((a, b) => b.composite - a.composite);
+  return [...cafe, ...rest];
+}
+
+export type TrainingItem = {
+  id: number;
+  labelZh: string;
+  labelEn: string;
+  note: string | null;
+  critical: number;
+  repeat: number;
+  score: number;
+  cafe: boolean;
+};
+
+/** Training focus — rank by Critical-count + repeat-incidence; force-include any café-★ that appears. */
+export function trainingFocus(insp: InspectionRecord[], topN = 6): TrainingItem[] {
+  const appears = (id: number) =>
+    insp.some((r) => r.standardizedCategoryId === id || r.standardizedCategoriesAll.includes(id));
+  const items: TrainingItem[] = getViolationCategories().map((c) => {
+    const rows = insp.filter(
+      (r) => r.standardizedCategoryId === c.id || r.standardizedCategoriesAll.includes(c.id),
+    );
+    const critical = rows.filter((r) => r.violationSeverity === "严重（主要）Critical").length;
+    const repeat = rows.filter((r) => r.repeatViolationGroupId).length;
+    return {
+      id: c.id,
+      labelZh: `${c.id} ${c.zh}`,
+      labelEn: `${c.id} ${c.en}`,
+      note: c.note,
+      critical,
+      repeat,
+      score: critical * 2 + repeat,
+      cafe: c.cafeHighFrequency,
+    };
+  });
+  const top = items.filter((i) => i.score > 0).sort((a, b) => b.score - a.score).slice(0, topN);
+  const cafeExtra = items.filter((i) => i.cafe && appears(i.id) && !top.some((t) => t.id === i.id));
+  return [...top, ...cafeExtra];
+}
+
+export type WatchEntity = {
+  key: string;
+  storeName: string | null;
+  brand: string | null;
+  jurisdiction: string | null;
+  riskLevel: string | null;
+  alert: boolean;
+  repeat: boolean;
+  alertReason: string | null;
+  sampleId: string;
+};
+
+/** High-risk watch-list — stores with a fired alert or a repeat-violation group. */
+export function watchlist(insp: InspectionRecord[]): WatchEntity[] {
+  const map: Record<string, InspectionRecord[]> = {};
+  for (const r of insp) {
+    const key = `${r.brand ?? ""}|${r.storeName ?? ""}|${r.jurisdiction ?? ""}`;
+    (map[key] ??= []).push(r);
+  }
+  const entities: WatchEntity[] = [];
+  for (const [key, rows] of Object.entries(map)) {
+    const alert = rows.some((r) => r.alertTriggered);
+    const repeat = rows.some((r) => r.repeatViolationGroupId);
+    if (!alert && !repeat) continue;
+    const top = [...rows].sort((a, b) => riskW(b.riskLevel) - riskW(a.riskLevel))[0];
+    entities.push({
+      key,
+      storeName: top.storeName,
+      brand: top.brand,
+      jurisdiction: top.jurisdiction,
+      riskLevel: top.riskLevel,
+      alert,
+      repeat,
+      alertReason: rows.find((r) => r.alertReason)?.alertReason ?? null,
+      sampleId: top.id,
+    });
+  }
+  return entities.sort((a, b) => riskW(b.riskLevel) - riskW(a.riskLevel));
+}
+
 export { passRate, failRate };
