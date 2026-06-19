@@ -1,0 +1,40 @@
+[
+  {
+    "_comment": "Copy this file to intake/inspections.json and fill with records collected manually (OPRA / web lookup / PDF / email) for the no-API jurisdictions (DC, Newark, Bergen, Florida, current SF). Re-run `npm run prep:build`. Records start unreviewed (reviewed:false) — set reviewed:true only after QA verifies. Leave unknown fields null; NEVER fabricate.",
+    "jurisdiction": "Washington DC",
+    "regulatoryAgency": "DC Health",
+    "brand": "Starbucks",
+    "establishmentType": "咖啡连锁 Coffee Chain",
+    "storeName": "STARBUCKS (example, DC)",
+    "address": "NW, Washington, DC",
+    "inspectionDate": "2026-05-14",
+    "inspectionType": "Routine",
+    "inspectionResult": "Fail",
+    "score": null,
+    "grade": null,
+    "englishViolationSummary": "Multiple priority violations: cross-contamination; handwashing sink blocked.",
+    "chineseViolationSummary": null,
+    "violationSeverity": "严重（主要）Critical",
+    "followupRequired": "是 Yes",
+    "sourceType": "PDF/HTML 报告",
+    "sourceUrlOrDocRef": "https://dc.healthinspections.us/ (report PDF #example)",
+    "reviewed": false
+  },
+  {
+    "jurisdiction": "Newark, NJ",
+    "regulatoryAgency": "Newark Dept. of Health & Community Wellness",
+    "brand": "Luckin Coffee",
+    "establishmentType": "甲方门店 Owned Store",
+    "storeName": "LUCKIN COFFEE NJ-01 (example)",
+    "address": "Newark, NJ",
+    "inspectionDate": null,
+    "inspectionResult": null,
+    "sourceType": "OPRA/人工 Manual Request",
+    "sourceUrlOrDocRef": "OPRA Request #PENDING",
+    "dataAvailability": "not_public_online",
+    "njMunicipality": "Newark",
+    "njRoutedTo": "Newark Food & Drug Bureau",
+    "recommendedAction": "Submit OPRA request; online DB unavailable — do NOT record as 'no inspection'.",
+    "reviewed": false
+  }
+]
