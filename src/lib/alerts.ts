@@ -110,6 +110,9 @@ export function buildAlertRows(
       href: r.sourceUrl,
       external: true,
     }));
+  // Sentiment alerts fold into `food_safety` deliberately: the spec's AlertType model has exactly
+  // 4 buckets (no sentiment type), and the sentiment feed is food-safety media (Food Safety News).
+  // Latent today (the data has 0 alert-triggered sentiment rows); revisit if a 5th type is added.
   const fromSent: AlertRow[] = sent
     .filter((r) => r.alertTriggered)
     .map((r) => ({

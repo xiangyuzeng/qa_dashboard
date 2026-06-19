@@ -396,18 +396,21 @@ def risk_mix(reg, imp, regs, insp, sent):
             for m, rows in mods.items()}
 
 
-def verify(path):
+def verify(path, expect_high_fill):
     wb = load_workbook(path)
     titles = wb.sheetnames
     expect = ["月度摘要", "食品安全主表", "进口出口监管", "州地方法规", "咖啡馆检查", "数据源日志", "字段说明"]
     assert titles == expect, f"sheet titles/order: {titles}"
     hdr5 = [c.value for c in wb["咖啡馆检查"][1]]
     assert any(h and "门店编号" in str(h) for h in hdr5), "missing 门店编号 col on 咖啡馆检查"
-    found_fill = any(
-        c.fill and c.fill.fgColor and c.fill.fgColor.rgb and str(c.fill.fgColor.rgb).endswith("F4CCCC")
-        for row in wb["食品安全主表"].iter_rows(min_row=2) for c in row
-    )
-    assert found_fill, "no high-risk fill found on 食品安全主表"
+    # The high-risk fill is a property of the DATA — only assert it when a 高风险 food-safety row exists
+    # (a legitimate low-risk month must not fail the export).
+    if expect_high_fill:
+        found_fill = any(
+            c.fill and c.fill.fgColor and c.fill.fgColor.rgb and str(c.fill.fgColor.rgb).endswith("F4CCCC")
+            for row in wb["食品安全主表"].iter_rows(min_row=2) for c in row
+        )
+        assert found_fill, "no high-risk fill found on 食品安全主表 despite 高风险 rows present"
     assert wb["数据源日志"].max_row >= 2, "no pull-log rows on 数据源日志"
     print(f"verify OK: {len(titles)} sheets — {titles}")
 
@@ -435,7 +438,7 @@ def main():
     print(f"export: 7 sheets — summary · {len(reg)} food-safety · {len(imp)} import · "
           f"{len(regs)} regulation · {len(insp)} inspection · {len(meta.get('provenance', []))} sources "
           f"→ public/exports/monthly_report.xlsx")
-    verify(OUT)
+    verify(OUT, expect_high_fill=any(r.get("riskLevel") == "高风险" for r in reg))
 
 
 if __name__ == "__main__":
