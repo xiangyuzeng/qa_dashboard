@@ -1,0 +1,91 @@
+{
+  "jurisdictions": [
+    {
+      "region": "New York", "jurisdiction": "New York City",
+      "dataSource": "ABCEats + NYC Open Data — DOHMH Restaurant Inspection Results (Socrata 43nn-pn8j)",
+      "accessType": "open-data", "accessMethod": "Open Data API / 批量抓取",
+      "mainTargets": "咖啡馆、重点品牌、甲方门店",
+      "endpointOrUrl": "https://data.cityofnewyork.us/resource/43nn-pn8j.json",
+      "oneTimePullFeasible": "yes", "stalenessNote": "ABCEats is the public UI over this dataset; pull the dataset directly.", "reVerifyBeforeRelying": false
+    },
+    {
+      "region": "New Jersey", "jurisdiction": "Bergen County, NJ",
+      "dataSource": "Bergen County DHS Consumer Health + NWBRHC + Municipality OPRA",
+      "accessType": "none", "accessMethod": "Local Health Dept / OPRA / 人工导入",
+      "mainTargets": "咖啡馆、重点品牌、甲方NJ实体",
+      "endpointOrUrl": null,
+      "oneTimePullFeasible": "no", "stalenessNote": "No statewide/online DB (confirmed). OPRA request per municipality (~10 business days). NJ special handling: route by municipality; never record missing data as 'no inspection'.", "reVerifyBeforeRelying": false
+    },
+    {
+      "region": "New Jersey", "jurisdiction": "Newark, NJ",
+      "dataSource": "Newark Health Inspection Lookup + Food & Drug Bureau",
+      "accessType": "html-scrape", "accessMethod": "查询页 / 浏览器自动化 / 人工复核",
+      "mainTargets": "咖啡馆、重点品牌、甲方门店",
+      "endpointOrUrl": "https://www.newarknj.gov/205/Health-Inspection-Lookup",
+      "oneTimePullFeasible": "partial", "stalenessNote": "Online lookup backend is JS/CAPTCHA-gated and unverified — prefer manual/OPRA via the Food & Drug Bureau; do NOT bypass bot-detection.", "reVerifyBeforeRelying": true
+    },
+    {
+      "region": "California", "jurisdiction": "Los Angeles County",
+      "dataSource": "LA County Dept. of Public Health, Environmental Health (ArcGIS Hub)",
+      "accessType": "bulk-download", "accessMethod": "ArcGIS Hub CSV / Open Data",
+      "mainTargets": "咖啡馆、饮品店、重点品牌",
+      "endpointOrUrl": "https://lacounty.maps.arcgis.com/sharing/rest/content/items/19b6607ac82c4512b10811870975dbdc/data",
+      "oneTimePullFeasible": "yes", "stalenessNote": "Use the County ArcGIS set (rolling 3yr). Do NOT use data.lacity.org/29fd-3paw — it is FROZEN at 2018.", "reVerifyBeforeRelying": false
+    },
+    {
+      "region": "California", "jurisdiction": "San Francisco",
+      "dataSource": "SF DPH via DataSF (Socrata LIVES pyih-qa8i)",
+      "accessType": "open-data", "accessMethod": "查询页 / 浏览器自动化 / 人工导出",
+      "mainTargets": "咖啡馆、重点品牌",
+      "endpointOrUrl": "https://data.sfgov.org/resource/pyih-qa8i.json",
+      "oneTimePullFeasible": "partial", "stalenessNote": "LIVES feed frozen ~2021; successor 6ud7-8ksb returns empty. Treat current SF as MANUAL until a live export is confirmed.", "reVerifyBeforeRelying": true
+    },
+    {
+      "region": "Massachusetts", "jurisdiction": "Boston",
+      "dataSource": "Analyze Boston (CKAN) Food Establishment Inspections + Mayor's Food Court",
+      "accessType": "open-data", "accessMethod": "CKAN datastore_search + 人工核验",
+      "mainTargets": "咖啡馆、重点品牌、甲方门店",
+      "endpointOrUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=4582bec6-2b4f-4f9e-bc55-cbaa73117f4c",
+      "oneTimePullFeasible": "yes", "stalenessNote": "CKAN datastore_search; live to 'current'.", "reVerifyBeforeRelying": false
+    },
+    {
+      "region": "Massachusetts", "jurisdiction": "Cambridge",
+      "dataSource": "Cambridge Open Data — Sanitary Inspections (Socrata ryb9-qzmw)",
+      "accessType": "open-data", "accessMethod": "Open Data API / 批量抓取",
+      "mainTargets": "咖啡馆、重点品牌",
+      "endpointOrUrl": "https://data.cambridgema.gov/resource/ryb9-qzmw.json",
+      "oneTimePullFeasible": "yes", "stalenessNote": "Use ryb9-qzmw — the widely-cited mh73-gjid id is dead/404.", "reVerifyBeforeRelying": false
+    },
+    {
+      "region": "Washington, DC", "jurisdiction": "Washington DC",
+      "dataSource": "DC Health Food Establishment Inspection Reports (HealthSpace)",
+      "accessType": "html-scrape", "accessMethod": "查询页 / PDF / HTML 报告",
+      "mainTargets": "咖啡馆、重点品牌",
+      "endpointOrUrl": "https://dc.healthinspections.us/",
+      "oneTimePullFeasible": "partial", "stalenessNote": "No open dataset found — per-record HTML/PDF manual intake.", "reVerifyBeforeRelying": true
+    },
+    {
+      "region": "Florida", "jurisdiction": "Florida (FDACS)",
+      "dataSource": "FDACS Food Permit Center — Food Establishment Inspection Reports",
+      "accessType": "none", "accessMethod": "查询页 / 表单搜索 (manual / public-records)",
+      "mainTargets": "coffee shops、bakeries、juice/smoothie bars、food warehouses",
+      "endpointOrUrl": "https://foodpermit.fdacs.gov/Reports/SearchFoodEntity.aspx",
+      "oneTimePullFeasible": "no", "stalenessNote": "fdacs.gov robots.txt is default-deny and disallows /search — do NOT scrape. Use the UI manually or a public-records request. (Restaurants proper are DBPR, out of scope.)", "reVerifyBeforeRelying": false
+    }
+  ],
+  "alertRules": [
+    { "id": "general.closed", "scope": "General", "conditionZh": "重点品牌/咖啡馆门店出现 关闭 / 停业 / Permit Suspension / Stop Sale / Imminent Health Hazard", "conditionEn": "Priority-brand/café store Closed / out-of-business / Permit Suspension / Stop Sale / Imminent Health Hazard" },
+    { "id": "nyc.score", "scope": "New York City", "conditionZh": "Score ≥ 28 / Grade Pending / Grade C", "conditionEn": "Score >= 28 / Grade Pending / Grade C" },
+    { "id": "la.grade", "scope": "Los Angeles County", "conditionZh": "Grade C / Score < 80 / 关闭", "conditionEn": "Grade C / Score < 80 / closure" },
+    { "id": "sf.result", "scope": "San Francisco", "conditionZh": "Closed / Failed / Conditional Pass", "conditionEn": "Closed / Failed / Conditional Pass" },
+    { "id": "bos.cam", "scope": "Boston / Cambridge", "conditionZh": "Fail / Closed / Permit Suspension / 紧急复查", "conditionEn": "Fail / Closed / Permit Suspension / urgent re-inspection" },
+    { "id": "dc.fail", "scope": "Washington DC", "conditionZh": "Fail / 多个 Priority Violations", "conditionEn": "Fail / multiple Priority Violations" },
+    { "id": "fl.fdacs", "scope": "Florida (FDACS)", "conditionZh": "Stop Sale / Closure / Permit Suspension / Imminent Health Hazard", "conditionEn": "Stop Sale / Closure / Permit Suspension / Imminent Health Hazard" },
+    { "id": "newark", "scope": "Newark, NJ", "conditionZh": "Unsatisfactory·Fail / embargo / condemnation / closure / permit suspension / foodborne illness investigation", "conditionEn": "Unsatisfactory or Fail / embargo / condemnation / closure / permit suspension / foodborne illness investigation" },
+    { "id": "bergen", "scope": "Bergen County, NJ", "conditionZh": "Unsatisfactory·Fail / multiple critical violations / 紧急复查 / 执法行动", "conditionEn": "Unsatisfactory or Fail / multiple critical violations / urgent re-inspection / enforcement action" },
+    { "id": "hazard.major", "scope": "Major hazards", "conditionZh": "虫害 / 污水倒流 / 冷藏失控 / 热保温不足 / 生熟交叉污染 / 洗手设施不可用", "conditionEn": "pest / sewage backflow / cold-holding failure / hot-holding failure / raw-cooked cross-contamination / handwashing unavailable" },
+    { "id": "cafe.repeat", "scope": "Café repeat", "conditionZh": "冰机 / 牛奶 / 饮品设备 / 冷藏温度 / 清洁消毒 / 虫害 反复出现", "conditionEn": "ice machine / milk / beverage equipment / cold holding / cleaning-sanitizing / pest recurring" },
+    { "id": "repeat.same", "scope": "Repeat", "conditionZh": "同品牌或同区域重复同类违规", "conditionEn": "same brand or area repeating the same violation category" },
+    { "id": "sentiment", "scope": "Sentiment", "conditionZh": "门店 / 竞品 / 供应链 被媒体报道形成负面舆情", "conditionEn": "store / competitor / supply-chain negative media sentiment" }
+  ]
+}

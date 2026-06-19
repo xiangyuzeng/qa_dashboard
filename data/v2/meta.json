@@ -1,0 +1,34 @@
+{
+  "schemaVersion": "2.0.0",
+  "dataAsOf": "2026-06-18",
+  "reportingPeriod": {
+    "label": "2026年6月 (示例 SEED)",
+    "year": 2026,
+    "month": 6
+  },
+  "generatedAt": "2026-06-18T00:00:00.000Z",
+  "isSeedData": true,
+  "counts": {
+    "regulatory": 6,
+    "inspections": 18,
+    "alerts": 9,
+    "pendingReview": 0,
+    "bySource": {
+      "seed_example": 24
+    }
+  },
+  "provenance": [
+    {
+      "sourceId": "seed_example",
+      "name": "Seed / Example data (NOT real) — replaced by the real prep pull",
+      "jurisdictionId": null,
+      "accessType": "none",
+      "endpointOrUrl": null,
+      "oneTimePullFeasible": "no",
+      "collectedAt": "2026-06-18T00:00:00.000Z",
+      "recordCount": 24,
+      "stalenessNote": "Clearly-labeled example data for development/demo only.",
+      "reVerifyBeforeRelying": true
+    }
+  ]
+}

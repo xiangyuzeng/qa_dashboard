@@ -1,0 +1,21 @@
+[
+  { "id": 1, "zh": "冷藏温度控制", "en": "Cold Holding Temperature Control", "cafeHighFrequency": false, "note": "牛奶/奶基原料、冷萃、即饮饮品冷藏≤41°F；开封后效期" },
+  { "id": 2, "zh": "热保温温度控制", "en": "Hot Holding Temperature Control", "cafeHighFrequency": false, "note": "加热轻食、热饮保温≥135°F" },
+  { "id": 3, "zh": "食品来源和标签", "en": "Food Source and Labeling", "cafeHighFrequency": false, "note": "原料来源可追溯；日期/效期标识" },
+  { "id": 4, "zh": "过敏原控制", "en": "Allergen Control", "cafeHighFrequency": false, "note": "奶/坚果/豆奶等替代品交叉接触" },
+  { "id": 5, "zh": "员工洗手和个人卫生", "en": "Employee Handwashing and Personal Hygiene", "cafeHighFrequency": false, "note": "吧台洗手、手套、员工健康状况" },
+  { "id": 6, "zh": "交叉污染", "en": "Cross-Contamination", "cafeHighFrequency": false, "note": "生熟、奶品与其他食材分隔" },
+  { "id": 7, "zh": "食品接触面清洁消毒", "en": "Food Contact Surface Cleaning and Sanitizing", "cafeHighFrequency": false, "note": "吧台、用具、消毒液浓度" },
+  { "id": 8, "zh": "食品储存", "en": "Food Storage", "cafeHighFrequency": false, "note": "离地存放、加盖、先进先出" },
+  { "id": 9, "zh": "设备设施维护", "en": "Equipment and Facility Maintenance", "cafeHighFrequency": false, "note": "制冰机、冰箱、咖啡机维护" },
+  { "id": 10, "zh": "虫害控制", "en": "Pest Control", "cafeHighFrequency": false, "note": "鼠蟑迹象、门窗封闭" },
+  { "id": 11, "zh": "污水、排水和管道", "en": "Sewage, Drainage and Plumbing", "cafeHighFrequency": false, "note": "地漏、回流装置、污水倒流" },
+  { "id": 12, "zh": "化学品储存", "en": "Chemical Storage", "cafeHighFrequency": false, "note": "清洁剂与食品分开存放" },
+  { "id": 13, "zh": "垃圾管理", "en": "Waste Management", "cafeHighFrequency": false, "note": "加盖、清运、区域清洁" },
+  { "id": 14, "zh": "食品保护", "en": "Food Protection", "cafeHighFrequency": false, "note": "防尘防污、展示防护" },
+  { "id": 15, "zh": "证照、食品经理证书及文件记录", "en": "Permits, Food Manager Certification and Records", "cafeHighFrequency": false, "note": "营业/食品经理证、记录" },
+  { "id": 16, "zh": "食品加工、制备或冷却流程", "en": "Food Processing, Preparation or Cooling Process", "cafeHighFrequency": false, "note": "冷却时间温度、制备流程" },
+  { "id": 17, "zh": "冰机、饮品设备及管路卫生", "en": "Ice Machine, Beverage Equipment and Lines Sanitation", "cafeHighFrequency": true, "note": "制冰机、咖啡机、奶管、糖浆管路 ★ 咖啡馆高频" },
+  { "id": 18, "zh": "牛奶、奶基原料及冷藏饮品管理", "en": "Milk, Dairy-Based Ingredients and Refrigerated Beverage Control", "cafeHighFrequency": true, "note": "牛奶温度/效期/变质 ★ 咖啡馆高频" },
+  { "id": 19, "zh": "其他卫生管理问题", "en": "Other Sanitation Issues", "cafeHighFrequency": false, "note": "其他" }
+]

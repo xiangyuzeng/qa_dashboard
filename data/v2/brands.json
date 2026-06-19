@@ -1,0 +1,15 @@
+{
+  "brands": [
+    { "standard": "Starbucks", "aliases": ["STARBUCKS", "STARBUCKS COFFEE"], "type": "重点竞品 Priority Competitor" },
+    { "standard": "Dunkin", "aliases": ["DUNKIN", "DUNKIN'", "DUNKIN DONUTS"], "type": "重点竞品 Priority Competitor" },
+    { "standard": "Pret A Manger", "aliases": ["PRET A MANGER", "PRET", "PRET COFFEE"], "type": "重点竞品 Priority Competitor" },
+    { "standard": "Blue Bottle Coffee", "aliases": ["BLUE BOTTLE", "BLUE BOTTLE COFFEE"], "type": "重点竞品 Priority Competitor" },
+    { "standard": "McDonald's", "aliases": ["MCDONALD'S", "MCDONALDS", "MC DONALD'S"], "type": "快餐竞品 QSR Competitor" },
+    { "standard": "Luckin Coffee", "aliases": ["LUCKIN", "LUCKIN COFFEE"], "type": "甲方 Owned" },
+    { "standard": "其他 Other", "aliases": [], "type": "其他 Other" }
+  ],
+  "cafeKeywords": [
+    "COFFEE", "CAFE", "CAFÉ", "ESPRESSO", "ROASTERY", "BOBA",
+    "BUBBLE TEA", "JUICE", "SMOOTHIE", "BEVERAGE", "BAKERY CAFE", "TEA SHOP"
+  ]
+}
