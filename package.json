@@ -11,7 +11,6 @@
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit -p tsconfig.json && tsc --noEmit -p tsconfig.prep.json",
-    "prep:seed": "tsx prep/seed.ts",
     "prep:collect": "tsx prep/collect.ts",
     "prep:validate": "tsx prep/validate.ts",
     "prep:export": "python3 prep/export_xlsx.py",

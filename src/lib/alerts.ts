@@ -18,7 +18,7 @@ export type AlertRow = {
   external: boolean;
 };
 
-const RISK_WEIGHT: Record<string, number> = { 高风险: 3, 中风险: 2, 低风险: 1, 信息参考: 0 };
+const RISK_WEIGHT: Record<string, number> = { 高风险: 3, 中风险: 2, 低风险: 1, 关注: 0.5, 信息参考: 0 };
 const w = (r: string | null) => (r ? (RISK_WEIGHT[r] ?? 0) : -1);
 
 export function buildAlertRows(

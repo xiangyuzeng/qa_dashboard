@@ -31,8 +31,8 @@ export const CategoryEnum = z.enum([
   "其他",
 ]);
 
-/** 风险等级 Risk Level (4) — Sheet1 & Sheet2 */
-export const RiskLevelEnum = z.enum(["高风险", "中风险", "低风险", "信息参考"]);
+/** 风险等级 Risk Level (5) — adds 关注 Watch (V2 §7): no direct impact now but recurrence / worsening trend / escalation potential. */
+export const RiskLevelEnum = z.enum(["高风险", "中风险", "低风险", "信息参考", "关注"]);
 
 /** Sheet2 品牌 Brand (7) — priority brands + Other */
 export const BrandEnum = z.enum([
@@ -156,6 +156,102 @@ export const AccessTypeEnum = z.enum([
 ]);
 
 /* ────────────────────────────────────────────────────────────────────────────
+ * V2 — module taxonomy, alert types, new-module enums
+ * ──────────────────────────────────────────────────────────────────────────── */
+
+/** Top-level monitoring module (V2 6-module model). */
+export const ModuleEnum = z.enum([
+  "food_safety",
+  "import",
+  "regulation",
+  "inspection",
+  "sentiment",
+]);
+
+/** Alert type (V2 §8 — 4 alert types). */
+export const AlertTypeEnum = z.enum([
+  "food_safety",
+  "import_compliance",
+  "state_local_reg",
+  "inspection",
+]);
+
+/** Pull-log status (V2 Sheet6 数据源日志) — bilingual labels resolved in UI/export. */
+export const PullStatusEnum = z.enum([
+  "fetched", // 已抓取
+  "filtered", // 已筛选
+  "no_update", // 未发现更新
+  "manual", // 人工/manual
+  "excluded", // 排除
+]);
+
+/** Import/Export regulatory action (Module 2). */
+export const ImportActionEnum = z.enum([
+  "Import Alert",
+  "Import Refusal",
+  "Detention",
+  "Eligibility Change",
+  "Tariff/AD-CVD",
+  "Rule/Notice",
+  "Prior Notice/FSVP",
+  "Monitoring Baseline",
+  "Other",
+]);
+
+/** State/local regulation lifecycle status (Module 3). */
+export const RegStatusEnum = z.enum([
+  "Proposed",
+  "Passed",
+  "In effect",
+  "Pending effective",
+  "Repealed",
+  "Monitoring",
+]);
+
+/** Regulation topic tag (Module 3) — drives filtering + the compliance tracker. */
+export const RegTopicEnum = z.enum([
+  "menu_labeling",
+  "added_sugar",
+  "sodium",
+  "allergen_disclosure",
+  "food_additives",
+  "pfas_packaging",
+  "delivery_platform",
+  "other",
+]);
+
+/** Regulation jurisdiction (Module 3) — superset of inspection jurisdictions + state/federal. */
+export const RegJurisdictionEnum = z.enum([
+  "Federal",
+  "California",
+  "New York State",
+  "New York City",
+  "New Jersey",
+  "Massachusetts",
+  "Washington DC",
+  "Florida",
+  "Other",
+]);
+
+/** Sentiment incident category (Module 5). */
+export const SentimentCategoryEnum = z.enum([
+  "negative_coverage",
+  "consumer_complaint",
+  "allergen_report",
+  "foreign_object",
+  "spoilage",
+  "pest_report",
+  "competitor_incident",
+  "brand_reputation",
+]);
+
+/** Source credibility for sentiment items (low-credibility reposts excluded per §11). */
+export const CredibilityEnum = z.enum(["high", "medium", "low"]);
+
+/** Inspection risk tier (V2 3-tier per-jurisdiction model). */
+export const RiskTierEnum = z.enum(["High", "Medium", "Low"]);
+
+/* ────────────────────────────────────────────────────────────────────────────
  * Shared sub-objects
  * ──────────────────────────────────────────────────────────────────────────── */
 
@@ -170,6 +266,8 @@ export const ProvenanceSchema = z.object({
   sourceUrl: z.string().url().nullable().default(null),
   docRef: z.string().nullable().default(null),
   collectedAt: z.string().datetime().nullable().default(null),
+  /** §9 traceability — when the AI/heuristic summary was generated. */
+  aiSummaryAt: z.string().datetime().nullable().default(null),
   dataAvailability: DataAvailabilityEnum.default("available"),
   dataAvailabilityLabel: z.string().nullable().default(null),
   /** NJ special handling (spec §11.1) — municipality routing for OPRA/manual. */
@@ -197,6 +295,7 @@ const AlertMixin = {
 export const RegulatoryRecordSchema = z.object({
   /** stable id for deep-linking / dedupe (prep-assigned). */
   id: z.string().min(1),
+  module: ModuleEnum.default("food_safety"),
 
   // ── verbatim Sheet1 columns (export writes these in this order) ──
   no: z.number().int().nullable().default(null), // 序号 No.
@@ -242,6 +341,7 @@ export const SHEET1_COLUMNS: (keyof RegulatoryRecord)[] = [
 
 export const InspectionRecordSchema = z.object({
   id: z.string().min(1),
+  module: ModuleEnum.default("inspection"),
 
   // ── verbatim Sheet2 columns (export writes these in this order) ──
   no: z.number().int().nullable().default(null), // 序号 No.
@@ -250,6 +350,8 @@ export const InspectionRecordSchema = z.object({
   brand: BrandEnum.nullable().default(null), // 品牌 Brand
   establishmentType: EstablishmentTypeEnum.nullable().default(null), // 门店类型
   storeName: z.string().nullable().default(null), // 门店名称
+  /** 门店编号 Establishment ID — NYC camis / Boston licenseno / facility id (V2; repeat-detection join key). */
+  establishmentId: z.string().nullable().default(null),
   address: z.string().nullable().default(null), // 地址
   inspectionDate: isoDate.nullable().default(null), // 检查日期
   inspectionType: z.string().nullable().default(null), // 检查类型
@@ -290,6 +392,7 @@ export const SHEET2_COLUMNS: (keyof InspectionRecord)[] = [
   "brand",
   "establishmentType",
   "storeName",
+  "establishmentId",
   "address",
   "inspectionDate",
   "inspectionType",
@@ -307,6 +410,107 @@ export const SHEET2_COLUMNS: (keyof InspectionRecord)[] = [
   "sourceUrlOrDocRef",
   "recommendedAction",
 ];
+
+/* ────────────────────────────────────────────────────────────────────────────
+ * Sheet 3 — 进口出口监管 ImportExport (Module 2, 15 cols)
+ * ──────────────────────────────────────────────────────────────────────────── */
+
+export const ImportExportRecordSchema = z.object({
+  id: z.string().min(1),
+  module: ModuleEnum.default("import"),
+  no: z.number().int().nullable().default(null), // 序号 No.
+  category: z.string().nullable().default(null), // 类别 (free text, bilingual e.g. "进口限制 / 动物源产品 …")
+  chineseTitle: z.string().nullable().default(null), // 中文标题
+  englishTitle: z.string().nullable().default(null), // 英文标题
+  agency: z.string().nullable().default(null), // 监管机构 CBP/FDA OII/USDA APHIS/USDA FSIS/Federal Register/USTR-DOC/EPA/CPSC
+  countryRegion: z.string().nullable().default(null), // 涉及国家/地区
+  productInvolved: z.string().nullable().default(null), // 涉及产品
+  publicationDate: isoDate.nullable().default(null), // 发布日期
+  regulatoryAction: ImportActionEnum.nullable().default(null), // 监管动作
+  chineseSummary: z.string().nullable().default(null), // 中文摘要
+  englishSummary: z.string().nullable().default(null), // 英文摘要
+  importExportImpact: z.string().nullable().default(null), // 进口/出口影响
+  documentationRequirement: z.string().nullable().default(null), // 文件要求
+  riskLevel: RiskLevelEnum.nullable().default(null), // 风险等级
+  sourceUrl: z.string().url().nullable().default(null), // 原文链接
+  // ── enrichment ──
+  relevanceTags: z.array(RelevanceTagEnum).default([]),
+  ...AlertMixin,
+  ...ReviewMixin,
+  provenance: ProvenanceSchema,
+});
+export type ImportExportRecord = z.infer<typeof ImportExportRecordSchema>;
+
+export const SHEET3_COLUMNS: (keyof ImportExportRecord)[] = [
+  "no", "category", "chineseTitle", "englishTitle", "agency", "countryRegion",
+  "productInvolved", "publicationDate", "regulatoryAction", "chineseSummary",
+  "englishSummary", "importExportImpact", "documentationRequirement", "riskLevel", "sourceUrl",
+];
+
+/* ────────────────────────────────────────────────────────────────────────────
+ * Sheet 4 — 州地方法规 StateLocalRegs (Module 3, 14 cols)
+ * ──────────────────────────────────────────────────────────────────────────── */
+
+export const RegulationRecordSchema = z.object({
+  id: z.string().min(1),
+  module: ModuleEnum.default("regulation"),
+  no: z.number().int().nullable().default(null), // 序号 No.
+  jurisdiction: RegJurisdictionEnum.nullable().default(null), // 地区
+  regulationBillName: z.string().nullable().default(null), // 法规/法案名称
+  chineseTitle: z.string().nullable().default(null), // 中文标题
+  englishTitle: z.string().nullable().default(null), // 英文标题
+  status: RegStatusEnum.nullable().default(null), // 当前状态
+  publicationPassageDate: isoDate.nullable().default(null), // 发布/通过日期
+  effectiveDate: isoDate.nullable().default(null), // 生效日期 (drives compliance-countdown)
+  coveredEntities: z.string().nullable().default(null), // 适用对象
+  keyRequirements: z.string().nullable().default(null), // 核心要求
+  chineseSummary: z.string().nullable().default(null), // 中文摘要
+  englishSummary: z.string().nullable().default(null), // 英文摘要
+  businessImpact: z.string().nullable().default(null), // 对甲方影响
+  riskLevel: RiskLevelEnum.nullable().default(null), // 风险等级
+  sourceUrl: z.string().url().nullable().default(null), // 原文链接
+  // ── enrichment ──
+  topic: RegTopicEnum.nullable().default(null),
+  ...AlertMixin,
+  ...ReviewMixin,
+  provenance: ProvenanceSchema,
+});
+export type RegulationRecord = z.infer<typeof RegulationRecordSchema>;
+
+export const SHEET4_COLUMNS: (keyof RegulationRecord)[] = [
+  "no", "jurisdiction", "regulationBillName", "chineseTitle", "englishTitle", "status",
+  "publicationPassageDate", "effectiveDate", "coveredEntities", "keyRequirements",
+  "chineseSummary", "englishSummary", "businessImpact", "riskLevel", "sourceUrl",
+];
+
+/* ────────────────────────────────────────────────────────────────────────────
+ * Module 5 — 负面舆情 Negative Media & Sentiment (feeds Summary + /sentiment; no own export sheet)
+ * ──────────────────────────────────────────────────────────────────────────── */
+
+export const SentimentRecordSchema = z.object({
+  id: z.string().min(1),
+  module: ModuleEnum.default("sentiment"),
+  no: z.number().int().nullable().default(null),
+  sentimentCategory: SentimentCategoryEnum.nullable().default(null),
+  chineseTitle: z.string().nullable().default(null),
+  englishTitle: z.string().nullable().default(null),
+  outlet: z.string().nullable().default(null), // media outlet / source name
+  brandMentioned: BrandEnum.nullable().default(null),
+  publicationDate: isoDate.nullable().default(null),
+  chineseSummary: z.string().nullable().default(null),
+  englishSummary: z.string().nullable().default(null),
+  sourceUrl: z.string().url().nullable().default(null), // link only — never rehost article body
+  riskLevel: RiskLevelEnum.nullable().default(null),
+  credibility: CredibilityEnum.nullable().default(null),
+  /** §11 exclusion — kept (not deleted) for audit; UI/export filter on it. */
+  excluded: z.boolean().default(false),
+  exclusionReason: z.string().nullable().default(null),
+  relevanceTags: z.array(RelevanceTagEnum).default([]),
+  ...AlertMixin,
+  ...ReviewMixin,
+  provenance: ProvenanceSchema,
+});
+export type SentimentRecord = z.infer<typeof SentimentRecordSchema>;
 
 /* ────────────────────────────────────────────────────────────────────────────
  * Reference data (sheets 4–6) + meta
@@ -362,8 +566,43 @@ export const SourceProvenanceSchema = z.object({
   recordCount: z.number().int().default(0),
   stalenessNote: z.string().nullable().default(null),
   reVerifyBeforeRelying: z.boolean().default(false),
+  // ── V2 pull-log (Sheet6 数据源日志) ──
+  module: ModuleEnum.default("food_safety"),
+  status: PullStatusEnum.default("manual"),
 });
 export type SourceProvenance = z.infer<typeof SourceProvenanceSchema>;
+
+/* ────────────────────────────────────────────────────────────────────────────
+ * V2 — Monthly Summary (Sheet1 月度摘要) embedded in meta
+ * ──────────────────────────────────────────────────────────────────────────── */
+
+const BilingualLineSchema = z.object({
+  zh: z.string().nullable().default(null),
+  en: z.string().nullable().default(null),
+});
+
+export const SummaryMetaSchema = z.object({
+  reportNameZh: z.string(),
+  reportNameEn: z.string(),
+  scopeZh: z.string().nullable().default(null),
+  scopeEn: z.string().nullable().default(null),
+  exclusions: z.array(BilingualLineSchema).default([]),
+  keyHighlights: z.array(BilingualLineSchema).default([]),
+  highRiskItems: z
+    .array(
+      z.object({
+        recordId: z.string(),
+        module: ModuleEnum,
+        titleZh: z.string().nullable().default(null),
+        titleEn: z.string().nullable().default(null),
+        riskLevel: RiskLevelEnum.nullable().default(null),
+        href: z.string().nullable().default(null),
+      }),
+    )
+    .default([]),
+  keyActions: z.array(BilingualLineSchema).default([]),
+});
+export type SummaryMeta = z.infer<typeof SummaryMetaSchema>;
 
 export const MetaSchema = z.object({
   schemaVersion: z.string(),
@@ -382,8 +621,16 @@ export const MetaSchema = z.object({
     inspections: z.number().int(),
     alerts: z.number().int(),
     pendingReview: z.number().int(),
+    // ── V2 new-module counts (default 0 so v1 meta still validates) ──
+    importExport: z.number().int().default(0),
+    regulation: z.number().int().default(0),
+    sentiment: z.number().int().default(0),
+    highRisk: z.number().int().default(0),
+    watch: z.number().int().default(0),
     bySource: z.record(z.string(), z.number().int()),
   }),
+  /** V2 Monthly Summary (Sheet1). Optional so v1 meta.json still validates. */
+  summary: SummaryMetaSchema.nullable().default(null),
   provenance: z.array(SourceProvenanceSchema),
 });
 export type Meta = z.infer<typeof MetaSchema>;
@@ -394,6 +641,9 @@ export type Meta = z.infer<typeof MetaSchema>;
 
 export const RegulatoryFileSchema = z.array(RegulatoryRecordSchema);
 export const InspectionFileSchema = z.array(InspectionRecordSchema);
+export const ImportExportFileSchema = z.array(ImportExportRecordSchema);
+export const RegulationFileSchema = z.array(RegulationRecordSchema);
+export const SentimentFileSchema = z.array(SentimentRecordSchema);
 export const ViolationCategoriesFileSchema = z.array(ViolationCategorySchema);
 export const BrandsFileSchema = z.object({
   brands: z.array(BrandRefSchema),
@@ -418,4 +668,12 @@ export const ENUM_OPTIONS = {
   grade: GradeEnum.options,
   relevanceTag: RelevanceTagEnum.options,
   cafeRiskTag: CafeRiskTagEnum.options,
+  // ── V2 ──
+  module: ModuleEnum.options,
+  alertType: AlertTypeEnum.options,
+  importAction: ImportActionEnum.options,
+  regStatus: RegStatusEnum.options,
+  regTopic: RegTopicEnum.options,
+  regJurisdiction: RegJurisdictionEnum.options,
+  sentimentCategory: SentimentCategoryEnum.options,
 } as const;

@@ -63,7 +63,7 @@ export const en = {
     relevance: "Relevance",
     cafeRisk: "Café risk",
   },
-  risk: { 高风险: "High", 中风险: "Medium", 低风险: "Low", 信息参考: "Info" },
+  risk: { 高风险: "High", 中风险: "Medium", 低风险: "Low", 信息参考: "Info", 关注: "Watch" },
   overview: {
     title: "QA Overview",
     subtitle: "At-a-glance food-safety posture across 9 jurisdictions and priority brands",
@@ -208,7 +208,7 @@ export const zh: Messages = {
     relevance: "相关性",
     cafeRisk: "咖啡馆风险",
   },
-  risk: { 高风险: "高风险", 中风险: "中风险", 低风险: "低风险", 信息参考: "信息参考" },
+  risk: { 高风险: "高风险", 中风险: "中风险", 低风险: "低风险", 信息参考: "信息参考", 关注: "关注" },
   overview: {
     title: "质量总览",
     subtitle: "覆盖9个辖区与重点品牌的食品安全态势一览",

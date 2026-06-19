@@ -275,7 +275,7 @@ export function repeatGroups(insp: InspectionRecord[]): RepeatGroup[] {
     .sort((a, b) => b.count - a.count);
 }
 
-const RISK_W: Record<string, number> = { 高风险: 3, 中风险: 2, 低风险: 1, 信息参考: 0 };
+const RISK_W: Record<string, number> = { 高风险: 3, 中风险: 2, 低风险: 1, 关注: 0.5, 信息参考: 0 };
 const riskW = (r: string | null) => (r ? (RISK_W[r] ?? 0) : -1);
 
 export type ChecklistItem = {

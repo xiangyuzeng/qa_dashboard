@@ -57,6 +57,7 @@ const prov = (
   sourceUrl: url && /^https?:\/\//.test(url) ? url : null,
   docRef: null,
   collectedAt: NOW,
+  aiSummaryAt: NOW,
   dataAvailability: "available",
   dataAvailabilityLabel: null,
   njMunicipality: null,
@@ -65,6 +66,7 @@ const prov = (
 });
 
 const regBase = () => ({
+  module: "food_safety" as const,
   alertTriggered: false,
   alertReason: null,
   alertRuleIds: [],
@@ -97,6 +99,8 @@ const provEntry = (
   recordCount: 0,
   stalenessNote: null,
   reVerifyBeforeRelying: false,
+  module: "food_safety" as const,
+  status: "manual" as const,
   ...o,
 });
 
@@ -266,6 +270,7 @@ type RawInsp = {
   sourceType: string | null;
   sourceUrlOrDocRef: string | null;
   recommendedAction: string | null;
+  establishmentId?: string | null;
   violationText: string;
   sourceId: string;
   sourceUrl: string | null;
@@ -283,13 +288,15 @@ function finalizeInspection(p: RawInsp): InspectionRecord {
     categories: cls.all,
   });
   return {
-    id: hashId("insp", p.jurisdiction, p.storeName, p.inspectionDate, p.violationCode ?? cls.label ?? ""),
+    id: hashId("insp", p.jurisdiction, p.establishmentId ?? p.storeName, p.inspectionDate, p.violationCode ?? cls.label ?? ""),
+    module: "inspection" as const,
     no: p.no,
     jurisdiction: p.jurisdiction as InspectionRecord["jurisdiction"],
     regulatoryAgency: p.regulatoryAgency,
     brand: p.brand as InspectionRecord["brand"],
     establishmentType: p.establishmentType as InspectionRecord["establishmentType"],
     storeName: p.storeName,
+    establishmentId: p.establishmentId ?? null,
     address: p.address,
     inspectionDate: p.inspectionDate,
     inspectionType: p.inspectionType,

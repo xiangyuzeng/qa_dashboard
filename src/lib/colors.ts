@@ -6,6 +6,7 @@ export const RISK_COLORS: Record<string, string> = {
   中风险: "#B45309",
   低风险: "#15803D",
   信息参考: "#64748B",
+  关注: "#0891B2", // Watch — teal, distinct from Informational slate
 };
 
 export const RESULT_COLORS: Record<string, string> = {
@@ -28,6 +29,7 @@ export const RISK_LABEL: Record<string, { zh: string; en: string }> = {
   中风险: { zh: "中风险", en: "Medium" },
   低风险: { zh: "低风险", en: "Low" },
   信息参考: { zh: "信息参考", en: "Info" },
+  关注: { zh: "关注", en: "Watch" },
 };
 
 export const riskLabel = (risk: string, locale: Locale) =>
