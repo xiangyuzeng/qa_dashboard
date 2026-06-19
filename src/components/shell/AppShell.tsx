@@ -7,15 +7,33 @@ import { useLocale, useT } from "@/src/lib/i18n/locale";
 
 type ShellMeta = { periodLabel: string; dataAsOf: string; isSeedData: boolean };
 
-const NAV = [
-  { href: "/", key: "overview" },
-  { href: "/alerts", key: "alerts" },
-  { href: "/intelligence", key: "intelligence" },
-  { href: "/inspections", key: "inspections" },
-  { href: "/benchmark", key: "benchmark" },
-  { href: "/trends", key: "trends" },
-  { href: "/actions", key: "actions" },
-  { href: "/sources", key: "sources" },
+const NAV_GROUPS = [
+  {
+    label: "groupIntelligence",
+    items: [
+      { href: "/", key: "overview" },
+      { href: "/alerts", key: "alerts" },
+    ],
+  },
+  {
+    label: "groupModules",
+    items: [
+      { href: "/intelligence", key: "intelligence" },
+      { href: "/import", key: "import" },
+      { href: "/regulation", key: "regulation" },
+      { href: "/inspections", key: "inspections" },
+      { href: "/sentiment", key: "sentiment" },
+    ],
+  },
+  {
+    label: "groupAnalytics",
+    items: [
+      { href: "/benchmark", key: "benchmark" },
+      { href: "/trends", key: "trends" },
+      { href: "/actions", key: "actions" },
+      { href: "/sources", key: "sources" },
+    ],
+  },
 ] as const;
 
 function LocaleToggle() {
@@ -50,28 +68,35 @@ function Sidebar({ alertCount }: { alertCount: number }) {
         <div className="text-sm font-bold leading-tight text-brandnavy">{t.app.title}</div>
         <div className="mt-1 text-[11px] leading-tight text-slate-500">{t.app.subtitle}</div>
       </div>
-      <nav className="flex-1 space-y-0.5 p-2">
-        {NAV.map((item) => {
-          const active = isActive(item.href);
-          return (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={`flex items-center justify-between rounded-md px-3 py-2 text-sm ${
-                active
-                  ? "bg-brandnavy/10 font-semibold text-brandnavy"
-                  : "text-slate-600 hover:bg-slate-50"
-              }`}
-            >
-              <span>{t.nav[item.key]}</span>
-              {item.key === "alerts" && alertCount > 0 && (
-                <span className="ml-2 rounded-full bg-risk-high px-1.5 py-0.5 text-[10px] font-bold text-white">
-                  {alertCount}
-                </span>
-              )}
-            </Link>
-          );
-        })}
+      <nav className="flex-1 space-y-3 p-2">
+        {NAV_GROUPS.map((group) => (
+          <div key={group.label} className="space-y-0.5">
+            <div className="px-3 pb-1 pt-1 text-[10px] font-semibold uppercase tracking-wider text-slate-400">
+              {t.nav[group.label]}
+            </div>
+            {group.items.map((item) => {
+              const active = isActive(item.href);
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={`flex items-center justify-between rounded-md px-3 py-2 text-sm ${
+                    active
+                      ? "bg-brandnavy/10 font-semibold text-brandnavy"
+                      : "text-slate-600 hover:bg-slate-50"
+                  }`}
+                >
+                  <span>{t.nav[item.key]}</span>
+                  {item.key === "alerts" && alertCount > 0 && (
+                    <span className="ml-2 rounded-full bg-risk-high px-1.5 py-0.5 text-[10px] font-bold text-white">
+                      {alertCount}
+                    </span>
+                  )}
+                </Link>
+              );
+            })}
+          </div>
+        ))}
       </nav>
     </aside>
   );

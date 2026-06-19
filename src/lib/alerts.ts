@@ -1,10 +1,20 @@
 /** Alert-row projection + tallies for the Alerts surface (spec §10.1 triggers, applied at prep). */
-import type { InspectionRecord, RegulatoryRecord } from "./schema";
+import type {
+  InspectionRecord,
+  RegulatoryRecord,
+  ImportExportRecord,
+  RegulationRecord,
+  SentimentRecord,
+} from "./schema";
 import { getJurisdictions } from "./data";
+
+export type AlertType = "food_safety" | "import_compliance" | "state_local_reg" | "inspection";
 
 export type AlertRow = {
   id: string;
   kind: "inspection" | "regulatory";
+  /** 4-type classification (V2 §8), derived from record.module. */
+  alertType: AlertType;
   riskLevel: string | null;
   riskWeight: number;
   jurisOrSource: string;
@@ -24,12 +34,16 @@ const w = (r: string | null) => (r ? (RISK_WEIGHT[r] ?? 0) : -1);
 export function buildAlertRows(
   insp: InspectionRecord[],
   reg: RegulatoryRecord[],
+  imp: ImportExportRecord[] = [],
+  regs: RegulationRecord[] = [],
+  sent: SentimentRecord[] = [],
 ): AlertRow[] {
   const fromInsp: AlertRow[] = insp
     .filter((r) => r.alertTriggered)
     .map((r) => ({
       id: r.id,
       kind: "inspection",
+      alertType: "inspection",
       riskLevel: r.riskLevel,
       riskWeight: w(r.riskLevel),
       jurisOrSource: r.jurisdiction ?? "",
@@ -47,6 +61,7 @@ export function buildAlertRows(
     .map((r) => ({
       id: r.id,
       kind: "regulatory",
+      alertType: "food_safety",
       riskLevel: r.riskLevel,
       riskWeight: w(r.riskLevel),
       jurisOrSource: r.source ?? "",
@@ -59,9 +74,73 @@ export function buildAlertRows(
       href: r.sourceUrl,
       external: true,
     }));
-  return [...fromInsp, ...fromReg].sort(
+  const fromImport: AlertRow[] = imp
+    .filter((r) => r.alertTriggered)
+    .map((r) => ({
+      id: r.id,
+      kind: "regulatory",
+      alertType: "import_compliance",
+      riskLevel: r.riskLevel,
+      riskWeight: w(r.riskLevel),
+      jurisOrSource: r.agency ?? "",
+      brand: null,
+      titleZh: r.chineseTitle ?? "",
+      titleEn: r.englishTitle ?? "",
+      date: r.publicationDate,
+      result: null,
+      alertReason: r.alertReason,
+      href: r.sourceUrl,
+      external: true,
+    }));
+  const fromRegs: AlertRow[] = regs
+    .filter((r) => r.alertTriggered)
+    .map((r) => ({
+      id: r.id,
+      kind: "regulatory",
+      alertType: "state_local_reg",
+      riskLevel: r.riskLevel,
+      riskWeight: w(r.riskLevel),
+      jurisOrSource: r.jurisdiction ?? "",
+      brand: null,
+      titleZh: r.chineseTitle ?? "",
+      titleEn: r.englishTitle ?? "",
+      date: r.publicationPassageDate,
+      result: null,
+      alertReason: r.alertReason,
+      href: r.sourceUrl,
+      external: true,
+    }));
+  const fromSent: AlertRow[] = sent
+    .filter((r) => r.alertTriggered)
+    .map((r) => ({
+      id: r.id,
+      kind: "regulatory",
+      alertType: "food_safety",
+      riskLevel: r.riskLevel,
+      riskWeight: w(r.riskLevel),
+      jurisOrSource: r.outlet ?? "",
+      brand: r.brandMentioned,
+      titleZh: r.chineseTitle ?? "",
+      titleEn: r.englishTitle ?? "",
+      date: r.publicationDate,
+      result: null,
+      alertReason: r.alertReason,
+      href: r.sourceUrl,
+      external: true,
+    }));
+  return [...fromInsp, ...fromReg, ...fromImport, ...fromRegs, ...fromSent].sort(
     (a, b) => b.riskWeight - a.riskWeight || (b.date ?? "").localeCompare(a.date ?? ""),
   );
+}
+
+/** Tally alert rows by the 4 alert types (drives the AlertsClient tiles/filter). */
+export function alertsByType(rows: AlertRow[]): { type: AlertType; count: number }[] {
+  const tally: Record<string, number> = {};
+  for (const r of rows) tally[r.alertType] = (tally[r.alertType] ?? 0) + 1;
+  return (["food_safety", "import_compliance", "state_local_reg", "inspection"] as AlertType[]).map((type) => ({
+    type,
+    count: tally[type] ?? 0,
+  }));
 }
 
 type Triggerable = { alertTriggered: boolean; alertRuleIds: string[] };

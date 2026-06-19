@@ -60,6 +60,42 @@ export async function getText(
   throw lastErr;
 }
 
+/**
+ * POST JSON with a JSON body + custom headers (same UA / pacing / retry-backoff as getJson).
+ * Infra for key-gated collectors not yet wired — e.g. the FDA OII Import Refusals API,
+ * which authenticates via `Authorization-User` + `Authorization-Key` headers. See docs/API_KEYS.md.
+ */
+export async function postJson<T = unknown>(
+  url: string,
+  body: unknown,
+  opts: { headers?: Record<string, string>; retries?: number } = {},
+): Promise<T> {
+  const { headers = {}, retries = 3 } = opts;
+  let lastErr: unknown;
+  for (let attempt = 0; attempt <= retries; attempt++) {
+    try {
+      return await paced(async () => {
+        const res = await fetch(url, {
+          method: "POST",
+          headers: {
+            "User-Agent": UA,
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            ...headers,
+          },
+          body: JSON.stringify(body),
+        });
+        if (!res.ok) throw new Error(`HTTP ${res.status} ${res.statusText} for ${url}`);
+        return (await res.json()) as T;
+      });
+    } catch (e) {
+      lastErr = e;
+      if (attempt < retries) await sleep(600 * (attempt + 1));
+    }
+  }
+  throw lastErr;
+}
+
 /** Socrata SODA GET with optional app token (raises throttle ceiling; not required). */
 export function socrata<T = unknown>(base: string, params: Record<string, string | number>) {
   const qs = new URLSearchParams();

@@ -2,7 +2,13 @@
  * Server-side aggregations over the prepared records. Pages compute these and pass
  * plain arrays to client charts/tables. Pure functions — no DOM, no client state.
  */
-import type { InspectionRecord, RegulatoryRecord } from "./schema";
+import type {
+  InspectionRecord,
+  RegulatoryRecord,
+  ImportExportRecord,
+  RegulationRecord,
+  SentimentRecord,
+} from "./schema";
 import { ResultEnum, JurisdictionEnum, BrandEnum } from "./schema";
 import { getViolationCategories } from "./data";
 
@@ -393,3 +399,130 @@ export function watchlist(insp: InspectionRecord[]): WatchEntity[] {
 }
 
 export { passRate, failRate };
+
+/* ────────────────────────────────────────────────────────────────────────────
+ * V2 — cross-module rollups + viz feeds (richer aggregation / "too plain" fix)
+ * ──────────────────────────────────────────────────────────────────────────── */
+
+/** Risk heatmap rows = the 5 modules; columns = the 5 risk levels (high → info). */
+export const HEATMAP_MODULES = [
+  "food_safety",
+  "import",
+  "regulation",
+  "inspection",
+  "sentiment",
+] as const;
+export type HeatModule = (typeof HEATMAP_MODULES)[number];
+
+export const RISK_LEVELS_ORDER = ["高风险", "中风险", "低风险", "关注", "信息参考"] as const;
+
+const MODULE_ROUTE: Record<HeatModule, string> = {
+  food_safety: "/intelligence",
+  import: "/import",
+  regulation: "/regulation",
+  inspection: "/inspections",
+  sentiment: "/sentiment",
+};
+
+export type HeatCell = { module: HeatModule; risk: string; count: number; href: string };
+export type HeatRow = { module: HeatModule; cells: HeatCell[]; total: number };
+
+/** Count servable rows per (module × riskLevel) for the Overview heatmap centerpiece. */
+export function riskHeatmap(args: {
+  food: RegulatoryRecord[];
+  imp: ImportExportRecord[];
+  reg: RegulationRecord[];
+  insp: InspectionRecord[];
+  sent: SentimentRecord[];
+}): HeatRow[] {
+  const byModule: Record<HeatModule, { riskLevel: string | null }[]> = {
+    food_safety: args.food,
+    import: args.imp,
+    regulation: args.reg,
+    inspection: args.insp,
+    sentiment: args.sent,
+  };
+  return HEATMAP_MODULES.map((m) => {
+    const rows = byModule[m];
+    const cells: HeatCell[] = RISK_LEVELS_ORDER.map((risk) => ({
+      module: m,
+      risk,
+      count: rows.filter((r) => r.riskLevel === risk).length,
+      href: MODULE_ROUTE[m],
+    }));
+    return { module: m, cells, total: rows.length };
+  });
+}
+
+/** One bar per regulation on a shared date axis (publication → effective). */
+export type GanttBar = {
+  id: string;
+  labelZh: string;
+  labelEn: string;
+  jurisdiction: string | null;
+  status: string | null;
+  topic: string | null;
+  start: string | null; // publicationPassageDate
+  end: string | null; // effectiveDate
+  daysToEffective: number | null;
+  bucket: "past" | "imminent" | "soon" | "later" | "unknown";
+  href: string | null;
+};
+
+export function complianceGantt(reg: RegulationRecord[], todayIso = "2026-06-19"): GanttBar[] {
+  const today = new Date(todayIso + "T00:00:00Z").getTime();
+  const DAY = 86400000;
+  return reg
+    .map((r): GanttBar => {
+      const end = r.effectiveDate ? new Date(r.effectiveDate + "T00:00:00Z").getTime() : null;
+      const days = end == null ? null : Math.round((end - today) / DAY);
+      const bucket: GanttBar["bucket"] =
+        days == null ? "unknown" : days < 0 ? "past" : days <= 30 ? "imminent" : days <= 120 ? "soon" : "later";
+      return {
+        id: r.id,
+        labelZh: r.chineseTitle ?? r.regulationBillName ?? "",
+        labelEn: r.englishTitle ?? r.regulationBillName ?? "",
+        jurisdiction: r.jurisdiction,
+        status: r.status,
+        topic: r.topic,
+        start: r.publicationPassageDate,
+        end: r.effectiveDate,
+        daysToEffective: days,
+        bucket,
+        href: r.sourceUrl,
+      };
+    })
+    .sort((a, b) => {
+      // upcoming (smallest non-negative days) first, then past, then unknown last
+      const rank = (x: GanttBar) =>
+        x.daysToEffective == null ? 1e9 : x.daysToEffective < 0 ? 1e8 + -x.daysToEffective : x.daysToEffective;
+      return rank(a) - rank(b);
+    });
+}
+
+/** Shared min/max date domain for positioning Gantt bars (always includes today). */
+export function ganttDomain(bars: GanttBar[], todayIso = "2026-06-19"): { min: string; max: string } {
+  const dates = bars.flatMap((b) => [b.start, b.end]).filter(Boolean) as string[];
+  dates.push(todayIso);
+  dates.sort();
+  return { min: dates[0], max: dates[dates.length - 1] };
+}
+
+/** Import rows tallied by regulatory action (HBar feed — the default /import hero). */
+export function importByAction(imp: ImportExportRecord[]): { action: string; count: number }[] {
+  const tally: Record<string, number> = {};
+  for (const r of imp) if (r.regulatoryAction) tally[r.regulatoryAction] = (tally[r.regulatoryAction] ?? 0) + 1;
+  return Object.entries(tally)
+    .map(([action, count]) => ({ action, count }))
+    .sort((a, b) => b.count - a.count);
+}
+
+/** Sentiment rows tallied by incident category (HBar feed). */
+export function sentimentByCategory(sent: SentimentRecord[]): { category: string; count: number }[] {
+  const tally: Record<string, number> = {};
+  for (const r of sent) if (r.sentimentCategory) tally[r.sentimentCategory] = (tally[r.sentimentCategory] ?? 0) + 1;
+  return Object.entries(tally)
+    .map(([category, count]) => ({ category, count }))
+    .sort((a, b) => b.count - a.count);
+}
+

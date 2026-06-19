@@ -15,7 +15,7 @@
     "pendingReview": 0,
     "importExport": 12,
     "regulation": 8,
-    "sentiment": 15,
+    "sentiment": 12,
     "highRisk": 109,
     "watch": 0,
     "bySource": {
@@ -27,7 +27,7 @@
       "may_report_import": 6,
       "federal_register_import": 6,
       "may_report_regulation": 8,
-      "food_safety_news_rss": 15
+      "food_safety_news_rss": 12
     }
   },
   "summary": {

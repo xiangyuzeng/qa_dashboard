@@ -17,6 +17,10 @@ import {
   BrandsFileSchema,
   JurisdictionsFileSchema,
   MetaSchema,
+  SHEET1_COLUMNS,
+  SHEET2_COLUMNS,
+  SHEET3_COLUMNS,
+  SHEET4_COLUMNS,
 } from "../src/lib/schema";
 
 const DIR = join(process.cwd(), "data", "v2");
@@ -71,6 +75,23 @@ try {
   }
 } catch {
   /* already reported above */
+}
+
+// Export-column drift guard: the Python exporter (prep/export_xlsx.py) hardcodes the same
+// column orders. Print + assert the lengths so any schema reorder shows up next to the
+// Python asserts in one `prep:build` run (see docs/DATA_CONTRACT.md "7-sheet export").
+const sheetLens = {
+  SHEET1: SHEET1_COLUMNS.length,
+  SHEET2: SHEET2_COLUMNS.length,
+  SHEET3: SHEET3_COLUMNS.length,
+  SHEET4: SHEET4_COLUMNS.length,
+};
+const expectedLens = { SHEET1: 12, SHEET2: 23, SHEET3: 16, SHEET4: 16 };
+if (JSON.stringify(sheetLens) === JSON.stringify(expectedLens)) {
+  console.log(`  ✓ export columns: SHEET1..4 lengths = ${Object.values(sheetLens).join("/")} (mirror prep/export_xlsx.py)`);
+} else {
+  failed++;
+  console.error(`  ✗ export columns drift: got ${JSON.stringify(sheetLens)}, expected ${JSON.stringify(expectedLens)} — update prep/export_xlsx.py SHEET*_COLS to match`);
 }
 
 if (failed) {

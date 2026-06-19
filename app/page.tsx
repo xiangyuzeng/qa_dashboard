@@ -1,21 +1,35 @@
 /**
- * QA Overview (surface 1) — server component computes aggregates from the data seam
- * and hands plain arrays to the client presentation (localized labels + charts).
+ * Home — Monthly Summary / Exec Brief (server-computed) above the QA Overview detail.
+ * The summary is the executive lede (meta.summary + KPI strip + RiskHeatmap); the
+ * existing 7-KPI/4-chart OverviewClient remains below as the analyst detail.
  */
-import { getInspections, getRegulatory } from "@/src/lib/data";
+import {
+  getInspections,
+  getRegulatory,
+  getImportExport,
+  getRegulations,
+  getSentiment,
+  getMeta,
+} from "@/src/lib/data";
 import {
   computeKpis,
   resultDistribution,
   resultByJurisdiction,
   topCategories,
   cafeRiskBreakdown,
+  riskHeatmap,
 } from "@/src/lib/aggregate";
 import { ResultEnum } from "@/src/lib/schema";
 import { OverviewClient, type OverviewData } from "@/src/components/overview/OverviewClient";
+import { SummaryClient } from "@/src/components/overview/SummaryClient";
 
 export default function Home() {
   const insp = getInspections();
   const reg = getRegulatory();
+  const imp = getImportExport();
+  const regs = getRegulations();
+  const sent = getSentiment();
+  const meta = getMeta();
   const resultDist = resultDistribution(insp);
 
   const data: OverviewData = {
@@ -27,5 +41,12 @@ export default function Home() {
     cafeRisks: cafeRiskBreakdown(insp),
   };
 
-  return <OverviewClient data={data} />;
+  const heat = riskHeatmap({ food: reg, imp, reg: regs, insp, sent });
+
+  return (
+    <div className="space-y-8">
+      <SummaryClient summary={meta.summary} counts={meta.counts} heat={heat} />
+      <OverviewClient data={data} />
+    </div>
+  );
 }

@@ -42,6 +42,11 @@ export function InspectionsClient({
         header: t.inspections.store,
         cell: ({ row }) => <span className="font-medium text-slate-800">{row.original.storeName ?? "—"}</span>,
       },
+      {
+        accessorKey: "establishmentId",
+        header: t.common.establishmentId,
+        cell: ({ row }) => <span className="text-xs text-slate-500">{row.original.establishmentId ?? "—"}</span>,
+      },
       { accessorKey: "inspectionDate", header: t.common.date, cell: ({ row }) => row.original.inspectionDate ?? "—" },
       { accessorKey: "inspectionResult", header: t.common.result, cell: ({ row }) => <ResultBadge result={row.original.inspectionResult} /> },
       { accessorKey: "score", header: t.common.score, cell: ({ row }) => (row.original.score ?? "—") },
@@ -100,7 +105,7 @@ export function InspectionsClient({
         columns={columns}
         facets={facets}
         searchableText={(r) =>
-          [r.storeName, r.address, r.brand, r.jurisdiction, r.chineseViolationSummary, r.englishViolationSummary, r.regulatoryAgency]
+          [r.storeName, r.establishmentId, r.address, r.brand, r.jurisdiction, r.chineseViolationSummary, r.englishViolationSummary, r.regulatoryAgency]
             .filter(Boolean)
             .join(" ")
         }

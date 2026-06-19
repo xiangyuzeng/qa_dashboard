@@ -1,6 +1,13 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { getMeta, getRegulatory, getInspections } from "@/src/lib/data";
+import {
+  getMeta,
+  getRegulatory,
+  getInspections,
+  getImportExport,
+  getRegulations,
+  getSentiment,
+} from "@/src/lib/data";
 import { Providers } from "@/src/components/shell/Providers";
 import { AppShell } from "@/src/components/shell/AppShell";
 
@@ -18,7 +25,10 @@ export default function RootLayout({
   const meta = getMeta();
   const alertCount =
     getRegulatory().filter((r) => r.alertTriggered).length +
-    getInspections().filter((r) => r.alertTriggered).length;
+    getInspections().filter((r) => r.alertTriggered).length +
+    getImportExport().filter((r) => r.alertTriggered).length +
+    getRegulations().filter((r) => r.alertTriggered).length +
+    getSentiment().filter((r) => r.alertTriggered).length;
 
   return (
     <html lang="zh">

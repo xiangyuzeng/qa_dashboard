@@ -829,8 +829,18 @@ async function main() {
     }
   }
 
+  // Counts/aggregates mirror what the app + export actually serve (src/lib/data.ts isServable;
+  // sentiment also drops §11-excluded) — never count rows the dashboard refuses to surface.
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const allRecords: any[] = [...regulatory, ...inspections, ...importExport, ...regulations, ...sentiment];
+  const isServable = (r: any) => r.reviewed && r.reviewStatus !== "rejected";
+  const svReg = regulatory.filter(isServable);
+  const svInsp = inspections.filter(isServable);
+  const svImp = importExport.filter(isServable);
+  const svRegs = regulations.filter(isServable);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const svSent = sentiment.filter((r: any) => isServable(r) && !r.excluded);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const allRecords: any[] = [...svReg, ...svInsp, ...svImp, ...svRegs, ...svSent];
   const alerts = allRecords.filter((r) => r.alertTriggered).length;
   const highRisk = allRecords.filter((r) => r.riskLevel === "高风险").length;
   const watch = allRecords.filter((r) => r.riskLevel === "关注").length;
@@ -876,13 +886,13 @@ async function main() {
     generatedAt: NOW,
     isSeedData: false,
     counts: {
-      regulatory: regulatory.length,
-      inspections: inspections.length,
+      regulatory: svReg.length,
+      inspections: svInsp.length,
       alerts,
       pendingReview: 0,
-      importExport: importExport.length,
-      regulation: regulations.length,
-      sentiment: sentiment.length,
+      importExport: svImp.length,
+      regulation: svRegs.length,
+      sentiment: svSent.length,
       highRisk,
       watch,
       bySource,

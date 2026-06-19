@@ -9,15 +9,19 @@ QA-review, then commit + redeploy. Nothing runs on Vercel except serving static 
 - A descriptive `HTTP_USER_AGENT` (and `FSIS_USER_AGENT`) — copy `.env.example` → `.env`
 - Optional: `SOCRATA_APP_TOKEN` (raises throttle ceiling; not required)
 - Optional: `config/store_list.json` (gitignored) to precisely tag owned Luckin stores
+- Optional: key-gated collector keys (FDA Import Refusals, LegiScan/NY-Senate) — **not yet wired**; see "Optional collectors" below + [API_KEYS.md](API_KEYS.md)
 
 ## Steps
 1. **Collect** real data from official sources:
    ```bash
    npm run prep:collect
    ```
-   Pulls openFDA, Federal Register, CDC NORS, FSIS (UA), NYC, Boston. Filters local inspections
-   to café/priority-brand scope. Each source is fault-isolated — a failure records 0 rows + a
-   provenance note (never a fabricated row). Review the console summary.
+   Pulls openFDA, Federal Register (incl. agriculture/import agency slugs → Module 2), CDC NORS,
+   FSIS (UA), NYC, Boston, and Food Safety News RSS (→ Module 5 sentiment). Also loads the curated
+   May-2026 seeds for Import/Export and State/Local Regulation (Module 2/3 named actions & laws).
+   Filters local inspections to café/priority-brand scope and captures `establishmentId`. Each
+   source is fault-isolated — a failure records 0 rows + a provenance note (never a fabricated row).
+   Review the console summary. (Key-gated collectors are **not** run here — see "Optional collectors".)
 
 2. **Manual intake** (no-API jurisdictions: DC, Newark, Bergen, FL, current SF) — optional:
    add records to `intake/inspections.json` (see `intake/README.md`). NJ/unavailable data uses
@@ -34,7 +38,10 @@ QA-review, then commit + redeploy. Nothing runs on Vercel except serving static 
    npm run prep:validate
    ```
 
-5. **Export** the bilingual Excel (fills the canonical 7-sheet template, exact fidelity):
+5. **Export** the bilingual Excel — builds the **7-sheet styled workbook from scratch** with openpyxl
+   (Monthly Summary · Food-Safety main · Import/Export · State/Local Reg · Café Inspections incl.
+   门店编号 · Sources Log · Field Guide; 5-level risk fills, frozen bilingual headers, autofilter).
+   The script verifies the sheets / fills / est-id col / pull-log on save:
    ```bash
    npm run prep:export      # → public/exports/monthly_report.xlsx
    ```
@@ -48,6 +55,14 @@ QA-review, then commit + redeploy. Nothing runs on Vercel except serving static 
    current month automatically).
 
 `npm run prep:build` runs steps 1 + 4 + 5 in sequence.
+
+## Optional collectors (key-gated — not yet wired)
+Modules 2/3 currently run on Federal-Register-import (auto) + curated May-report seeds; Module 5 on RSS.
+To move toward full auto later, obtain the relevant free keys (FDA OII Import Refusals, LegiScan, NY
+Senate OpenLegislation, optional OpenStates) and build the matching collector — the POST infra
+(`postJson()` in `prep/lib/http.ts`) is already in place. Full step-by-step (where to register, fields,
+free-tier limits, `.env` vars) is in [docs/API_KEYS.md](API_KEYS.md). Until a collector is built, an
+absent key emits a truthful `manual`/`no_update` provenance stub — never a fabricated row.
 
 ## Translation enrichment (follow-up)
 Source text is English; the schema's Chinese free-text fields (`chineseTitle`, `chineseSummary`,
