@@ -13,11 +13,12 @@
     "typecheck": "tsc --noEmit -p tsconfig.json && tsc --noEmit -p tsconfig.prep.json",
     "prep:collect": "tsx --env-file-if-exists=.env prep/collect.ts",
     "prep:domains": "tsx prep/build_domains.ts",
+    "prep:enrich": "python3 prep/enrich_inspections.py",
     "prep:meta": "tsx prep/refresh_meta.ts",
     "prep:gate": "tsx prep/review_gate.ts",
     "prep:validate": "tsx prep/validate.ts",
     "prep:export": "python3 prep/export_xlsx.py && python3 prep/export_docx.py",
-    "prep:build": "npm run prep:collect && npm run prep:validate && npm run prep:export"
+    "prep:build": "npm run prep:collect && npm run prep:enrich && npm run prep:meta && npm run prep:validate && npm run prep:export"
   },
   "dependencies": {
     "@tanstack/react-table": "^8.20.6",

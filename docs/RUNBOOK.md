@@ -23,6 +23,16 @@ QA-review, then commit + redeploy. Nothing runs on Vercel except serving static 
    source is fault-isolated — a failure records 0 rows + a provenance note (never a fabricated row).
    Review the console summary. (Key-gated collectors are **not** run here — see "Optional collectors".)
 
+   **Then re-apply the in-pipeline enrichment** (`prep:collect` rewrites `inspections.json` from
+   its collectors, so the multi-agency OATH enforcement + owned-store CAMIS join must be re-run):
+   ```bash
+   npm run prep:enrich
+   ```
+   Idempotent + network-fault-tolerant (a failed pull keeps existing data; never fabricates):
+   strict word-boundary brand-match against OATH Hearings (`jz4z-kudi`) for competitor
+   DSNY/DEP/FDNY/DOB/DCWP/DOHMH enforcement, and address-matches the owned roster to NYC DOH
+   (`43nn-pn8j`) for `dohEstablishmentId`.
+
 2. **Manual intake** (no-current-API jurisdictions: DC, Newark, Bergen, FL, SF) — `intake/inspections.json`
    already ships with **real SF café/brand rows** (from the frozen 2019 SF LIVES open feed; true dates so
    the staleness is visible) plus documented `not_public_online` gap markers for DC/Newark/Bergen/FL.
@@ -57,7 +67,25 @@ QA-review, then commit + redeploy. Nothing runs on Vercel except serving static 
    Set `data/v2/meta.json` `reportingPeriod` for the period label (the collector sets it to the
    current month automatically).
 
-`npm run prep:build` runs steps 1 + 4 + 5 in sequence.
+`npm run prep:build` runs collect → enrich → meta → validate → export in sequence.
+
+## Automated monthly refresh (GitHub Action)
+`.github/workflows/monthly-refresh.yml` runs the whole pipeline unattended on the **1st of each
+month** (and on demand via *Actions → Monthly data refresh → Run workflow*):
+
+`prep:collect → prep:enrich → prep:domains → prep:meta → prep:validate → prep:export`, then
+`typecheck` + `build` to prove the refreshed data renders.
+
+- **Review gate preserved:** by default it opens a **Pull Request** (`data-refresh` branch) with the
+  diff. A human reviews it (RUNBOOK step 3 — watch for feed flooding, e.g. FSIS ballooning the recall
+  count) and **merging the PR triggers Vercel's deploy**. For a trusted unattended deploy, run the
+  workflow manually with **`push_to_main: true`** to commit straight to `main`.
+- **API keys** come from repo **Secrets** (`SOCRATA_APP_TOKEN`, `FDA_OII_USER/KEY`, `LEGISCAN_KEY`,
+  `NY_SENATE_KEY`, `OPENSTATES_KEY`, `DOL_ENFORCE_KEY`). Any unset key leaves that collector dormant
+  (0 rows + a truthful provenance stub) — never fabricated. Set them in *Settings → Secrets and
+  variables → Actions*.
+- **Validation is the gate:** `prep:validate` (Zod contract + id-uniqueness + source-ref integrity)
+  fails the run on malformed data, so a bad pull never reaches a PR or `main`.
 
 ## Optional collectors (key-gated — built, dormant without keys)
 Modules 2/3 run on Federal-Register-import (auto) + curated May-report seeds; Module 5 on RSS. Three

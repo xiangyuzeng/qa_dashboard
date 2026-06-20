@@ -1,0 +1,112 @@
+name: Monthly data refresh
+
+# Re-runs the prep pipeline on a schedule, then opens a PR with the refreshed data for the
+# human-review gate (RUNBOOK step 3) — merging the PR triggers Vercel's deploy. Manual runs
+# can opt into pushing straight to main (set push_to_main: true) once the pipeline is trusted.
+#
+# Collector API keys come from repo Secrets (Settings → Secrets and variables → Actions). Any
+# unset key leaves that collector dormant (0 rows + a truthful provenance stub) — never fabricated.
+
+on:
+  schedule:
+    - cron: "0 6 1 * *" # 06:00 UTC on the 1st of each month
+  workflow_dispatch:
+    inputs:
+      push_to_main:
+        description: "Commit straight to main (skips the review PR; triggers deploy)"
+        type: boolean
+        default: false
+
+concurrency:
+  group: monthly-refresh
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - run: pip install openpyxl python-docx
+
+      - name: Refresh data (collect → enrich → domains → meta → validate → export)
+        env:
+          HTTP_USER_AGENT: "LuckinNA-QA-FoodSafety-Monitor/1.0 (+github-actions)"
+          FSIS_USER_AGENT: "LuckinNA-QA-FoodSafety-Monitor/1.0 (+github-actions)"
+          SOCRATA_APP_TOKEN: ${{ secrets.SOCRATA_APP_TOKEN }}
+          FDA_OII_USER: ${{ secrets.FDA_OII_USER }}
+          FDA_OII_KEY: ${{ secrets.FDA_OII_KEY }}
+          LEGISCAN_KEY: ${{ secrets.LEGISCAN_KEY }}
+          NY_SENATE_KEY: ${{ secrets.NY_SENATE_KEY }}
+          OPENSTATES_KEY: ${{ secrets.OPENSTATES_KEY }}
+          DOL_ENFORCE_KEY: ${{ secrets.DOL_ENFORCE_KEY }}
+        run: |
+          npm run prep:collect
+          npm run prep:enrich
+          npm run prep:domains
+          npm run prep:meta
+          npm run prep:validate
+          npm run prep:export
+
+      - name: Type-check + build (proves the refreshed data renders)
+        run: |
+          npm run typecheck
+          npm run build
+
+      - name: Detect changes
+        id: diff
+        run: |
+          if [ -n "$(git status --porcelain data public/exports)" ]; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "No data changes this run."
+          fi
+
+      # Default (scheduled / dispatch without the flag): open a review PR.
+      - name: Open review PR
+        if: steps.diff.outputs.changed == 'true' && inputs.push_to_main != true
+        uses: peter-evans/create-pull-request@v6
+        with:
+          branch: data-refresh
+          base: main
+          add-paths: |
+            data
+            public/exports
+          commit-message: "chore(data): scheduled refresh"
+          title: "Data refresh — review before deploy"
+          body: |
+            Automated monthly prep refresh (collect → enrich → domains → meta → validate → export).
+
+            **Review before merging** (RUNBOOK step 3 — the human-review gate):
+            - Scan the `data/v2/*.json` diff for any feed flooding (e.g. FSIS ballooning the recall count)
+              or implausible rows; reject anything that shouldn't publish.
+            - `prep:validate` + `npm run build` already passed in CI.
+
+            Merging this PR deploys via Vercel.
+          delete-branch: true
+
+      # Opt-in: commit straight to main (manual dispatch only).
+      - name: Commit to main
+        if: steps.diff.outputs.changed == 'true' && inputs.push_to_main == true
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data public/exports
+          git commit -m "chore(data): scheduled refresh [skip ci]"
+          git push
