@@ -33,8 +33,14 @@ export function IntelligenceClient({
           return (
             <div className="max-w-xl">
               {r.sourceUrl ? (
-                <a href={r.sourceUrl} target="_blank" rel="noopener noreferrer" className="font-medium text-brandnavy hover:underline">
-                  {title} ↗
+                <a
+                  href={r.sourceUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`${title} (opens in new tab)`}
+                  className="font-medium text-brandnavy hover:underline"
+                >
+                  {title} <span aria-hidden="true">↗</span>
                 </a>
               ) : (
                 <span className="font-medium text-slate-800">{title}</span>

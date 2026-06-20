@@ -76,6 +76,8 @@ export const en = {
     cafeRisk: "Café risk",
     establishmentId: "Establishment ID",
     module: "Module",
+    critical: "Critical",
+    nonCritical: "Non-crit.",
   },
   risk: { 高风险: "High", 中风险: "Medium", 低风险: "Low", 信息参考: "Info", 关注: "Watch" },
   overview: {
@@ -128,6 +130,7 @@ export const en = {
     subtitle: "Luckin vs Starbucks · Dunkin · Pret · Blue Bottle · McDonald's",
     avgScore: "Avg score",
     failRate: "Fail rate",
+    passRate: "Pass rate",
     records: "Records",
     byBrand: "By brand",
     categoryByBrand: "Violation category by brand",
@@ -160,6 +163,13 @@ export const en = {
     feasible: "One-time pull",
     staleness: "Notes / staleness",
     reverify: "Re-verify",
+    dataSource: "Data source",
+    source: "Source",
+    records: "Records",
+    provenanceTitle: "Collection provenance (this dataset)",
+    njLabel: "New Jersey",
+    njNote:
+      "No statewide DB → identify municipality by address → route to the local health department / regional health commission; prefer online lookup; mark “OPRA / Manual Request Required” when none; never record missing data as “no inspection”.",
   },
   import: {
     title: "Import / Export & Border Control",
@@ -253,6 +263,7 @@ export const en = {
     kpiApplies: "Applies",
     kpiApproaching: "Approaching",
     kpiPending: "Pending data",
+    applies: "Applies?",
     reset: "Reset",
     unreviewed:
       "Footprint roster is UNREVIEWED (reviewed:false). Floor areas and store status are derived from the ops system; legal / QA must verify against leases & certificates of occupancy before these drive a compliance determination.",
@@ -378,6 +389,8 @@ export const zh: Messages = {
     cafeRisk: "咖啡馆风险",
     establishmentId: "门店编号",
     module: "模块",
+    critical: "严重",
+    nonCritical: "一般",
   },
   risk: { 高风险: "高风险", 中风险: "中风险", 低风险: "低风险", 信息参考: "信息参考", 关注: "关注" },
   overview: {
@@ -430,6 +443,7 @@ export const zh: Messages = {
     subtitle: "瑞幸 vs 星巴克 · Dunkin · Pret · Blue Bottle · 麦当劳",
     avgScore: "平均分",
     failRate: "不合格率",
+    passRate: "通过率",
     records: "记录数",
     byBrand: "按品牌",
     categoryByBrand: "违规类别 × 品牌",
@@ -462,6 +476,13 @@ export const zh: Messages = {
     feasible: "一次性抓取",
     staleness: "说明 / 时效",
     reverify: "需复核",
+    dataSource: "数据来源",
+    source: "来源",
+    records: "记录数",
+    provenanceTitle: "采集来源信息（本数据集）",
+    njLabel: "新泽西",
+    njNote:
+      "无统一 statewide 数据库 → 按地址识别 municipality → 对应 local health department / regional health commission；优先在线查询；无在线库标注 “OPRA / Manual Request Required”；不得将数据缺失误判为“无检查”。",
   },
   import: {
     title: "进口出口与边境管控",
@@ -555,6 +576,7 @@ export const zh: Messages = {
     kpiApplies: "适用",
     kpiApproaching: "临近",
     kpiPending: "待补充",
+    applies: "适用?",
     reset: "重置",
     unreviewed:
       "门店名册为「未复核」(reviewed:false)。面积与门店状态来自运营系统，须由法务 / 质量团队对照租约与使用许可核实后，方可用于合规判定。",

@@ -5,6 +5,10 @@ import { getRegulations } from "@/src/lib/data";
 import { complianceGantt, ganttDomain } from "@/src/lib/aggregate";
 import { RegulationClient } from "@/src/components/regulation/RegulationClient";
 
+// Re-render daily so the compliance countdown ("today" + days-to-effective) advances
+// instead of freezing at build time (audit: SSG date-freeze).
+export const revalidate = 86400;
+
 export default function RegulationPage() {
   const data = getRegulations();
   const todayIso = new Date().toISOString().slice(0, 10);

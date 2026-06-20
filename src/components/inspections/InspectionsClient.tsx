@@ -63,7 +63,7 @@ export function InspectionsClient({
           const s = row.original.violationSeverity;
           if (!s) return "—";
           const critical = s.includes("Critical");
-          return <Badge color="#fff" bg={critical ? "#C00000" : "#64748B"}>{critical ? "Critical" : "Non-crit."}</Badge>;
+          return <Badge color="#fff" bg={critical ? "#C00000" : "#64748B"}>{critical ? t.common.critical : t.common.nonCritical}</Badge>;
         },
       },
       {

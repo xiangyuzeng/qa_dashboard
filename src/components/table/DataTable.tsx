@@ -144,9 +144,11 @@ export function DataTable<T extends object>({
     <div className="space-y-3">
       <div className="flex flex-wrap items-center gap-2">
         <input
+          type="search"
           value={globalFilter}
           onChange={(e) => setGlobalFilter(e.target.value)}
           placeholder={searchPlaceholder ?? t.top.search}
+          aria-label={searchPlaceholder ?? t.top.search}
           className="w-64 rounded-md border border-slate-300 px-3 py-1.5 text-sm outline-none focus:border-brandnavy"
         />
         {facets.map((f) => (
@@ -174,11 +176,20 @@ export function DataTable<T extends object>({
             {table.getHeaderGroups().map((hg) => (
               <tr key={hg.id} className="border-b border-slate-200 text-xs uppercase tracking-wide text-slate-500">
                 {hg.headers.map((h) => (
-                  <th key={h.id} className="whitespace-nowrap px-3 py-2">
+                  <th
+                    key={h.id}
+                    className="whitespace-nowrap px-3 py-2"
+                    aria-sort={
+                      h.column.getCanSort()
+                        ? ({ asc: "ascending", desc: "descending" } as const)[h.column.getIsSorted() as string] ?? "none"
+                        : undefined
+                    }
+                  >
                     {h.isPlaceholder ? null : h.column.getCanSort() ? (
                       <button
                         className="flex items-center gap-1 hover:text-slate-800"
                         onClick={h.column.getToggleSortingHandler()}
+                        aria-label={`${typeof h.column.columnDef.header === "string" ? h.column.columnDef.header : h.column.id} — sort`}
                       >
                         {flexRender(h.column.columnDef.header, h.getContext())}
                         <span className="text-slate-400">

@@ -475,7 +475,7 @@ export type GanttBar = {
   href: string | null;
 };
 
-export function complianceGantt(reg: RegulationRecord[], todayIso = "2026-06-19"): GanttBar[] {
+export function complianceGantt(reg: RegulationRecord[], todayIso: string): GanttBar[] {
   const today = new Date(todayIso + "T00:00:00Z").getTime();
   const DAY = 86400000;
   return reg
@@ -507,7 +507,7 @@ export function complianceGantt(reg: RegulationRecord[], todayIso = "2026-06-19"
 }
 
 /** Shared min/max date domain for positioning Gantt bars (always includes today). */
-export function ganttDomain(bars: GanttBar[], todayIso = "2026-06-19"): { min: string; max: string } {
+export function ganttDomain(bars: GanttBar[], todayIso: string): { min: string; max: string } {
   const dates = bars.flatMap((b) => [b.start, b.end]).filter(Boolean) as string[];
   dates.push(todayIso);
   dates.sort();

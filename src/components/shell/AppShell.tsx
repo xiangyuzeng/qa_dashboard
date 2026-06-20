@@ -131,9 +131,11 @@ function TopBar({ meta }: { meta: ShellMeta }) {
         }}
       >
         <input
+          type="search"
           value={q}
           onChange={(e) => setQ(e.target.value)}
           placeholder={t.top.search}
+          aria-label={t.top.search}
           className="w-full rounded-md border border-slate-300 px-3 py-1.5 text-sm outline-none focus:border-brandnavy"
         />
       </form>

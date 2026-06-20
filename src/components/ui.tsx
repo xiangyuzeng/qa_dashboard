@@ -108,11 +108,11 @@ export function ApplicabilityBadge({
   status: string;
   needsVerification?: boolean;
 }) {
-  const { locale } = useLocale();
+  const { locale, t } = useLocale();
   if (status === "na") {
     return (
       <Badge color="#fff" bg="#64748B">
-        {needsVerification ? (locale === "zh" ? "待核实" : "To verify") : locale === "zh" ? "待补充" : "Pending data"}
+        {needsVerification ? t.applicability.toVerify : t.applicability.pendingData}
       </Badge>
     );
   }

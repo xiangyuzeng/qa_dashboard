@@ -59,8 +59,8 @@ IMPORT_COLS = [("no", "序号 No."), ("title", "标题 Title"), ("agency", "机�
                ("countryRegion", "国家/地区 Country"), ("regulatoryAction", "动作 Action"), ("riskLevel", "风险 Risk")]
 REG_COLS = [("no", "序号 No."), ("jurisdiction", "地区 Jurisdiction"), ("regulationBillName", "法规/法案 Bill"),
             ("status", "状态 Status"), ("effectiveDate", "生效 Effective"), ("riskLevel", "风险 Risk")]
-INSP_COLS = [("no", "序号 No."), ("jurisdiction", "地区 Jurisdiction"), ("brand", "品牌 Brand"),
-             ("storeName", "门店 Store"), ("establishmentId", "门店编号 Establishment ID"),
+INSP_COLS = [("no", "序号 No."), ("jurisdiction", "地区 Jurisdiction"), ("regulatoryAgency", "机构 Agency"),
+             ("brand", "品牌 Brand"), ("storeName", "门店 Store"), ("establishmentId", "门店编号 Establishment ID"),
              ("inspectionResult", "结果 Result"), ("riskLevel", "风险 Risk")]
 # V2.5 compliance-domain curated subsets.
 LABOR_COLS = [("no", "序号 No."), ("jurisdiction", "地区 Jur."), ("regulationBillName", "法规/法案 Rule"),

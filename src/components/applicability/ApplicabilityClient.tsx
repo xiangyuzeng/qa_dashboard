@@ -138,7 +138,7 @@ export function ApplicabilityClient({
       {
         id: "status",
         accessorFn: (v) => v.status,
-        header: locale === "zh" ? "适用?" : "Applies?",
+        header: t.applicability.applies,
         cell: ({ row }) => <ApplicabilityBadge status={row.original.status} needsVerification={row.original.rule.needsVerification} />,
       },
       {
@@ -165,7 +165,7 @@ export function ApplicabilityClient({
   const facets: FacetCfg[] = useMemo(
     () => [
       { columnId: "module", label: t.applicability.domain, format: (v) => t.modules[v as keyof typeof t.modules] ?? v },
-      { columnId: "status", label: locale === "zh" ? "适用?" : "Applies?", format: (v) => statusFacetLabel(v, locale) },
+      { columnId: "status", label: t.applicability.applies, format: (v) => statusFacetLabel(v, locale) },
       { columnId: "jurisdiction", label: t.common.jurisdiction },
     ],
     [t, locale],

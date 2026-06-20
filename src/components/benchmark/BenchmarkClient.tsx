@@ -101,11 +101,11 @@ export function BenchmarkClient({
               <tr className="border-b border-slate-200 text-xs uppercase tracking-wide text-slate-500">
                 <th className="px-2 py-2">{t.common.brand}</th>
                 <th className="px-2 py-2">{t.benchmark.records}</th>
-                <th className="px-2 py-2">{locale === "zh" ? "通过率" : "Pass rate"}</th>
+                <th className="px-2 py-2">{t.benchmark.passRate}</th>
                 <th className="px-2 py-2">{t.benchmark.failRate}</th>
                 <th className="px-2 py-2">{t.benchmark.avgScore}</th>
                 <th className="px-2 py-2">{t.overview.kpiHighRisk}</th>
-                <th className="px-2 py-2">Critical</th>
+                <th className="px-2 py-2">{t.common.critical}</th>
               </tr>
             </thead>
             <tbody>

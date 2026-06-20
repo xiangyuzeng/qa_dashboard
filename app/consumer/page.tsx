@@ -4,6 +4,10 @@ import { getConsumer } from "@/src/lib/data";
 import { complianceCounts, complianceTimeline, complianceRiskByJurisdiction, ganttDomain } from "@/src/lib/aggregate";
 import { ComplianceClient } from "@/src/components/compliance/ComplianceClient";
 
+// Re-render daily so the compliance countdown ("today" + days-to-effective) advances
+// instead of freezing at build time (audit: SSG date-freeze).
+export const revalidate = 86400;
+
 export default function ConsumerPage() {
   const data = getConsumer();
   const todayIso = new Date().toISOString().slice(0, 10);
