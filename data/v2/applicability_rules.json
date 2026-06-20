@@ -151,5 +151,141 @@
     "needsVerification": true,
     "actionZh": "所有餐饮场所均须安装隔油设备；具体规模门槛待核实（2021-09-25 起禁止食物垃圾液化器排入下水道）。",
     "actionEn": "All food-service establishments must install grease interceptors; size cutoffs to verify (food-waste-liquefier sewer discharge banned from 2021-09-25)."
+  },
+  {
+    "id": "nyc_fast_food_just_cause",
+    "module": "labor",
+    "jurisdiction": "New York City",
+    "regulationName": {
+      "zh": "NYC 快餐“正当理由”解雇保护",
+      "en": "NYC Fast Food Just Cause"
+    },
+    "triggerDimension": "is_fast_food_model",
+    "threshold": 30,
+    "thresholdSourceUrl": "https://codelibrary.amlegal.com/codes/newyorkcity/latest/NYCadmin/0-0-0-131240",
+    "countBasis": "open",
+    "effectiveDate": "2021-07-04",
+    "needsVerification": false,
+    "actionZh": "若被认定为全国 30 家以上的快餐连锁，则 30 天试用期后不得无“正当理由”或正当经济原因解雇/削减 15% 以上工时；需建立渐进式纪律与记录。",
+    "actionEn": "If classified as a fast-food chain of 30+ nationally, after a 30-day probation employees may not be discharged or have hours cut 15%+ without just cause or a bona fide economic reason; requires progressive discipline + documentation."
+  },
+  {
+    "id": "fmla",
+    "module": "labor",
+    "jurisdiction": "Federal",
+    "regulationName": {
+      "zh": "家庭与医疗休假法 (FMLA)",
+      "en": "Family and Medical Leave Act (FMLA)"
+    },
+    "triggerDimension": "employee_count",
+    "threshold": 50,
+    "thresholdSourceUrl": "https://www.dol.gov/agencies/whd/fmla",
+    "countBasis": "open",
+    "effectiveDate": null,
+    "needsVerification": false,
+    "actionZh": "在 75 英里范围内雇用 50 名以上员工时适用：为符合条件的员工提供最长 12 周无薪、保留职位的家庭/医疗假。30 家 NYC 门店几乎必然触发。",
+    "actionEn": "Applies at 50+ employees within 75 miles: up to 12 weeks of unpaid, job-protected family/medical leave for eligible employees. 30 NYC stores almost certainly trips this."
+  },
+  {
+    "id": "eeoc_title_vii",
+    "module": "labor",
+    "jurisdiction": "Federal",
+    "regulationName": {
+      "zh": "民权法第七章 (反歧视)",
+      "en": "Title VII of the Civil Rights Act"
+    },
+    "triggerDimension": "employee_count",
+    "threshold": 15,
+    "thresholdSourceUrl": "https://www.eeoc.gov/statutes/title-vii-civil-rights-act-1964",
+    "countBasis": "open",
+    "effectiveDate": null,
+    "needsVerification": false,
+    "actionZh": "雇用 15 名以上员工时适用：禁止基于种族、肤色、宗教、性别、原国籍的就业歧视；ADA 第一章与 PWFA 同为 15 人门槛。",
+    "actionEn": "Applies at 15+ employees: bans employment discrimination by race, color, religion, sex, national origin (ADA Title I and PWFA share the 15-employee gate)."
+  },
+  {
+    "id": "eeoc_adea",
+    "module": "labor",
+    "jurisdiction": "Federal",
+    "regulationName": {
+      "zh": "就业年龄歧视法 (ADEA)",
+      "en": "Age Discrimination in Employment Act (ADEA)"
+    },
+    "triggerDimension": "employee_count",
+    "threshold": 20,
+    "thresholdSourceUrl": "https://www.eeoc.gov/statutes/age-discrimination-employment-act-1967",
+    "countBasis": "open",
+    "effectiveDate": null,
+    "needsVerification": false,
+    "actionZh": "雇用 20 名以上员工时适用：禁止对 40 岁及以上员工的年龄歧视。",
+    "actionEn": "Applies at 20+ employees: prohibits age discrimination against workers 40 and older."
+  },
+  {
+    "id": "pwfa",
+    "module": "labor",
+    "jurisdiction": "Federal",
+    "regulationName": {
+      "zh": "孕期工作者公平法 (PWFA)",
+      "en": "Pregnant Workers Fairness Act (PWFA)"
+    },
+    "triggerDimension": "employee_count",
+    "threshold": 15,
+    "thresholdSourceUrl": "https://www.eeoc.gov/wysk/what-you-should-know-about-pregnant-workers-fairness-act",
+    "countBasis": "open",
+    "effectiveDate": "2023-06-27",
+    "needsVerification": false,
+    "actionZh": "雇用 15 名以上员工时适用：为怀孕、分娩及相关情况提供合理便利（休息、座位、排班调整等）。",
+    "actionEn": "Applies at 15+ employees: reasonable accommodation for pregnancy, childbirth and related conditions (breaks, seating, schedule adjustments)."
+  },
+  {
+    "id": "ny_salary_transparency",
+    "module": "labor",
+    "jurisdiction": "New York State",
+    "regulationName": {
+      "zh": "纽约薪资透明法",
+      "en": "NY Pay Transparency Law"
+    },
+    "triggerDimension": "employee_count",
+    "threshold": 4,
+    "thresholdSourceUrl": "https://dol.ny.gov/pay-transparency",
+    "countBasis": "open",
+    "effectiveDate": "2023-09-17",
+    "needsVerification": false,
+    "actionZh": "雇用 4 名以上员工时适用：所有招聘/晋升/调岗广告须披露最低-最高薪资范围（NYC LL32 同为 4 人门槛）。",
+    "actionEn": "Applies at 4+ employees: all job/promotion/transfer ads must disclose a min-max pay range (NYC LL32 shares the 4-employee gate)."
+  },
+  {
+    "id": "nyc_fair_chance",
+    "module": "labor",
+    "jurisdiction": "New York City",
+    "regulationName": {
+      "zh": "NYC 公平机会法 (禁问犯罪记录)",
+      "en": "NYC Fair Chance Act"
+    },
+    "triggerDimension": "employee_count",
+    "threshold": 4,
+    "thresholdSourceUrl": "https://www.nyc.gov/site/cchr/law/fair-chance-act.page",
+    "countBasis": "open",
+    "effectiveDate": "2015-10-27",
+    "needsVerification": false,
+    "actionZh": "雇用 4 名以上员工时适用：在发出有条件录用前不得询问犯罪历史；须执行“公平机会程序”。",
+    "actionEn": "Applies at 4+ employees: no criminal-history inquiry before a conditional offer; the Fair Chance Process is required."
+  },
+  {
+    "id": "nyc_lactation",
+    "module": "labor",
+    "jurisdiction": "New York City",
+    "regulationName": {
+      "zh": "NYC 哺乳便利法",
+      "en": "NYC Lactation Accommodation"
+    },
+    "triggerDimension": "employee_count",
+    "threshold": 4,
+    "thresholdSourceUrl": "https://www.nyc.gov/site/cchr/law/lactation.page",
+    "countBasis": "open",
+    "effectiveDate": "2019-03-18",
+    "needsVerification": false,
+    "actionZh": "雇用 4 名以上员工时适用：须提供哺乳室与书面政策，并在门店张贴（含电子张贴）。",
+    "actionEn": "Applies at 4+ employees: must provide a lactation room + written policy and post it at each store (physically and electronically)."
   }
 ]

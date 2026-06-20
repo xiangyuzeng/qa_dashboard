@@ -34,15 +34,15 @@
       "openstates_bills": 2,
       "food_safety_news_rss": 12,
       "fda_oii_import_refusals": 30,
-      "dcwp_dol_labor": 3,
-      "osha_dob_building": 4,
-      "dep_dsny_env": 3,
-      "dcwp_ftc_consumer": 3
+      "dcwp_dol_labor": 21,
+      "osha_dob_building": 17,
+      "dep_dsny_env": 12,
+      "dcwp_ftc_consumer": 12
     },
-    "labor": 3,
-    "building": 4,
-    "environment": 3,
-    "consumer": 3
+    "labor": 21,
+    "building": 17,
+    "environment": 12,
+    "consumer": 12
   },
   "summary": {
     "reportNameZh": "2026-06 瑞幸北美 食品安全·进口合规·地方法规·舆情监测月报",
@@ -516,8 +516,8 @@
     {
       "jurisdictionId": null,
       "endpointOrUrl": null,
-      "collectedAt": "2026-06-20T14:13:22.758Z",
-      "recordCount": 3,
+      "collectedAt": "2026-06-20T14:59:32.037Z",
+      "recordCount": 21,
       "stalenessNote": "Curated authoritative rules; live DCWP + DOL enforcedata enforcement augments when enabled.",
       "reVerifyBeforeRelying": false,
       "sourceId": "dcwp_dol_labor",
@@ -530,7 +530,7 @@
     {
       "jurisdictionId": null,
       "endpointOrUrl": "https://enforcedata.dol.gov/views/data_summary.php",
-      "collectedAt": "2026-06-20T14:13:22.758Z",
+      "collectedAt": "2026-06-20T14:59:32.037Z",
       "recordCount": 0,
       "stalenessNote": "Dormant — set DOL_ENFORCE_KEY + wire the WHD bulk parse. No rows fabricated.",
       "reVerifyBeforeRelying": true,
@@ -544,8 +544,8 @@
     {
       "jurisdictionId": null,
       "endpointOrUrl": null,
-      "collectedAt": "2026-06-20T14:13:22.758Z",
-      "recordCount": 4,
+      "collectedAt": "2026-06-20T14:59:32.037Z",
+      "recordCount": 17,
       "stalenessNote": "Curated authoritative standards; live OSHA establishment + DOB violation enforcement augments when enabled.",
       "reVerifyBeforeRelying": false,
       "sourceId": "osha_dob_building",
@@ -558,7 +558,7 @@
     {
       "jurisdictionId": null,
       "endpointOrUrl": "https://www.osha.gov/ords/imis/establishment.html",
-      "collectedAt": "2026-06-20T14:13:22.758Z",
+      "collectedAt": "2026-06-20T14:59:32.037Z",
       "recordCount": 0,
       "stalenessNote": "Dormant — wire OSHA establishment-search to brand-match citations. No rows fabricated.",
       "reVerifyBeforeRelying": true,
@@ -572,7 +572,7 @@
     {
       "jurisdictionId": null,
       "endpointOrUrl": "https://data.cityofnewyork.us/resource/3h2n-5cm9.json",
-      "collectedAt": "2026-06-20T14:13:22.758Z",
+      "collectedAt": "2026-06-20T14:59:32.037Z",
       "recordCount": 0,
       "stalenessNote": "Dormant — verify dataset id + address-match to owned stores before enabling. No rows fabricated.",
       "reVerifyBeforeRelying": true,
@@ -586,8 +586,8 @@
     {
       "jurisdictionId": null,
       "endpointOrUrl": null,
-      "collectedAt": "2026-06-20T14:13:22.758Z",
-      "recordCount": 3,
+      "collectedAt": "2026-06-20T14:59:32.037Z",
+      "recordCount": 12,
       "stalenessNote": "Curated authoritative rules; live DSNY enforcement augments when a verified dataset is wired.",
       "reVerifyBeforeRelying": false,
       "sourceId": "dep_dsny_env",
@@ -600,7 +600,7 @@
     {
       "jurisdictionId": null,
       "endpointOrUrl": "https://data.cityofnewyork.us/browse?q=DSNY%20enforcement",
-      "collectedAt": "2026-06-20T14:13:22.758Z",
+      "collectedAt": "2026-06-20T14:59:32.037Z",
       "recordCount": 0,
       "stalenessNote": "Dormant — DSNY enforcement is not consistently on Socrata; verify a dataset or use manual intake. No rows fabricated.",
       "reVerifyBeforeRelying": true,
@@ -614,8 +614,8 @@
     {
       "jurisdictionId": null,
       "endpointOrUrl": null,
-      "collectedAt": "2026-06-20T14:13:22.758Z",
-      "recordCount": 3,
+      "collectedAt": "2026-06-20T14:59:32.037Z",
+      "recordCount": 12,
       "stalenessNote": "Curated authoritative rules; live DCWP consumer-complaint dataset augments when a verified id is wired.",
       "reVerifyBeforeRelying": false,
       "sourceId": "dcwp_ftc_consumer",
@@ -628,7 +628,7 @@
     {
       "jurisdictionId": null,
       "endpointOrUrl": "https://data.cityofnewyork.us/browse?q=DCWP%20consumer%20complaints",
-      "collectedAt": "2026-06-20T14:13:22.758Z",
+      "collectedAt": "2026-06-20T14:59:32.037Z",
       "recordCount": 0,
       "stalenessNote": "Dormant — verify the DCWP consumer-complaint dataset id + brand-match before enabling. No rows fabricated.",
       "reVerifyBeforeRelying": true,

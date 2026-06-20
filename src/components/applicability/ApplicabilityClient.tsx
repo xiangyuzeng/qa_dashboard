@@ -47,22 +47,24 @@ export function ApplicabilityClient({
 
   const baseOpen = profile.national.openLocationCount;
   const baseSqft = profile.jurisdictions.find((j) => j.jurisdiction === NYC)?.combinedFloorAreaSqft ?? null;
+  const baseEmp = profile.national.estimatedEmployeeCount ?? null;
 
   const [scenOpen, setScenOpen] = useState<number | null>(baseOpen);
   const [scenSqft, setScenSqft] = useState<number | null>(baseSqft);
+  const [scenEmp, setScenEmp] = useState<number | null>(baseEmp);
   const [fwBasis, setFwBasis] = useState<CountBasis>("open");
 
-  const dirty = scenOpen !== baseOpen || scenSqft !== baseSqft || fwBasis !== "open";
+  const dirty = scenOpen !== baseOpen || scenSqft !== baseSqft || scenEmp !== baseEmp || fwBasis !== "open";
 
   const nudged = useMemo<CompanyProfile>(
     () => ({
       ...profile,
-      national: { ...profile.national, openLocationCount: scenOpen },
+      national: { ...profile.national, openLocationCount: scenOpen, estimatedEmployeeCount: scenEmp },
       jurisdictions: profile.jurisdictions.map((j) =>
         j.jurisdiction === NYC ? { ...j, combinedFloorAreaSqft: scenSqft } : j,
       ),
     }),
-    [profile, scenOpen, scenSqft],
+    [profile, scenOpen, scenSqft, scenEmp],
   );
 
   const verdicts = useMemo(
@@ -194,6 +196,7 @@ export function ApplicabilityClient({
               onClick={() => {
                 setScenOpen(baseOpen);
                 setScenSqft(baseSqft);
+                setScenEmp(baseEmp);
                 setFwBasis("open");
               }}
               className="rounded-md px-2.5 py-1 text-xs text-slate-500 underline hover:text-slate-700"
@@ -203,7 +206,7 @@ export function ApplicabilityClient({
           ) : undefined
         }
       >
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
           {/* Open-store count nudge */}
           <div>
             <label className="flex items-baseline justify-between text-xs font-medium text-slate-600">
@@ -239,6 +242,25 @@ export function ApplicabilityClient({
               step={500}
               value={scenSqft ?? 0}
               onChange={(e) => setScenSqft(Number(e.target.value))}
+              className="mt-2 w-full accent-brandnavy"
+            />
+          </div>
+
+          {/* US employee-count nudge — null by default (employee-gated rules render 待补充). */}
+          <div>
+            <label className="flex items-baseline justify-between text-xs font-medium text-slate-600">
+              <span>{t.applicability.nudgeEmployees}</span>
+              <span className="tabular-nums text-sm font-bold text-brandnavy">
+                {scenEmp != null ? scenEmp.toLocaleString() : t.applicability.pendingData}
+              </span>
+            </label>
+            <input
+              type="range"
+              min={0}
+              max={500}
+              step={5}
+              value={scenEmp ?? 0}
+              onChange={(e) => setScenEmp(Number(e.target.value) === 0 ? null : Number(e.target.value))}
               className="mt-2 w-full accent-brandnavy"
             />
           </div>

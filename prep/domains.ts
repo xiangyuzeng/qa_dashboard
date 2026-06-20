@@ -184,17 +184,19 @@ export function buildConsumerRecords(): ConsumerRecord[] {
   });
 }
 
-/** Stamp `appliesToUs` from the applicability engine onto records carrying an `applicabilityRuleId`. */
+/** Stamp `appliesToUs` from the applicability engine onto records carrying an `applicabilityRuleId`.
+ *  Tri-state: true (applies/approaching/always), false (not_yet), null (na/pending → 未评估/待补充,
+ *  e.g. an employee-gated rule whose headcount is unknown — never force-false a pending verdict). */
 export function stampAppliesToUs<T extends { applicabilityRuleId: string | null; appliesToUs: boolean | null }>(
   records: T[],
   profile: CompanyProfile,
   rules: ApplicabilityRule[],
 ): void {
-  const verdicts = evaluate(profile, rules);
-  const applies = new Map(verdicts.map((v) => [v.rule.id, isApplicable(v.status)]));
+  const byId = new Map(evaluate(profile, rules).map((v) => [v.rule.id, v]));
   for (const r of records) {
-    if (r.applicabilityRuleId && applies.has(r.applicabilityRuleId)) {
-      r.appliesToUs = applies.get(r.applicabilityRuleId)!;
-    }
+    if (!r.applicabilityRuleId) continue;
+    const v = byId.get(r.applicabilityRuleId);
+    if (!v) continue;
+    r.appliesToUs = v.pending || v.status === "na" ? null : isApplicable(v.status);
   }
 }

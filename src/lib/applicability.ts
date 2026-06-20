@@ -117,6 +117,13 @@ export function evaluate(
         return verdictFromNumber(rule, maxSqft, rule.threshold);
       }
 
+      case "employee_count": {
+        // Employee-headcount-gated rules (FMLA 50, Title VII 15, ADEA 20, ESSTA tiers…).
+        // null headcount → pending (待补充); the what-if employee slider lets the user model it.
+        const emp = profile.national.estimatedEmployeeCount ?? null;
+        return verdictFromNumber(rule, emp, rule.threshold);
+      }
+
       case "always":
         return { rule, ourValue: null, threshold: null, status: "always", distance: null, pending: false, basisUsed: null };
 

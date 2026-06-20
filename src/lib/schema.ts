@@ -323,9 +323,10 @@ export const CountBasisEnum = z.enum(["open", "open_planned", "all_status"]);
 /** Which footprint dimension the rule's threshold tests — drives evaluate()'s discriminated logic. */
 export const TriggerDimensionEnum = z.enum([
   "location_count", // national store count vs threshold (uses countBasis)
-  "is_fast_food_model", // count threshold AND fast-food-model gate (Fair Workweek)
+  "is_fast_food_model", // count threshold AND fast-food-model gate (Fair Workweek / Just Cause)
   "combined_site_sqft", // sum of sqft across a jurisdiction's sites (organics chain)
   "single_site_sqft", // largest single-site sqft (organics single site)
+  "employee_count", // total employee headcount vs threshold (FMLA 50, Title VII 15, ESSTA tiers…)
   "always", // always applies (e.g. Paid Safe & Sick Leave)
   "needs_verification", // cannot be auto-evaluated — render 待核实
 ]);
@@ -796,6 +797,8 @@ const ProfileNationalSchema = z
     closedOrWithdrawnLocationCount: nullableNumber,
     retailLocationCountAllStatuses: nullableNumber,
     internalKitchensExcluded: nullableNumber,
+    /** total US employee headcount — not in the ops extract; null ⇒ employee-gated rules render 待补充. */
+    estimatedEmployeeCount: nullableNumber,
   })
   .passthrough();
 

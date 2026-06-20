@@ -10,7 +10,9 @@
     "plannedLocationCount": 7,
     "closedOrWithdrawnLocationCount": 5,
     "retailLocationCountAllStatuses": 30,
-    "internalKitchensExcluded": 3
+    "internalKitchensExcluded": 3,
+    "estimatedEmployeeCount": null,
+    "_employeeCountNote": "Not in the ops extract. Set this (or use the /applicability employee what-if slider) to evaluate employee-gated rules (FMLA 50+, Title VII 15+, ESSTA tiers). 30 retail stores almost certainly ⇒ 100+ US employees, but the exact headcount is unverified, so it is left null (待补充) rather than guessed."
   },
   "jurisdictions": [
     {
