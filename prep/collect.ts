@@ -824,6 +824,13 @@ const regTopicFromText = (text: string): RegulationRecord["topic"] => {
   if (/delivery|third-party|third party|platform/.test(t)) return "delivery_platform";
   return "other";
 };
+// Title relevance gate for legislative full-text search — drops the off-topic matches a loose
+// keyword search returns ("Sexual health" / "Price gouging" / "spearguns" / "prenatal multivitamins").
+const isFoodBillTitle = (title: string) =>
+  /food|menu|allergen|sugar|sodium|\blabel|packaging|pfas|beverage|restaurant|dietary|nutrition|additive/i.test(title);
+// Cross-source bill id: normalize the identifier (strip case/space) + use the full jurisdiction name so
+// the SAME bill from LegiScan and OpenStates collapses to one id (deduped in main()).
+const billId = (identifier: string, jurisdiction: string | null) => hashId("reg2", normKey(identifier), jurisdiction ?? "");
 
 // Key-gated — LegiScan state-bill search (GET). Activates when LEGISCAN_KEY is set; else dormant stub.
 // Without the key the output is identical to today; with it, CA/NY/NJ/MA/FL food-bill rows augment Module 3.
@@ -842,15 +849,17 @@ async function collectLegiScanBills(): Promise<SourceResult> {
     for (const st of Object.keys(STATE_MAP)) {
       const res = await getJson<{ searchresult?: Record<string, unknown> }>(`${base}?key=${key}&op=getSearch&state=${st}&query=${query}`);
       const sr = res.searchresult ?? {};
+      let kept = 0;
       for (const k of Object.keys(sr)) {
-        if (k === "summary") continue;
+        if (k === "summary" || kept >= 5) continue;
         const b = sr[k] as Record<string, unknown>;
         const billNumber = String(b.bill_number ?? b.number ?? "");
-        if (!billNumber) continue;
-        const id = hashId("reg2", billNumber, st);
+        const title = String(b.title ?? "");
+        if (!billNumber || !isFoodBillTitle(title)) continue; // drop off-topic full-text matches
+        const id = billId(billNumber, STATE_MAP[st]);
         if (seen.has(id)) continue;
         seen.add(id);
-        const title = String(b.title ?? "");
+        kept++;
         const status = LEGISCAN_STATUS[Number(b.status ?? 0)] ?? "Monitoring";
         const a = assessRegulation({ status, effectiveDate: null, today: TODAY });
         out.push({
@@ -888,36 +897,43 @@ async function collectNYSenateBills(): Promise<SourceResult> {
   const out: RegulationRecord[] = [];
   const seen = new Set<string>();
   try {
-    const term = encodeURIComponent("food labeling allergen added sugar menu");
-    const res = await getJson<{ result?: { items?: Record<string, unknown>[] } }>(`${base}/bills/search?key=${key}&term=${term}&limit=50`);
-    for (const it of res.result?.items ?? []) {
-      const b = ((it as Record<string, unknown>).result ?? it) as Record<string, unknown>;
-      const printNo = String(b.basePrintNo ?? b.printNo ?? "");
-      if (!printNo) continue;
-      const id = hashId("reg2", printNo, "NY");
-      if (seen.has(id)) continue;
-      seen.add(id);
-      const title = String(b.title ?? "");
-      const summary = String(b.summary ?? "");
-      const statusObj = (b.status ?? {}) as Record<string, unknown>;
-      const status = NY_STATUS[String(statusObj.statusType ?? "")] ?? "Monitoring";
-      const a = assessRegulation({ status, effectiveDate: null, today: TODAY });
-      const url = `https://www.nysenate.gov/legislation/bills/${String(b.session ?? "")}/${printNo}`;
-      out.push({
-        id, module: "regulation" as const, no: null,
-        jurisdiction: "New York State",
-        regulationBillName: `${printNo} ${title}`.trim().slice(0, 160),
-        chineseTitle: null, englishTitle: title || printNo,
-        status, publicationPassageDate: isoFromYmd(String(statusObj.actionDate ?? "")), effectiveDate: null,
-        coveredEntities: null, keyRequirements: null,
-        chineseSummary: null, englishSummary: summary.slice(0, 260) || title || null, businessImpact: null,
-        riskLevel: a.riskLevel as RegulationRecord["riskLevel"],
-        sourceUrl: url, recommendedAction: null, topic: regTopicFromText(`${title} ${summary}`),
-        alertTriggered: a.alertTriggered, alertReason: a.alertReason, alertRuleIds: a.alertRuleIds,
-        reviewed: true, reviewStatus: "approved" as const,
-        reviewNote: "auto-collected (NY Senate) — QA review required before treating exports/alerts as final",
-        provenance: prov("ny_senate_bills", url),
-      });
+    // Quoted phrases (the loose `term=food labeling` matched 13k off-topic bills); food-relevant + recent only.
+    const phrases = ["food labeling", "added sugar", "menu labeling", "allergen", "sodium warning"];
+    for (const phrase of phrases) {
+      const term = encodeURIComponent(`"${phrase}"`);
+      const res = await getJson<{ result?: { items?: Record<string, unknown>[] } }>(`${base}/bills/search?key=${key}&term=${term}&limit=10`);
+      let kept = 0;
+      for (const it of res.result?.items ?? []) {
+        if (kept >= 3) break;
+        const b = ((it as Record<string, unknown>).result ?? it) as Record<string, unknown>;
+        const printNo = String(b.basePrintNo ?? b.printNo ?? "");
+        const title = String(b.title ?? "");
+        if (!printNo || !isFoodBillTitle(title) || Number(b.session ?? 0) < 2021) continue; // food + recent (2021+)
+        const id = billId(printNo, "New York State");
+        if (seen.has(id)) continue;
+        seen.add(id);
+        kept++;
+        const summary = String(b.summary ?? "");
+        const statusObj = (b.status ?? {}) as Record<string, unknown>;
+        const status = NY_STATUS[String(statusObj.statusType ?? "")] ?? "Monitoring";
+        const a = assessRegulation({ status, effectiveDate: null, today: TODAY });
+        const url = `https://www.nysenate.gov/legislation/bills/${String(b.session ?? "")}/${printNo}`;
+        out.push({
+          id, module: "regulation" as const, no: null,
+          jurisdiction: "New York State",
+          regulationBillName: `${printNo} ${title}`.trim().slice(0, 160),
+          chineseTitle: null, englishTitle: title || printNo,
+          status, publicationPassageDate: isoFromYmd(String(statusObj.actionDate ?? "")), effectiveDate: null,
+          coveredEntities: null, keyRequirements: null,
+          chineseSummary: null, englishSummary: summary.slice(0, 260) || title || null, businessImpact: null,
+          riskLevel: a.riskLevel as RegulationRecord["riskLevel"],
+          sourceUrl: url, recommendedAction: null, topic: regTopicFromText(`${title} ${summary}`),
+          alertTriggered: a.alertTriggered, alertReason: a.alertReason, alertRuleIds: a.alertRuleIds,
+          reviewed: true, reviewStatus: "approved" as const,
+          reviewNote: "auto-collected (NY Senate) — QA review required before treating exports/alerts as final",
+          provenance: prov("ny_senate_bills", url),
+        });
+      }
     }
     return { regulations: out, provenance: provEntry({ sourceId: "ny_senate_bills", name, module: "regulation", status: out.length ? "fetched" : "no_update", accessType: "official-api", endpointOrUrl: base, oneTimePullFeasible: "yes", recordCount: out.length }) };
   } catch (e) {
@@ -940,14 +956,17 @@ async function collectOpenStates(): Promise<SourceResult> {
   try {
     const q = encodeURIComponent("food labeling allergen added sugar");
     for (const st of Object.keys(STATE_MAP)) {
-      const res = await getJson<{ results?: Record<string, unknown>[] }>(`${base}?jurisdiction=${st}&q=${q}&sort=latest_action_date&per_page=15`, { headers: { "X-API-KEY": key } });
+      const res = await getJson<{ results?: Record<string, unknown>[] }>(`${base}?jurisdiction=${st}&q=${q}&sort=latest_action_desc&per_page=10`, { headers: { "X-API-KEY": key } });
+      let kept = 0;
       for (const b of res.results ?? []) {
+        if (kept >= 5) break;
         const identifier = String(b.identifier ?? "");
-        if (!identifier) continue;
-        const id = hashId("reg2", identifier, st);
+        const title = String(b.title ?? "");
+        if (!identifier || !isFoodBillTitle(title)) continue; // drop off-topic full-text matches
+        const id = billId(identifier, STATE_MAP[st]);
         if (seen.has(id)) continue;
         seen.add(id);
-        const title = String(b.title ?? "");
+        kept++;
         const a = assessRegulation({ status: "Monitoring", effectiveDate: null, today: TODAY });
         out.push({
           id, module: "regulation" as const, no: null,
@@ -1113,6 +1132,15 @@ async function main() {
         if (r.riskLevel === "低风险") r.riskLevel = "中风险";
       }
     }
+  }
+
+  // Dedupe regulations across sources — LegiScan / OpenStates / NY-Senate overlap on the same bills
+  // (collapsed via the shared billId); curated seeds keep distinct ids. Keep first occurrence.
+  {
+    const seenReg = new Set<string>();
+    const deduped = regulations.filter((r) => (seenReg.has(r.id) ? false : (seenReg.add(r.id), true)));
+    regulations.length = 0;
+    regulations.push(...deduped);
   }
 
   // Counts/aggregates mirror what the app + export actually serve (src/lib/data.ts isServable;
