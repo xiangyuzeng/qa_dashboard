@@ -13,7 +13,7 @@
     "inspections": 180,
     "alerts": 143,
     "pendingReview": 0,
-    "importExport": 28,
+    "importExport": 58,
     "regulation": 43,
     "sentiment": 12,
     "highRisk": 121,
@@ -32,7 +32,8 @@
       "legiscan_bills": 25,
       "ny_senate_bills": 8,
       "openstates_bills": 2,
-      "food_safety_news_rss": 12
+      "food_safety_news_rss": 12,
+      "fda_oii_import_refusals": 30
     }
   },
   "summary": {
@@ -339,12 +340,12 @@
     {
       "jurisdictionId": null,
       "endpointOrUrl": "https://api-datadashboard.fda.gov/v1/import_refusals",
-      "collectedAt": "2026-06-19T22:38:50.979Z",
-      "recordCount": 0,
-      "stalenessNote": "FDA_OII_USER/FDA_OII_KEY not set — collector dormant. Add keys + re-run prep:collect to activate (docs/API_KEYS.md). No rows fabricated.",
-      "reVerifyBeforeRelying": true,
+      "collectedAt": "2026-06-20T09:32:01.535Z",
+      "recordCount": 30,
+      "stalenessNote": "Café-relevant refusals only (coffee/tea/dairy/beverage products) from the 2000 most-recent; capped 30.",
+      "reVerifyBeforeRelying": false,
       "module": "import",
-      "status": "manual",
+      "status": "fetched",
       "sourceId": "fda_oii_import_refusals",
       "name": "FDA OII — Import Refusals",
       "accessType": "official-api",

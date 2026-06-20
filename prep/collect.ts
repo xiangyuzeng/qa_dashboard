@@ -719,19 +719,23 @@ async function collectImportRefusals(): Promise<SourceResult> {
   try {
     const res = await postJson<{ result?: Record<string, unknown>[] }>(
       endpoint,
-      { sort: "RefusalDate", sortorder: "desc", start: 1, rows: 500, returntotalcount: true, columns: ["FirmName", "ProductCodeDescription", "ProductCategory", "RefusalDate", "RefusalCharges", "CountryName"] },
+      { sort: "RefusalDate", sortorder: "DESC", start: 1, rows: 2000, returntotalcount: true, filters: {}, columns: ["FirmName", "ProductCodeDescription", "ProductCategory", "RefusalDate", "RefusalCharges", "CountryName"] },
       { headers: { "Authorization-User": user, "Authorization-Key": key } },
     );
+    const seen = new Set<string>();
     for (const d of res.result ?? []) {
-      const category = String(d.ProductCategory ?? "");
+      if (out.length >= 30) break; // cap — café refusals among the 2000 most-recent
       const product = String(d.ProductCodeDescription ?? "");
-      // §7 scope: keep human-food rows or coffee/tea/dairy/beverage product matches; never fabricate the rest.
-      if (!/human food|food/i.test(category) && !/coffee|tea|dairy|milk|beverage|juice|cocoa|sugar|syrup|flavor/i.test(product)) continue;
+      // §7 café scope: keep ONLY coffee/tea/dairy/beverage product refusals — NOT all "Human Foods"
+      // (that's thousands of out-of-scope items, e.g. ginger root). Never fabricate the rest.
+      if (!/coffee|tea|dairy|milk|cream|beverage|drink|juice|cocoa|chocolate|sugar|syrup|flavor|matcha|\bwater\b/i.test(product)) continue;
       const firm = String(d.FirmName ?? "");
+      const id = hashId("imp", "fda_oii", firm, String(d.RefusalDate ?? ""), product);
+      if (seen.has(id)) continue; // collapse identical firm/date/product rows
+      seen.add(id);
       const charges = String(d.RefusalCharges ?? "");
-      const a = assessImport({ action: "Import Refusal", text: `${product} ${charges}` });
       out.push({
-        id: hashId("imp", "fda_oii", firm, String(d.RefusalDate ?? ""), product),
+        id,
         module: "import" as const,
         no: null,
         category: "进口拒绝 Import Refusal (FDA OII)",
@@ -743,23 +747,23 @@ async function collectImportRefusals(): Promise<SourceResult> {
         publicationDate: isoFromYmd(String(d.RefusalDate ?? "")),
         regulatoryAction: "Import Refusal" as const,
         chineseSummary: null,
-        englishSummary: charges.slice(0, 260) || null,
+        englishSummary: `Refused entry: ${product || "—"}${charges ? ` (FD&C charge codes: ${charges})` : ""}`.slice(0, 260),
         importExportImpact: null,
         documentationRequirement: null,
-        riskLevel: a.riskLevel as ImportExportRecord["riskLevel"],
+        riskLevel: "中风险", // general refusal = medium category intelligence; QA escalates if it's our supplier
         sourceUrl: ref,
         recommendedAction: null,
         relevanceTags: relevanceTags(`${product} ${charges}`),
-        alertTriggered: a.alertTriggered,
-        alertReason: a.alertReason,
-        alertRuleIds: a.alertRuleIds,
+        alertTriggered: false,
+        alertReason: null,
+        alertRuleIds: [],
         reviewed: true,
         reviewStatus: "approved" as const,
         reviewNote: "auto-collected (FDA OII) — QA review required before treating exports/alerts as final",
         provenance: prov("fda_oii_import_refusals", ref),
       });
     }
-    return { importExport: out, provenance: provEntry({ sourceId: "fda_oii_import_refusals", name, module: "import", status: out.length ? "fetched" : "no_update", accessType: "official-api", endpointOrUrl: endpoint, oneTimePullFeasible: "yes", recordCount: out.length, stalenessNote: "Food-relevant refusals only (coffee/tea/dairy/beverage + human-food)." }) };
+    return { importExport: out, provenance: provEntry({ sourceId: "fda_oii_import_refusals", name, module: "import", status: out.length ? "fetched" : "no_update", accessType: "official-api", endpointOrUrl: endpoint, oneTimePullFeasible: "yes", recordCount: out.length, stalenessNote: "Café-relevant refusals only (coffee/tea/dairy/beverage products) from the 2000 most-recent; capped 30." }) };
   } catch (e) {
     return { importExport: out, provenance: provEntry({ sourceId: "fda_oii_import_refusals", name, module: "import", status: "manual", accessType: "official-api", endpointOrUrl: endpoint, oneTimePullFeasible: "yes", stalenessNote: `pull failed: ${String(e).slice(0, 120)}`, recordCount: out.length, reVerifyBeforeRelying: true }) };
   }
