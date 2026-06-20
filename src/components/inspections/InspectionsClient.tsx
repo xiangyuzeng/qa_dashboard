@@ -31,6 +31,11 @@ export function InspectionsClient({
   const columns = useMemo<ColumnDef<InspectionRecord, unknown>[]>(
     () => [
       { accessorKey: "jurisdiction", header: t.common.jurisdiction, cell: ({ row }) => row.original.jurisdiction ?? "—" },
+      {
+        accessorKey: "regulatoryAgency",
+        header: t.compliance.agency,
+        cell: ({ row }) => <span className="text-xs font-medium text-slate-700">{row.original.regulatoryAgency ?? "—"}</span>,
+      },
       { accessorKey: "brand", header: t.common.brand, cell: ({ row }) => row.original.brand ?? "—" },
       {
         accessorKey: "establishmentType",
@@ -83,6 +88,7 @@ export function InspectionsClient({
   const facets: FacetCfg[] = useMemo(
     () => [
       { columnId: "jurisdiction", label: t.common.jurisdiction },
+      { columnId: "regulatoryAgency", label: t.compliance.agency },
       { columnId: "brand", label: t.common.brand },
       { columnId: "inspectionResult", label: t.common.result },
       { columnId: "grade", label: t.common.grade },
