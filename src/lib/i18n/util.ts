@@ -19,6 +19,15 @@ export function fmtDate(iso: string | null | undefined): string {
   return iso.replaceAll("-", "/");
 }
 
+/** Days from today to a rule's effective date (negative = already in effect); null when undated.
+ *  Lives here (pure) so client components can use it WITHOUT importing aggregate.ts → data.ts. */
+export function daysToEffective(effectiveDate: string | null | undefined, todayIso: string): number | null {
+  if (!effectiveDate) return null;
+  return Math.round(
+    (new Date(effectiveDate + "T00:00:00Z").getTime() - new Date(todayIso + "T00:00:00Z").getTime()) / 86400000,
+  );
+}
+
 /** Strip the leading "NN " from a standardized-category label to get the name only. */
 export function categoryName(label: string | null | undefined): string {
   if (!label) return "";

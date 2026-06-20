@@ -9,6 +9,10 @@ export const RISK_COLORS: Record<string, string> = {
   关注: "#0891B2", // Watch — teal, distinct from Informational slate
 };
 
+/** Canonical 5-level risk order (display + heatmap). Lives here (pure) so client components
+ *  can import it WITHOUT pulling the data layer via aggregate.ts. */
+export const RISK_LEVELS_ORDER = ["高风险", "中风险", "低风险", "关注", "信息参考"] as const;
+
 export const RESULT_COLORS: Record<string, string> = {
   Pass: "#16A34A",
   "Conditional Pass": "#CA8A04",

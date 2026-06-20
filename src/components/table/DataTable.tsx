@@ -67,7 +67,7 @@ function Facet({
           const val = String(v);
           return (
             <label key={val} className="flex cursor-pointer items-center gap-2 rounded px-1.5 py-1 text-sm hover:bg-slate-50">
-              <input type="checkbox" checked={selected.includes(val)} onChange={() => toggle(val)} />
+              <input type="checkbox" aria-label={`${cfg.label}: ${cfg.format ? cfg.format(val) : val}`} checked={selected.includes(val)} onChange={() => toggle(val)} />
               <span className="flex-1 truncate">{cfg.format ? cfg.format(val) : val}</span>
               <span className="text-xs text-slate-400">{count}</span>
             </label>

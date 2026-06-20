@@ -10,9 +10,9 @@ import { useLocale, useT } from "@/src/lib/i18n/locale";
 import { KpiCard, SectionCard, RiskBadge } from "@/src/components/ui";
 import { RiskHeatmap } from "@/src/components/viz/RiskHeatmap";
 import { PostureStrip, type PostureItem } from "@/src/components/overview/PostureStrip";
-import { riskLabel } from "@/src/lib/colors";
+import { riskLabel, RISK_LEVELS_ORDER } from "@/src/lib/colors";
 import { pickLang } from "@/src/lib/i18n/util";
-import { RISK_LEVELS_ORDER, type HeatRow } from "@/src/lib/aggregate";
+import type { HeatRow } from "@/src/lib/aggregate";
 import type { Meta, SummaryMeta } from "@/src/lib/schema";
 
 export function SummaryClient({

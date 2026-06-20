@@ -9,8 +9,8 @@ import { RiskBadge, Badge, SectionCard, KpiCard } from "@/src/components/ui";
 import { StackedBar } from "@/src/components/charts";
 import { ComplianceCountdownGantt } from "@/src/components/viz/ComplianceCountdownGantt";
 import { riskLabel, RISK_COLORS } from "@/src/lib/colors";
-import { fmtDate, pickLang } from "@/src/lib/i18n/util";
-import { daysToEffective, type ComplianceCounts, type GanttBar } from "@/src/lib/aggregate";
+import { fmtDate, pickLang, daysToEffective } from "@/src/lib/i18n/util";
+import type { ComplianceCounts, GanttBar } from "@/src/lib/aggregate";
 import type { Locale } from "@/src/lib/i18n/messages";
 
 /** Structural common shape across the 4 compliance-domain records (module-specific keys optional). */

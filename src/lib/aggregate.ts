@@ -11,6 +11,12 @@ import type {
 } from "./schema";
 import { ResultEnum, JurisdictionEnum, BrandEnum } from "./schema";
 import { getViolationCategories } from "./data";
+// RISK_LEVELS_ORDER + daysToEffective live in pure modules (colors/util) so CLIENT components can
+// import them WITHOUT pulling aggregate.ts → data.ts (the whole ~1MB JSON) into their bundles.
+// Re-exported here for back-compat with server callers that import them from aggregate.
+import { RISK_LEVELS_ORDER } from "./colors";
+import { daysToEffective } from "./i18n/util";
+export { RISK_LEVELS_ORDER, daysToEffective };
 
 export const FAIL_RESULTS = ["Fail", "Closed", "Permit Suspended", "Stop Sale"];
 export const PASS_RESULTS = ["Pass"];
@@ -414,7 +420,7 @@ export const HEATMAP_MODULES = [
 ] as const;
 export type HeatModule = (typeof HEATMAP_MODULES)[number];
 
-export const RISK_LEVELS_ORDER = ["高风险", "中风险", "低风险", "关注", "信息参考"] as const;
+// RISK_LEVELS_ORDER is defined in ./colors and re-exported at the top of this file.
 
 const MODULE_ROUTE: Record<HeatModule, string> = {
   food_safety: "/intelligence",
@@ -528,13 +534,7 @@ export type ComplianceLike = {
   regulationName?: string | null;
 };
 
-const DAY_MS = 86400000;
 const complianceName = (r: ComplianceLike) => r.regulationBillName ?? r.codeStandardName ?? r.regulationName ?? null;
-/** days from today to a rule's effective date (negative = already in effect); null when undated. */
-export function daysToEffective(effectiveDate: string | null, todayIso: string): number | null {
-  if (!effectiveDate) return null;
-  return Math.round((new Date(effectiveDate + "T00:00:00Z").getTime() - new Date(todayIso + "T00:00:00Z").getTime()) / DAY_MS);
-}
 
 export type ComplianceCounts = { total: number; applies: number; notYet: number; pending: number; approaching: number; highRisk: number };
 /** Posture rollup for a domain: appliesToUs tri-state + ≤180-day approaching + high-risk. */
