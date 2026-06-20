@@ -15,16 +15,33 @@ export function BenchmarkClient({
   categoryByBrand,
   resultMix,
   resultSeries,
+  enforcement,
+  enforcementSeries,
 }: {
   stats: BrandStat[];
   benchBrands: string[];
   categoryByBrand: Record<string, string | number>[];
   resultMix: Record<string, string | number>[];
   resultSeries: string[];
+  enforcement: Record<string, string | number>[];
+  enforcementSeries: string[];
 }) {
   const t = useT();
   const { locale } = useLocale();
   const [metric, setMetric] = useState<"failRate" | "avgScore">("failRate");
+
+  // Localize the agency-category series keys for the enforcement stacked bar.
+  const enfCats = t.benchmark.enfCats as Record<string, string>;
+  const enfData = useMemo(
+    () =>
+      enforcement.map((r) => {
+        const row: Record<string, string | number> = { brand: r.brand as string };
+        for (const c of enforcementSeries) row[enfCats[c] ?? c] = (r[c] as number) ?? 0;
+        return row;
+      }),
+    [enforcement, enforcementSeries, enfCats],
+  );
+  const enfLocalSeries = enforcementSeries.map((c) => enfCats[c] ?? c);
 
   const metricBars = stats
     .filter((s) => (metric === "failRate" ? s.failRate : s.avgScore) != null)
@@ -94,6 +111,13 @@ export function BenchmarkClient({
         />
       </SectionCard>
 
+      {enfData.length > 0 && (
+        <SectionCard title={t.benchmark.enforcementTitle}>
+          <StackedBar data={enfData} series={enfLocalSeries} categoryKey="brand" />
+          <p className="mt-2 text-xs text-slate-400">{t.benchmark.enfNote}</p>
+        </SectionCard>
+      )}
+
       <SectionCard title={t.benchmark.byBrand}>
         <div className="overflow-x-auto">
           <table className="w-full text-left text-sm">
@@ -106,6 +130,7 @@ export function BenchmarkClient({
                 <th className="px-2 py-2">{t.benchmark.avgScore}</th>
                 <th className="px-2 py-2">{t.overview.kpiHighRisk}</th>
                 <th className="px-2 py-2">{t.common.critical}</th>
+                <th className="px-2 py-2">{t.benchmark.enforcement}</th>
               </tr>
             </thead>
             <tbody>
@@ -122,6 +147,7 @@ export function BenchmarkClient({
                       <td className="px-2 py-2">{s.avgScore ?? "—"}</td>
                       <td className="px-2 py-2">{s.highRisk}</td>
                       <td className="px-2 py-2">{s.critical}</td>
+                      <td className="px-2 py-2">{s.enforcement || "—"}</td>
                     </tr>
                   );
                 })}

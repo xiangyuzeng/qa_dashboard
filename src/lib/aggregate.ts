@@ -162,7 +162,12 @@ export type BrandStat = {
   avgScore: number | null;
   highRisk: number;
   critical: number;
+  /** non-grade enforcement actions (multi-agency OATH/ECB feed). */
+  enforcement: number;
 };
+
+/** Is this row a multi-agency enforcement action (vs a routine health-grade inspection)? */
+const isEnforcement = (r: InspectionRecord) => r.provenance?.sourceId === "nyc_oath";
 
 export function brandStats(insp: InspectionRecord[]): BrandStat[] {
   return BrandEnum.options.map((brand) => {
@@ -180,8 +185,42 @@ export function brandStats(insp: InspectionRecord[]): BrandStat[] {
         : null,
       highRisk: rows.filter((r) => r.riskLevel === "高风险").length,
       critical: rows.filter((r) => r.violationSeverity === "严重（主要）Critical").length,
+      enforcement: rows.filter(isEnforcement).length,
     };
   });
+}
+
+/** Coarse agency category for an enforcement row's regulatoryAgency (stable English keys). */
+export const ENFORCEMENT_CATEGORIES = ["Sanitation", "Consumer", "Fire", "Building", "Environment", "Health"] as const;
+export type EnforcementCategory = (typeof ENFORCEMENT_CATEGORIES)[number];
+function enforcementCategory(agency: string | null): EnforcementCategory | null {
+  const a = (agency ?? "").toUpperCase();
+  if (a.includes("DSNY") || a.includes("SANITATION")) return "Sanitation";
+  if (a.includes("DCWP") || a.includes("CONSUMER")) return "Consumer";
+  if (a.includes("FDNY") || a.includes("FIRE")) return "Fire";
+  if (a.includes("DOB") || a.includes("BUILDING")) return "Building";
+  if (a.includes("DEP") || a.includes("ENVIRON")) return "Environment";
+  if (a.includes("DOHMH") || a.includes("HEALTH")) return "Health";
+  return null;
+}
+
+/** Per-brand multi-agency enforcement profile → stacked bar (brand × agency category). */
+export function enforcementByBrand(
+  insp: InspectionRecord[],
+  brands: string[] = BENCH_BRANDS,
+): Record<string, string | number>[] {
+  return brands
+    .map((brand) => {
+      const rows = insp.filter((r) => r.brand === brand && isEnforcement(r));
+      const row: Record<string, string | number> = { brand, __total: rows.length };
+      for (const c of ENFORCEMENT_CATEGORIES) row[c] = 0;
+      for (const r of rows) {
+        const c = enforcementCategory(r.regulatoryAgency);
+        if (c) row[c] = (row[c] as number) + 1;
+      }
+      return row;
+    })
+    .filter((r) => (r.__total as number) > 0);
 }
 
 export const BENCH_BRANDS = ["Luckin Coffee", ...COMPETITOR_BRANDS];
