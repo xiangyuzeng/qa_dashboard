@@ -7,7 +7,15 @@ import {
   getImportExport,
   getRegulations,
   getSentiment,
+  getLabor,
+  getBuilding,
+  getEnvironment,
+  getConsumer,
+  getCompanyProfile,
+  getApplicabilityRules,
 } from "@/src/lib/data";
+import { evaluate } from "@/src/lib/applicability";
+import { applicabilityAlertRows } from "@/src/lib/alerts";
 import { Providers } from "@/src/components/shell/Providers";
 import { AppShell } from "@/src/components/shell/AppShell";
 
@@ -28,7 +36,12 @@ export default function RootLayout({
     getInspections().filter((r) => r.alertTriggered).length +
     getImportExport().filter((r) => r.alertTriggered).length +
     getRegulations().filter((r) => r.alertTriggered).length +
-    getSentiment().filter((r) => r.alertTriggered).length;
+    getSentiment().filter((r) => r.alertTriggered).length +
+    getLabor().filter((r) => r.alertTriggered).length +
+    getBuilding().filter((r) => r.alertTriggered).length +
+    getEnvironment().filter((r) => r.alertTriggered).length +
+    getConsumer().filter((r) => r.alertTriggered).length +
+    applicabilityAlertRows(evaluate(getCompanyProfile(), getApplicabilityRules())).length;
 
   return (
     <html lang="zh">

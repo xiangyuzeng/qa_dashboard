@@ -24,6 +24,10 @@ const NAV_GROUPS = [
       { href: "/regulation", key: "regulation" },
       { href: "/inspections", key: "inspections" },
       { href: "/sentiment", key: "sentiment" },
+      { href: "/labor", key: "labor" },
+      { href: "/building", key: "building" },
+      { href: "/environment", key: "environment" },
+      { href: "/consumer", key: "consumer" },
     ],
   },
   {

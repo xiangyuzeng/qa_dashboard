@@ -734,7 +734,9 @@ export const ConsumerRecordSchema = z.object({
   riskLevel: RiskLevelEnum.nullable().default(null), // 风险等级
   sourceUrl: z.string().url().nullable().default(null), // 原文链接
   recommendedAction: z.string().nullable().default(null), // 建议行动
-  // ── enrichment ──
+  // ── enrichment (not export columns — bilingual summary for the UI) ──
+  chineseSummary: z.string().nullable().default(null),
+  englishSummary: z.string().nullable().default(null),
   topic: ConsumerTopicEnum.nullable().default(null),
   applicabilityRuleId: z.string().nullable().default(null),
   ...AlertMixin,

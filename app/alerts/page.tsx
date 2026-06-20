@@ -6,8 +6,15 @@ import {
   getImportExport,
   getRegulations,
   getSentiment,
+  getLabor,
+  getBuilding,
+  getEnvironment,
+  getConsumer,
+  getCompanyProfile,
+  getApplicabilityRules,
 } from "@/src/lib/data";
-import { buildAlertRows, alertsByTrigger, alertsByJurisdiction, alertsByType } from "@/src/lib/alerts";
+import { buildAlertRows, applicabilityAlertRows, alertsByTrigger, alertsByJurisdiction, alertsByType } from "@/src/lib/alerts";
+import { evaluate } from "@/src/lib/applicability";
 import { AlertsClient } from "@/src/components/alerts/AlertsClient";
 
 export default function AlertsPage() {
@@ -16,7 +23,8 @@ export default function AlertsPage() {
   const imp = getImportExport();
   const regs = getRegulations();
   const sent = getSentiment();
-  const rows = buildAlertRows(insp, reg, imp, regs, sent);
+  const applic = applicabilityAlertRows(evaluate(getCompanyProfile(), getApplicabilityRules()));
+  const rows = buildAlertRows(insp, reg, imp, regs, sent, getLabor(), getBuilding(), getEnvironment(), getConsumer(), applic);
   return (
     <AlertsClient
       rows={rows}

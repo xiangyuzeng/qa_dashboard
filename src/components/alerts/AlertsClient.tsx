@@ -13,6 +13,7 @@ const TYPE_ACCENT: Record<AlertType, string> = {
   import_compliance: "#B45309",
   state_local_reg: "#0891B2",
   inspection: "#1F4E79",
+  applicability: "#7C3AED",
 };
 
 export function AlertsClient({
@@ -38,7 +39,7 @@ export function AlertsClient({
         <p className="mt-0.5 text-sm text-slate-500">{t.alerts.subtitle}</p>
       </div>
 
-      <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+      <div className="grid grid-cols-2 gap-3 md:grid-cols-5">
         {byType.map((b) => {
           const active = typeFilter === b.type;
           return (

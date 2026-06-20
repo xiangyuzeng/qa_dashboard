@@ -5,10 +5,28 @@ import type {
   ImportExportRecord,
   RegulationRecord,
   SentimentRecord,
+  LaborRecord,
+  BuildingRecord,
+  EnvironmentRecord,
+  ConsumerRecord,
 } from "./schema";
+import type { ApplicabilityVerdict } from "./applicability";
 import { getJurisdictions } from "./data";
 
-export type AlertType = "food_safety" | "import_compliance" | "state_local_reg" | "inspection";
+export type AlertType = "food_safety" | "import_compliance" | "state_local_reg" | "inspection" | "applicability";
+
+/** Compliance-domain records share these alerting fields — one generic mapper covers all four. */
+type DomainAlertable = {
+  id: string;
+  alertTriggered: boolean;
+  riskLevel: string | null;
+  jurisdiction: string | null;
+  chineseTitle: string | null;
+  englishTitle: string | null;
+  effectiveDate: string | null;
+  alertReason: string | null;
+  sourceUrl: string | null;
+};
 
 export type AlertRow = {
   id: string;
@@ -37,6 +55,11 @@ export function buildAlertRows(
   imp: ImportExportRecord[] = [],
   regs: RegulationRecord[] = [],
   sent: SentimentRecord[] = [],
+  labor: LaborRecord[] = [],
+  building: BuildingRecord[] = [],
+  environment: EnvironmentRecord[] = [],
+  consumer: ConsumerRecord[] = [],
+  applic: AlertRow[] = [],
 ): AlertRow[] {
   const fromInsp: AlertRow[] = insp
     .filter((r) => r.alertTriggered)
@@ -131,16 +154,68 @@ export function buildAlertRows(
       href: r.sourceUrl,
       external: true,
     }));
-  return [...fromInsp, ...fromReg, ...fromImport, ...fromRegs, ...fromSent].sort(
+  // V2.5 — labor/building/environment/consumer compliance alerts bucket into state_local_reg
+  // (regulatory-compliance across domains); the row title/reason carries the domain specifics.
+  const fromDomain = (arr: DomainAlertable[]): AlertRow[] =>
+    arr
+      .filter((r) => r.alertTriggered)
+      .map((r) => ({
+        id: r.id,
+        kind: "regulatory" as const,
+        alertType: "state_local_reg" as const,
+        riskLevel: r.riskLevel,
+        riskWeight: w(r.riskLevel),
+        jurisOrSource: r.jurisdiction ?? "",
+        brand: null,
+        titleZh: r.chineseTitle ?? "",
+        titleEn: r.englishTitle ?? "",
+        date: r.effectiveDate,
+        result: null,
+        alertReason: r.alertReason,
+        href: r.sourceUrl,
+        external: true,
+      }));
+  const fromDomains = [
+    ...fromDomain(labor),
+    ...fromDomain(building),
+    ...fromDomain(environment),
+    ...fromDomain(consumer),
+  ];
+  return [...fromInsp, ...fromReg, ...fromImport, ...fromRegs, ...fromSent, ...fromDomains, ...applic].sort(
     (a, b) => b.riskWeight - a.riskWeight || (b.date ?? "").localeCompare(a.date ?? ""),
   );
 }
 
-/** Tally alert rows by the 4 alert types (drives the AlertsClient tiles/filter). */
+/** Engine-derived alerts — fire when a scale-gated rule flips to Applies (高风险) or Approaching (关注). */
+export function applicabilityAlertRows(verdicts: ApplicabilityVerdict[]): AlertRow[] {
+  return verdicts
+    .filter((v) => v.status === "applies" || v.status === "approaching")
+    .map((v) => ({
+      id: `applic_${v.rule.id}`,
+      kind: "regulatory" as const,
+      alertType: "applicability" as const,
+      riskLevel: v.status === "applies" ? "高风险" : "关注",
+      riskWeight: v.status === "applies" ? 3 : 0.5,
+      jurisOrSource: v.rule.jurisdiction,
+      brand: null,
+      titleZh: v.rule.regulationName.zh,
+      titleEn: v.rule.regulationName.en,
+      date: v.rule.effectiveDate,
+      result: null,
+      alertReason:
+        v.status === "applies"
+          ? `threshold met — applies (our ${v.ourValue} vs ${v.threshold})`
+          : `approaching threshold (our ${v.ourValue} vs ${v.threshold})`,
+      href: v.rule.thresholdSourceUrl,
+      external: true,
+    }));
+}
+
+/** Tally alert rows by the 5 alert types (drives the AlertsClient tiles/filter). */
 export function alertsByType(rows: AlertRow[]): { type: AlertType; count: number }[] {
   const tally: Record<string, number> = {};
   for (const r of rows) tally[r.alertType] = (tally[r.alertType] ?? 0) + 1;
-  return (["food_safety", "import_compliance", "state_local_reg", "inspection"] as AlertType[]).map((type) => ({
+  return (["food_safety", "import_compliance", "state_local_reg", "inspection", "applicability"] as AlertType[]).map((type) => ({
     type,
     count: tally[type] ?? 0,
   }));

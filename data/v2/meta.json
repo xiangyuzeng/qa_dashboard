@@ -516,7 +516,7 @@
     {
       "jurisdictionId": null,
       "endpointOrUrl": null,
-      "collectedAt": "2026-06-20T14:02:51.757Z",
+      "collectedAt": "2026-06-20T14:11:02.915Z",
       "recordCount": 3,
       "stalenessNote": "Curated authoritative rules; live DCWP + DOL enforcedata enforcement augments when enabled.",
       "reVerifyBeforeRelying": false,
@@ -530,7 +530,7 @@
     {
       "jurisdictionId": null,
       "endpointOrUrl": "https://enforcedata.dol.gov/views/data_summary.php",
-      "collectedAt": "2026-06-20T14:02:51.757Z",
+      "collectedAt": "2026-06-20T14:11:02.915Z",
       "recordCount": 0,
       "stalenessNote": "Dormant — set DOL_ENFORCE_KEY + wire the WHD bulk parse. No rows fabricated.",
       "reVerifyBeforeRelying": true,
@@ -544,7 +544,7 @@
     {
       "jurisdictionId": null,
       "endpointOrUrl": null,
-      "collectedAt": "2026-06-20T14:02:51.757Z",
+      "collectedAt": "2026-06-20T14:11:02.915Z",
       "recordCount": 4,
       "stalenessNote": "Curated authoritative standards; live OSHA establishment + DOB violation enforcement augments when enabled.",
       "reVerifyBeforeRelying": false,
@@ -558,7 +558,7 @@
     {
       "jurisdictionId": null,
       "endpointOrUrl": "https://www.osha.gov/ords/imis/establishment.html",
-      "collectedAt": "2026-06-20T14:02:51.757Z",
+      "collectedAt": "2026-06-20T14:11:02.915Z",
       "recordCount": 0,
       "stalenessNote": "Dormant — wire OSHA establishment-search to brand-match citations. No rows fabricated.",
       "reVerifyBeforeRelying": true,
@@ -572,7 +572,7 @@
     {
       "jurisdictionId": null,
       "endpointOrUrl": "https://data.cityofnewyork.us/resource/3h2n-5cm9.json",
-      "collectedAt": "2026-06-20T14:02:51.757Z",
+      "collectedAt": "2026-06-20T14:11:02.915Z",
       "recordCount": 0,
       "stalenessNote": "Dormant — verify dataset id + address-match to owned stores before enabling. No rows fabricated.",
       "reVerifyBeforeRelying": true,
@@ -586,7 +586,7 @@
     {
       "jurisdictionId": null,
       "endpointOrUrl": null,
-      "collectedAt": "2026-06-20T14:02:51.757Z",
+      "collectedAt": "2026-06-20T14:11:02.915Z",
       "recordCount": 3,
       "stalenessNote": "Curated authoritative rules; live DSNY enforcement augments when a verified dataset is wired.",
       "reVerifyBeforeRelying": false,
@@ -600,7 +600,7 @@
     {
       "jurisdictionId": null,
       "endpointOrUrl": "https://data.cityofnewyork.us/browse?q=DSNY%20enforcement",
-      "collectedAt": "2026-06-20T14:02:51.757Z",
+      "collectedAt": "2026-06-20T14:11:02.915Z",
       "recordCount": 0,
       "stalenessNote": "Dormant — DSNY enforcement is not consistently on Socrata; verify a dataset or use manual intake. No rows fabricated.",
       "reVerifyBeforeRelying": true,
@@ -614,7 +614,7 @@
     {
       "jurisdictionId": null,
       "endpointOrUrl": null,
-      "collectedAt": "2026-06-20T14:02:51.757Z",
+      "collectedAt": "2026-06-20T14:11:02.915Z",
       "recordCount": 3,
       "stalenessNote": "Curated authoritative rules; live DCWP consumer-complaint dataset augments when a verified id is wired.",
       "reVerifyBeforeRelying": false,
@@ -628,7 +628,7 @@
     {
       "jurisdictionId": null,
       "endpointOrUrl": "https://data.cityofnewyork.us/browse?q=DCWP%20consumer%20complaints",
-      "collectedAt": "2026-06-20T14:02:51.757Z",
+      "collectedAt": "2026-06-20T14:11:02.915Z",
       "recordCount": 0,
       "stalenessNote": "Dormant — verify the DCWP consumer-complaint dataset id + brand-match before enabling. No rows fabricated.",
       "reVerifyBeforeRelying": true,
