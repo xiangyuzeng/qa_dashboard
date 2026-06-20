@@ -290,6 +290,79 @@ export function repeatGroups(insp: InspectionRecord[]): RepeatGroup[] {
 const RISK_W: Record<string, number> = { 高风险: 3, 中风险: 2, 低风险: 1, 关注: 0.5, 信息参考: 0 };
 const riskW = (r: string | null) => (r ? (RISK_W[r] ?? 0) : -1);
 
+export type AgencyEnforcement = { agency: string; count: number; high: number; medium: number; lowInfo: number };
+
+/** Enforcement volume + risk mix per regulatory agency — surfaces the multi-agency spread
+ *  (DOHMH / DSNY / DCWP / FDNY / DOB / DEP / state & county) across the inspections feed. */
+export function enforcementByAgency(insp: InspectionRecord[]): AgencyEnforcement[] {
+  const m: Record<string, AgencyEnforcement> = {};
+  for (const r of insp) {
+    const agency = r.regulatoryAgency?.trim();
+    if (!agency) continue;
+    const a = (m[agency] ??= { agency, count: 0, high: 0, medium: 0, lowInfo: 0 });
+    a.count++;
+    if (r.riskLevel === "高风险") a.high++;
+    else if (r.riskLevel === "中风险") a.medium++;
+    else a.lowInfo++;
+  }
+  return Object.values(m).sort((a, b) => b.count - a.count || b.high - a.high);
+}
+
+export type RepeatOffender = {
+  key: string;
+  storeName: string | null;
+  address: string | null;
+  brand: string | null;
+  jurisdiction: string | null;
+  establishmentId: string | null;
+  count: number;
+  high: number;
+  agencies: string[];
+  lastDate: string | null;
+  members: { id: string; date: string | null; agency: string | null; risk: string | null; result: string | null }[];
+};
+
+/** Repeat-offender leaderboard: physical establishments (grouped by establishmentId, else
+ *  brand+storeName) carrying ≥2 inspection/enforcement records, ranked by record count then
+ *  high-risk count. Works across agencies — unlike repeatGroups it does not need a curated
+ *  repeatViolationGroupId, so the live DOH + multi-agency enforcement rows participate. */
+export function repeatOffenders(insp: InspectionRecord[], minCount = 2): RepeatOffender[] {
+  const norm = (s: string | null) => (s ?? "").trim().toLowerCase();
+  const groups: Record<string, InspectionRecord[]> = {};
+  for (const r of insp) {
+    // establishmentId is per-establishment for DOH (CAMIS) but per-ticket for OATH/ECB → those
+    // never group (correct: distinct citations). Fall back to brand+store for rows lacking an id.
+    const key = r.establishmentId?.trim() || `${norm(r.brand)}|${norm(r.storeName)}`;
+    if (key === "|") continue;
+    (groups[key] ??= []).push(r);
+  }
+  return Object.entries(groups)
+    .filter(([, rows]) => rows.length >= minCount)
+    .map(([key, rows]) => {
+      const sorted = [...rows].sort((a, b) => (b.inspectionDate ?? "").localeCompare(a.inspectionDate ?? ""));
+      return {
+        key,
+        storeName: sorted[0].storeName,
+        address: sorted[0].address,
+        brand: sorted[0].brand,
+        jurisdiction: sorted[0].jurisdiction,
+        establishmentId: sorted[0].establishmentId,
+        count: rows.length,
+        high: rows.filter((r) => r.riskLevel === "高风险").length,
+        agencies: Array.from(new Set(rows.map((r) => r.regulatoryAgency).filter(Boolean) as string[])),
+        lastDate: sorted[0].inspectionDate,
+        members: sorted.map((r) => ({
+          id: r.id,
+          date: r.inspectionDate,
+          agency: r.regulatoryAgency,
+          risk: r.riskLevel,
+          result: r.inspectionResult,
+        })),
+      };
+    })
+    .sort((a, b) => b.count - a.count || b.high - a.high);
+}
+
 export type ChecklistItem = {
   id: number;
   labelZh: string;

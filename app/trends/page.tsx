@@ -5,6 +5,8 @@ import {
   categoryCounts,
   severityByCategory,
   repeatGroups,
+  enforcementByAgency,
+  repeatOffenders,
 } from "@/src/lib/aggregate";
 import { TrendsClient } from "@/src/components/trends/TrendsClient";
 
@@ -16,6 +18,8 @@ export default function TrendsPage() {
       categories={[...categoryCounts(insp)].sort((a, b) => b.count - a.count)}
       severity={severityByCategory(insp)}
       repeats={repeatGroups(insp)}
+      agencies={enforcementByAgency(insp)}
+      offenders={repeatOffenders(insp)}
     />
   );
 }
