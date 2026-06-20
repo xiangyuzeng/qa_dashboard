@@ -14,6 +14,13 @@ import {
   ImportExportFileSchema,
   RegulationFileSchema,
   SentimentFileSchema,
+  LaborFileSchema,
+  BuildingFileSchema,
+  EnvironmentFileSchema,
+  ConsumerFileSchema,
+  OwnedStoresFileSchema,
+  CompanyProfileSchema,
+  ApplicabilityRulesFileSchema,
   ViolationCategoriesFileSchema,
   BrandsFileSchema,
   JurisdictionsFileSchema,
@@ -23,6 +30,13 @@ import {
   type ImportExportRecord,
   type RegulationRecord,
   type SentimentRecord,
+  type LaborRecord,
+  type BuildingRecord,
+  type EnvironmentRecord,
+  type ConsumerRecord,
+  type OwnedStore,
+  type CompanyProfile,
+  type ApplicabilityRule,
   type ViolationCategory,
   type Meta,
 } from "./schema";
@@ -32,6 +46,13 @@ import inspectionsJson from "@/data/v2/inspections.json";
 import importExportJson from "@/data/v2/import_export.json";
 import regulationsJson from "@/data/v2/regulations.json";
 import sentimentJson from "@/data/v2/sentiment.json";
+import laborJson from "@/data/v2/labor.json";
+import buildingJson from "@/data/v2/building.json";
+import environmentJson from "@/data/v2/environment.json";
+import consumerJson from "@/data/v2/consumer.json";
+import ownedStoresJson from "@/data/v2/owned_stores.json";
+import companyProfileJson from "@/data/v2/company_profile.json";
+import applicabilityRulesJson from "@/data/v2/applicability_rules.json";
 import categoriesJson from "@/data/v2/violation_categories.json";
 import brandsJson from "@/data/v2/brands.json";
 import jurisdictionsJson from "@/data/v2/jurisdictions.json";
@@ -43,6 +64,14 @@ const ALL_INSPECTIONS = InspectionFileSchema.parse(inspectionsJson);
 const ALL_IMPORT = ImportExportFileSchema.parse(importExportJson);
 const ALL_REGULATION = RegulationFileSchema.parse(regulationsJson);
 const ALL_SENTIMENT = SentimentFileSchema.parse(sentimentJson);
+const ALL_LABOR = LaborFileSchema.parse(laborJson);
+const ALL_BUILDING = BuildingFileSchema.parse(buildingJson);
+const ALL_ENVIRONMENT = EnvironmentFileSchema.parse(environmentJson);
+const ALL_CONSUMER = ConsumerFileSchema.parse(consumerJson);
+// Footprint inputs — reference data for the engine, NOT servable findings.
+const OWNED_STORES = OwnedStoresFileSchema.parse(ownedStoresJson);
+const COMPANY_PROFILE = CompanyProfileSchema.parse(companyProfileJson);
+const APPLICABILITY_RULES = ApplicabilityRulesFileSchema.parse(applicabilityRulesJson);
 const CATEGORIES = ViolationCategoriesFileSchema.parse(categoriesJson);
 const BRANDS = BrandsFileSchema.parse(brandsJson);
 const JURISDICTIONS = JurisdictionsFileSchema.parse(jurisdictionsJson);
@@ -81,6 +110,46 @@ export function getRegulations(): RegulationRecord[] {
 /** Module 5 — Negative Media & Sentiment (servable, non-excluded). */
 export function getSentiment(): SentimentRecord[] {
   return ALL_SENTIMENT.filter((r) => isServable(r) && !r.excluded);
+}
+
+/** Module 6 — 用工合规 Labor & Employment (servable only). */
+export function getLabor(): LaborRecord[] {
+  return ALL_LABOR.filter(isServable);
+}
+
+/** Module 7 — 建筑与职业安全 Building & Occupational Safety (servable only). */
+export function getBuilding(): BuildingRecord[] {
+  return ALL_BUILDING.filter(isServable);
+}
+
+/** Module 8 — 环境卫生 Environmental & Sanitation (servable only). */
+export function getEnvironment(): EnvironmentRecord[] {
+  return ALL_ENVIRONMENT.filter(isServable);
+}
+
+/** Module 9 — 消费者与员工保护 Consumer & Worker Protection (servable only). */
+export function getConsumer(): ConsumerRecord[] {
+  return ALL_CONSUMER.filter(isServable);
+}
+
+/**
+ * Footprint roster — the real ops-DB extract (asOf 2026-06-20). Returned WHOLE,
+ * NOT servable-filtered: the roster is reviewed:false by design and is engine
+ * *input* (the denominator rules are measured against), not a surfaced finding.
+ * Zod-at-load still guards its shape. The UI surfaces an UNREVIEWED banner.
+ */
+export function getOwnedStores(): OwnedStore[] {
+  return OWNED_STORES;
+}
+
+/** Company-level aggregates computed from the roster (engine input). */
+export function getCompanyProfile(): CompanyProfile {
+  return COMPANY_PROFILE;
+}
+
+/** Applicability / threshold rules (engine input). */
+export function getApplicabilityRules(): ApplicabilityRule[] {
+  return APPLICABILITY_RULES;
 }
 
 export function getViolationCategories(): ViolationCategory[] {

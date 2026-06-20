@@ -159,21 +159,27 @@ export const AccessTypeEnum = z.enum([
  * V2 — module taxonomy, alert types, new-module enums
  * ──────────────────────────────────────────────────────────────────────────── */
 
-/** Top-level monitoring module (V2 6-module model). */
+/** Top-level monitoring module (V2 6-module model + V2.5 four compliance domains). */
 export const ModuleEnum = z.enum([
   "food_safety",
   "import",
   "regulation",
   "inspection",
   "sentiment",
+  // ── V2.5 — multi-domain compliance ──
+  "labor",
+  "building",
+  "environment",
+  "consumer",
 ]);
 
-/** Alert type (V2 §8 — 4 alert types). */
+/** Alert type (V2 §8 — 4 alert types; V2.5 adds applicability/threshold flips). */
 export const AlertTypeEnum = z.enum([
   "food_safety",
   "import_compliance",
   "state_local_reg",
   "inspection",
+  "applicability",
 ]);
 
 /** Pull-log status (V2 Sheet6 数据源日志) — bilingual labels resolved in UI/export. */
@@ -250,6 +256,79 @@ export const CredibilityEnum = z.enum(["high", "medium", "low"]);
 
 /** Inspection risk tier (V2 3-tier per-jurisdiction model). */
 export const RiskTierEnum = z.enum(["High", "Medium", "Low"]);
+
+/* ────────────────────────────────────────────────────────────────────────────
+ * V2.5 — four compliance-domain topic enums (Module 6–9)
+ * ──────────────────────────────────────────────────────────────────────────── */
+
+/** Labor & Employment topic (Module 6 用工合规). */
+export const LaborTopicEnum = z.enum([
+  "min_wage",
+  "overtime_tip",
+  "fair_workweek",
+  "sick_safe_leave",
+  "wage_theft",
+  "classification",
+  "union_nlrb",
+  "discrimination_eeoc",
+  "posting",
+  "other",
+]);
+
+/** Building & Occupational Safety topic (Module 7 建筑与职业安全). */
+export const BuildingTopicEnum = z.enum([
+  "osha_safety",
+  "building_code",
+  "fire_code",
+  "ada",
+  "permit_co",
+  "other",
+]);
+
+/** Environmental & Sanitation topic (Module 8 环境卫生). */
+export const EnvTopicEnum = z.enum([
+  "wastewater_fog",
+  "organics_compost",
+  "recycling",
+  "trade_waste_hauler",
+  "other",
+]);
+
+/** Consumer & Worker Protection topic (Module 9 消费者与员工保护). */
+export const ConsumerTopicEnum = z.enum([
+  "refund_posting",
+  "signage_pricing",
+  "deceptive_practices",
+  "licensing",
+  "complaints",
+  "other",
+]);
+
+/* ────────────────────────────────────────────────────────────────────────────
+ * V2.5 — Applicability / Threshold engine enums (the hero)
+ * ──────────────────────────────────────────────────────────────────────────── */
+
+/** Engine verdict per rule (§7.2). */
+export const ApplicabilityStatusEnum = z.enum([
+  "applies", // 适用
+  "approaching", // 临近 (within ~80% of threshold)
+  "not_yet", // 暂不适用
+  "always", // 始终适用
+  "na", // 待补充 / 待核实 (pending data or needs verification)
+]);
+
+/** Which footprint count a location-count threshold is measured against. */
+export const CountBasisEnum = z.enum(["open", "open_planned", "all_status"]);
+
+/** Which footprint dimension the rule's threshold tests — drives evaluate()'s discriminated logic. */
+export const TriggerDimensionEnum = z.enum([
+  "location_count", // national store count vs threshold (uses countBasis)
+  "is_fast_food_model", // count threshold AND fast-food-model gate (Fair Workweek)
+  "combined_site_sqft", // sum of sqft across a jurisdiction's sites (organics chain)
+  "single_site_sqft", // largest single-site sqft (organics single site)
+  "always", // always applies (e.g. Paid Safe & Sick Leave)
+  "needs_verification", // cannot be auto-evaluated — render 待核实
+]);
 
 /* ────────────────────────────────────────────────────────────────────────────
  * Shared sub-objects
@@ -516,6 +595,261 @@ export const SentimentRecordSchema = z.object({
 });
 export type SentimentRecord = z.infer<typeof SentimentRecordSchema>;
 
+/* ════════════════════════════════════════════════════════════════════════════
+ * V2.5 — four compliance domains (Modules 6–9). Each mirrors one export sheet
+ * 1:1 via its SHEET*_COLUMNS array. `topic` + `applicabilityRuleId` are
+ * enrichment (NOT export columns). `appliesToUs` is stamped by the engine at
+ * prep time (labor/environment/consumer only; building is premises-universal).
+ * ════════════════════════════════════════════════════════════════════════════ */
+
+/* ── Module 6 — 用工合规 Labor & Employment (Sheet5, 18 cols) ── */
+export const LaborRecordSchema = z.object({
+  id: z.string().min(1),
+  module: ModuleEnum.default("labor"),
+  no: z.number().int().nullable().default(null), // 序号 No.
+  jurisdiction: RegJurisdictionEnum.nullable().default(null), // 地区
+  regulationBillName: z.string().nullable().default(null), // 法规/法案名称
+  chineseTitle: z.string().nullable().default(null), // 中文标题
+  englishTitle: z.string().nullable().default(null), // 英文标题
+  agency: z.string().nullable().default(null), // 监管机构 (DOL WHD / NLRB / EEOC / NYC DCWP …)
+  applicabilityThreshold: z.string().nullable().default(null), // 适用门槛
+  appliesToUs: z.boolean().nullable().default(null), // 是否适用我方 (engine-set; null = not evaluated)
+  status: RegStatusEnum.nullable().default(null), // 当前状态
+  effectiveDate: isoDate.nullable().default(null), // 生效日期
+  keyRequirements: z.string().nullable().default(null), // 核心要求
+  chineseSummary: z.string().nullable().default(null), // 中文摘要
+  englishSummary: z.string().nullable().default(null), // 英文摘要
+  businessImpact: z.string().nullable().default(null), // 对甲方影响
+  enforcementRecord: z.string().nullable().default(null), // 执法/投诉记录
+  riskLevel: RiskLevelEnum.nullable().default(null), // 风险等级
+  sourceUrl: z.string().url().nullable().default(null), // 原文链接
+  recommendedAction: z.string().nullable().default(null), // 建议行动
+  // ── enrichment ──
+  topic: LaborTopicEnum.nullable().default(null),
+  applicabilityRuleId: z.string().nullable().default(null), // joins to applicability_rules.json
+  ...AlertMixin,
+  ...ReviewMixin,
+  provenance: ProvenanceSchema,
+});
+export type LaborRecord = z.infer<typeof LaborRecordSchema>;
+
+export const SHEET5_COLUMNS: (keyof LaborRecord)[] = [
+  "no", "jurisdiction", "regulationBillName", "chineseTitle", "englishTitle", "agency",
+  "applicabilityThreshold", "appliesToUs", "status", "effectiveDate", "keyRequirements",
+  "chineseSummary", "englishSummary", "businessImpact", "enforcementRecord", "riskLevel",
+  "sourceUrl", "recommendedAction",
+];
+
+/* ── Module 7 — 建筑与职业安全 Building & Occupational Safety (Sheet6, 19 cols) ── */
+export const BuildingRecordSchema = z.object({
+  id: z.string().min(1),
+  module: ModuleEnum.default("building"),
+  no: z.number().int().nullable().default(null), // 序号 No.
+  jurisdiction: RegJurisdictionEnum.nullable().default(null), // 地区
+  codeStandardName: z.string().nullable().default(null), // 法规/标准名称
+  chineseTitle: z.string().nullable().default(null), // 中文标题
+  englishTitle: z.string().nullable().default(null), // 英文标题
+  agency: z.string().nullable().default(null), // 监管机构 (OSHA / DOB / FDNY)
+  codeCitation: z.string().nullable().default(null), // 条款/代码
+  status: RegStatusEnum.nullable().default(null), // 当前状态
+  effectiveDate: isoDate.nullable().default(null), // 生效日期
+  coveredEntities: z.string().nullable().default(null), // 适用对象
+  keyRequirements: z.string().nullable().default(null), // 核心要求
+  chineseSummary: z.string().nullable().default(null), // 中文摘要
+  englishSummary: z.string().nullable().default(null), // 英文摘要
+  businessImpact: z.string().nullable().default(null), // 对甲方影响
+  inspectionCitationRecord: z.string().nullable().default(null), // 检查/处罚记录
+  penalty: z.string().nullable().default(null), // 罚款
+  riskLevel: RiskLevelEnum.nullable().default(null), // 风险等级
+  sourceUrl: z.string().url().nullable().default(null), // 原文链接
+  recommendedAction: z.string().nullable().default(null), // 建议行动
+  // ── enrichment ──
+  topic: BuildingTopicEnum.nullable().default(null),
+  ...AlertMixin,
+  ...ReviewMixin,
+  provenance: ProvenanceSchema,
+});
+export type BuildingRecord = z.infer<typeof BuildingRecordSchema>;
+
+export const SHEET6_COLUMNS: (keyof BuildingRecord)[] = [
+  "no", "jurisdiction", "codeStandardName", "chineseTitle", "englishTitle", "agency",
+  "codeCitation", "status", "effectiveDate", "coveredEntities", "keyRequirements",
+  "chineseSummary", "englishSummary", "businessImpact", "inspectionCitationRecord", "penalty",
+  "riskLevel", "sourceUrl", "recommendedAction",
+];
+
+/* ── Module 8 — 环境卫生 Environmental & Sanitation (Sheet7, 17 cols) ── */
+export const EnvironmentRecordSchema = z.object({
+  id: z.string().min(1),
+  module: ModuleEnum.default("environment"),
+  no: z.number().int().nullable().default(null), // 序号 No.
+  jurisdiction: RegJurisdictionEnum.nullable().default(null), // 地区
+  regulationName: z.string().nullable().default(null), // 法规名称
+  chineseTitle: z.string().nullable().default(null), // 中文标题
+  englishTitle: z.string().nullable().default(null), // 英文标题
+  agency: z.string().nullable().default(null), // 监管机构 (EPA / DEP / DSNY / BIC)
+  applicabilityThreshold: z.string().nullable().default(null), // 适用门槛 (sqft / chain size)
+  appliesToUs: z.boolean().nullable().default(null), // 是否适用我方 (engine-set)
+  status: RegStatusEnum.nullable().default(null), // 当前状态
+  effectiveDate: isoDate.nullable().default(null), // 生效日期
+  keyRequirements: z.string().nullable().default(null), // 核心要求
+  chineseSummary: z.string().nullable().default(null), // 中文摘要
+  englishSummary: z.string().nullable().default(null), // 英文摘要
+  businessImpact: z.string().nullable().default(null), // 对甲方影响
+  riskLevel: RiskLevelEnum.nullable().default(null), // 风险等级
+  sourceUrl: z.string().url().nullable().default(null), // 原文链接
+  recommendedAction: z.string().nullable().default(null), // 建议行动
+  // ── enrichment ──
+  topic: EnvTopicEnum.nullable().default(null),
+  applicabilityRuleId: z.string().nullable().default(null),
+  ...AlertMixin,
+  ...ReviewMixin,
+  provenance: ProvenanceSchema,
+});
+export type EnvironmentRecord = z.infer<typeof EnvironmentRecordSchema>;
+
+export const SHEET7_COLUMNS: (keyof EnvironmentRecord)[] = [
+  "no", "jurisdiction", "regulationName", "chineseTitle", "englishTitle", "agency",
+  "applicabilityThreshold", "appliesToUs", "status", "effectiveDate", "keyRequirements",
+  "chineseSummary", "englishSummary", "businessImpact", "riskLevel", "sourceUrl",
+  "recommendedAction",
+];
+
+/* ── Module 9 — 消费者与员工保护 Consumer & Worker Protection (Sheet8, 15 cols) ── */
+export const ConsumerRecordSchema = z.object({
+  id: z.string().min(1),
+  module: ModuleEnum.default("consumer"),
+  no: z.number().int().nullable().default(null), // 序号 No.
+  jurisdiction: RegJurisdictionEnum.nullable().default(null), // 地区
+  regulationName: z.string().nullable().default(null), // 法规名称
+  chineseTitle: z.string().nullable().default(null), // 中文标题
+  englishTitle: z.string().nullable().default(null), // 英文标题
+  agency: z.string().nullable().default(null), // 监管机构 (DCWP / state AG / FTC)
+  applicabilityThreshold: z.string().nullable().default(null), // 适用门槛
+  appliesToUs: z.boolean().nullable().default(null), // 是否适用我方 (engine-set)
+  keyRequirements: z.string().nullable().default(null), // 核心要求
+  complaintEnforcementRecord: z.string().nullable().default(null), // 投诉/执法记录
+  status: RegStatusEnum.nullable().default(null), // 当前状态
+  effectiveDate: isoDate.nullable().default(null), // 生效日期
+  riskLevel: RiskLevelEnum.nullable().default(null), // 风险等级
+  sourceUrl: z.string().url().nullable().default(null), // 原文链接
+  recommendedAction: z.string().nullable().default(null), // 建议行动
+  // ── enrichment ──
+  topic: ConsumerTopicEnum.nullable().default(null),
+  applicabilityRuleId: z.string().nullable().default(null),
+  ...AlertMixin,
+  ...ReviewMixin,
+  provenance: ProvenanceSchema,
+});
+export type ConsumerRecord = z.infer<typeof ConsumerRecordSchema>;
+
+export const SHEET8_COLUMNS: (keyof ConsumerRecord)[] = [
+  "no", "jurisdiction", "regulationName", "chineseTitle", "englishTitle", "agency",
+  "applicabilityThreshold", "appliesToUs", "keyRequirements", "complaintEnforcementRecord",
+  "status", "effectiveDate", "riskLevel", "sourceUrl", "recommendedAction",
+];
+
+/* ════════════════════════════════════════════════════════════════════════════
+ * V2.5 — Store footprint inputs + Applicability rules (engine inputs).
+ * owned_stores.json + company_profile.json are the real read-only ops-DB
+ * extract (asOf 2026-06-20) — consumed, not regenerated. ALL numbers nullable;
+ * `.passthrough()` keeps the `_`-prefixed provenance aids without rejecting.
+ * ════════════════════════════════════════════════════════════════════════════ */
+
+/** nullable number helper (every footprint number can be null — pipeline placeholders → null). */
+const nullableNumber = z.number().nullable().default(null);
+
+export const OwnedStoreSchema = z
+  .object({
+    storeId: z.string().min(1),
+    storeName: z.string(),
+    brand: z.string(),
+    establishmentType: z.string().nullable().default(null),
+    status: z.enum(["open", "planned", "closed"]),
+    openDate: isoDate.nullable().default(null),
+    address: z.string().nullable().default(null),
+    city: z.string().nullable().default(null),
+    state: z.string().nullable().default(null),
+    zip: z.string().nullable().default(null),
+    jurisdiction: z.string().nullable().default(null),
+    floorAreaSqft: z.number().nullable().default(null),
+    floorAreaSource: z.string().nullable().default(null),
+    licenseNumbers: z.array(z.string()).default([]),
+    dohEstablishmentId: z.string().nullable().default(null),
+    lat: z.number().nullable().default(null),
+    lng: z.number().nullable().default(null),
+    asOf: isoDate.nullable().default(null),
+    source: z.string().nullable().default(null),
+    reviewed: z.boolean().default(false), // roster is UNREVIEWED by design
+  })
+  .passthrough(); // keep _deptId, _seatCount, _usageAreaSqm, _floorAreaNote, _hasScannedFoodLicenceImage
+export type OwnedStore = z.infer<typeof OwnedStoreSchema>;
+export const OwnedStoresFileSchema = z.array(OwnedStoreSchema);
+
+const ProfileNationalSchema = z
+  .object({
+    locationCount: nullableNumber,
+    openLocationCount: nullableNumber,
+    plannedLocationCount: nullableNumber,
+    closedOrWithdrawnLocationCount: nullableNumber,
+    retailLocationCountAllStatuses: nullableNumber,
+    internalKitchensExcluded: nullableNumber,
+  })
+  .passthrough();
+
+const ProfileJurisdictionSchema = z
+  .object({
+    jurisdiction: z.string(),
+    locationCount: nullableNumber,
+    combinedFloorAreaSqft: nullableNumber,
+  })
+  .passthrough();
+
+const ProfileFloorAreaSchema = z
+  .object({
+    perStoreTypicalSqft: nullableNumber,
+    perStoreMaxSqft: nullableNumber,
+    totalSqft: nullableNumber,
+  })
+  .passthrough();
+
+export const CompanyProfileSchema = z
+  .object({
+    asOf: isoDate,
+    source: z.string().nullable().default(null),
+    isFastFoodModel: z.boolean().nullable().default(null),
+    isFastFoodModelNote: z.string().nullable().default(null),
+    national: ProfileNationalSchema,
+    jurisdictions: z.array(ProfileJurisdictionSchema).default([]),
+    floorArea: ProfileFloorAreaSchema,
+    coverageNote: z.string().nullable().default(null),
+  })
+  .passthrough();
+export type CompanyProfile = z.infer<typeof CompanyProfileSchema>;
+
+export const ApplicabilityRuleSchema = z.object({
+  id: z.string().min(1),
+  module: ModuleEnum,
+  jurisdiction: RegJurisdictionEnum,
+  regulationName: z.object({ zh: z.string(), en: z.string() }),
+  triggerDimension: TriggerDimensionEnum,
+  /** numeric threshold; null for always / needs_verification rules. */
+  threshold: z.number().nullable().default(null),
+  /** REQUIRED authority link — no fabricated thresholds. */
+  thresholdSourceUrl: z.string().url(),
+  countBasis: CountBasisEnum.default("open"), // only meaningful for location_count / fair workweek
+  effectiveDate: isoDate.nullable().default(null),
+  needsVerification: z.boolean().default(false),
+  actionZh: z.string(),
+  actionEn: z.string(),
+});
+export type ApplicabilityRule = z.infer<typeof ApplicabilityRuleSchema>;
+export const ApplicabilityRulesFileSchema = z.array(ApplicabilityRuleSchema);
+export type CountBasis = z.infer<typeof CountBasisEnum>;
+export type ApplicabilityStatus = z.infer<typeof ApplicabilityStatusEnum>;
+export type TriggerDimension = z.infer<typeof TriggerDimensionEnum>;
+export type Module = z.infer<typeof ModuleEnum>;
+
 /* ────────────────────────────────────────────────────────────────────────────
  * Reference data (sheets 4–6) + meta
  * ──────────────────────────────────────────────────────────────────────────── */
@@ -629,6 +963,11 @@ export const MetaSchema = z.object({
     importExport: z.number().int().default(0),
     regulation: z.number().int().default(0),
     sentiment: z.number().int().default(0),
+    // ── V2.5 compliance-domain counts ──
+    labor: z.number().int().default(0),
+    building: z.number().int().default(0),
+    environment: z.number().int().default(0),
+    consumer: z.number().int().default(0),
     highRisk: z.number().int().default(0),
     watch: z.number().int().default(0),
     bySource: z.record(z.string(), z.number().int()),
@@ -648,6 +987,11 @@ export const InspectionFileSchema = z.array(InspectionRecordSchema);
 export const ImportExportFileSchema = z.array(ImportExportRecordSchema);
 export const RegulationFileSchema = z.array(RegulationRecordSchema);
 export const SentimentFileSchema = z.array(SentimentRecordSchema);
+// ── V2.5 compliance domains ──
+export const LaborFileSchema = z.array(LaborRecordSchema);
+export const BuildingFileSchema = z.array(BuildingRecordSchema);
+export const EnvironmentFileSchema = z.array(EnvironmentRecordSchema);
+export const ConsumerFileSchema = z.array(ConsumerRecordSchema);
 export const ViolationCategoriesFileSchema = z.array(ViolationCategorySchema);
 export const BrandsFileSchema = z.object({
   brands: z.array(BrandRefSchema),
@@ -680,4 +1024,12 @@ export const ENUM_OPTIONS = {
   regTopic: RegTopicEnum.options,
   regJurisdiction: RegJurisdictionEnum.options,
   sentimentCategory: SentimentCategoryEnum.options,
+  // ── V2.5 ──
+  laborTopic: LaborTopicEnum.options,
+  buildingTopic: BuildingTopicEnum.options,
+  envTopic: EnvTopicEnum.options,
+  consumerTopic: ConsumerTopicEnum.options,
+  applicabilityStatus: ApplicabilityStatusEnum.options,
+  countBasis: CountBasisEnum.options,
+  triggerDimension: TriggerDimensionEnum.options,
 } as const;

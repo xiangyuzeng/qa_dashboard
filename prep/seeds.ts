@@ -295,3 +295,391 @@ export const regulationSeeds: RegSeed[] = [
     recommendedAction: "将 NJ 餐饮过敏原披露法案纳入持续监控；提前建立统一过敏原数据库。",
   },
 ];
+
+/* ════════════════════════════════════════════════════════════════════════════
+ * V2.5 — four compliance-domain seeds (labor / building / environment / consumer).
+ * Stable, authoritative law transcribed verbatim with a source link. `applicabilityRuleId`
+ * joins a row to a §7.3 engine rule so collect.ts can stamp `appliesToUs`.
+ * ════════════════════════════════════════════════════════════════════════════ */
+
+export type LaborSeed = {
+  jurisdiction: string;
+  regulationBillName: string;
+  chineseTitle: string;
+  englishTitle: string;
+  agency: string;
+  applicabilityThreshold: string | null;
+  status: string; // RegStatusEnum
+  effectiveDate: string | null;
+  keyRequirements: string | null;
+  chineseSummary: string;
+  englishSummary: string;
+  businessImpact: string | null;
+  enforcementRecord: string | null;
+  riskLevel: string; // RiskLevelEnum
+  topic: string; // LaborTopicEnum
+  applicabilityRuleId: string | null;
+  sourceUrl: string | null;
+  recommendedAction: string | null;
+};
+
+export const laborSeeds: LaborSeed[] = [
+  {
+    jurisdiction: "New York City",
+    regulationBillName: "NYC Fair Workweek Law — Fast Food (6 RCNY Ch. 7 Subch. F)",
+    chineseTitle: "NYC 公平工作周法（快餐业）",
+    englishTitle: "NYC Fair Workweek Law (Fast Food Employers)",
+    agency: "NYC DCWP",
+    applicabilityThreshold: "全国 30 家以上的快餐连锁 Fast food establishments part of a chain of 30+ locations nationally",
+    status: "In effect",
+    effectiveDate: "2017-11-26",
+    keyRequirements:
+      "提前 14 天发布排班；变更需支付可预测性补偿；新增工时须先提供给现有员工；未经同意不得 clopening。",
+    chineseSummary:
+      "NYC 公平工作周法要求被认定为全国 30 家以上的快餐雇主提前发布排班、对排班变更支付补偿，并在招聘前优先向现有员工提供新增工时。是否适用取决于「快餐」认定与门店计数口径。",
+    englishSummary:
+      "NYC Fair Workweek requires fast-food employers (chains of 30+ locations nationally) to post schedules 14 days ahead, pay predictability premiums for changes, and offer new hours to existing staff before hiring. Applicability turns on the fast-food classification and the location-count basis.",
+    businessImpact:
+      "若被认定为快餐模式，将直接影响排班系统、用工成本与合规流程；瑞幸目前门店数处于阈值边缘（在岗 18 / 全状态 30）。",
+    enforcementRecord:
+      "DCWP 已就快餐业公平工作周达成多起执法和解（行业内最高达数千万美元级城市范围和解）。",
+    riskLevel: "中风险",
+    topic: "fair_workweek",
+    applicabilityRuleId: "nyc_fair_workweek",
+    sourceUrl: "https://www.nyc.gov/site/dca/about/fair-workweek-law.page",
+    recommendedAction: "请法务确认快餐模式认定与门店计数口径；若适用，提前部署合规排班系统。",
+  },
+  {
+    jurisdiction: "New York City",
+    regulationBillName: "NYC Earned Safe and Sick Time Act (Paid Safe and Sick Leave)",
+    chineseTitle: "NYC 带薪安全与病假法",
+    englishTitle: "NYC Earned Safe and Sick Time Act",
+    agency: "NYC DCWP",
+    applicabilityThreshold: "在 NYC 有员工的雇主；员工 ≥ 5 人（或净收入 ≥ $100 万）触发带薪累积",
+    status: "In effect",
+    effectiveDate: "2014-04-01",
+    keyRequirements: "按工时累积安全/病假；雇主须提供书面政策并在工资单上显示累积余额；不得报复。",
+    chineseSummary:
+      "NYC ESSTA 要求在 NYC 有员工的雇主提供安全与病假，员工达 5 人以上须为带薪。任何有员工的门店均适用。",
+    englishSummary:
+      "NYC's Earned Safe and Sick Time Act requires employers with NYC employees to provide safe/sick leave; paid accrual applies at 5+ employees. Any establishment with staff is covered.",
+    businessImpact: "对所有 NYC 门店用工政策、考勤与工资单系统均有直接影响。",
+    enforcementRecord: "DCWP 定期就病假政策缺失、报复及未支付累积进行处罚。",
+    riskLevel: "中风险",
+    topic: "sick_safe_leave",
+    applicabilityRuleId: "nyc_sick_safe_leave",
+    sourceUrl: "https://www.nyc.gov/site/dca/about/paid-safe-sick-leave.page",
+    recommendedAction: "核查门店书面病假政策、工资单累积显示与告示张贴是否合规。",
+  },
+  {
+    jurisdiction: "Federal",
+    regulationBillName: "FLSA Tip Regulations — Tip Credit & Dual Jobs (29 CFR 531)",
+    chineseTitle: "FLSA 小费规则（小费抵扣与双重工作）",
+    englishTitle: "FLSA Tip Regulations — Tip Credit and Dual Jobs",
+    agency: "US DOL Wage & Hour Division",
+    applicabilityThreshold: "使用小费抵扣 / 雇用获小费员工的雇主",
+    status: "Monitoring",
+    effectiveDate: null,
+    keyRequirements: "小费抵扣须满足告知与最低工资保障；2021 年 80/20/30 规则已被第五巡回法院于 2024 年撤销，持续关注后续规则。",
+    chineseSummary:
+      "联邦 FLSA 小费规则规范小费抵扣与双重工作。2021 年 80/20/30 最终规则已被法院撤销；瑞幸以预点单/外带为主，若不使用小费抵扣则相关性较低。",
+    englishSummary:
+      "Federal FLSA tip rules govern tip credits and dual jobs. The 2021 80/20/30 final rule was vacated by the 5th Circuit in 2024. As an order-ahead/takeout model that likely takes no tip credit, relevance to Luckin is limited.",
+    businessImpact: "若不采用小费抵扣，影响较低；保留监控以防业务模式或法规变化。",
+    enforcementRecord: null,
+    riskLevel: "信息参考",
+    topic: "overtime_tip",
+    applicabilityRuleId: null,
+    sourceUrl: "https://www.dol.gov/agencies/whd/flsa/tips",
+    recommendedAction: "确认是否使用小费抵扣；持续监控 DOL 后续小费规则。",
+  },
+];
+
+export type BuildingSeed = {
+  jurisdiction: string;
+  codeStandardName: string;
+  chineseTitle: string;
+  englishTitle: string;
+  agency: string;
+  codeCitation: string | null;
+  status: string;
+  effectiveDate: string | null;
+  coveredEntities: string | null;
+  keyRequirements: string | null;
+  chineseSummary: string;
+  englishSummary: string;
+  businessImpact: string | null;
+  inspectionCitationRecord: string | null;
+  penalty: string | null;
+  riskLevel: string;
+  topic: string; // BuildingTopicEnum
+  sourceUrl: string | null;
+  recommendedAction: string | null;
+};
+
+export const buildingSeeds: BuildingSeed[] = [
+  {
+    jurisdiction: "Federal",
+    codeStandardName: "OSHA General Industry Standards + General Duty Clause",
+    chineseTitle: "OSHA 通用行业标准与一般责任条款",
+    englishTitle: "OSHA General Industry Standards (29 CFR 1910) and General Duty Clause",
+    agency: "Federal OSHA (US DOL)",
+    codeCitation: "29 CFR 1910; OSH Act §5(a)(1)",
+    status: "In effect",
+    effectiveDate: null,
+    coveredEntities: "所有私营雇主，含餐饮服务 All private-sector employers including food service",
+    keyRequirements: "维护无公认危害的工作场所；湿滑/烫伤/机械/电气危害控制；伤害记录（300 表）；员工培训。",
+    chineseSummary:
+      "OSHA 通用行业标准与一般责任条款要求雇主维护无公认危害的工作场所，涵盖咖啡店常见的湿滑、烫伤、机械与电气风险。",
+    englishSummary:
+      "OSHA's general industry standards and the General Duty Clause require employers to maintain a workplace free of recognized hazards — covering slip/burn/machine/electrical risks common in cafés.",
+    businessImpact: "影响门店安全流程、设备维护、伤害记录与员工培训。",
+    inspectionCitationRecord: null,
+    penalty: "严重违规每项最高约 $16,550；故意/重复每项最高约 $165,514（每年调整）。",
+    riskLevel: "中风险",
+    topic: "osha_safety",
+    sourceUrl: "https://www.osha.gov/laws-regs/regulations/standardnumber/1910",
+    recommendedAction: "建立门店 OSHA 自查与伤害记录流程；针对烫伤/湿滑/电气危害开展培训。",
+  },
+  {
+    jurisdiction: "Federal",
+    codeStandardName: "OSHA Hazard Communication Standard (HazCom / GHS)",
+    chineseTitle: "OSHA 危害通识标准（HazCom / GHS）",
+    englishTitle: "OSHA Hazard Communication Standard",
+    agency: "Federal OSHA (US DOL)",
+    codeCitation: "29 CFR 1910.1200",
+    status: "In effect",
+    effectiveDate: null,
+    coveredEntities: "使用危险化学品的雇主（门店清洁/消毒化学品）",
+    keyRequirements: "化学品清单、安全数据表（SDS）可及、GHS 标签、员工危害通识培训。",
+    chineseSummary:
+      "HazCom 要求对工作场所危险化学品（如清洁/消毒剂）维护 SDS、正确标签并培训员工，咖啡店清洁化学品适用。",
+    englishSummary:
+      "HazCom requires maintaining safety data sheets, proper GHS labels, and training for workplace hazardous chemicals — applicable to café cleaning/sanitizing chemicals.",
+    businessImpact: "影响门店化学品管理、SDS 存档与新员工培训。",
+    inspectionCitationRecord: null,
+    penalty: "并入 OSHA 罚则（严重/故意/重复）。",
+    riskLevel: "中风险",
+    topic: "osha_safety",
+    sourceUrl: "https://www.osha.gov/laws-regs/regulations/standardnumber/1910/1910.1200",
+    recommendedAction: "建立门店化学品 SDS 库与 GHS 标签核查清单。",
+  },
+  {
+    jurisdiction: "Federal",
+    codeStandardName: "ADA Title III — Public Accommodations",
+    chineseTitle: "ADA 第三章 —— 公共场所无障碍",
+    englishTitle: "ADA Title III — Public Accommodations (2010 ADA Standards)",
+    agency: "US DOJ / ADA",
+    codeCitation: "42 U.S.C. §12181 et seq.; 2010 ADA Standards for Accessible Design",
+    status: "In effect",
+    effectiveDate: null,
+    coveredEntities: "公共场所，含咖啡店/餐厅 Places of public accommodation incl. cafés",
+    keyRequirements: "无障碍入口、通道、柜台高度、卫生间；移除可行的障碍；无障碍数字点单。",
+    chineseSummary:
+      "ADA 第三章要求公共场所提供无障碍设施（入口、通道、柜台、卫生间），并日益涵盖网站/App 点单无障碍。",
+    englishSummary:
+      "ADA Title III requires public accommodations to be accessible (entrances, paths, counters, restrooms) and increasingly covers website/app ordering accessibility.",
+    businessImpact: "影响门店设计/改造、柜台与卫生间布局，以及 App/网站无障碍。",
+    inspectionCitationRecord: null,
+    penalty: "民事处罚与私人诉讼（含网站无障碍诉讼）。",
+    riskLevel: "中风险",
+    topic: "ada",
+    sourceUrl: "https://www.ada.gov/topics/title-iii/",
+    recommendedAction: "在门店设计与 App 中纳入 ADA 无障碍核查；评估数字无障碍合规。",
+  },
+  {
+    jurisdiction: "New York City",
+    codeStandardName: "NYC Construction & Fire Codes — C of O and FDNY Permits",
+    chineseTitle: "NYC 建筑与消防规范 —— 使用许可证与 FDNY 许可",
+    englishTitle: "NYC Construction & Fire Codes — Certificate of Occupancy and FDNY Permits",
+    agency: "NYC DOB / FDNY",
+    codeCitation: "NYC Admin Code Title 28 (Construction) & Title 29 (Fire)",
+    status: "In effect",
+    effectiveDate: null,
+    coveredEntities: "商业改造、聚集场所、抽油烟/灭火系统",
+    keyRequirements: "合法使用许可证（C of O）、建筑许可、FDNY 聚集场所许可与灭火系统/抽油烟检验。",
+    chineseSummary:
+      "NYC 建筑与消防规范要求门店改造取得建筑许可与使用许可证，并就聚集场所、抽油烟与灭火系统取得 FDNY 许可与检验。",
+    englishSummary:
+      "NYC construction and fire codes require build-out permits and a certificate of occupancy, plus FDNY permits/inspections for assembly, exhaust hoods and fire-suppression systems.",
+    businessImpact: "直接影响门店开业进度、改造合规与 FDNY 检验。",
+    inspectionCitationRecord: null,
+    penalty: "DOB/ECB 违规罚单；停工令（stop-work）。",
+    riskLevel: "中风险",
+    topic: "fire_code",
+    sourceUrl: "https://www.nyc.gov/site/buildings/index.page",
+    recommendedAction: "开业前核查 C of O、建筑许可与 FDNY 许可/检验是否齐全。",
+  },
+];
+
+export type EnvironmentSeed = {
+  jurisdiction: string;
+  regulationName: string;
+  chineseTitle: string;
+  englishTitle: string;
+  agency: string;
+  applicabilityThreshold: string | null;
+  status: string;
+  effectiveDate: string | null;
+  keyRequirements: string | null;
+  chineseSummary: string;
+  englishSummary: string;
+  businessImpact: string | null;
+  riskLevel: string;
+  topic: string; // EnvTopicEnum
+  applicabilityRuleId: string | null;
+  sourceUrl: string | null;
+  recommendedAction: string | null;
+};
+
+export const environmentSeeds: EnvironmentSeed[] = [
+  {
+    jurisdiction: "New York City",
+    regulationName: "NYC DEP Fats, Oils & Grease (FOG) Best Management Practices",
+    chineseTitle: "NYC DEP 油脂（FOG）最佳管理规范",
+    englishTitle: "NYC DEP Fats, Oils & Grease (FOG) BMP",
+    agency: "NYC DEP",
+    applicabilityThreshold: "所有排放油脂的餐饮场所；隔油设备规模按 DEP 规定（具体门槛待核实）",
+    status: "In effect",
+    effectiveDate: null,
+    keyRequirements: "安装并维护隔油器/隔油池；保留清掏记录；自 2021-09-25 起禁止食物垃圾液化器排入下水道。",
+    chineseSummary:
+      "NYC DEP 要求餐饮场所安装并维护隔油设备以控制油脂排入下水道，并禁止使用食物垃圾液化器排放。具体规模门槛需向 DEP 核实。",
+    englishSummary:
+      "NYC DEP requires food-service establishments to install and maintain grease interceptors to control FOG discharge, and bans food-waste-liquefier sewer discharge (since 2021-09-25). Exact size cutoffs to verify with DEP.",
+    businessImpact: "影响门店厨房设备、隔油器维护与清掏记录。",
+    riskLevel: "中风险",
+    topic: "wastewater_fog",
+    applicabilityRuleId: "nyc_fog",
+    sourceUrl: "https://www.nyc.gov/site/dep/water/grease-traps.page",
+    recommendedAction: "核实各门店隔油设备规模与清掏记录是否符合 DEP 要求。",
+  },
+  {
+    jurisdiction: "New York City",
+    regulationName: "NYC Commercial Organics Separation (Local Law 146 of 2013)",
+    chineseTitle: "NYC 商业有机垃圾分类（2013 年第 146 号地方法）",
+    englishTitle: "NYC Commercial Organics Separation (Local Law 146 of 2013)",
+    agency: "NYC DSNY",
+    applicabilityThreshold: "连锁餐饮：同城 2 处以上合计 8,000 平方英尺以上，或单店 7,000 平方英尺以上",
+    status: "In effect",
+    effectiveDate: null,
+    keyRequirements: "源头分离有机垃圾；使用持牌运输商或现场处理；保留记录。",
+    chineseSummary:
+      "NYC 地方法 146 要求达到规模门槛的餐饮连锁源头分离有机垃圾。瑞幸 NYC 在岗门店合计约 21,156 平方英尺，已超过 8,000 平方英尺连锁门槛。",
+    englishSummary:
+      "NYC Local Law 146 requires covered food-service chains above the size thresholds to source-separate organics. Luckin's open NYC footprint (~21,156 sq ft combined) exceeds the 8,000 sq ft chain threshold.",
+    businessImpact: "适用：需为 NYC 门店建立有机垃圾分类流程并签约持牌运输商。",
+    riskLevel: "中风险",
+    topic: "organics_compost",
+    applicabilityRuleId: "nyc_organics_chain",
+    sourceUrl: "https://www.nyc.gov/assets/dsny/site/services/food-scraps-and-yard-waste-page/overview-commercial-organics",
+    recommendedAction: "为 NYC 门店部署有机垃圾源头分离与持牌运输商合约，并留存记录。",
+  },
+  {
+    jurisdiction: "New York City",
+    regulationName: "NYC Commercial Waste Zones + Trade Waste Hauler Licensing (BIC)",
+    chineseTitle: "NYC 商业垃圾分区与运输商许可（BIC）",
+    englishTitle: "NYC Commercial Waste Zones and Trade Waste Hauler Licensing",
+    agency: "NYC DSNY / BIC",
+    applicabilityThreshold: "使用私营运输的所有商户须使用分区内 BIC 持牌运输商",
+    status: "In effect",
+    effectiveDate: null,
+    keyRequirements: "使用指定商业垃圾分区内的 BIC 持牌运输商；遵守计费与服务标准。",
+    chineseSummary:
+      "NYC 商业垃圾分区（CWZ）改革要求商户使用其所在分区内的 BIC 持牌运输商；BIC 负责运输商许可与监管。",
+    englishSummary:
+      "NYC's Commercial Waste Zones reform requires businesses to use a BIC-licensed hauler within their assigned zone; BIC licenses and oversees private carters.",
+    businessImpact: "影响门店垃圾清运合约选择与计费。",
+    riskLevel: "信息参考",
+    topic: "trade_waste_hauler",
+    applicabilityRuleId: null,
+    sourceUrl: "https://www.nyc.gov/assets/dsny/site/our-work/reduce/commercial-waste-zones",
+    recommendedAction: "确认门店所在商业垃圾分区并签约 BIC 持牌运输商。",
+  },
+];
+
+export type ConsumerSeed = {
+  jurisdiction: string;
+  regulationName: string;
+  chineseTitle: string;
+  englishTitle: string;
+  agency: string;
+  applicabilityThreshold: string | null;
+  keyRequirements: string | null;
+  complaintEnforcementRecord: string | null;
+  status: string;
+  effectiveDate: string | null;
+  chineseSummary: string;
+  englishSummary: string;
+  riskLevel: string;
+  topic: string; // ConsumerTopicEnum
+  applicabilityRuleId: string | null;
+  sourceUrl: string | null;
+  recommendedAction: string | null;
+};
+
+export const consumerSeeds: ConsumerSeed[] = [
+  {
+    jurisdiction: "New York City",
+    regulationName: "NYC Refund Policy Posting Rule (6 RCNY §5-37)",
+    chineseTitle: "NYC 退款政策张贴规则（6 RCNY §5-37）",
+    englishTitle: "NYC Refund Policy Posting Rule",
+    agency: "NYC DCWP",
+    applicabilityThreshold: "面向消费者销售商品的零售/餐饮场所",
+    keyRequirements: "在店内显眼处张贴退款政策；未张贴则消费者可在 30 天内退货。",
+    complaintEnforcementRecord: null,
+    status: "In effect",
+    effectiveDate: null,
+    chineseSummary:
+      "NYC DCWP 要求商家在显眼处张贴退款政策；若未张贴，消费者有权在购买后 30 天内退货退款。",
+    englishSummary:
+      "NYC DCWP requires merchants to conspicuously post their refund policy; if none is posted, consumers may return goods within 30 days of purchase.",
+    riskLevel: "中风险",
+    topic: "refund_posting",
+    applicabilityRuleId: null,
+    sourceUrl: "https://www.nyc.gov/site/dca/about/consumer-protection-law.page",
+    recommendedAction: "在各门店与点单界面显眼处张贴/展示退款政策。",
+  },
+  {
+    jurisdiction: "New York City",
+    regulationName: "NYC Consumer Protection Law — Pricing & Signage (6 RCNY Ch. 5)",
+    chineseTitle: "NYC 消费者保护法 —— 标价与告示",
+    englishTitle: "NYC Consumer Protection Law — Pricing & Signage",
+    agency: "NYC DCWP",
+    applicabilityThreshold: "面向消费者的商户",
+    keyRequirements: "明确标价、避免误导性定价与广告；遵守告示与单品标价规则。",
+    complaintEnforcementRecord: "DCWP 经常对零售/餐饮商户进行单品标价与告示检查并处罚。",
+    status: "In effect",
+    effectiveDate: null,
+    chineseSummary:
+      "NYC 消费者保护法禁止不公平或误导性的商业行为，并就标价、告示与广告设定要求；DCWP 进行检查与执法。",
+    englishSummary:
+      "NYC's Consumer Protection Law bars unfair/deceptive practices and sets pricing, signage and advertising requirements; DCWP inspects and enforces.",
+    riskLevel: "中风险",
+    topic: "signage_pricing",
+    applicabilityRuleId: null,
+    sourceUrl: "https://www.nyc.gov/site/dca/about/consumer-protection-law.page",
+    recommendedAction: "核查门店与 App 的标价、促销与告示是否清晰、无误导。",
+  },
+  {
+    jurisdiction: "Federal",
+    regulationName: "FTC Act §5 — Unfair or Deceptive Acts or Practices",
+    chineseTitle: "FTC 法第 5 条 —— 不公平或欺骗性行为",
+    englishTitle: "FTC Act Section 5 — Unfair or Deceptive Acts or Practices",
+    agency: "FTC",
+    applicabilityThreshold: "所有企业（联邦基线）",
+    keyRequirements: "禁止不公平或欺骗性的商业行为，含广告、定价与订阅/会员条款。",
+    complaintEnforcementRecord: null,
+    status: "In effect",
+    effectiveDate: null,
+    chineseSummary:
+      "FTC 法第 5 条禁止不公平或欺骗性的商业行为，是联邦层面的消费者保护基线，涵盖广告、定价与会员/订阅条款。",
+    englishSummary:
+      "FTC Act Section 5 prohibits unfair or deceptive acts or practices — the federal consumer-protection baseline covering advertising, pricing and subscription/membership terms.",
+    riskLevel: "信息参考",
+    topic: "deceptive_practices",
+    applicabilityRuleId: null,
+    sourceUrl: "https://www.ftc.gov/legal-library/browse/statutes/federal-trade-commission-act",
+    recommendedAction: "审查 App 会员/订阅、促销与广告表述，确保不构成误导。",
+  },
+];

@@ -9,6 +9,7 @@ import Link from "next/link";
 import { useLocale, useT } from "@/src/lib/i18n/locale";
 import { KpiCard, SectionCard, RiskBadge } from "@/src/components/ui";
 import { RiskHeatmap } from "@/src/components/viz/RiskHeatmap";
+import { PostureStrip, type PostureItem } from "@/src/components/overview/PostureStrip";
 import { riskLabel } from "@/src/lib/colors";
 import { pickLang } from "@/src/lib/i18n/util";
 import { RISK_LEVELS_ORDER, type HeatRow } from "@/src/lib/aggregate";
@@ -18,10 +19,12 @@ export function SummaryClient({
   summary,
   counts,
   heat,
+  posture = [],
 }: {
   summary: SummaryMeta | null;
   counts: Meta["counts"];
   heat: HeatRow[];
+  posture?: PostureItem[];
 }) {
   const t = useT();
   const { locale } = useLocale();
@@ -43,6 +46,12 @@ export function SummaryClient({
         <KpiCard label={t.summary.kpiInspections} value={counts.inspections} />
         <KpiCard label={t.summary.kpiHighRisk} value={counts.highRisk} accent="#C00000" />
       </div>
+
+      {posture.length > 0 && (
+        <SectionCard title={t.summary.posture}>
+          <PostureStrip posture={posture} />
+        </SectionCard>
+      )}
 
       <SectionCard title={t.summary.heatmap}>
         <RiskHeatmap

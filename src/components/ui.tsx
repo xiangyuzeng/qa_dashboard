@@ -93,3 +93,34 @@ export function ResultBadge({ result }: { result: string | null }) {
     </Badge>
   );
 }
+
+/** Applicability verdict badge — 适用 / 临近 / 暂不适用 / 始终适用 / 待补充 / 待核实. */
+const APPLIC_STYLE: Record<string, { bg: string; zh: string; en: string }> = {
+  applies: { bg: "#C00000", zh: "适用", en: "Applies" },
+  approaching: { bg: "#B45309", zh: "临近", en: "Approaching" },
+  not_yet: { bg: "#15803D", zh: "暂不适用", en: "Not yet" },
+  always: { bg: "#1F4E79", zh: "始终适用", en: "Always" },
+};
+export function ApplicabilityBadge({
+  status,
+  needsVerification,
+}: {
+  status: string;
+  needsVerification?: boolean;
+}) {
+  const { locale } = useLocale();
+  if (status === "na") {
+    return (
+      <Badge color="#fff" bg="#64748B">
+        {needsVerification ? (locale === "zh" ? "待核实" : "To verify") : locale === "zh" ? "待补充" : "Pending data"}
+      </Badge>
+    );
+  }
+  const s = APPLIC_STYLE[status];
+  if (!s) return <span className="text-slate-300">—</span>;
+  return (
+    <Badge color="#fff" bg={s.bg}>
+      {locale === "zh" ? s.zh : s.en}
+    </Badge>
+  );
+}

@@ -181,3 +181,46 @@ export function assessRegulatory(opts: {
     alertRuleIds: Array.from(new Set(rules)),
   };
 }
+
+/* ───────────────────────────────────────────────────────────────────────────
+ * V2.5 — four compliance domains (labor / building / environment / consumer).
+ * High = binding obligation effective ≤90 days OR active enforcement on a
+ * matched brand OR a scale-gated rule that now applies. Reuses the
+ * assessRegulation date math.
+ * ─────────────────────────────────────────────────────────────────────────── */
+export type ComplianceInput = {
+  status: string | null;
+  effectiveDate: string | null;
+  today: string;
+  /** true when a brand-matched enforcement / citation / complaint row exists. */
+  enforcementHit?: boolean;
+  /** true when the applicability engine says a scale-gated rule applies to us. */
+  scaleGated?: boolean;
+};
+
+function assessCompliance(o: ComplianceInput, ruleId: string): Assessment {
+  const daysTo =
+    o.effectiveDate != null
+      ? Math.round((Date.parse(o.effectiveDate) - Date.parse(o.today)) / 86400000)
+      : null;
+  const isLaw = ["Passed", "In effect", "Pending effective"].includes(o.status ?? "");
+  const imminent = isLaw && daysTo != null && daysTo <= 90 && daysTo >= -120;
+  const high = imminent || o.enforcementHit === true || o.scaleGated === true;
+  if (high) {
+    const reason = imminent
+      ? `compliance deadline: effective in ${daysTo} day(s)`
+      : o.enforcementHit
+        ? "active enforcement on a matched brand"
+        : "scale-gated obligation applies to our footprint";
+    return { riskLevel: "高风险", alertTriggered: true, alertReason: reason, alertRuleIds: [ruleId] };
+  }
+  if (isLaw) return { riskLevel: "中风险", alertTriggered: false, alertReason: null, alertRuleIds: [] };
+  if (o.status === "Proposed") return { riskLevel: "关注", alertTriggered: false, alertReason: null, alertRuleIds: [] };
+  if (o.status === "Repealed") return { riskLevel: "信息参考", alertTriggered: false, alertReason: null, alertRuleIds: [] };
+  return { riskLevel: "低风险", alertTriggered: false, alertReason: null, alertRuleIds: [] };
+}
+
+export const assessLabor = (o: ComplianceInput): Assessment => assessCompliance(o, "labor.compliance");
+export const assessBuilding = (o: ComplianceInput): Assessment => assessCompliance(o, "building.compliance");
+export const assessEnvironment = (o: ComplianceInput): Assessment => assessCompliance(o, "env.compliance");
+export const assessConsumer = (o: ComplianceInput): Assessment => assessCompliance(o, "consumer.compliance");

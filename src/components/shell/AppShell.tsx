@@ -12,6 +12,7 @@ const NAV_GROUPS = [
     label: "groupIntelligence",
     items: [
       { href: "/", key: "overview" },
+      { href: "/applicability", key: "applicability" },
       { href: "/alerts", key: "alerts" },
     ],
   },

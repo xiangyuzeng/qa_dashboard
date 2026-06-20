@@ -1,0 +1,155 @@
+[
+  {
+    "id": "nyc_calorie_labeling",
+    "module": "regulation",
+    "jurisdiction": "New York City",
+    "regulationName": {
+      "zh": "NYC 连锁餐厅热量标识规则",
+      "en": "NYC Calorie / Menu Labeling Rule"
+    },
+    "triggerDimension": "location_count",
+    "threshold": 15,
+    "thresholdSourceUrl": "https://www.nyc.gov/site/doh/business/food-operators/calorie-and-nutrient-labeling.page",
+    "countBasis": "open",
+    "effectiveDate": null,
+    "needsVerification": false,
+    "actionZh": "对在 NYC 运营且全国连锁 15 家以上的门店，菜单/菜单板/线上点餐需标注热量。",
+    "actionEn": "Chains with 15+ locations nationally operating in NYC must post calorie counts on menus, menu boards and online ordering."
+  },
+  {
+    "id": "nyc_added_sugar",
+    "module": "regulation",
+    "jurisdiction": "New York City",
+    "regulationName": {
+      "zh": "NYC 添加糖警示规则 (Sweet Truth Act)",
+      "en": "NYC Added Sugars Warning Rule"
+    },
+    "triggerDimension": "location_count",
+    "threshold": 15,
+    "thresholdSourceUrl": "https://rules.cityofnewyork.us/rule/added-sugar-notification-requirements/",
+    "countBasis": "open",
+    "effectiveDate": "2025-10-04",
+    "needsVerification": false,
+    "actionZh": "全国连锁 15 家以上、在 NYC 经营的连锁餐厅须对高添加糖菜单项标注警示图标。",
+    "actionEn": "Chain restaurants (15+ locations nationally) in NYC must display a warning icon on menu items high in added sugars."
+  },
+  {
+    "id": "nyc_sodium",
+    "module": "regulation",
+    "jurisdiction": "New York City",
+    "regulationName": {
+      "zh": "NYC 钠含量警示规则",
+      "en": "NYC Sodium (Salt) Warning Rule"
+    },
+    "triggerDimension": "location_count",
+    "threshold": 15,
+    "thresholdSourceUrl": "https://www.nyc.gov/site/doh/business/food-operators/sodium-warning-rule.page",
+    "countBasis": "open",
+    "effectiveDate": "2015-12-01",
+    "needsVerification": false,
+    "actionZh": "全国连锁 15 家以上、在 NYC 经营的门店须对高钠菜单项标注盐瓶警示图标。",
+    "actionEn": "Chains with 15+ locations nationally in NYC must display the salt-shaker warning icon on high-sodium menu items."
+  },
+  {
+    "id": "fed_menu_labeling",
+    "module": "regulation",
+    "jurisdiction": "Federal",
+    "regulationName": {
+      "zh": "FDA 联邦菜单标识最终规则",
+      "en": "FDA Federal Menu Labeling Final Rule"
+    },
+    "triggerDimension": "location_count",
+    "threshold": 20,
+    "thresholdSourceUrl": "https://www.fda.gov/food/nutrition-food-labeling-and-critical-foods/menu-labeling-requirements",
+    "countBasis": "open",
+    "effectiveDate": "2018-05-07",
+    "needsVerification": false,
+    "actionZh": "拥有 20 家以上同名连锁门店、提供相同菜单的，须遵守 FDA 联邦菜单热量标识要求。",
+    "actionEn": "Restaurants that are part of a chain of 20+ locations with the same name and menu must comply with FDA federal menu calorie labeling."
+  },
+  {
+    "id": "nyc_fair_workweek",
+    "module": "labor",
+    "jurisdiction": "New York City",
+    "regulationName": {
+      "zh": "NYC 公平工作周法 (快餐)",
+      "en": "NYC Fair Workweek Law (Fast Food)"
+    },
+    "triggerDimension": "is_fast_food_model",
+    "threshold": 30,
+    "thresholdSourceUrl": "https://www.nyc.gov/site/dca/about/fair-workweek-law.page",
+    "countBasis": "open",
+    "effectiveDate": "2017-11-26",
+    "needsVerification": false,
+    "actionZh": "若被认定为全国 30 家以上的快餐连锁，则适用排班预告、可预测性补偿、调岗优先权等要求；按门店口径需法务确认（在岗 18 / 在岗+筹建 25 / 全状态 30）。",
+    "actionEn": "If classified as a fast-food chain with 30+ locations nationally, advance-schedule, predictability-pay and access-to-hours rules apply; counting basis needs legal review (open 18 / open+planned 25 / all-status 30)."
+  },
+  {
+    "id": "nyc_sick_safe_leave",
+    "module": "labor",
+    "jurisdiction": "New York City",
+    "regulationName": {
+      "zh": "NYC 带薪安全与病假法",
+      "en": "NYC Earned Safe and Sick Time Act"
+    },
+    "triggerDimension": "always",
+    "threshold": null,
+    "thresholdSourceUrl": "https://www.nyc.gov/site/dca/about/paid-safe-sick-leave.page",
+    "countBasis": "open",
+    "effectiveDate": null,
+    "needsVerification": false,
+    "actionZh": "任何在 NYC 有员工的雇主均须提供带薪安全与病假；员工 ≥ 5 人或净收入门槛触发带薪累积。",
+    "actionEn": "Any employer with employees in NYC must provide safe/sick leave; paid accrual applies at 5+ employees or the net-income threshold."
+  },
+  {
+    "id": "nyc_organics_chain",
+    "module": "environment",
+    "jurisdiction": "New York City",
+    "regulationName": {
+      "zh": "NYC 商业有机垃圾分类 (连锁)",
+      "en": "NYC Commercial Organics — Chain"
+    },
+    "triggerDimension": "combined_site_sqft",
+    "threshold": 8000,
+    "thresholdSourceUrl": "https://www.nyc.gov/assets/dsny/site/services/food-scraps-and-yard-waste-page/overview-commercial-organics",
+    "countBasis": "all_status",
+    "effectiveDate": null,
+    "needsVerification": false,
+    "actionZh": "连锁餐饮在同一城市 2 处以上、合计 8,000 平方英尺以上的，须源头分离有机垃圾、使用持牌运输商。",
+    "actionEn": "Chain food service with 2+ locations in the city totaling 8,000+ sq ft must source-separate organics and use a licensed hauler."
+  },
+  {
+    "id": "nyc_organics_single",
+    "module": "environment",
+    "jurisdiction": "New York City",
+    "regulationName": {
+      "zh": "NYC 商业有机垃圾分类 (单店)",
+      "en": "NYC Commercial Organics — Single Site"
+    },
+    "triggerDimension": "single_site_sqft",
+    "threshold": 7000,
+    "thresholdSourceUrl": "https://www.nyc.gov/assets/dsny/site/services/food-scraps-and-yard-waste-page/overview-commercial-organics",
+    "countBasis": "open",
+    "effectiveDate": null,
+    "needsVerification": false,
+    "actionZh": "单一餐饮场所 7,000 平方英尺以上（或同栋建筑合计 8,000 以上）须分离有机垃圾。",
+    "actionEn": "A single food-service establishment of 7,000+ sq ft (or 8,000+ combined in one building) must separate organics."
+  },
+  {
+    "id": "nyc_fog",
+    "module": "environment",
+    "jurisdiction": "New York City",
+    "regulationName": {
+      "zh": "NYC DEP 油脂 (FOG) 最佳管理规范",
+      "en": "NYC DEP Fats, Oils & Grease (FOG) BMP"
+    },
+    "triggerDimension": "needs_verification",
+    "threshold": null,
+    "thresholdSourceUrl": "https://www.nyc.gov/site/dep/water/grease-traps.page",
+    "countBasis": "open",
+    "effectiveDate": null,
+    "needsVerification": true,
+    "actionZh": "所有餐饮场所均须安装隔油设备；具体规模门槛待核实（2021-09-25 起禁止食物垃圾液化器排入下水道）。",
+    "actionEn": "All food-service establishments must install grease interceptors; size cutoffs to verify (food-waste-liquefier sewer discharge banned from 2021-09-25)."
+  }
+]

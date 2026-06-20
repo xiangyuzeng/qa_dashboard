@@ -10,6 +10,8 @@ import {
   getRegulations,
   getSentiment,
   getMeta,
+  getCompanyProfile,
+  getApplicabilityRules,
 } from "@/src/lib/data";
 import {
   computeKpis,
@@ -19,9 +21,11 @@ import {
   cafeRiskBreakdown,
   riskHeatmap,
 } from "@/src/lib/aggregate";
+import { evaluate } from "@/src/lib/applicability";
 import { ResultEnum } from "@/src/lib/schema";
 import { OverviewClient, type OverviewData } from "@/src/components/overview/OverviewClient";
 import { SummaryClient } from "@/src/components/overview/SummaryClient";
+import type { PostureItem } from "@/src/components/overview/PostureStrip";
 
 export default function Home() {
   const insp = getInspections();
@@ -43,9 +47,17 @@ export default function Home() {
 
   const heat = riskHeatmap({ food: reg, imp, reg: regs, insp, sent });
 
+  const posture: PostureItem[] = evaluate(getCompanyProfile(), getApplicabilityRules()).map((v) => ({
+    id: v.rule.id,
+    nameZh: v.rule.regulationName.zh,
+    nameEn: v.rule.regulationName.en,
+    status: v.status,
+    needsVerification: v.rule.needsVerification,
+  }));
+
   return (
     <div className="space-y-8">
-      <SummaryClient summary={meta.summary} counts={meta.counts} heat={heat} />
+      <SummaryClient summary={meta.summary} counts={meta.counts} heat={heat} posture={posture} />
       <OverviewClient data={data} />
     </div>
   );

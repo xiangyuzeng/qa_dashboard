@@ -16,12 +16,25 @@ import { classify } from "./lib/classify";
 import { assessInspection, assessRegulatory, assessImport, assessRegulation } from "./lib/risk";
 import { hashId, normKey } from "./lib/ids";
 import { importSeeds, regulationSeeds } from "./seeds";
+import { CompanyProfileSchema, ApplicabilityRulesFileSchema } from "../src/lib/schema";
+import {
+  buildLaborRecords,
+  buildBuildingRecords,
+  buildEnvironmentRecords,
+  buildConsumerRecords,
+  stampAppliesToUs,
+} from "./domains";
+import type { SourceResult, FeedAdapter } from "./lib/feed";
 import type {
   RegulatoryRecord,
   InspectionRecord,
   ImportExportRecord,
   RegulationRecord,
   SentimentRecord,
+  LaborRecord,
+  BuildingRecord,
+  EnvironmentRecord,
+  ConsumerRecord,
   SourceProvenance,
   Provenance,
 } from "../src/lib/schema";
@@ -91,15 +104,6 @@ const inspBase = () => ({
   reviewStatus: "approved" as const,
   reviewNote: "auto-collected — QA review required before treating exports/alerts as final",
 });
-
-type SourceResult = {
-  regulatory?: RegulatoryRecord[];
-  inspections?: InspectionRecord[];
-  importExport?: ImportExportRecord[];
-  regulations?: RegulationRecord[];
-  sentiment?: SentimentRecord[];
-  provenance: SourceProvenance;
-};
 
 const provEntry = (
   o: Partial<SourceProvenance> & Pick<SourceProvenance, "sourceId" | "name" | "accessType" | "oneTimePullFeasible">,
@@ -1054,6 +1058,78 @@ async function collectSentimentRSS(): Promise<SourceResult> {
 
 /* ───────────────────────── orchestrate ───────────────────────── */
 
+/* ════════════════════════════════════════════════════════════════════════════
+ * V2.5 — four compliance domains (labor / building / environment / consumer).
+ * Curated authoritative seeds (the stable legal content) + dormant/gated live
+ * adapters behind the FeedAdapter seam (NYC Open Data DCWP/DOB/DSNY + DOL/OSHA),
+ * which degrade to truthful `manual / re-verify` stubs — never fabricating.
+ * ════════════════════════════════════════════════════════════════════════════ */
+
+async function collectLaborSeeds(): Promise<SourceResult> {
+  const out = buildLaborRecords();
+  return { labor: out, provenance: provEntry({ sourceId: "dcwp_dol_labor", name: "Curated labor & employment rules (DOL/DCWP)", module: "labor", status: "manual", accessType: "none", oneTimePullFeasible: "partial", recordCount: out.length, stalenessNote: "Curated authoritative rules; live DCWP + DOL enforcedata enforcement augments when enabled." }) };
+}
+
+async function collectBuildingSeeds(): Promise<SourceResult> {
+  const out = buildBuildingRecords();
+  return { building: out, provenance: provEntry({ sourceId: "osha_dob_building", name: "Curated building & occupational-safety standards (OSHA/DOB/ADA)", module: "building", status: "manual", accessType: "none", oneTimePullFeasible: "partial", recordCount: out.length, stalenessNote: "Curated authoritative standards; live OSHA establishment + DOB violation enforcement augments when enabled." }) };
+}
+
+async function collectEnvironmentSeeds(): Promise<SourceResult> {
+  const out = buildEnvironmentRecords();
+  return { environment: out, provenance: provEntry({ sourceId: "dep_dsny_env", name: "Curated environmental & sanitation rules (DEP/DSNY/BIC)", module: "environment", status: "manual", accessType: "none", oneTimePullFeasible: "partial", recordCount: out.length, stalenessNote: "Curated authoritative rules; live DSNY enforcement augments when a verified dataset is wired." }) };
+}
+
+async function collectConsumerSeeds(): Promise<SourceResult> {
+  const out = buildConsumerRecords();
+  return { consumer: out, provenance: provEntry({ sourceId: "dcwp_ftc_consumer", name: "Curated consumer & worker-protection rules (DCWP/FTC)", module: "consumer", status: "manual", accessType: "none", oneTimePullFeasible: "partial", recordCount: out.length, stalenessNote: "Curated authoritative rules; live DCWP consumer-complaint dataset augments when a verified id is wired." }) };
+}
+
+// ── Dormant/gated live adapters (brand-matched enforcement). Off until a verified dataset id
+//    or env key is wired; degrade to truthful `manual`/`re-verify` stubs — never fabricated rows. ──
+async function collectDOLEnforcement(): Promise<SourceResult> {
+  const name = "DOL WHD enforcement (enforcedata.dol.gov)";
+  const endpoint = "https://enforcedata.dol.gov/views/data_summary.php";
+  return { labor: [], provenance: provEntry({ sourceId: "dol_enforcedata", name, module: "labor", status: "manual", accessType: "bulk-download", endpointOrUrl: endpoint, oneTimePullFeasible: "partial", recordCount: 0, stalenessNote: "Dormant — set DOL_ENFORCE_KEY + wire the WHD bulk parse to brand-match enforcement (docs/API_KEYS.md). No rows fabricated.", reVerifyBeforeRelying: true }) };
+}
+async function collectOSHAEstablishments(): Promise<SourceResult> {
+  const name = "OSHA establishment search / inspections";
+  const endpoint = "https://www.osha.gov/ords/imis/establishment.html";
+  return { building: [], provenance: provEntry({ sourceId: "osha_establishments", name, module: "building", status: "manual", accessType: "official-api", endpointOrUrl: endpoint, oneTimePullFeasible: "partial", recordCount: 0, stalenessNote: "Dormant — wire OSHA establishment-search to brand-match citations. No rows fabricated.", reVerifyBeforeRelying: true }) };
+}
+async function collectDOBBuilding(): Promise<SourceResult> {
+  const name = "NYC DOB/ECB violations (NYC Open Data)";
+  const endpoint = "https://data.cityofnewyork.us/resource/3h2n-5cm9.json";
+  return { building: [], provenance: provEntry({ sourceId: "nyc_dob_violations", name, module: "building", status: "manual", accessType: "open-data", endpointOrUrl: endpoint, oneTimePullFeasible: "partial", recordCount: 0, stalenessNote: "Dormant — verify DOB violations dataset id + address-match to owned stores before enabling. No rows fabricated.", reVerifyBeforeRelying: true }) };
+}
+async function collectDSNYEnvironment(): Promise<SourceResult> {
+  const name = "NYC DSNY commercial-waste / cleanliness enforcement";
+  const endpoint = "https://data.cityofnewyork.us/browse?q=DSNY%20enforcement";
+  return { environment: [], provenance: provEntry({ sourceId: "nyc_dsny_enforcement", name, module: "environment", status: "manual", accessType: "open-data", endpointOrUrl: endpoint, oneTimePullFeasible: "no", recordCount: 0, stalenessNote: "Dormant — DSNY enforcement is not consistently on Socrata; verify a dataset or use manual intake. No rows fabricated.", reVerifyBeforeRelying: true }) };
+}
+async function collectDCWPConsumer(): Promise<SourceResult> {
+  const name = "NYC DCWP consumer complaints / inspections (NYC Open Data)";
+  const endpoint = "https://data.cityofnewyork.us/browse?q=DCWP%20consumer%20complaints";
+  return { consumer: [], provenance: provEntry({ sourceId: "nyc_dcwp_consumer", name, module: "consumer", status: "manual", accessType: "open-data", endpointOrUrl: endpoint, oneTimePullFeasible: "partial", recordCount: 0, stalenessNote: "Dormant — verify the DCWP consumer-complaint dataset id + brand-match before enabling. No rows fabricated.", reVerifyBeforeRelying: true }) };
+}
+
+/**
+ * Pluggable feed registry (spec §6). Each new domain registers its seed collector
+ * (build-on-public-data default) + its dormant/gated live adapter (license-swap-later).
+ * A licensed feed swaps in by replacing one adapter's `fetch` — schema/surfaces untouched.
+ */
+const FEED_ADAPTERS: FeedAdapter[] = [
+  { id: "dcwp_dol_labor", module: "labor", fetch: collectLaborSeeds },
+  { id: "dol_enforcedata", module: "labor", fetch: collectDOLEnforcement, enabled: () => !!process.env.DOL_ENFORCE_KEY },
+  { id: "osha_dob_building", module: "building", fetch: collectBuildingSeeds },
+  { id: "osha_establishments", module: "building", fetch: collectOSHAEstablishments, enabled: () => false },
+  { id: "nyc_dob_violations", module: "building", fetch: collectDOBBuilding, enabled: () => false },
+  { id: "dep_dsny_env", module: "environment", fetch: collectEnvironmentSeeds },
+  { id: "nyc_dsny_enforcement", module: "environment", fetch: collectDSNYEnvironment, enabled: () => false },
+  { id: "dcwp_ftc_consumer", module: "consumer", fetch: collectConsumerSeeds },
+  { id: "nyc_dcwp_consumer", module: "consumer", fetch: collectDCWPConsumer, enabled: () => false },
+];
+
 async function main() {
   console.log("collecting (one-time real pull)…");
   const results = await Promise.all([
@@ -1074,6 +1150,8 @@ async function main() {
     collectNYSenateBills(),
     collectOpenStates(),
     collectSentimentRSS(),
+    // V2.5 — four compliance domains behind the FeedAdapter seam (seeds + dormant live adapters).
+    ...FEED_ADAPTERS.map((a) => a.fetch()),
   ]);
 
   const regulatory: RegulatoryRecord[] = [];
@@ -1081,6 +1159,10 @@ async function main() {
   const importExport: ImportExportRecord[] = [];
   const regulations: RegulationRecord[] = [];
   const sentiment: SentimentRecord[] = [];
+  const labor: LaborRecord[] = [];
+  const building: BuildingRecord[] = [];
+  const environment: EnvironmentRecord[] = [];
+  const consumer: ConsumerRecord[] = [];
   const provenance: SourceProvenance[] = [];
   for (const r of results) {
     if (r.regulatory) regulatory.push(...r.regulatory);
@@ -1088,6 +1170,10 @@ async function main() {
     if (r.importExport) importExport.push(...r.importExport);
     if (r.regulations) regulations.push(...r.regulations);
     if (r.sentiment) sentiment.push(...r.sentiment);
+    if (r.labor) labor.push(...r.labor);
+    if (r.building) building.push(...r.building);
+    if (r.environment) environment.push(...r.environment);
+    if (r.consumer) consumer.push(...r.consumer);
     provenance.push(r.provenance);
     console.log(`  ${r.provenance.sourceId}: ${r.provenance.recordCount} records${r.provenance.stalenessNote ? ` (${r.provenance.stalenessNote})` : ""}`);
   }
@@ -1109,6 +1195,20 @@ async function main() {
   importExport.forEach((r, i) => (r.no = i + 1));
   regulations.forEach((r, i) => (r.no = i + 1));
   sentiment.forEach((r, i) => (r.no = i + 1));
+  labor.forEach((r, i) => (r.no = i + 1));
+  building.forEach((r, i) => (r.no = i + 1));
+  environment.forEach((r, i) => (r.no = i + 1));
+  consumer.forEach((r, i) => (r.no = i + 1));
+
+  // Stamp appliesToUs from the applicability engine (labor/environment/consumer; building is
+  // premises-universal and carries no applicabilityRuleId). Reads the vendored footprint inputs.
+  try {
+    const profile = CompanyProfileSchema.parse(JSON.parse(readFileSync(join(OUT, "company_profile.json"), "utf8")));
+    const arules = ApplicabilityRulesFileSchema.parse(JSON.parse(readFileSync(join(OUT, "applicability_rules.json"), "utf8")));
+    stampAppliesToUs([...labor, ...environment, ...consumer], profile, arules);
+  } catch (e) {
+    console.warn("appliesToUs stamping skipped:", String(e).slice(0, 140));
+  }
 
   // repeat-violation grouping: same STORE repeating the same standardized category (≥2
   // inspections). Store-level keeps the signal meaningful (vs. lumping every same-brand
@@ -1157,8 +1257,12 @@ async function main() {
   const svRegs = regulations.filter(isServable);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const svSent = sentiment.filter((r: any) => isServable(r) && !r.excluded);
+  const svLabor = labor.filter(isServable);
+  const svBuilding = building.filter(isServable);
+  const svEnv = environment.filter(isServable);
+  const svConsumer = consumer.filter(isServable);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const allRecords: any[] = [...svReg, ...svInsp, ...svImp, ...svRegs, ...svSent];
+  const allRecords: any[] = [...svReg, ...svInsp, ...svImp, ...svRegs, ...svSent, ...svLabor, ...svBuilding, ...svEnv, ...svConsumer];
   const alerts = allRecords.filter((r) => r.alertTriggered).length;
   const highRisk = allRecords.filter((r) => r.riskLevel === "高风险").length;
   const watch = allRecords.filter((r) => r.riskLevel === "关注").length;
@@ -1211,6 +1315,10 @@ async function main() {
       importExport: svImp.length,
       regulation: svRegs.length,
       sentiment: svSent.length,
+      labor: svLabor.length,
+      building: svBuilding.length,
+      environment: svEnv.length,
+      consumer: svConsumer.length,
       highRisk,
       watch,
       bySource,
@@ -1225,9 +1333,13 @@ async function main() {
   writeFileSync(join(OUT, "import_export.json"), JSON.stringify(importExport, null, 2) + "\n");
   writeFileSync(join(OUT, "regulations.json"), JSON.stringify(regulations, null, 2) + "\n");
   writeFileSync(join(OUT, "sentiment.json"), JSON.stringify(sentiment, null, 2) + "\n");
+  writeFileSync(join(OUT, "labor.json"), JSON.stringify(labor, null, 2) + "\n");
+  writeFileSync(join(OUT, "building.json"), JSON.stringify(building, null, 2) + "\n");
+  writeFileSync(join(OUT, "environment.json"), JSON.stringify(environment, null, 2) + "\n");
+  writeFileSync(join(OUT, "consumer.json"), JSON.stringify(consumer, null, 2) + "\n");
   writeFileSync(join(OUT, "meta.json"), JSON.stringify(meta, null, 2) + "\n");
   console.log(
-    `\nwrote ${regulatory.length} regulatory + ${inspections.length} insp + ${importExport.length} import + ${regulations.length} regs + ${sentiment.length} sentiment (${alerts} alerts, ${highRisk} high, ${watch} watch) to data/v2/`,
+    `\nwrote ${regulatory.length} regulatory + ${inspections.length} insp + ${importExport.length} import + ${regulations.length} regs + ${sentiment.length} sentiment + ${labor.length} labor + ${building.length} building + ${environment.length} env + ${consumer.length} consumer (${alerts} alerts, ${highRisk} high, ${watch} watch) to data/v2/`,
   );
 }
 
