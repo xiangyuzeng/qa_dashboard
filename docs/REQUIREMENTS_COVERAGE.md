@@ -30,14 +30,19 @@ seam, off until a verified dataset id / key is wired (truthful `manual` stubs, n
 
 ## C. Additional sources named by the client → the 4 new compliance domains (V2.5/2.6)
 
+All 4 domains now span **8 jurisdictions** (Federal · NY State · NYC · NJ · CA · MA · FL · DC) with effective
+dates from **1964 → 2027** (historical → recent amendments → pending/proposed). Multi-state rows render
+`appliesToUs = 未评估` since Luckin has no stores there yet (honest; they are expansion-readiness reference).
+
 | client source | Dashboard module / route | Status | Rows |
 |---|---|---|---|
-| **Department of Labor** (federal → state/local) + NLRB + EEOC + NY DOL + **NYC DCWP** | `labor` · `/labor` | seed + **dormant** DOL `enforcedata` adapter | 21 |
-| **Federal OSHA** + county/city **building codes** (NYC DOB/FDNY) + ADA | `building` · `/building` | seed + **dormant** OSHA-establishment / DOB-violations adapters | 17 |
-| **卫生部 / Environment** — EPA + NYC **DEP** (wastewater/FOG) + **DSNY** (organics/recycling/foodware) + BIC | `environment` · `/environment` | seed + **dormant** DSNY adapter | 12 |
-| **NYC Customer & Worker Protection (DCWP)** — refund-policy posting, pricing/signage, complaints + FTC | `consumer` · `/consumer` | seed + **dormant** DCWP-complaints adapter | 12 |
+| **Department of Labor** (FLSA/FMLA/NLRB/EEOC) + NY/NJ/CA/MA/FL/DC labor agencies + **NYC DCWP** | `labor` · `/labor` | seed (multi-state) + **dormant** DOL `enforcedata` adapter | **100** |
+| **Federal OSHA** (29 CFR 1910 suite) + state OSHA-plans + state/city **building & fire codes** + ADA + NFPA + permits | `building` · `/building` | seed (multi-state) + **dormant** OSHA-establishment / DOB-violations adapters | **88** |
+| **卫生部 / Environment** — EPA (CWA/FOG/refrigerant/FIFRA) + DEP/DSNY + state organics/recycling/foodware/bottle-bills | `environment` · `/environment` | seed (multi-state) + **dormant** DSNY adapter | **85** |
+| **Consumer & Worker Protection** — NYC DCWP + FTC suite (UDAP/endorsement/reviews/30-day) + NY GBL + state consumer-fraud + privacy | `consumer` · `/consumer` | seed (multi-state) + **dormant** DCWP-complaints adapter | **88** |
 
-Total compliance-domain rows: **62** (was 13). Every row is bilingual and links its verified `sourceUrl`.
+Total compliance-domain rows: **361** (was 62, originally 13). Every row is bilingual, web-verified, and links
+its `sourceUrl`. Authored by a multi-agent research Workflow (author → adversarial-verify → dedup) — no fabrication.
 
 ## D. Scale-based applicability (docx + client emphasis) — the Applicability Engine
 
