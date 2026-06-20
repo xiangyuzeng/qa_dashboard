@@ -1,12 +1,25 @@
-/** Module 6 — 用工合规 Labor & Employment. Servable records + engine-stamped appliesToUs. */
+/** Module 6 — 用工合规 Labor & Employment. Servable records + engine-stamped appliesToUs + domain hero. */
 import { Suspense } from "react";
 import { getLabor } from "@/src/lib/data";
+import { complianceCounts, complianceTimeline, complianceRiskByJurisdiction, ganttDomain } from "@/src/lib/aggregate";
 import { ComplianceClient } from "@/src/components/compliance/ComplianceClient";
 
 export default function LaborPage() {
+  const data = getLabor();
+  const todayIso = new Date().toISOString().slice(0, 10);
+  const timeline = complianceTimeline(data, todayIso);
   return (
     <Suspense>
-      <ComplianceClient data={getLabor()} module="labor" showApplies />
+      <ComplianceClient
+        data={data}
+        module="labor"
+        showApplies
+        counts={complianceCounts(data, todayIso)}
+        timeline={timeline}
+        domain={ganttDomain(timeline, todayIso)}
+        byJurisdiction={complianceRiskByJurisdiction(data)}
+        todayIso={todayIso}
+      />
     </Suspense>
   );
 }

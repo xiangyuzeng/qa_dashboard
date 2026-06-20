@@ -7,10 +7,11 @@ import { RegulationClient } from "@/src/components/regulation/RegulationClient";
 
 export default function RegulationPage() {
   const data = getRegulations();
-  const gantt = complianceGantt(data);
+  const todayIso = new Date().toISOString().slice(0, 10);
+  const gantt = complianceGantt(data, todayIso);
   return (
     <Suspense>
-      <RegulationClient data={data} gantt={gantt} domain={ganttDomain(gantt)} />
+      <RegulationClient data={data} gantt={gantt} domain={ganttDomain(gantt, todayIso)} todayIso={todayIso} />
     </Suspense>
   );
 }

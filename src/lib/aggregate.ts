@@ -508,6 +508,107 @@ export function ganttDomain(bars: GanttBar[], todayIso = "2026-06-19"): { min: s
   return { min: dates[0], max: dates[dates.length - 1] };
 }
 
+/* ────────────────────────────────────────────────────────────────────────────
+ * V2.7 — compliance-domain aggregation (labor/building/environment/consumer).
+ * Structural input so one set of helpers serves all four record types.
+ * ──────────────────────────────────────────────────────────────────────────── */
+export type ComplianceLike = {
+  id: string;
+  jurisdiction: string | null;
+  riskLevel: string | null;
+  effectiveDate: string | null;
+  status: string | null;
+  topic: string | null;
+  chineseTitle: string | null;
+  englishTitle: string | null;
+  sourceUrl: string | null;
+  appliesToUs?: boolean | null;
+  regulationBillName?: string | null;
+  codeStandardName?: string | null;
+  regulationName?: string | null;
+};
+
+const DAY_MS = 86400000;
+const complianceName = (r: ComplianceLike) => r.regulationBillName ?? r.codeStandardName ?? r.regulationName ?? null;
+/** days from today to a rule's effective date (negative = already in effect); null when undated. */
+export function daysToEffective(effectiveDate: string | null, todayIso: string): number | null {
+  if (!effectiveDate) return null;
+  return Math.round((new Date(effectiveDate + "T00:00:00Z").getTime() - new Date(todayIso + "T00:00:00Z").getTime()) / DAY_MS);
+}
+
+export type ComplianceCounts = { total: number; applies: number; notYet: number; pending: number; approaching: number; highRisk: number };
+/** Posture rollup for a domain: appliesToUs tri-state + ≤180-day approaching + high-risk. */
+export function complianceCounts(rows: ComplianceLike[], todayIso: string): ComplianceCounts {
+  let applies = 0, notYet = 0, pending = 0, approaching = 0, highRisk = 0;
+  for (const r of rows) {
+    if (r.appliesToUs === true) applies++;
+    else if (r.appliesToUs === false) notYet++;
+    else pending++;
+    if (r.riskLevel === "高风险") highRisk++;
+    const d = daysToEffective(r.effectiveDate, todayIso);
+    if (d != null && d >= 0 && d <= 180) approaching++;
+  }
+  return { total: rows.length, applies, notYet, pending, approaching, highRisk };
+}
+
+/** One Gantt bar per DATED rule (effective date point) — the "long time span" timeline.
+ *  Ranks upcoming-first then most-recent past, caps to `limit`, then sorts chronologically
+ *  so the rendered timeline stays readable while still spanning years. */
+export function complianceTimeline(rows: ComplianceLike[], todayIso: string, limit = 24): GanttBar[] {
+  const bars = rows
+    .filter((r) => r.effectiveDate)
+    .map((r): GanttBar => {
+      const days = daysToEffective(r.effectiveDate, todayIso)!;
+      const bucket: GanttBar["bucket"] = days < 0 ? "past" : days <= 30 ? "imminent" : days <= 120 ? "soon" : "later";
+      const name = complianceName(r);
+      return {
+        id: r.id,
+        labelZh: r.chineseTitle ?? name ?? "",
+        labelEn: r.englishTitle ?? name ?? "",
+        jurisdiction: r.jurisdiction,
+        status: r.status,
+        topic: r.topic,
+        start: null,
+        end: r.effectiveDate,
+        daysToEffective: days,
+        bucket,
+        href: r.sourceUrl,
+      };
+    });
+  const rank = (b: GanttBar) => (b.daysToEffective! < 0 ? 1e7 - b.daysToEffective! : b.daysToEffective!);
+  return [...bars]
+    .sort((a, b) => rank(a) - rank(b))
+    .slice(0, limit)
+    .sort((a, b) => String(a.end).localeCompare(String(b.end)));
+}
+
+/** Risk-level mix per jurisdiction → StackedBar feed (series = the 5 risk levels). */
+export function complianceRiskByJurisdiction(rows: ComplianceLike[]): {
+  data: Record<string, string | number>[];
+  series: string[];
+} {
+  const byJ: Record<string, Record<string, number>> = {};
+  for (const r of rows) {
+    const j = r.jurisdiction ?? "—";
+    const lvl = r.riskLevel ?? "信息参考";
+    (byJ[j] ??= {})[lvl] = (byJ[j][lvl] ?? 0) + 1;
+  }
+  const series = [...RISK_LEVELS_ORDER] as string[];
+  const data = Object.entries(byJ)
+    .map(([jurisdiction, mix]) => {
+      const row: Record<string, string | number> = { jurisdiction };
+      let total = 0;
+      for (const s of series) {
+        row[s] = mix[s] ?? 0;
+        total += mix[s] ?? 0;
+      }
+      row.__total = total;
+      return row;
+    })
+    .sort((a, b) => (b.__total as number) - (a.__total as number));
+  return { data, series };
+}
+
 /** Import rows tallied by regulatory action (HBar feed — the default /import hero). */
 export function importByAction(imp: ImportExportRecord[]): { action: string; count: number }[] {
   const tally: Record<string, number> = {};

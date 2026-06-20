@@ -39,10 +39,12 @@ export function RegulationClient({
   data,
   gantt,
   domain,
+  todayIso,
 }: {
   data: RegulationRecord[];
   gantt: GanttBar[];
   domain: { min: string; max: string };
+  todayIso: string;
 }) {
   const t = useT();
   const { locale } = useLocale();
@@ -117,7 +119,7 @@ export function RegulationClient({
         <ComplianceCountdownGantt
           bars={gantt}
           domain={domain}
-          todayIso="2026-06-19"
+          todayIso={todayIso}
           locale={locale}
           labels={{ today: t.regulation.today, inEffect: t.regulation.inEffect, noEffectiveDate: t.regulation.noEffectiveDate }}
         />

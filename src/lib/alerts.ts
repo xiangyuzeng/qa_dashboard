@@ -33,6 +33,8 @@ export type AlertRow = {
   kind: "inspection" | "regulatory";
   /** 4-type classification (V2 §8), derived from record.module. */
   alertType: AlertType;
+  /** source module — set for compliance-domain + applicability alerts; else derived from alertType in the UI. */
+  module?: string;
   riskLevel: string | null;
   riskWeight: number;
   jurisOrSource: string;
@@ -156,13 +158,14 @@ export function buildAlertRows(
     }));
   // V2.5 — labor/building/environment/consumer compliance alerts bucket into state_local_reg
   // (regulatory-compliance across domains); the row title/reason carries the domain specifics.
-  const fromDomain = (arr: DomainAlertable[]): AlertRow[] =>
+  const fromDomain = (arr: DomainAlertable[], module: string): AlertRow[] =>
     arr
       .filter((r) => r.alertTriggered)
       .map((r) => ({
         id: r.id,
         kind: "regulatory" as const,
         alertType: "state_local_reg" as const,
+        module,
         riskLevel: r.riskLevel,
         riskWeight: w(r.riskLevel),
         jurisOrSource: r.jurisdiction ?? "",
@@ -176,10 +179,10 @@ export function buildAlertRows(
         external: true,
       }));
   const fromDomains = [
-    ...fromDomain(labor),
-    ...fromDomain(building),
-    ...fromDomain(environment),
-    ...fromDomain(consumer),
+    ...fromDomain(labor, "labor"),
+    ...fromDomain(building, "building"),
+    ...fromDomain(environment, "environment"),
+    ...fromDomain(consumer, "consumer"),
   ];
   return [...fromInsp, ...fromReg, ...fromImport, ...fromRegs, ...fromSent, ...fromDomains, ...applic].sort(
     (a, b) => b.riskWeight - a.riskWeight || (b.date ?? "").localeCompare(a.date ?? ""),
@@ -194,6 +197,7 @@ export function applicabilityAlertRows(verdicts: ApplicabilityVerdict[]): AlertR
       id: `applic_${v.rule.id}`,
       kind: "regulatory" as const,
       alertType: "applicability" as const,
+      module: v.rule.module,
       riskLevel: v.status === "applies" ? "高风险" : "关注",
       riskWeight: v.status === "applies" ? 3 : 0.5,
       jurisOrSource: v.rule.jurisdiction,

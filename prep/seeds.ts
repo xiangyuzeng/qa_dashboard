@@ -5,7 +5,14 @@
  * import slugs, RSS sentiment). Manual-curated rows are fully bilingual (zh + en).
  *
  * To refresh: re-run live collectors, or edit these from the next monthly report.
+ *
+ * V2.7: the curated compliance arrays below are concatenated with per-domain JSON files in
+ * prep/seeds/*.json — multi-state, source-verified rows authored by the expansion Workflow.
  */
+import laborExtra from "./seeds/labor.json";
+import buildingExtra from "./seeds/building.json";
+import environmentExtra from "./seeds/environment.json";
+import consumerExtra from "./seeds/consumer.json";
 
 export type ImportSeed = {
   category: string;
@@ -324,6 +331,7 @@ export type LaborSeed = {
 };
 
 export const laborSeeds: LaborSeed[] = [
+  ...(laborExtra as LaborSeed[]),
   {
     jurisdiction: "New York City",
     regulationBillName: "NYC Fair Workweek Law — Fast Food (6 RCNY Ch. 7 Subch. F)",
@@ -814,6 +822,7 @@ export type BuildingSeed = {
 };
 
 export const buildingSeeds: BuildingSeed[] = [
+  ...(buildingExtra as BuildingSeed[]),
   {
     jurisdiction: "Federal",
     codeStandardName: "OSHA General Industry Standards + General Duty Clause",
@@ -1228,6 +1237,7 @@ export type EnvironmentSeed = {
 };
 
 export const environmentSeeds: EnvironmentSeed[] = [
+  ...(environmentExtra as EnvironmentSeed[]),
   {
     jurisdiction: "New York City",
     regulationName: "NYC DEP Fats, Oils & Grease (FOG) Best Management Practices",
@@ -1503,6 +1513,7 @@ export type ConsumerSeed = {
 };
 
 export const consumerSeeds: ConsumerSeed[] = [
+  ...(consumerExtra as ConsumerSeed[]),
   {
     jurisdiction: "New York City",
     regulationName: "NYC Refund Policy Posting Rule (6 RCNY §5-37)",

@@ -1,12 +1,25 @@
-/** Module 7 — 建筑与职业安全 Building & Occupational Safety. Premises-universal (no appliesToUs). */
+/** Module 7 — 建筑与职业安全 Building & Occupational Safety. Premises-universal (no appliesToUs) + domain hero. */
 import { Suspense } from "react";
 import { getBuilding } from "@/src/lib/data";
+import { complianceCounts, complianceTimeline, complianceRiskByJurisdiction, ganttDomain } from "@/src/lib/aggregate";
 import { ComplianceClient } from "@/src/components/compliance/ComplianceClient";
 
 export default function BuildingPage() {
+  const data = getBuilding();
+  const todayIso = new Date().toISOString().slice(0, 10);
+  const timeline = complianceTimeline(data, todayIso);
   return (
     <Suspense>
-      <ComplianceClient data={getBuilding()} module="building" showApplies={false} />
+      <ComplianceClient
+        data={data}
+        module="building"
+        showApplies={false}
+        counts={complianceCounts(data, todayIso)}
+        timeline={timeline}
+        domain={ganttDomain(timeline, todayIso)}
+        byJurisdiction={complianceRiskByJurisdiction(data)}
+        todayIso={todayIso}
+      />
     </Suspense>
   );
 }

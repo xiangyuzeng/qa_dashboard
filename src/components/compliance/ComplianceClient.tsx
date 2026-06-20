@@ -5,9 +5,12 @@ import { useSearchParams } from "next/navigation";
 import type { ColumnDef } from "@tanstack/react-table";
 import { useLocale, useT } from "@/src/lib/i18n/locale";
 import { DataTable, type FacetCfg } from "@/src/components/table/DataTable";
-import { RiskBadge, Badge, SectionCard } from "@/src/components/ui";
-import { riskLabel } from "@/src/lib/colors";
+import { RiskBadge, Badge, SectionCard, KpiCard } from "@/src/components/ui";
+import { StackedBar } from "@/src/components/charts";
+import { ComplianceCountdownGantt } from "@/src/components/viz/ComplianceCountdownGantt";
+import { riskLabel, RISK_COLORS } from "@/src/lib/colors";
 import { fmtDate, pickLang } from "@/src/lib/i18n/util";
+import { daysToEffective, type ComplianceCounts, type GanttBar } from "@/src/lib/aggregate";
 import type { Locale } from "@/src/lib/i18n/messages";
 
 /** Structural common shape across the 4 compliance-domain records (module-specific keys optional). */
@@ -30,6 +33,9 @@ export type ComplianceCommon = {
   regulationBillName?: string | null;
   codeStandardName?: string | null;
   regulationName?: string | null;
+  enforcementRecord?: string | null;
+  inspectionCitationRecord?: string | null;
+  complaintEnforcementRecord?: string | null;
 };
 
 type ModuleKey = "labor" | "building" | "environment" | "consumer";
@@ -72,6 +78,8 @@ const TOPIC_LABEL: Record<string, { zh: string; en: string }> = {
 const statusLabel = (v: string, l: Locale) => (l === "zh" ? STATUS_LABEL[v]?.zh : STATUS_LABEL[v]?.en) ?? v;
 const topicLabel = (v: string, l: Locale) => (l === "zh" ? TOPIC_LABEL[v]?.zh : TOPIC_LABEL[v]?.en) ?? v;
 const nameOf = (r: ComplianceCommon) => r.regulationBillName ?? r.codeStandardName ?? r.regulationName ?? null;
+const enforcementOf = (r: ComplianceCommon) =>
+  r.enforcementRecord ?? r.inspectionCitationRecord ?? r.complaintEnforcementRecord ?? null;
 
 function AppliesCell({ v }: { v: boolean | null | undefined }) {
   const t = useT();
@@ -83,14 +91,41 @@ function AppliesCell({ v }: { v: boolean | null | undefined }) {
   );
 }
 
+/** Effective-date cell: the date + an urgency badge (imminent ≤180d amber · in effect grey). */
+function EffectiveCell({ date, todayIso }: { date: string | null; todayIso: string }) {
+  const t = useT();
+  if (!date) return <span className="text-slate-300">—</span>;
+  const d = daysToEffective(date, todayIso);
+  return (
+    <div className="whitespace-nowrap">
+      <span className="text-slate-700">{fmtDate(date)}</span>
+      {d != null && (
+        <span className={`ml-1.5 rounded px-1 text-[10px] ${d < 0 ? "bg-slate-100 text-slate-500" : d <= 180 ? "bg-amber-100 text-amber-800" : "bg-slate-100 text-slate-500"}`}>
+          {d < 0 ? t.regulation.inEffect : `${d}${t.compliance.daysToEffective}`}
+        </span>
+      )}
+    </div>
+  );
+}
+
 export function ComplianceClient({
   data,
   module,
   showApplies,
+  counts,
+  timeline,
+  domain,
+  byJurisdiction,
+  todayIso,
 }: {
   data: ComplianceCommon[];
   module: ModuleKey;
   showApplies: boolean;
+  counts: ComplianceCounts;
+  timeline: GanttBar[];
+  domain: { min: string; max: string };
+  byJurisdiction: { data: Record<string, string | number>[]; series: string[] };
+  todayIso: string;
 }) {
   const t = useT();
   const { locale } = useLocale();
@@ -139,11 +174,26 @@ export function ComplianceClient({
     }
     cols.push(
       { accessorKey: "status", header: t.compliance.status, cell: ({ row }) => (row.original.status ? <Badge>{statusLabel(row.original.status, locale)}</Badge> : "—") },
-      { accessorKey: "effectiveDate", header: t.compliance.effective, cell: ({ row }) => fmtDate(row.original.effectiveDate) || "—" },
+      {
+        // accessor = year (drives the "effective year" facet + sort); cell = full date + urgency badge.
+        id: "effectiveDate",
+        accessorFn: (r) => r.effectiveDate?.slice(0, 4) ?? "—",
+        header: t.compliance.effective,
+        cell: ({ row }) => <EffectiveCell date={row.original.effectiveDate} todayIso={todayIso} />,
+      },
+      {
+        id: "enforcement",
+        accessorFn: (r) => enforcementOf(r) ?? "",
+        header: t.compliance.enforcement,
+        cell: ({ row }) => {
+          const e = enforcementOf(row.original);
+          return e ? <span className="line-clamp-2 block max-w-xs text-xs text-slate-600">{e}</span> : <span className="text-slate-300">—</span>;
+        },
+      },
       { accessorKey: "riskLevel", header: t.common.riskLevel, cell: ({ row }) => <RiskBadge risk={row.original.riskLevel} /> },
     );
     return cols;
-  }, [t, locale, showApplies]);
+  }, [t, locale, showApplies, todayIso]);
 
   const facets: FacetCfg[] = useMemo(() => {
     const f: FacetCfg[] = [
@@ -159,10 +209,23 @@ export function ComplianceClient({
     }
     f.push(
       { columnId: "status", label: t.compliance.status, format: (v) => statusLabel(v, locale) },
+      { columnId: "effectiveDate", label: t.compliance.effectiveYear },
       { columnId: "riskLevel", label: t.common.riskLevel, format: (v) => riskLabel(v, locale) },
     );
     return f;
   }, [t, locale, showApplies]);
+
+  const kpis: { label: string; value: number; accent?: string }[] = [
+    { label: t.compliance.kpiTotal, value: counts.total },
+    ...(showApplies
+      ? [
+          { label: t.compliance.kpiApplies, value: counts.applies, accent: "#C00000" },
+          { label: t.compliance.kpiPending, value: counts.pending, accent: "#64748B" },
+        ]
+      : []),
+    { label: t.compliance.kpiApproaching, value: counts.approaching, accent: "#B45309" },
+    { label: t.compliance.kpiHighRisk, value: counts.highRisk, accent: "#C00000" },
+  ];
 
   return (
     <div className="space-y-5">
@@ -170,12 +233,39 @@ export function ComplianceClient({
         <h1 className="text-xl font-bold text-slate-900">{m.title}</h1>
         <p className="mt-0.5 text-sm text-slate-500">{m.subtitle}</p>
       </div>
+
+      <div className={`grid grid-cols-2 gap-3 ${showApplies ? "md:grid-cols-5" : "md:grid-cols-3"}`}>
+        {kpis.map((k) => (
+          <KpiCard key={k.label} label={k.label} value={k.value} accent={k.accent} />
+        ))}
+      </div>
+
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+        <SectionCard title={t.compliance.byJurisdiction}>
+          <StackedBar
+            data={byJurisdiction.data}
+            series={byJurisdiction.series}
+            categoryKey="jurisdiction"
+            colors={RISK_COLORS}
+          />
+        </SectionCard>
+        <SectionCard title={t.compliance.timeline} subtitle={`${domain.min} → ${domain.max}`}>
+          <ComplianceCountdownGantt
+            bars={timeline}
+            domain={domain}
+            todayIso={todayIso}
+            locale={locale}
+            labels={{ today: t.regulation.today, inEffect: t.regulation.inEffect, noEffectiveDate: t.regulation.noEffectiveDate }}
+          />
+        </SectionCard>
+      </div>
+
       <DataTable
         data={data}
         columns={columns}
         facets={facets}
         searchableText={(r) =>
-          [nameOf(r), r.chineseTitle, r.englishTitle, r.chineseSummary, r.englishSummary, r.agency, r.applicabilityThreshold, r.recommendedAction]
+          [nameOf(r), r.chineseTitle, r.englishTitle, r.chineseSummary, r.englishSummary, r.agency, r.applicabilityThreshold, enforcementOf(r), r.recommendedAction]
             .filter(Boolean)
             .join(" ")
         }

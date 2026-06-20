@@ -14,6 +14,10 @@ body {
 
 /* Print: hide chrome, force light, avoid awkward breaks (used by the PDF/print path). */
 @media print {
+  @page {
+    size: A4 landscape;
+    margin: 12mm;
+  }
   .no-print {
     display: none !important;
   }
@@ -21,6 +25,19 @@ body {
     background: #fff !important;
   }
   .break-avoid {
+    break-inside: avoid;
+  }
+  /* widen the main content (the sidebar is hidden in print) + keep links legible */
+  main {
+    padding: 0 !important;
+  }
+  a {
+    color: #1f3a5f !important;
+    text-decoration: underline;
+  }
+  /* table rows/cards shouldn't split across pages */
+  tr,
+  section {
     break-inside: avoid;
   }
 }

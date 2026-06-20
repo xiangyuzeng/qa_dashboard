@@ -15,6 +15,14 @@ const TYPE_ACCENT: Record<AlertType, string> = {
   inspection: "#1F4E79",
   applicability: "#7C3AED",
 };
+/** Fallback module key for alerts that don't carry an explicit `module` (compliance/applicability set it). */
+const ALERT_MODULE: Record<AlertType, string> = {
+  food_safety: "food_safety",
+  import_compliance: "import",
+  state_local_reg: "regulation",
+  inspection: "inspection",
+  applicability: "regulation",
+};
 
 export function AlertsClient({
   rows,
@@ -79,6 +87,7 @@ export function AlertsClient({
                 <tr className="border-b border-slate-200 text-xs uppercase tracking-wide text-slate-500">
                   <th className="px-2 py-2">{t.common.riskLevel}</th>
                   <th className="px-2 py-2">{t.alerts.type}</th>
+                  <th className="px-2 py-2">{t.common.module}</th>
                   <th className="px-2 py-2">{t.common.jurisdiction}</th>
                   <th className="px-2 py-2">{t.common.brand}</th>
                   <th className="px-2 py-2">
@@ -105,6 +114,12 @@ export function AlertsClient({
                         <Badge color="#fff" bg={TYPE_ACCENT[r.alertType]}>
                           {t.alertType[r.alertType]}
                         </Badge>
+                      </td>
+                      <td className="px-2 py-2 text-xs text-slate-500">
+                        {(() => {
+                          const mk = r.module ?? ALERT_MODULE[r.alertType];
+                          return t.modules[mk as keyof typeof t.modules] ?? mk ?? "—";
+                        })()}
                       </td>
                       <td className="px-2 py-2 text-slate-600">{r.jurisOrSource}</td>
                       <td className="px-2 py-2 text-slate-600">{r.brand ?? "—"}</td>
