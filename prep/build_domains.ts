@@ -25,6 +25,7 @@ import {
   buildConsumerRecords,
   stampAppliesToUs,
 } from "./domains";
+import { evaluate } from "../src/lib/applicability";
 
 const OUT = join(process.cwd(), "data", "v2");
 const NOW = new Date().toISOString();
@@ -45,6 +46,27 @@ consumer.forEach((r, i) => (r.no = i + 1));
 const profile = CompanyProfileSchema.parse(load("company_profile.json"));
 const rules = ApplicabilityRulesFileSchema.parse(load("applicability_rules.json"));
 stampAppliesToUs([...labor, ...environment, ...consumer], profile, rules);
+
+// Cache the evaluated verdicts (single source = the TS engine) for the Python exporters
+// (适用性矩阵 sheet + 合规姿态 posture snapshot). The app evaluates live; this is export-only.
+const verdicts = evaluate(profile, rules).map((v) => ({
+  id: v.rule.id,
+  module: v.rule.module,
+  jurisdiction: v.rule.jurisdiction,
+  nameZh: v.rule.regulationName.zh,
+  nameEn: v.rule.regulationName.en,
+  threshold: v.threshold,
+  ourValue: v.ourValue,
+  status: v.status,
+  distance: v.distance,
+  pending: v.pending,
+  needsVerification: v.rule.needsVerification,
+  effectiveDate: v.rule.effectiveDate,
+  thresholdSourceUrl: v.rule.thresholdSourceUrl,
+  actionZh: v.rule.actionZh,
+  actionEn: v.rule.actionEn,
+}));
+writeFileSync(join(OUT, "applicability_verdicts.json"), JSON.stringify(verdicts, null, 2) + "\n");
 
 // Validate against the file schemas before writing (fail loud on any drift).
 LaborFileSchema.parse(labor);

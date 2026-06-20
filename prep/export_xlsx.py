@@ -43,6 +43,24 @@ SHEET4_COLS = ["no", "jurisdiction", "regulationBillName", "chineseTitle", "engl
                "recommendedAction"]
 assert len(SHEET1_COLS) == 12 and len(SHEET2_COLS) == 23 and len(SHEET3_COLS) == 16 and len(SHEET4_COLS) == 16
 
+# ── V2.5 compliance-domain column orders — MIRROR src/lib/schema.ts SHEET5..8_COLUMNS. ──
+SHEET5_COLS = ["no", "jurisdiction", "regulationBillName", "chineseTitle", "englishTitle", "agency",
+               "applicabilityThreshold", "appliesToUs", "status", "effectiveDate", "keyRequirements",
+               "chineseSummary", "englishSummary", "businessImpact", "enforcementRecord", "riskLevel",
+               "sourceUrl", "recommendedAction"]
+SHEET6_COLS = ["no", "jurisdiction", "codeStandardName", "chineseTitle", "englishTitle", "agency",
+               "codeCitation", "status", "effectiveDate", "coveredEntities", "keyRequirements",
+               "chineseSummary", "englishSummary", "businessImpact", "inspectionCitationRecord", "penalty",
+               "riskLevel", "sourceUrl", "recommendedAction"]
+SHEET7_COLS = ["no", "jurisdiction", "regulationName", "chineseTitle", "englishTitle", "agency",
+               "applicabilityThreshold", "appliesToUs", "status", "effectiveDate", "keyRequirements",
+               "chineseSummary", "englishSummary", "businessImpact", "riskLevel", "sourceUrl",
+               "recommendedAction"]
+SHEET8_COLS = ["no", "jurisdiction", "regulationName", "chineseTitle", "englishTitle", "agency",
+               "applicabilityThreshold", "appliesToUs", "keyRequirements", "complaintEnforcementRecord",
+               "status", "effectiveDate", "riskLevel", "sourceUrl", "recommendedAction"]
+assert len(SHEET5_COLS) == 18 and len(SHEET6_COLS) == 19 and len(SHEET7_COLS) == 17 and len(SHEET8_COLS) == 15
+
 # ── Bilingual headers (data-key → "中文\nEnglish") ──
 HDR1 = {
     "no": "序号\nNo.", "category": "类别\nCategory", "chineseTitle": "中文标题\nTitle (ZH)",
@@ -82,9 +100,28 @@ HDR4 = {
     "sourceUrl": "原文链接\nSource URL", "recommendedAction": "建议行动\nRecommended Action",
 }
 
+# ── V2.5 compliance-domain headers (one combined map covers SHEET5..8 keys) ──
+HDR_DOMAIN = {
+    "no": "序号\nNo.", "jurisdiction": "地区\nJurisdiction", "agency": "监管机构\nAgency",
+    "regulationBillName": "法规/法案名称\nRule / Bill", "codeStandardName": "法规/标准名称\nCode / Standard",
+    "regulationName": "法规名称\nRegulation", "chineseTitle": "中文标题\nTitle (ZH)", "englishTitle": "英文标题\nTitle (EN)",
+    "applicabilityThreshold": "适用门槛\nApplicability Threshold", "appliesToUs": "适用我方\nApplies to Us",
+    "status": "状态\nStatus", "effectiveDate": "生效日期\nEffective", "keyRequirements": "核心要求\nKey Requirements",
+    "chineseSummary": "中文摘要\nSummary (ZH)", "englishSummary": "英文摘要\nSummary (EN)",
+    "businessImpact": "业务影响\nBusiness Impact", "enforcementRecord": "执法/投诉记录\nEnforcement",
+    "codeCitation": "条款/代码\nCode Citation", "coveredEntities": "适用对象\nCovered Entities",
+    "inspectionCitationRecord": "检查/处罚记录\nInspection/Citation", "penalty": "罚款\nPenalty",
+    "complaintEnforcementRecord": "投诉/执法记录\nComplaint/Enforcement",
+    "riskLevel": "风险等级\nRisk Level", "sourceUrl": "原文链接\nSource URL",
+    "recommendedAction": "建议行动\nRecommended Action",
+}
+HDR5 = HDR6 = HDR7 = HDR8 = HDR_DOMAIN
+
 MODULE_LABEL = {
     "food_safety": "食品安全 Food Safety", "import": "进口出口 Import", "regulation": "州地方法规 Regulation",
     "inspection": "咖啡馆检查 Inspection", "sentiment": "负面舆情 Sentiment",
+    "labor": "用工合规 Labor", "building": "建筑与职业安全 Building", "environment": "环境卫生 Environmental",
+    "consumer": "消费者与员工保护 Consumer",
 }
 # mirrors the bilingual glosses in src/lib/schema.ts PullStatusEnum comments
 STATUS_LABEL = {
@@ -124,7 +161,11 @@ WIDTHS = {
     "keyRequirements": 38, "businessImpact": 34, "importExportImpact": 34, "documentationRequirement": 30,
     "regulationBillName": 26, "storeName": 24, "address": 26, "inspectionType": 16,
     "inspectionResult": 16, "violationCode": 16, "violationSeverity": 14, "standardizedCategory": 22,
-    "followupRequired": 12, "sourceType": 18, "source": 18, "_default": 18,
+    "followupRequired": 12, "sourceType": 18, "source": 18,
+    # V2.5 compliance-domain columns
+    "codeStandardName": 28, "regulationName": 28, "applicabilityThreshold": 26, "appliesToUs": 14,
+    "enforcementRecord": 32, "codeCitation": 20, "inspectionCitationRecord": 30, "penalty": 22,
+    "complaintEnforcementRecord": 30, "_default": 18,
 }
 SUMMARY_COLS = 7  # width of the bespoke summary sheet (A..G)
 
@@ -139,6 +180,8 @@ def servable(r):
 
 
 def fmt(key, val):
+    if key == "appliesToUs":
+        return "未评估 N/A" if val is None else ("适用 Yes" if val else "暂不适用 No")
     if val is None:
         return ""
     if "date" in key.lower() and isinstance(val, str) and val:
@@ -208,7 +251,7 @@ def _line(ws, r, zh, en):
     return r + 1
 
 
-def build_summary_sheet(wb, meta, matrix):
+def build_summary_sheet(wb, meta, matrix, verdicts=None):
     ws = wb.create_sheet("月度摘要")
     summary = meta.get("summary") or {}
     counts = meta.get("counts", {})
@@ -266,7 +309,7 @@ def build_summary_sheet(wb, meta, matrix):
     c.fill, c.font, c.alignment, c.border = HEADER_FILL, HEADER_FONT, HEADER_ALIGN, BORDER
     ws.row_dimensions[r].height = 24
     r += 1
-    for m in ["food_safety", "import", "regulation", "inspection", "sentiment"]:
+    for m in ["food_safety", "import", "regulation", "labor", "building", "environment", "consumer", "inspection", "sentiment"]:
         mc = ws.cell(row=r, column=1, value=MODULE_LABEL[m])
         mc.font, mc.border = Font(bold=True), BORDER
         total = 0
@@ -281,6 +324,28 @@ def build_summary_sheet(wb, meta, matrix):
         tc.alignment, tc.font, tc.border = CENTER, Font(bold=True), BORDER
         r += 1
     r += 1
+
+    # 合规姿态 Compliance Posture snapshot — one row per applicability rule (from the engine verdicts).
+    if verdicts:
+        r = _section(ws, r, "合规姿态 Compliance Posture (适用性 / Applicability)")
+        for ci, h in enumerate(["规则 Rule", "我方当前值 Our Value", "阈值 Threshold", "适用? Applies?"]):
+            c = ws.cell(row=r, column=ci + 1, value=h)
+            c.fill, c.font, c.alignment, c.border = HEADER_FILL, HEADER_FONT, HEADER_ALIGN, BORDER
+        r += 1
+        for v in verdicts:
+            status = v.get("status", "na")
+            ws.cell(row=r, column=1, value=v.get("nameZh") or v.get("nameEn", "")).border = BORDER
+            our = v.get("ourValue")
+            ws.cell(row=r, column=2, value=("待补充 Pending" if our is None and status == "na" else ("—" if our is None else our))).border = BORDER
+            ws.cell(row=r, column=3, value=v.get("threshold") if v.get("threshold") is not None else "—").border = BORDER
+            vc = ws.cell(row=r, column=4, value=("待核实 To verify" if (status == "na" and v.get("needsVerification")) else APPLIES_LABEL.get(status, status)))
+            vc.border = BORDER
+            if status in APPLIES_FILL:
+                vc.fill = APPLIES_FILL[status]
+                if status == "applies":
+                    vc.font = HIGH_FONT
+            r += 1
+        r += 1
 
     r = _section(ws, r, "关键要点 Key Highlights")
     for h in summary.get("keyHighlights", []):
@@ -390,19 +455,67 @@ def build_field_guide_sheet(wb):
     return ws
 
 
-def risk_mix(reg, imp, regs, insp, sent):
-    mods = {"food_safety": reg, "import": imp, "regulation": regs, "inspection": insp, "sentiment": sent}
+def risk_mix(reg, imp, regs, insp, sent, labor=None, building=None, environment=None, consumer=None):
+    mods = {"food_safety": reg, "import": imp, "regulation": regs,
+            "labor": labor or [], "building": building or [], "environment": environment or [],
+            "consumer": consumer or [], "inspection": insp, "sentiment": sent}
     return {m: {lvl: sum(1 for r in rows if r.get("riskLevel") == lvl) for lvl in RISK_LEVELS}
             for m, rows in mods.items()}
+
+
+# ── bespoke sheet: 适用性矩阵 Applicability Matrix (from applicability_verdicts.json) ──
+APPLIES_LABEL = {
+    "applies": "适用 Applies", "approaching": "临近 Approaching", "not_yet": "暂不适用 Not yet",
+    "always": "始终适用 Always", "na": "待补充/待核实 Pending",
+}
+APPLIES_FILL = {
+    "applies": PatternFill("solid", fgColor="F4CCCC"), "approaching": PatternFill("solid", fgColor="FCE4D6"),
+    "not_yet": PatternFill("solid", fgColor="E2EFDA"), "always": PatternFill("solid", fgColor="DDEBF7"),
+    "na": PatternFill("solid", fgColor="E7EBF0"),
+}
+
+
+def build_applicability_sheet(wb, verdicts):
+    ws = wb.create_sheet("适用性矩阵")
+    headers = ["规则\nRule", "领域\nDomain", "辖区\nJurisdiction", "阈值\nThreshold",
+               "我方当前值\nOur Value", "适用?\nApplies?", "距阈值\nDistance", "生效\nEffective", "依据链接\nSource"]
+    style_header_row(ws, headers)
+    for i, v in enumerate(verdicts):
+        row = 2 + i
+        status = v.get("status", "na")
+        verdict_txt = "待核实 To verify" if (status == "na" and v.get("needsVerification")) else APPLIES_LABEL.get(status, status)
+        our = v.get("ourValue")
+        our_txt = "待补充 Pending" if our is None and status == "na" else ("—" if our is None else our)
+        dist = v.get("distance")
+        vals = [v.get("nameZh") or v.get("nameEn", ""), MODULE_LABEL.get(v.get("module"), v.get("module", "")),
+                v.get("jurisdiction", ""), v.get("threshold") if v.get("threshold") is not None else "—",
+                our_txt, verdict_txt, ("—" if dist is None else dist),
+                (v.get("effectiveDate") or "").replace("-", "/"), v.get("thresholdSourceUrl", "")]
+        for ci, val in enumerate(vals):
+            c = ws.cell(row=row, column=ci + 1, value=val)
+            c.border, c.alignment = BORDER, WRAP_TOP
+            if ci == 5 and status in APPLIES_FILL:  # the 适用? verdict cell
+                c.fill = APPLIES_FILL[status]
+                if status == "applies":
+                    c.font = HIGH_FONT
+    for ci, w in enumerate([34, 22, 16, 12, 14, 18, 12, 13, 44]):
+        ws.column_dimensions[get_column_letter(ci + 1)].width = w
+    finalize_table(ws, len(headers), len(verdicts))
+    return ws
 
 
 def verify(path, expect_high_fill):
     wb = load_workbook(path)
     titles = wb.sheetnames
-    expect = ["月度摘要", "食品安全主表", "进口出口监管", "州地方法规", "咖啡馆检查", "数据源日志", "字段说明"]
+    expect = ["月度摘要", "食品安全主表", "进口出口监管", "州地方法规", "用工合规", "建筑与职业安全",
+              "环境卫生", "消费者与员工保护", "咖啡馆检查", "适用性矩阵", "数据源日志", "字段说明"]
     assert titles == expect, f"sheet titles/order: {titles}"
     hdr5 = [c.value for c in wb["咖啡馆检查"][1]]
     assert any(h and "门店编号" in str(h) for h in hdr5), "missing 门店编号 col on 咖啡馆检查"
+    # Applicability sheet must carry the 适用? verdict column + at least one rule row.
+    hdr_ap = [c.value for c in wb["适用性矩阵"][1]]
+    assert any(h and "适用?" in str(h) for h in hdr_ap), "missing 适用? col on 适用性矩阵"
+    assert wb["适用性矩阵"].max_row >= 2, "no rule rows on 适用性矩阵"
     # The high-risk fill is a property of the DATA — only assert it when a 高风险 food-safety row exists
     # (a legitimate low-risk month must not fail the export).
     if expect_high_fill:
@@ -421,22 +534,33 @@ def main():
     imp = [r for r in load("import_export.json") if servable(r)]
     regs = [r for r in load("regulations.json") if servable(r)]
     sent = [r for r in load("sentiment.json") if servable(r) and not r.get("excluded")]
+    labor = [r for r in load("labor.json") if servable(r)]
+    building = [r for r in load("building.json") if servable(r)]
+    environment = [r for r in load("environment.json") if servable(r)]
+    consumer = [r for r in load("consumer.json") if servable(r)]
+    verdicts = load("applicability_verdicts.json")
     meta = load("meta.json")
 
     wb = Workbook()
     wb.remove(wb.active)  # drop the default empty sheet
-    build_summary_sheet(wb, meta, risk_mix(reg, imp, regs, insp, sent))
+    build_summary_sheet(wb, meta, risk_mix(reg, imp, regs, insp, sent, labor, building, environment, consumer), verdicts)
     build_table_sheet(wb, "食品安全主表", SHEET1_COLS, HDR1, reg)
     build_table_sheet(wb, "进口出口监管", SHEET3_COLS, HDR3, imp)
     build_table_sheet(wb, "州地方法规", SHEET4_COLS, HDR4, regs)
+    build_table_sheet(wb, "用工合规", SHEET5_COLS, HDR5, labor)
+    build_table_sheet(wb, "建筑与职业安全", SHEET6_COLS, HDR6, building)
+    build_table_sheet(wb, "环境卫生", SHEET7_COLS, HDR7, environment)
+    build_table_sheet(wb, "消费者与员工保护", SHEET8_COLS, HDR8, consumer)
     build_table_sheet(wb, "咖啡馆检查", SHEET2_COLS, HDR2, insp)
+    build_applicability_sheet(wb, verdicts)
     build_sources_sheet(wb, meta)
     build_field_guide_sheet(wb)
 
     os.makedirs(OUT_DIR, exist_ok=True)
     wb.save(OUT)
-    print(f"export: 7 sheets — summary · {len(reg)} food-safety · {len(imp)} import · "
-          f"{len(regs)} regulation · {len(insp)} inspection · {len(meta.get('provenance', []))} sources "
+    print(f"export: 12 sheets — summary · {len(reg)} food-safety · {len(imp)} import · {len(regs)} regulation · "
+          f"{len(labor)} labor · {len(building)} building · {len(environment)} env · {len(consumer)} consumer · "
+          f"{len(insp)} inspection · {len(verdicts)} applicability · {len(meta.get('provenance', []))} sources "
           f"→ public/exports/monthly_report.xlsx")
     verify(OUT, expect_high_fill=any(r.get("riskLevel") == "高风险" for r in reg))
 

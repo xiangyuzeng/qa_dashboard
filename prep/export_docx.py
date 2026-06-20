@@ -28,6 +28,7 @@ from export_xlsx import (
     MODULE_LABEL,
     STATUS_LABEL,
     RISK_LEVELS,
+    APPLIES_LABEL,
     load,
     servable,
     fmt,
@@ -61,6 +62,19 @@ REG_COLS = [("no", "序号 No."), ("jurisdiction", "地区 Jurisdiction"), ("reg
 INSP_COLS = [("no", "序号 No."), ("jurisdiction", "地区 Jurisdiction"), ("brand", "品牌 Brand"),
              ("storeName", "门店 Store"), ("establishmentId", "门店编号 Establishment ID"),
              ("inspectionResult", "结果 Result"), ("riskLevel", "风险 Risk")]
+# V2.5 compliance-domain curated subsets.
+LABOR_COLS = [("no", "序号 No."), ("jurisdiction", "地区 Jur."), ("regulationBillName", "法规/法案 Rule"),
+              ("appliesToUs", "适用 Applies"), ("status", "状态 Status"), ("riskLevel", "风险 Risk")]
+BUILDING_COLS = [("no", "序号 No."), ("jurisdiction", "地区 Jur."), ("codeStandardName", "法规/标准 Code"),
+                 ("codeCitation", "条款 Citation"), ("status", "状态 Status"), ("riskLevel", "风险 Risk")]
+ENV_COLS = [("no", "序号 No."), ("jurisdiction", "地区 Jur."), ("regulationName", "法规 Regulation"),
+            ("appliesToUs", "适用 Applies"), ("status", "状态 Status"), ("riskLevel", "风险 Risk")]
+CONSUMER_COLS = [("no", "序号 No."), ("jurisdiction", "地区 Jur."), ("regulationName", "法规 Regulation"),
+                 ("appliesToUs", "适用 Applies"), ("status", "状态 Status"), ("riskLevel", "风险 Risk")]
+# Verdict cell shading for the Applicability section (mirror export_xlsx APPLIES_FILL fgColors).
+APPLIES_SHADE = {
+    "applies": "F4CCCC", "approaching": "FCE4D6", "not_yet": "E2EFDA", "always": "DDEBF7", "na": "E7EBF0",
+}
 
 
 # ── low-level docx helpers ──
@@ -145,7 +159,7 @@ def add_bullets(doc, items):
 
 
 # ── document sections ──
-def build_summary(doc, meta, matrix):
+def build_summary(doc, meta, matrix, verdicts=None):
     summary = meta.get("summary") or {}
     counts = meta.get("counts", {})
     period = meta.get("reportingPeriod", {})
@@ -196,7 +210,7 @@ def build_summary(doc, meta, matrix):
         _set_cell(head.cells[ci + 1], lvl, size=7.5, bold=True, color=WHITE, align_center=True)
     _shade(head.cells[-1], NAVY)
     _set_cell(head.cells[-1], "合计 Total", size=7.5, bold=True, color=WHITE, align_center=True)
-    for m in ["food_safety", "import", "regulation", "inspection", "sentiment"]:
+    for m in ["food_safety", "import", "regulation", "labor", "building", "environment", "consumer", "inspection", "sentiment"]:
         row = mt.add_row()
         _set_cell(row.cells[0], MODULE_LABEL[m], size=8, bold=True)
         total = 0
@@ -207,6 +221,27 @@ def build_summary(doc, meta, matrix):
             if v and lvl in RISK_SHADE:
                 _shade(row.cells[ci + 1], RISK_SHADE[lvl])
         _set_cell(row.cells[-1], total, size=8, bold=True, align_center=True)
+
+    # 合规姿态 Compliance Posture snapshot — one row per applicability rule (engine verdicts).
+    if verdicts:
+        doc.add_heading("合规姿态 Compliance Posture（适用性 Applicability）", level=2)
+        pt = doc.add_table(rows=1, cols=4)
+        pt.style = "Table Grid"
+        for ci, label in enumerate(["规则 Rule", "我方 Our Value", "阈值 Threshold", "适用? Applies?"]):
+            _shade(pt.rows[0].cells[ci], NAVY)
+            _set_cell(pt.rows[0].cells[ci], label, size=7.5, bold=True, color=WHITE)
+        for v in verdicts:
+            status = v.get("status", "na")
+            row = pt.add_row()
+            _set_cell(row.cells[0], v.get("nameZh") or v.get("nameEn", ""), size=8)
+            our = v.get("ourValue")
+            _set_cell(row.cells[1], ("待补充 Pending" if our is None and status == "na" else ("—" if our is None else our)), size=8, align_center=True)
+            _set_cell(row.cells[2], v.get("threshold") if v.get("threshold") is not None else "—", size=8, align_center=True)
+            verdict_txt = "待核实 To verify" if (status == "na" and v.get("needsVerification")) else APPLIES_LABEL.get(status, status)
+            _set_cell(row.cells[3], verdict_txt, size=8, bold=(status == "applies"),
+                      color=HIGH_RED if status == "applies" else None, align_center=True)
+            if status in APPLIES_SHADE:
+                _shade(row.cells[3], APPLIES_SHADE[status])
 
     if summary.get("keyHighlights"):
         doc.add_heading("关键要点 Key Highlights", level=2)
@@ -277,6 +312,8 @@ def verify(path):
     headings = [p.text for p in doc.paragraphs if p.style.name.startswith("Heading") or p.style.name == "Title"]
     assert any("数据源日志" in h for h in headings), f"missing Sources section; headings={headings[:8]}"
     assert any("字段说明" in h for h in headings), "missing Field Guide section"
+    assert any("用工合规" in h for h in headings), "missing Labor section"
+    assert any("适用性矩阵" in h for h in headings), "missing Applicability section"
     # at least one table has a 门店编号 (Establishment ID) header cell
     has_estid = any(
         any("门店编号" in c.text for c in t.rows[0].cells)
@@ -288,12 +325,45 @@ def verify(path):
     print(f"verify OK: {len(doc.tables)} tables, {len(headings)} section headings")
 
 
+def add_applicability_section(doc, verdicts):
+    doc.add_heading("适用性矩阵 Applicability / Threshold Matrix", level=1)
+    if not verdicts:
+        doc.add_paragraph("（本期无规则 — none this period）")
+        return
+    cols = ["规则 Rule", "领域 Domain", "阈值 Threshold", "我方 Our Value", "适用? Applies?", "依据 Source"]
+    table = doc.add_table(rows=1, cols=len(cols))
+    table.style = "Table Grid"
+    _repeat_header(table.rows[0])
+    for ci, label in enumerate(cols):
+        _shade(table.rows[0].cells[ci], NAVY)
+        _set_cell(table.rows[0].cells[ci], label, size=7.5, bold=True, color=WHITE)
+    for v in verdicts:
+        status = v.get("status", "na")
+        row = table.add_row()
+        _set_cell(row.cells[0], v.get("nameZh") or v.get("nameEn", ""), size=7.5)
+        _set_cell(row.cells[1], MODULE_LABEL.get(v.get("module"), v.get("module", "")), size=7.5)
+        _set_cell(row.cells[2], v.get("threshold") if v.get("threshold") is not None else "—", size=7.5, align_center=True)
+        our = v.get("ourValue")
+        _set_cell(row.cells[3], ("待补充 Pending" if our is None and status == "na" else ("—" if our is None else our)), size=7.5, align_center=True)
+        verdict_txt = "待核实 To verify" if (status == "na" and v.get("needsVerification")) else APPLIES_LABEL.get(status, status)
+        _set_cell(row.cells[4], verdict_txt, size=7.5, bold=(status == "applies"),
+                  color=HIGH_RED if status == "applies" else None, align_center=True)
+        if status in APPLIES_SHADE:
+            _shade(row.cells[4], APPLIES_SHADE[status])
+        _set_cell(row.cells[5], v.get("thresholdSourceUrl", ""), size=7)
+
+
 def main():
     reg = [r for r in load("regulatory.json") if servable(r)]
     insp = [r for r in load("inspections.json") if servable(r)]
     imp = [r for r in load("import_export.json") if servable(r)]
     regs = [r for r in load("regulations.json") if servable(r)]
     sent = [r for r in load("sentiment.json") if servable(r) and not r.get("excluded")]
+    labor = [r for r in load("labor.json") if servable(r)]
+    building = [r for r in load("building.json") if servable(r)]
+    environment = [r for r in load("environment.json") if servable(r)]
+    consumer = [r for r in load("consumer.json") if servable(r)]
+    verdicts = load("applicability_verdicts.json")
     meta = load("meta.json")
 
     doc = Document()
@@ -301,7 +371,7 @@ def main():
     doc.styles["Normal"].font.name = "Calibri"
     doc.styles["Normal"].font.size = Pt(9)
 
-    build_summary(doc, meta, risk_mix(reg, imp, regs, insp, sent))
+    build_summary(doc, meta, risk_mix(reg, imp, regs, insp, sent, labor, building, environment, consumer), verdicts)
 
     doc.add_page_break()
     doc.add_heading("食品安全主表 Food Safety", level=1)
@@ -310,17 +380,27 @@ def main():
     add_module_table(doc, IMPORT_COLS, imp)
     doc.add_heading("州地方法规 State & Local Regulation", level=1)
     add_module_table(doc, REG_COLS, regs)
+    doc.add_heading("用工合规 Labor & Employment", level=1)
+    add_module_table(doc, LABOR_COLS, labor)
+    doc.add_heading("建筑与职业安全 Building & Occupational Safety", level=1)
+    add_module_table(doc, BUILDING_COLS, building)
+    doc.add_heading("环境卫生 Environmental & Sanitation", level=1)
+    add_module_table(doc, ENV_COLS, environment)
+    doc.add_heading("消费者与员工保护 Consumer & Worker Protection", level=1)
+    add_module_table(doc, CONSUMER_COLS, consumer)
     doc.add_heading("咖啡馆检查 Café Inspections", level=1)
     add_module_table(doc, INSP_COLS, insp)
 
     doc.add_page_break()
+    add_applicability_section(doc, verdicts)
     build_sources(doc, meta)
     build_field_guide(doc)
 
     os.makedirs(OUT_DIR, exist_ok=True)
     doc.save(OUT)
     print(f"export(docx): summary · {len(reg)} food-safety · {len(imp)} import · {len(regs)} regulation · "
-          f"{len(insp)} inspection · {len(meta.get('provenance', []))} sources → public/exports/monthly_report.docx")
+          f"{len(labor)} labor · {len(building)} building · {len(environment)} env · {len(consumer)} consumer · "
+          f"{len(insp)} inspection · {len(verdicts)} applicability · {len(meta.get('provenance', []))} sources → public/exports/monthly_report.docx")
     verify(OUT)
 
 
