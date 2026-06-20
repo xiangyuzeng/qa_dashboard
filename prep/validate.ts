@@ -20,6 +20,7 @@ import {
   OwnedStoresFileSchema,
   CompanyProfileSchema,
   ApplicabilityRulesFileSchema,
+  ApplicabilityVerdictsFileSchema,
   ViolationCategoriesFileSchema,
   BrandsFileSchema,
   JurisdictionsFileSchema,
@@ -55,6 +56,7 @@ const checks: Check[] = [
   { file: "owned_stores.json", run: () => OwnedStoresFileSchema.parse(load("owned_stores.json")) },
   { file: "company_profile.json", run: () => CompanyProfileSchema.parse(load("company_profile.json")) },
   { file: "applicability_rules.json", run: () => ApplicabilityRulesFileSchema.parse(load("applicability_rules.json")) },
+  { file: "applicability_verdicts.json", run: () => ApplicabilityVerdictsFileSchema.parse(load("applicability_verdicts.json")) },
   { file: "meta.json", run: () => MetaSchema.parse(load("meta.json")) },
 ];
 
@@ -101,6 +103,46 @@ try {
   }
 } catch {
   /* already reported above */
+}
+
+// Id-uniqueness guard: no duplicate record ids within a file, and no collisions across the
+// record-bearing files (ids are used as React keys + detail-page slugs + cross-refs, so a
+// collision silently drops/merges rows). Catches e.g. EN/ES recall pairs hashing to one id.
+const idFiles = [
+  "regulatory.json", "inspections.json", "import_export.json", "regulations.json", "sentiment.json",
+  "labor.json", "building.json", "environment.json", "consumer.json", "applicability_rules.json",
+];
+const seenGlobal = new Map<string, string>();
+let idProblems = 0;
+for (const f of idFiles) {
+  let rows: unknown;
+  try {
+    rows = load(f);
+  } catch {
+    continue;
+  }
+  if (!Array.isArray(rows)) continue;
+  const within = new Set<string>();
+  for (const r of rows as { id?: string }[]) {
+    const id = r?.id;
+    if (!id) continue;
+    if (within.has(id)) {
+      idProblems++;
+      console.error(`  ✗ duplicate id within ${f}: ${id}`);
+    }
+    within.add(id);
+    const prev = seenGlobal.get(id);
+    if (prev && prev !== f) {
+      idProblems++;
+      console.error(`  ✗ id collision across files: ${id} in both ${prev} and ${f}`);
+    }
+    seenGlobal.set(id, f);
+  }
+}
+if (idProblems) {
+  failed++;
+} else {
+  console.log(`  ✓ id uniqueness (no dup/collision across ${idFiles.length} record files)`);
 }
 
 // Export-column drift guard: the Python exporter (prep/export_xlsx.py) hardcodes the same

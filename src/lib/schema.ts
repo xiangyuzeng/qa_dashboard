@@ -850,6 +850,29 @@ export const ApplicabilityRuleSchema = z.object({
 });
 export type ApplicabilityRule = z.infer<typeof ApplicabilityRuleSchema>;
 export const ApplicabilityRulesFileSchema = z.array(ApplicabilityRuleSchema);
+
+/** Cached engine verdicts (applicability_verdicts.json) — export-only snapshot written by
+ * build_domains.ts and read by both Python exporters. Validated so a drift in the engine
+ * output shape fails loudly in prep:validate instead of silently mis-rendering the matrix. */
+export const ApplicabilityVerdictSchema = z.object({
+  id: z.string(),
+  module: ModuleEnum,
+  jurisdiction: RegJurisdictionEnum,
+  nameZh: z.string(),
+  nameEn: z.string(),
+  threshold: z.number().nullable(),
+  ourValue: z.number().nullable(),
+  status: ApplicabilityStatusEnum,
+  distance: z.number().nullable(),
+  pending: z.boolean(),
+  needsVerification: z.boolean(),
+  effectiveDate: z.string().nullable(),
+  thresholdSourceUrl: z.string().nullable(),
+  actionZh: z.string().nullable(),
+  actionEn: z.string().nullable(),
+});
+export const ApplicabilityVerdictsFileSchema = z.array(ApplicabilityVerdictSchema);
+
 export type CountBasis = z.infer<typeof CountBasisEnum>;
 export type ApplicabilityStatus = z.infer<typeof ApplicabilityStatusEnum>;
 export type TriggerDimension = z.infer<typeof TriggerDimensionEnum>;

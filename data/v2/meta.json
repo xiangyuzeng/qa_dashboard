@@ -1,6 +1,6 @@
 {
   "schemaVersion": "2.0.0",
-  "dataAsOf": "2026-06-19",
+  "dataAsOf": "2026-06-20",
   "reportingPeriod": {
     "label": "2026-06 (real pull)",
     "year": 2026,
@@ -10,14 +10,14 @@
   "isSeedData": false,
   "counts": {
     "regulatory": 167,
-    "inspections": 180,
-    "alerts": 143,
+    "inspections": 218,
+    "alerts": 230,
     "pendingReview": 0,
     "importExport": 58,
     "regulation": 43,
-    "sentiment": 12,
-    "highRisk": 121,
-    "watch": 6,
+    "sentiment": 15,
+    "highRisk": 203,
+    "watch": 39,
     "bySource": {
       "fda_recall": 65,
       "federal_register": 36,
@@ -26,14 +26,15 @@
       "nyc_dohmh": 124,
       "boston_ckan": 46,
       "manual_intake": 10,
+      "nyc_oath": 38,
       "may_report_import": 6,
       "federal_register_import": 22,
+      "fda_oii_import_refusals": 30,
       "may_report_regulation": 8,
       "legiscan_bills": 25,
       "ny_senate_bills": 8,
       "openstates_bills": 2,
-      "food_safety_news_rss": 12,
-      "fda_oii_import_refusals": 30,
+      "food_safety_news_rss": 15,
       "dcwp_dol_labor": 100,
       "osha_dob_building": 88,
       "dep_dsny_env": 85,
@@ -65,8 +66,8 @@
     ],
     "keyHighlights": [
       {
-        "zh": "本月高风险事项 121 项、关注 0 项",
-        "en": "121 high-risk and 0 watch items this period"
+        "zh": "本月高风险事项 203 项、关注 39 项",
+        "en": "203 high-risk and 39 watch items this period"
       },
       {
         "zh": "州/地方合规临近：CA SB68 (2026-07-01)、NY 过敏原法 (~2026-11)、NYC added-sugar 已生效",
@@ -638,6 +639,20 @@
       "status": "manual",
       "accessType": "open-data",
       "oneTimePullFeasible": "partial"
+    },
+    {
+      "jurisdictionId": "New York City",
+      "endpointOrUrl": "https://data.cityofnewyork.us/resource/jz4z-kudi.json",
+      "collectedAt": "2026-06-20T17:44:10.449Z",
+      "recordCount": 38,
+      "stalenessNote": "NYC OATH/ECB hearings — strict café-chain brand match (word-boundary aliases) across DSNY/DEP/FDNY/DOB/DCWP/DOHMH. Competitor enforcement only; no fabricated brand attribution.",
+      "reVerifyBeforeRelying": false,
+      "module": "inspection",
+      "status": "fetched",
+      "sourceId": "nyc_oath",
+      "name": "NYC OATH Hearings — multi-agency enforcement",
+      "accessType": "open-data",
+      "oneTimePullFeasible": "yes"
     }
   ]
 }
