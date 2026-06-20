@@ -1,5 +1,21 @@
 # V2 build — handoff (resume here)
 
+> **▶ V2.5 (current) — Applicability Engine + 4 compliance domains.** Built on top of V2. Adds modules
+> **labor / building / environment / consumer** (Sheet5–8) + the hero **Applicability/Threshold Engine**
+> (`src/lib/applicability.ts`, pure `evaluate()`) consuming the real store footprint
+> (`data/v2/owned_stores.json` + `company_profile.json`, 30 NYC stores, asOf 2026-06-20). Surfaces:
+> `/applicability` (matrix + what-if + Fair-Workweek basis toggle + UNREVIEWED banner) + Overview 合规姿态
+> posture strip + 4 module pages + `applicability` alert type. Excel is now **12 sheets** (+用工合规/建筑与
+> 职业安全/环境卫生/消费者与员工保护/适用性矩阵); docx mirrors it.
+>
+> **Refresh flow (V2.5):** `npm run prep:domains` (= `tsx prep/build_domains.ts`) — writes ONLY the 4 domain
+> files + `applicability_verdicts.json` + patches `meta`, **preserving the curated 6-module snapshot** (do NOT
+> run full `prep:collect`, which re-pulls live and can flood). Then `prep:validate` + `prep:export`. Curated
+> bilingual seeds live in `prep/seeds.ts`; live DCWP/DOB/DSNY/DOL/OSHA adapters are dormant behind the
+> `prep/lib/feed.ts` FeedAdapter seam (truthful `manual`/re-verify stubs, no fabrication).
+> **Deferred (spec §8):** `/inspections` multi-agency, CAMIS enrichment, `/benchmark` extension, `/regulation` facet.
+
+
 Status as of this handoff: the **V2 data layer is done & committed**; the **V2 UI + export + docs remain**. This doc is the single source of truth for resuming. Read it together with the approved plan at
 `~/.claude/plans/ultracode-claude-dangerously-skip-permis-encapsulated-dragon.md` (the `▶ V2 REVISION` section).
 
