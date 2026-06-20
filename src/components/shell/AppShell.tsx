@@ -14,6 +14,7 @@ const NAV_GROUPS = [
       { href: "/", key: "overview" },
       { href: "/applicability", key: "applicability" },
       { href: "/alerts", key: "alerts" },
+      { href: "/review", key: "review" },
     ],
   },
   {
@@ -61,11 +62,12 @@ function LocaleToggle() {
   );
 }
 
-function Sidebar({ alertCount }: { alertCount: number }) {
+function Sidebar({ alertCount, reviewCount }: { alertCount: number; reviewCount: number }) {
   const t = useT();
   const pathname = usePathname();
   const isActive = (href: string) =>
     href === "/" ? pathname === "/" : pathname.startsWith(href);
+  const badge: Record<string, number> = { alerts: alertCount, review: reviewCount };
 
   return (
     <aside className="no-print flex w-56 flex-shrink-0 flex-col border-r border-slate-200 bg-white">
@@ -92,9 +94,9 @@ function Sidebar({ alertCount }: { alertCount: number }) {
                   }`}
                 >
                   <span>{t.nav[item.key]}</span>
-                  {item.key === "alerts" && alertCount > 0 && (
+                  {badge[item.key] > 0 && (
                     <span className="ml-2 rounded-full bg-risk-high px-1.5 py-0.5 text-[10px] font-bold text-white">
-                      {alertCount}
+                      {badge[item.key]}
                     </span>
                   )}
                 </Link>
@@ -171,16 +173,18 @@ function TopBar({ meta }: { meta: ShellMeta }) {
 export function AppShell({
   meta,
   alertCount,
+  reviewCount,
   children,
 }: {
   meta: ShellMeta;
   alertCount: number;
+  reviewCount: number;
   children: React.ReactNode;
 }) {
   const t = useT();
   return (
     <div className="flex min-h-screen">
-      <Sidebar alertCount={alertCount} />
+      <Sidebar alertCount={alertCount} reviewCount={reviewCount} />
       <div className="flex min-w-0 flex-1 flex-col">
         <TopBar meta={meta} />
         {meta.isSeedData && (

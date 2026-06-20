@@ -13,9 +13,11 @@ import {
   getConsumer,
   getCompanyProfile,
   getApplicabilityRules,
+  getPendingRecords,
 } from "@/src/lib/data";
 import { evaluate } from "@/src/lib/applicability";
 import { applicabilityAlertRows } from "@/src/lib/alerts";
+import { buildReviewQueue } from "@/src/lib/review";
 import { Providers } from "@/src/components/shell/Providers";
 import { AppShell } from "@/src/components/shell/AppShell";
 
@@ -42,6 +44,7 @@ export default function RootLayout({
     getEnvironment().filter((r) => r.alertTriggered).length +
     getConsumer().filter((r) => r.alertTriggered).length +
     applicabilityAlertRows(evaluate(getCompanyProfile(), getApplicabilityRules())).length;
+  const reviewCount = getPendingRecords().length + buildReviewQueue(getInspections()).length;
 
   return (
     <html lang="zh">
@@ -54,6 +57,7 @@ export default function RootLayout({
               isSeedData: meta.isSeedData,
             }}
             alertCount={alertCount}
+            reviewCount={reviewCount}
           >
             {children}
           </AppShell>

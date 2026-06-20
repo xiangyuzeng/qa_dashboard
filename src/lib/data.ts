@@ -40,6 +40,7 @@ import {
   type ViolationCategory,
   type Meta,
 } from "./schema";
+import { reasonText, type ReviewItem } from "./review";
 
 import regulatoryJson from "@/data/v2/regulatory.json";
 import inspectionsJson from "@/data/v2/inspections.json";
@@ -171,4 +172,48 @@ export function getJurisdictions() {
 /** All inspection ids — for generateStaticParams on the drill-down route. */
 export function getInspectionIds(): string[] {
   return getInspections().map((r) => r.id);
+}
+
+/**
+ * Hard-gate layer of the manual-review gate (spec §10): records a maintainer moved to
+ * reviewStatus:"pending" (via prep/review_gate.ts). These are NOT servable — they are held
+ * out of every module view until approved — and surface only in the /review queue.
+ */
+export function getPendingRecords(): ReviewItem[] {
+  const detail = reasonText("awaitingSignoff");
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const sources: { module: string; rows: any[]; href: (r: any) => string | null }[] = [
+    { module: "inspection", rows: ALL_INSPECTIONS, href: (r) => `/inspections/${r.id}` },
+    { module: "food_safety", rows: ALL_REGULATORY, href: (r) => r.sourceUrl ?? "/intelligence" },
+    { module: "import", rows: ALL_IMPORT, href: (r) => r.sourceUrl ?? "/import" },
+    { module: "regulation", rows: ALL_REGULATION, href: (r) => r.sourceUrl ?? "/regulation" },
+    { module: "sentiment", rows: ALL_SENTIMENT, href: (r) => r.sourceUrl ?? "/sentiment" },
+    { module: "labor", rows: ALL_LABOR, href: (r) => r.sourceUrl ?? "/labor" },
+    { module: "building", rows: ALL_BUILDING, href: (r) => r.sourceUrl ?? "/building" },
+    { module: "environment", rows: ALL_ENVIRONMENT, href: (r) => r.sourceUrl ?? "/environment" },
+    { module: "consumer", rows: ALL_CONSUMER, href: (r) => r.sourceUrl ?? "/consumer" },
+  ];
+  const out: ReviewItem[] = [];
+  for (const src of sources) {
+    for (const r of src.rows) {
+      if (r.reviewStatus !== "pending") continue;
+      out.push({
+        id: r.id,
+        module: src.module,
+        titleZh: r.chineseTitle ?? r.storeName ?? r.regulationBillName ?? r.codeStandardName ?? r.regulationName ?? r.id,
+        titleEn: r.englishTitle ?? r.storeName ?? r.regulationBillName ?? r.codeStandardName ?? r.regulationName ?? r.id,
+        riskLevel: r.riskLevel ?? null,
+        jurisdiction: r.jurisdiction ?? null,
+        agency: r.regulatoryAgency ?? null,
+        brand: r.brand ?? null,
+        date: r.inspectionDate ?? r.publicationDate ?? r.effectiveDate ?? null,
+        reason: "awaitingSignoff",
+        reasonDetailZh: detail.zh,
+        reasonDetailEn: detail.en,
+        href: src.href(r),
+        priority: 0,
+      });
+    }
+  }
+  return out;
 }
