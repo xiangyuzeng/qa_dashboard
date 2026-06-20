@@ -70,6 +70,8 @@ QA-review, then commit + redeploy. Nothing runs on Vercel except serving static 
 `npm run prep:build` runs collect → enrich → meta → validate → export in sequence.
 
 ## Automated monthly refresh (GitHub Action)
+> 中文分步操作指南（含 Secrets 配置）：[docs/AUTO_REFRESH.zh.md](AUTO_REFRESH.zh.md)
+
 `.github/workflows/monthly-refresh.yml` runs the whole pipeline unattended on the **1st of each
 month** (and on demand via *Actions → Monthly data refresh → Run workflow*):
 
