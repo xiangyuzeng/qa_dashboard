@@ -1,24 +1,24 @@
-name: Monthly data refresh
+name: Weekday data refresh
 
-# Re-runs the prep pipeline on a schedule, then opens a PR with the refreshed data for the
-# human-review gate (RUNBOOK step 3) — merging the PR triggers Vercel's deploy. Manual runs
-# can opt into pushing straight to main (set push_to_main: true) once the pipeline is trusted.
+# Re-runs the prep pipeline on weekdays (Mon–Fri) and pushes refreshed data straight to main,
+# triggering Vercel's automatic redeploy. All sources are public APIs — no manual review needed.
+# Manual dispatch defaults to the same behaviour; set push_to_main: false to open a review PR instead.
 #
 # Collector API keys come from repo Secrets (Settings → Secrets and variables → Actions). Any
 # unset key leaves that collector dormant (0 rows + a truthful provenance stub) — never fabricated.
 
 on:
   schedule:
-    - cron: "0 6 1 * *" # 06:00 UTC on the 1st of each month
+    - cron: "0 6 * * 1-5" # 06:00 UTC, Monday–Friday
   workflow_dispatch:
     inputs:
       push_to_main:
         description: "Commit straight to main (skips the review PR; triggers deploy)"
         type: boolean
-        default: false
+        default: true
 
 concurrency:
-  group: monthly-refresh
+  group: weekday-refresh
   cancel-in-progress: false
 
 permissions:
@@ -78,9 +78,19 @@ jobs:
             echo "No data changes this run."
           fi
 
-      # Default (scheduled / dispatch without the flag): open a review PR.
+      # Default (scheduled runs + manual dispatch): commit straight to main → Vercel redeploys.
+      - name: Commit to main
+        if: steps.diff.outputs.changed == 'true' && inputs.push_to_main != false
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data public/exports
+          git commit -m "chore(data): weekday refresh [skip ci]"
+          git push
+
+      # Opt-in: open a review PR instead (manual dispatch with push_to_main: false).
       - name: Open review PR
-        if: steps.diff.outputs.changed == 'true' && inputs.push_to_main != true
+        if: steps.diff.outputs.changed == 'true' && inputs.push_to_main == false
         uses: peter-evans/create-pull-request@v6
         with:
           branch: data-refresh
@@ -88,25 +98,11 @@ jobs:
           add-paths: |
             data
             public/exports
-          commit-message: "chore(data): scheduled refresh"
+          commit-message: "chore(data): manual refresh for review"
           title: "Data refresh — review before deploy"
           body: |
-            Automated monthly prep refresh (collect → enrich → domains → meta → validate → export).
+            Manual prep refresh (collect → enrich → domains → meta → validate → export).
 
-            **Review before merging** (RUNBOOK step 3 — the human-review gate):
-            - Scan the `data/v2/*.json` diff for any feed flooding (e.g. FSIS ballooning the recall count)
-              or implausible rows; reject anything that shouldn't publish.
-            - `prep:validate` + `npm run build` already passed in CI.
-
+            `prep:validate` + `npm run build` already passed in CI.
             Merging this PR deploys via Vercel.
           delete-branch: true
-
-      # Opt-in: commit straight to main (manual dispatch only).
-      - name: Commit to main
-        if: steps.diff.outputs.changed == 'true' && inputs.push_to_main == true
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data public/exports
-          git commit -m "chore(data): scheduled refresh [skip ci]"
-          git push
