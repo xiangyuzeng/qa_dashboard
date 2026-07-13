@@ -5,7 +5,7 @@ import { useSearchParams } from "next/navigation";
 import type { ColumnDef } from "@tanstack/react-table";
 import { useLocale, useT } from "@/src/lib/i18n/locale";
 import { DataTable, type FacetCfg } from "@/src/components/table/DataTable";
-import { RiskBadge, Badge, SectionCard } from "@/src/components/ui";
+import { RiskBadge, Badge, SectionCard, StaticBaselineNotice } from "@/src/components/ui";
 import { ComplianceCountdownGantt } from "@/src/components/viz/ComplianceCountdownGantt";
 import { riskLabel } from "@/src/lib/colors";
 import { fmtDate } from "@/src/lib/i18n/util";
@@ -40,11 +40,13 @@ export function RegulationClient({
   gantt,
   domain,
   todayIso,
+  staticBaseline = false,
 }: {
   data: RegulationRecord[];
   gantt: GanttBar[];
   domain: { min: string; max: string };
   todayIso: string;
+  staticBaseline?: boolean;
 }) {
   const t = useT();
   const { locale } = useLocale();
@@ -114,6 +116,7 @@ export function RegulationClient({
       <div>
         <h1 className="text-xl font-bold text-slate-900">{t.regulation.title}</h1>
         <p className="mt-0.5 text-sm text-slate-500">{t.regulation.subtitle}</p>
+        {staticBaseline && <StaticBaselineNotice />}
       </div>
       <SectionCard title={t.regulation.countdown}>
         <ComplianceCountdownGantt

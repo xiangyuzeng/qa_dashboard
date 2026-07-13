@@ -1,7 +1,26 @@
 "use client";
 
-import { useLocale } from "@/src/lib/i18n/locale";
+import { useLocale, useT } from "@/src/lib/i18n/locale";
 import { RESULT_COLORS, RISK_COLORS, riskLabel } from "@/src/lib/colors";
+
+/**
+ * Amber "policy baseline · not real-time" notice for modules whose rows are entirely curated seeds
+ * (labor / building / environment / consumer / state-local regulation). Rendered under a module
+ * title, gated on `isStaticBaseline(...)` from src/lib/dataMode — so it disappears automatically
+ * once a live enforcement feed is wired. Prevents the site-wide "as of <today>" date from implying
+ * these static rules were refreshed today.
+ */
+export function StaticBaselineNotice() {
+  const t = useT();
+  return (
+    <p className="mt-1.5 flex max-w-3xl items-start gap-1.5 text-xs text-amber-700">
+      <span className="mt-px inline-block whitespace-nowrap rounded bg-amber-100 px-1.5 py-0.5 font-medium text-amber-800">
+        {t.common.baselineBadge}
+      </span>
+      <span>{t.common.baselineNote}</span>
+    </p>
+  );
+}
 
 export function KpiCard({
   label,

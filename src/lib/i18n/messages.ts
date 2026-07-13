@@ -71,6 +71,9 @@ export const en = {
   },
   common: {
     all: "All",
+    baselineBadge: "Policy baseline · not real-time",
+    baselineNote:
+      "Curated static regulation text, not a live enforcement feed. The live enforcement sources for this module (OSHA / DOB / DSNY / DCWP / DOL) are not yet wired, so these rows do not change on the daily refresh — the site-wide “as of” date reflects when the whole site was rebuilt, not this module.",
     none: "None",
     yes: "Yes",
     no: "No",
@@ -425,6 +428,9 @@ export const zh: Messages = {
   },
   common: {
     all: "全部",
+    baselineBadge: "策略基线 · 非实时",
+    baselineNote:
+      "为人工整理的静态法规条文,并非实时执法数据流。本模块的实时执法源(OSHA / DOB / DSNY / DCWP / DOL)尚未接入,故这些条目不随每日刷新变化 —— 顶部“截至”日期仅代表整站的重建时间,不代表本模块已更新。",
     none: "无",
     yes: "是",
     no: "否",

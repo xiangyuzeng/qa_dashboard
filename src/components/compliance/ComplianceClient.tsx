@@ -5,7 +5,7 @@ import { useSearchParams } from "next/navigation";
 import type { ColumnDef } from "@tanstack/react-table";
 import { useLocale, useT } from "@/src/lib/i18n/locale";
 import { DataTable, type FacetCfg } from "@/src/components/table/DataTable";
-import { RiskBadge, Badge, SectionCard, KpiCard } from "@/src/components/ui";
+import { RiskBadge, Badge, SectionCard, KpiCard, StaticBaselineNotice } from "@/src/components/ui";
 import { StackedBar } from "@/src/components/charts";
 import { ComplianceCountdownGantt } from "@/src/components/viz/ComplianceCountdownGantt";
 import { riskLabel, RISK_COLORS } from "@/src/lib/colors";
@@ -117,6 +117,7 @@ export function ComplianceClient({
   domain,
   byJurisdiction,
   todayIso,
+  staticBaseline = false,
 }: {
   data: ComplianceCommon[];
   module: ModuleKey;
@@ -126,6 +127,7 @@ export function ComplianceClient({
   domain: { min: string; max: string };
   byJurisdiction: { data: Record<string, string | number>[]; series: string[] };
   todayIso: string;
+  staticBaseline?: boolean;
 }) {
   const t = useT();
   const { locale } = useLocale();
@@ -232,6 +234,7 @@ export function ComplianceClient({
       <div>
         <h1 className="text-xl font-bold text-slate-900">{m.title}</h1>
         <p className="mt-0.5 text-sm text-slate-500">{m.subtitle}</p>
+        {staticBaseline && <StaticBaselineNotice />}
       </div>
 
       <div className={`grid grid-cols-2 gap-3 ${showApplies ? "md:grid-cols-5" : "md:grid-cols-3"}`}>

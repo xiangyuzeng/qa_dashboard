@@ -3,6 +3,7 @@ import { Suspense } from "react";
 import { getEnvironment } from "@/src/lib/data";
 import { complianceCounts, complianceTimeline, complianceRiskByJurisdiction, ganttDomain } from "@/src/lib/aggregate";
 import { ComplianceClient } from "@/src/components/compliance/ComplianceClient";
+import { isStaticBaseline } from "@/src/lib/dataMode";
 
 // Re-render daily so the compliance countdown ("today" + days-to-effective) advances
 // instead of freezing at build time (audit: SSG date-freeze).
@@ -23,6 +24,7 @@ export default function EnvironmentPage() {
         domain={ganttDomain(timeline, todayIso)}
         byJurisdiction={complianceRiskByJurisdiction(data)}
         todayIso={todayIso}
+        staticBaseline={isStaticBaseline(data)}
       />
     </Suspense>
   );
