@@ -79,8 +79,11 @@ jobs:
           fi
 
       # Default (scheduled runs + manual dispatch): commit straight to main → Vercel redeploys.
+      # NB: on `schedule` events `inputs.push_to_main` is null, and `null != false` is *false* in
+      # GitHub expressions — which silently sent every scheduled run down the review-PR path and
+      # froze main. Only divert to a PR when a dispatch *explicitly* set push_to_main=false.
       - name: Commit to main
-        if: steps.diff.outputs.changed == 'true' && inputs.push_to_main != false
+        if: steps.diff.outputs.changed == 'true' && !(github.event_name == 'workflow_dispatch' && inputs.push_to_main == false)
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
@@ -90,7 +93,7 @@ jobs:
 
       # Opt-in: open a review PR instead (manual dispatch with push_to_main: false).
       - name: Open review PR
-        if: steps.diff.outputs.changed == 'true' && inputs.push_to_main == false
+        if: steps.diff.outputs.changed == 'true' && github.event_name == 'workflow_dispatch' && inputs.push_to_main == false
         uses: peter-evans/create-pull-request@v6
         with:
           branch: data-refresh

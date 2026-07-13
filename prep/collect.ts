@@ -1189,6 +1189,18 @@ async function main() {
     provEntry({ sourceId: "fl_fdacs", name: "Florida FDACS Food Permit Center", jurisdictionId: "Florida (FDACS)", accessType: "none", oneTimePullFeasible: "no", stalenessNote: "robots.txt default-deny — manual UI / public-records request." }),
   );
 
+  // Dedupe module-1 regulatory by id BEFORE numbering — FSIS publishes each recall twice (English +
+  // Spanish) under the same field_recall_number, so both hash to one id. Keep first occurrence
+  // (English leads in the FSIS feed, and this dashboard is English-primary). Without this the two
+  // rows survive as a duplicate id and fail prep:validate — the reason a real refresh (whenever FSIS
+  // isn't 403'd) couldn't validate. Mirrors the regulations dedup further down.
+  {
+    const seen = new Set<string>();
+    const deduped = regulatory.filter((r) => (seen.has(r.id) ? false : (seen.add(r.id), true)));
+    regulatory.length = 0;
+    regulatory.push(...deduped);
+  }
+
   // sequential No.
   regulatory.forEach((r, i) => (r.no = i + 1));
   inspections.forEach((r, i) => (r.no = i + 1));
