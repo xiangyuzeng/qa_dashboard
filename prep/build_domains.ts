@@ -32,10 +32,26 @@ const NOW = new Date().toISOString();
 const load = (f: string) => JSON.parse(readFileSync(join(OUT, f), "utf8"));
 const isServable = (r: { reviewed: boolean; reviewStatus: string }) => r.reviewed && r.reviewStatus !== "rejected";
 
-const labor = buildLaborRecords();
-const building = buildBuildingRecords();
-const environment = buildEnvironmentRecords();
-const consumer = buildConsumerRecords();
+// prep:collect writes curated seeds + live-adapter enforcement rows into these files. This step
+// otherwise rebuilds from seeds ONLY and would silently drop the live rows — so preserve any
+// live-adapter rows already on disk and merge them back (seeds stay freshly regenerated).
+const LIVE_SID = new Set([
+  "dol_enforcedata", "osha_establishments", "nyc_dob_violations", "nyc_dsny_enforcement", "nyc_dcwp_consumer",
+]);
+const preserveLive = <T>(file: string): T[] => {
+  try {
+    return (load(file) as { provenance?: { sourceId?: string } }[]).filter((r) => LIVE_SID.has(r?.provenance?.sourceId ?? "")) as T[];
+  } catch {
+    return [];
+  }
+};
+const cnt = (arr: { reviewed: boolean; reviewStatus: string; provenance: { sourceId: string } }[], sid: string) =>
+  arr.filter((r) => isServable(r) && r.provenance.sourceId === sid).length;
+
+const labor = [...buildLaborRecords(), ...preserveLive<ReturnType<typeof buildLaborRecords>[number]>("labor.json")];
+const building = [...buildBuildingRecords(), ...preserveLive<ReturnType<typeof buildBuildingRecords>[number]>("building.json")];
+const environment = [...buildEnvironmentRecords(), ...preserveLive<ReturnType<typeof buildEnvironmentRecords>[number]>("environment.json")];
+const consumer = [...buildConsumerRecords(), ...preserveLive<ReturnType<typeof buildConsumerRecords>[number]>("consumer.json")];
 
 labor.forEach((r, i) => (r.no = i + 1));
 building.forEach((r, i) => (r.no = i + 1));
@@ -91,10 +107,14 @@ meta.counts.building = svBuilding;
 meta.counts.environment = svEnv;
 meta.counts.consumer = svConsumer;
 meta.counts.bySource = meta.counts.bySource ?? {};
-meta.counts.bySource["dcwp_dol_labor"] = svLabor;
-meta.counts.bySource["osha_dob_building"] = svBuilding;
-meta.counts.bySource["dep_dsny_env"] = svEnv;
-meta.counts.bySource["dcwp_ftc_consumer"] = svConsumer;
+// Per-source servable counts (curated seed source + its live-adapter source, counted separately).
+meta.counts.bySource["dcwp_dol_labor"] = cnt(labor, "dcwp_dol_labor");
+meta.counts.bySource["osha_dob_building"] = cnt(building, "osha_dob_building");
+meta.counts.bySource["nyc_dob_violations"] = cnt(building, "nyc_dob_violations");
+meta.counts.bySource["dep_dsny_env"] = cnt(environment, "dep_dsny_env");
+meta.counts.bySource["nyc_dsny_enforcement"] = cnt(environment, "nyc_dsny_enforcement");
+meta.counts.bySource["dcwp_ftc_consumer"] = cnt(consumer, "dcwp_ftc_consumer");
+meta.counts.bySource["nyc_dcwp_consumer"] = cnt(consumer, "nyc_dcwp_consumer");
 
 // Merge the new domain sources into the pull-log (idempotent by sourceId) so /sources + the
 // 数据源日志 sheet reflect the curated feeds + the dormant license-swap adapters truthfully.
@@ -110,14 +130,14 @@ const pe = (o: Partial<SourceProvenance> & Pick<SourceProvenance, "sourceId" | "
 const newProv: SourceProvenance[] = [
   pe({ sourceId: "dcwp_dol_labor", name: "Curated labor & employment rules (DOL/DCWP)", module: "labor", status: "manual", accessType: "none", oneTimePullFeasible: "partial", recordCount: svLabor, stalenessNote: "Curated authoritative rules; live DCWP + DOL enforcedata enforcement augments when enabled." }),
   pe({ sourceId: "dol_enforcedata", name: "DOL WHD enforcement (enforcedata.dol.gov)", module: "labor", status: "manual", accessType: "bulk-download", endpointOrUrl: "https://enforcedata.dol.gov/views/data_summary.php", oneTimePullFeasible: "partial", recordCount: 0, stalenessNote: "Dormant — set DOL_ENFORCE_KEY + wire the WHD bulk parse. No rows fabricated.", reVerifyBeforeRelying: true }),
-  pe({ sourceId: "osha_dob_building", name: "Curated building & occupational-safety standards (OSHA/DOB/ADA)", module: "building", status: "manual", accessType: "none", oneTimePullFeasible: "partial", recordCount: svBuilding, stalenessNote: "Curated authoritative standards; live OSHA establishment + DOB violation enforcement augments when enabled." }),
+  pe({ sourceId: "osha_dob_building", name: "Curated building & occupational-safety standards (OSHA/DOB/ADA)", module: "building", status: "manual", accessType: "none", oneTimePullFeasible: "partial", recordCount: svBuilding, stalenessNote: "Curated authoritative standards; live ECB/DOB violation enforcement augments (nyc_dob_violations)." }),
   pe({ sourceId: "osha_establishments", name: "OSHA establishment search / inspections", module: "building", status: "manual", accessType: "official-api", endpointOrUrl: "https://www.osha.gov/ords/imis/establishment.html", oneTimePullFeasible: "partial", recordCount: 0, stalenessNote: "Dormant — wire OSHA establishment-search to brand-match citations. No rows fabricated.", reVerifyBeforeRelying: true }),
-  pe({ sourceId: "nyc_dob_violations", name: "NYC DOB/ECB violations (NYC Open Data)", module: "building", status: "manual", accessType: "open-data", endpointOrUrl: "https://data.cityofnewyork.us/resource/3h2n-5cm9.json", oneTimePullFeasible: "partial", recordCount: 0, stalenessNote: "Dormant — verify dataset id + address-match to owned stores before enabling. No rows fabricated.", reVerifyBeforeRelying: true }),
-  pe({ sourceId: "dep_dsny_env", name: "Curated environmental & sanitation rules (DEP/DSNY/BIC)", module: "environment", status: "manual", accessType: "none", oneTimePullFeasible: "partial", recordCount: svEnv, stalenessNote: "Curated authoritative rules; live DSNY enforcement augments when a verified dataset is wired." }),
-  pe({ sourceId: "nyc_dsny_enforcement", name: "NYC DSNY commercial-waste enforcement", module: "environment", status: "manual", accessType: "open-data", endpointOrUrl: "https://data.cityofnewyork.us/browse?q=DSNY%20enforcement", oneTimePullFeasible: "no", recordCount: 0, stalenessNote: "Dormant — DSNY enforcement is not consistently on Socrata; verify a dataset or use manual intake. No rows fabricated.", reVerifyBeforeRelying: true }),
-  pe({ sourceId: "dcwp_ftc_consumer", name: "Curated consumer & worker-protection rules (DCWP/FTC)", module: "consumer", status: "manual", accessType: "none", oneTimePullFeasible: "partial", recordCount: svConsumer, stalenessNote: "Curated authoritative rules; live DCWP consumer-complaint dataset augments when a verified id is wired." }),
-  pe({ sourceId: "nyc_dcwp_consumer", name: "NYC DCWP consumer complaints / inspections (NYC Open Data)", module: "consumer", status: "manual", accessType: "open-data", endpointOrUrl: "https://data.cityofnewyork.us/browse?q=DCWP%20consumer%20complaints", oneTimePullFeasible: "partial", recordCount: 0, stalenessNote: "Dormant — verify the DCWP consumer-complaint dataset id + brand-match before enabling. No rows fabricated.", reVerifyBeforeRelying: true }),
+  pe({ sourceId: "dep_dsny_env", name: "Curated environmental & sanitation rules (DEP/DSNY/BIC)", module: "environment", status: "manual", accessType: "none", oneTimePullFeasible: "partial", recordCount: cnt(environment, "dep_dsny_env"), stalenessNote: "Curated authoritative rules; live DSNY enforcement augments (nyc_dsny_enforcement)." }),
+  pe({ sourceId: "dcwp_ftc_consumer", name: "Curated consumer & worker-protection rules (DCWP/FTC)", module: "consumer", status: "manual", accessType: "none", oneTimePullFeasible: "partial", recordCount: svConsumer, stalenessNote: "Curated authoritative rules; live DCWP enforcement augments (nyc_dcwp_consumer)." }),
 ];
+// NB: the live-adapter provenance entries (nyc_dob_violations / nyc_dsny_enforcement /
+// nyc_dcwp_consumer) are intentionally NOT rebuilt here — they are preserved from prep:collect,
+// which stamps the real fetched status + recordCount. Overwriting them with a stub would lie.
 const newIds = new Set(newProv.map((p) => p.sourceId));
 meta.provenance = [...(meta.provenance as SourceProvenance[]).filter((p) => !newIds.has(p.sourceId)), ...newProv];
 
