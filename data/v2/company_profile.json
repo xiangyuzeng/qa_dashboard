@@ -1,39 +1,39 @@
 {
-  "asOf": "2026-06-20",
-  "source": "luckyus_opshop.t_shop_info + luckyus_opshop.t_shop_resource (mcp-db-gateway: aws-luckyus-opshop-rw)",
-  "isFastFoodModel": true,
-  "isFastFoodModelNote": "Limited-service / order-ahead app model (order & pay before pickup, primarily takeout); confirm with legal before relying for Fair Workweek.",
-  "national": {
-    "locationCount": 18,
-    "_note": "locationCount = open/operating retail establishments. See breakdown for planned/closed and all-status totals; choose the count appropriate to each rule.",
-    "openLocationCount": 18,
-    "plannedLocationCount": 7,
-    "closedOrWithdrawnLocationCount": 5,
-    "retailLocationCountAllStatuses": 30,
-    "internalKitchensExcluded": 3,
-    "estimatedEmployeeCount": null,
-    "_employeeCountNote": "Not in the ops extract. Set this (or use the /applicability employee what-if slider) to evaluate employee-gated rules (FMLA 50+, Title VII 15+, ESSTA tiers). 30 retail stores almost certainly ⇒ 100+ US employees, but the exact headcount is unverified, so it is left null (待补充) rather than guessed."
-  },
-  "jurisdictions": [
-    {
-      "jurisdiction": "New York City",
-      "locationCount": 18,
-      "combinedFloorAreaSqft": 21156,
-      "_openLocationCount": 18,
-      "_plannedLocationCount": 7,
-      "_closedOrWithdrawnLocationCount": 5,
-      "_allStatusLocationCount": 30,
-      "_combinedFloorAreaSqftOpenKnown": 21156,
-      "_combinedFloorAreaSqftAllKnown": 23707,
-      "_floorAreaCoverage": "sqft known for 20/30 NYC retail stores"
-    }
-  ],
-  "floorArea": {
-    "perStoreTypicalSqft": 1008,
-    "perStoreMaxSqft": 2313,
-    "totalSqft": 23707,
-    "_unit": "sqft (converted from ops m² x10.7639; rounded to whole sqft)",
-    "_basis": "20 retail stores with known area"
-  },
-  "coverageNote": "Floor area known for 20/30 retail stores; 10 stores carry placeholder values (1111/11111 m²) in the ops system and are emitted as null (not guessed). Area is converted from t_shop_resource.square_size (usable area, square METERS) to sqft (x10.7639); values must be verified against leases / certificates of occupancy before driving a compliance determination. All retail stores are in New York City (18 open, 7 planned, 5 closed/withdrawn). 3 internal test/commissary kitchens (internal=1) are excluded from the roster. No structured health-permit / CAMIS / DOH facility numbers exist in the ops DB (only scanned food-business-licence images); dohEstablishmentId and licenseNumbers are null/empty and must be sourced from DOH (CAMIS lookup by address). Status enum inferred from data (1=open w/ open date, 2=planned no open date, 5=closed/withdrawn never opened) — QA to confirm. Roster is UNREVIEWED (reviewed=false)."
+ "asOf": "2026-07-14",
+ "source": "luckyus_opshop.t_shop_info + luckyus_opshop.t_shop_resource (mcp-db-gateway: aws-luckyus-opshop-rw)",
+ "isFastFoodModel": true,
+ "isFastFoodModelNote": "Limited-service / order-ahead app model (order & pay before pickup, primarily takeout); confirm with legal before relying for Fair Workweek.",
+ "national": {
+  "locationCount": 20,
+  "_note": "locationCount = open/operating retail establishments. See breakdown for planned/closed and all-status totals; choose the count appropriate to each rule.",
+  "openLocationCount": 20,
+  "plannedLocationCount": 5,
+  "closedOrWithdrawnLocationCount": 5,
+  "retailLocationCountAllStatuses": 30,
+  "internalKitchensExcluded": 3,
+  "estimatedEmployeeCount": null,
+  "_employeeCountNote": "Not in the ops extract. Set this (or use the /applicability employee what-if slider) to evaluate employee-gated rules (FMLA 50+, Title VII 15+, ESSTA tiers). 30 retail stores almost certainly ⇒ 100+ US employees, but the exact headcount is unverified, so it is left null (待补充) rather than guessed."
+ },
+ "jurisdictions": [
+  {
+   "jurisdiction": "New York City",
+   "locationCount": 20,
+   "combinedFloorAreaSqft": 23353,
+   "_openLocationCount": 20,
+   "_plannedLocationCount": 5,
+   "_closedOrWithdrawnLocationCount": 5,
+   "_allStatusLocationCount": 30,
+   "_combinedFloorAreaSqftOpenKnown": 23353,
+   "_combinedFloorAreaSqftAllKnown": 23353,
+   "_floorAreaCoverage": "sqft known for 20/20 open NYC stores (full coverage)"
+  }
+ ],
+ "floorArea": {
+  "perStoreTypicalSqft": 1000,
+  "perStoreMaxSqft": 2313,
+  "totalSqft": 23353,
+  "_unit": "sqft (converted from ops m² x10.7639; rounded to whole sqft)",
+  "_basis": "20 open retail stores with known area"
+ },
+ "coverageNote": "Refreshed 2026-07-14 from live luckyus_opshop (status=1 & internal=0, test stores excluded): 20 open, 5 planned, 5 closed/withdrawn — all New York City. Floor area known for all 20/20 open stores (converted from t_shop_resource.square_size m² x10.7639). Planned/closed rows carried from the prior 2026-06-20 snapshot. 2 stores opened since that snapshot (Grand Central Terminal, 48th & 3rd). dohEstablishmentId preserved from prior CAMIS match where available; new stores null (enrich re-matches). Internal test/commissary depts (internal=1) excluded. Roster UNREVIEWED (reviewed=false) — verify vs leases/COs before compliance determinations."
 }
