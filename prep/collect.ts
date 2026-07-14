@@ -1104,7 +1104,9 @@ async function collectOSHAEstablishments(): Promise<SourceResult> {
 // (GLUCKIN, LUCKING, LUCKINSON…). The full-name match surfaces only summonses where the company
 // is the cited respondent — truthful, zero misattribution. (Verified: 5 real DSNY summonses in
 // the store zips 10003/10038; ECB building = 0, correctly.)
-const OWNED_RESPONDENT = "%LUCKIN COFFEE%";
+// PREFIX (not a leading wildcard) so Socrata can use an index and the scan stays fast/bounded under
+// the HTTP timeout — the respondent value is "LUCKIN COFFEE"; a prefix also catches "LUCKIN COFFEE USA".
+const OWNED_RESPONDENT = "LUCKIN COFFEE%";
 const OATH_BASE = "https://data.cityofnewyork.us/resource/jz4z-kudi.json";
 
 async function oathOwned(agencyLike: string[], limit = 50): Promise<Record<string, string>[]> {
