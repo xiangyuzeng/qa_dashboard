@@ -157,6 +157,109 @@ def oath_rows():
     return out
 
 
+# ── Bilingual violation-summary enrichment (deterministic table lookup, no AI/keys) ──
+# Rewrites englishViolationSummary into complete (de-truncated) text AND fills the
+# previously-100%-empty chineseViolationSummary, from a checked-in phrase table
+# (prep/violation_summaries.zh_en.json). Summaries concatenate multiple violations
+# with " | "; each phrase is matched by its normalized 40-char prefix so records whose
+# raw text was truncated mid-phrase still resolve to the full canonical entry. OATH
+# penalty tails ("penalty $X, balance due $Y — status") are templated in code since
+# their amounts are dynamic. Unmatched phrases fall back to the raw text unchanged.
+_VIOL_TABLE = None
+
+
+_CITE_RE = re.compile(r"\s*\(§[^)]*\)\s*$")
+
+
+def _norm_key(s):
+    return re.sub(r"\s+", " ", s or "").strip().lower()
+
+
+def _viol_table():
+    global _VIOL_TABLE
+    if _VIOL_TABLE is None:
+        p = os.path.join(os.path.dirname(__file__), "violation_summaries.zh_en.json")
+        _VIOL_TABLE = {_norm_key(k): v for k, v in json.load(open(p, encoding="utf-8")).items()}
+    return _VIOL_TABLE
+
+
+def _match(ph, table):
+    """Resolve a (possibly mid-phrase-truncated) raw phrase to a table entry.
+    Exact normalized match first; then prefix both ways so a raw fragment cut short
+    at the 400-char collection limit still maps to its full canonical entry."""
+    n = _norm_key(ph)
+    if n in table:
+        return table[n]
+    if len(n) >= 10:
+        # raw is a truncated prefix of a full canonical key
+        cands = [k for k in table if k.startswith(n)]
+        if cands:
+            return table[min(cands, key=len)]
+        # raw longer than a differently-normalized key: key is a prefix of raw
+        cands = [k for k in table if len(k) >= 15 and n.startswith(k)]
+        if cands:
+            return table[max(cands, key=len)]
+    # citation-tolerant retry — the trailing "(§...)" citation varies across data pulls
+    n3 = _CITE_RE.sub("", n).strip()
+    if n3 != n and len(n3) >= 10:
+        for k, v in table.items():
+            if _CITE_RE.sub("", k).strip() == n3:
+                return v
+    return None
+
+
+_PEN_STATUS_ZH = {"penalty due": "罚款待缴", "all terms met": "已履行全部条款",
+                  "both due": "罚款及条款均待处理", "paid": "已缴清"}
+_PEN_RE = re.compile(r"^penalty \$(?P<amt>[\d,]+)(?:, balance due \$(?P<bal>[\d,]+))?"
+                     r"(?P<paid>, paid)?(?: — (?P<status>.+))?$")
+
+
+def _penalty_zh(phrase):
+    m = _PEN_RE.match(phrase.strip())
+    if not m:
+        return None
+    parts = [f"罚款 ${m.group('amt')}"]
+    if m.group("bal"):
+        parts.append(f"待缴 ${m.group('bal')}")
+    if m.group("paid"):
+        parts.append("已缴清")
+    zh = "，".join(parts)
+    if m.group("status"):
+        zh += " — " + _PEN_STATUS_ZH.get(m.group("status").strip().lower(), m.group("status").strip())
+    return zh
+
+
+def bilingualize(insp):
+    """Rewrite both violation-summary fields in place. Returns (rewritten, unmatched_phrases)."""
+    table = _viol_table()
+    done, misses = 0, 0
+    for r in insp:
+        raw = r.get("englishViolationSummary")
+        if not raw:
+            continue
+        en_parts, zh_parts = [], []
+        for ph in (p.strip() for p in raw.split(" | ")):
+            if not ph:
+                continue
+            hit = _match(ph, table)
+            if hit:
+                en_parts.append(hit["en"]); zh_parts.append(hit["zh"])
+                continue
+            pz = _penalty_zh(ph)
+            if pz is not None:
+                en_parts.append(ph); zh_parts.append(pz)
+                continue
+            if len(ph) < 8:
+                continue  # drop meaningless mid-phrase-truncation crumbs ("F", "Sing")
+            en_parts.append(ph); zh_parts.append(ph)  # graceful fallback: keep raw
+            misses += 1
+        r["englishViolationSummary"] = " | ".join(en_parts) or None
+        r["chineseViolationSummary"] = " | ".join(zh_parts) or None
+        r["provenance"]["aiSummaryAt"] = NOW  # bilingual summary applied (table-based)
+        done += 1
+    return done, misses
+
+
 def main():
     print("enrich_inspections: CAMIS join + OATH multi-agency enforcement")
     try:
@@ -181,6 +284,8 @@ def main():
     have = {r["id"] for r in insp}
     add = [r for r in new if r["id"] not in have]
     insp.extend(add)
+    bz, miss = bilingualize(insp)
+    print(f"  [bilingual] rewrote {bz} violation summaries (en de-truncated + zh filled); {miss} phrase(s) fell back to raw")
     json.dump(insp, open(path, "w"), ensure_ascii=False, indent=2)
     open(path, "a").write("\n")
     print(f"enrich done: +{len(add)} OATH enforcement rows · normalized {norm} owned-store names · inspections.json now {len(insp)}")
