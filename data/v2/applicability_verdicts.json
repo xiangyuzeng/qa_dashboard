@@ -119,23 +119,6 @@
     "actionEn": "Chain food service with 2+ locations in the city totaling 8,000+ sq ft must source-separate organics and use a licensed hauler."
   },
   {
-    "id": "nyc_organics_single",
-    "module": "environment",
-    "jurisdiction": "New York City",
-    "nameZh": "NYC 商业有机垃圾分类 (单店)",
-    "nameEn": "NYC Commercial Organics — Single Site",
-    "threshold": 7000,
-    "ourValue": 2313,
-    "status": "not_yet",
-    "distance": -4687,
-    "pending": false,
-    "needsVerification": false,
-    "effectiveDate": null,
-    "thresholdSourceUrl": "https://www.nyc.gov/assets/dsny/site/services/food-scraps-and-yard-waste-page/overview-commercial-organics",
-    "actionZh": "单一餐饮场所 7,000 平方英尺以上（或同栋建筑合计 8,000 以上）须分离有机垃圾。",
-    "actionEn": "A single food-service establishment of 7,000+ sq ft (or 8,000+ combined in one building) must separate organics."
-  },
-  {
     "id": "nyc_fog",
     "module": "environment",
     "jurisdiction": "New York City",
