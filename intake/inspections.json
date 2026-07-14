@@ -126,7 +126,7 @@
     "score": null,
     "englishViolationSummary": null,
     "sourceType": "PDF/HTML 报告",
-    "sourceUrlOrDocRef": "https://dc.healthinspections.us/ (per-establishment pass/fail search; JS app, no open dataset/API)",
+    "sourceUrlOrDocRef": "https://dc.healthinspections.us/",
     "dataAvailability": "not_public_online",
     "recommendedAction": "DC publishes per-establishment reports via HealthSpace (JS search, no bulk API) — manual per-record lookup required. Do NOT record as 'no inspection'.",
     "reviewed": true

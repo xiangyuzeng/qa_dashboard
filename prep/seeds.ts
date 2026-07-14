@@ -354,7 +354,7 @@ export const laborSeeds: LaborSeed[] = [
     riskLevel: "高风险",
     topic: "fair_workweek",
     applicabilityRuleId: "nyc_fair_workweek",
-    sourceUrl: "https://www.nyc.gov/site/dca/about/fair-workweek-law.page",
+    sourceUrl: "https://www.nyc.gov/site/dca/about/fairworkweek-deductions-laws.page",
     recommendedAction: "请法务确认快餐模式认定与门店计数口径；若适用，提前部署合规排班系统。",
   },
   {
@@ -376,7 +376,7 @@ export const laborSeeds: LaborSeed[] = [
     riskLevel: "高风险",
     topic: "sick_safe_leave",
     applicabilityRuleId: "nyc_sick_safe_leave",
-    sourceUrl: "https://www.nyc.gov/site/dca/about/paid-safe-sick-leave.page",
+    sourceUrl: "https://www.nyc.gov/site/dca/about/paid-sick-leave-law.page",
     recommendedAction: "核查门店书面病假政策、工资单累积显示与告示张贴是否合规。",
   },
   {
@@ -794,7 +794,7 @@ export const laborSeeds: LaborSeed[] = [
     riskLevel: "中风险",
     topic: "posting",
     applicabilityRuleId: null,
-    sourceUrl: "https://dol.ny.gov/all-employers",
+    sourceUrl: "https://dol.ny.gov/posting-requirements-under-nys-labor-law",
     recommendedAction: "为每家门店配置完整告示墙并提供电子副本。",
   },
 ];
@@ -1119,7 +1119,7 @@ export const buildingSeeds: BuildingSeed[] = [
     penalty: "DOB/FDNY 违规 + ECB 罚款（视情节）。",
     riskLevel: "中风险",
     topic: "fire_code",
-    sourceUrl: "https://up.codes/viewer/new_york_city/nfpa-96-2021",
+    sourceUrl: "https://www.nfpa.org/product/nfpa-96-standard/p0096code",
     recommendedAction: "核实门店烹饪方式；如涉油脂烹饪，配置并定期清洗抽油烟罩灭火系统。",
   },
   {
@@ -1256,7 +1256,7 @@ export const environmentSeeds: EnvironmentSeed[] = [
     riskLevel: "中风险",
     topic: "wastewater_fog",
     applicabilityRuleId: "nyc_fog",
-    sourceUrl: "https://www.nyc.gov/site/dep/water/grease-traps.page",
+    sourceUrl: "https://www.nyc.gov/site/dep/water/disposing-of-grease-as-a-business.page",
     recommendedAction: "核实各门店隔油设备规模与清掏记录是否符合 DEP 要求。",
   },
   {
@@ -1319,7 +1319,7 @@ export const environmentSeeds: EnvironmentSeed[] = [
     riskLevel: "中风险",
     topic: "recycling",
     applicabilityRuleId: null,
-    sourceUrl: "https://www.nyc.gov/site/dsny/businesses/businesses-recycling.page",
+    sourceUrl: "https://www.nyc.gov/site/dsny/businesses/materials-handling/businesses-recycling.page",
     recommendedAction: "为门店配置贴标分类桶与标识，落实回收流程。",
   },
   {
@@ -1382,7 +1382,7 @@ export const environmentSeeds: EnvironmentSeed[] = [
     riskLevel: "低风险",
     topic: "other",
     applicabilityRuleId: null,
-    sourceUrl: "https://www.nyc.gov/site/dca/about/plastic-straws.page",
+    sourceUrl: "https://www.nyc.gov/site/dsny/businesses/materials-handling/plastic-straws.page",
     recommendedAction: "门店吸管改为按需提供，保留无障碍用吸管并张贴告示。",
   },
   {
@@ -1532,7 +1532,7 @@ export const consumerSeeds: ConsumerSeed[] = [
     riskLevel: "中风险",
     topic: "refund_posting",
     applicabilityRuleId: null,
-    sourceUrl: "https://www.nyc.gov/site/dca/about/consumer-protection-law.page",
+    sourceUrl: "https://www.nyc.gov/site/dca/about/consumer-protection-and-licensing-laws.page",
     recommendedAction: "在各门店与点单界面显眼处张贴/展示退款政策。",
   },
   {
@@ -1553,7 +1553,7 @@ export const consumerSeeds: ConsumerSeed[] = [
     riskLevel: "中风险",
     topic: "signage_pricing",
     applicabilityRuleId: null,
-    sourceUrl: "https://www.nyc.gov/site/dca/about/consumer-protection-law.page",
+    sourceUrl: "https://www.nyc.gov/site/dca/about/consumer-protection-and-licensing-laws.page",
     recommendedAction: "核查门店与 App 的标价、促销与告示是否清晰、无误导。",
   },
   {
@@ -1700,7 +1700,7 @@ export const consumerSeeds: ConsumerSeed[] = [
     riskLevel: "低风险",
     topic: "signage_pricing",
     applicabilityRuleId: null,
-    sourceUrl: "https://www.nyc.gov/site/dca/businesses/pricing-rules.page",
+    sourceUrl: "https://www.nyc.gov/site/dca/about/consumer-protection-and-licensing-laws.page",
     recommendedAction: "对店内包装零售商品落实单品标价或合规扫描器。",
   },
   {
@@ -1721,7 +1721,7 @@ export const consumerSeeds: ConsumerSeed[] = [
     riskLevel: "信息参考",
     topic: "licensing",
     applicabilityRuleId: null,
-    sourceUrl: "https://www.nyc.gov/site/dca/businesses/inspections-weights-measures.page",
+    sourceUrl: "https://www.nyc.gov/site/dca/businesses/scale-inspections.page",
     recommendedAction: "核实是否按重量销售；如有，安排 DCWP 称具年度检验。",
   },
   {

@@ -1,0 +1,51 @@
+name: Source-URL link check
+
+# Data-quality guard: probe every committed source URL for link rot. Runs on its own
+# schedule — deliberately NOT part of prep:validate / the build, so network weather never
+# freezes a data refresh (see the 2026-07 frozen-refresh incident). Bot-blocked gov sites
+# (403/405/406) count as OK; only genuine 404/410/persistent-5xx/DNS failures fail the job.
+
+on:
+  schedule:
+    - cron: "0 12 * * 1" # Mondays 12:00 UTC
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  linkcheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+      - run: npm ci
+      - name: Probe source URLs
+        id: probe
+        run: npm run prep:linkcheck -- --json | tee linkcheck.json
+        continue-on-error: true
+      - name: Open/refresh an issue on link rot
+        if: steps.probe.outcome == 'failure'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            let report = {};
+            try { report = JSON.parse(fs.readFileSync('linkcheck.json','utf8')); } catch {}
+            const broken = report.broken || [];
+            const lines = broken.map(b => `- \`${b.file}\` #${b.id} — [${b.code}] ${b.url}`).join('\n');
+            const body = `Weekly link check found **${broken.length}** broken source URL(s):\n\n${lines}\n\n_Fix in \`prep/seeds/*.json\` / \`prep/seeds.ts\` (the durable source), then re-run the pipeline._`;
+            const title = 'Broken source URLs detected by weekly link check';
+            const existing = await github.rest.issues.listForRepo({ owner: context.repo.owner, repo: context.repo.repo, state: 'open', labels: 'link-rot' });
+            if (existing.data.length) {
+              await github.rest.issues.update({ owner: context.repo.owner, repo: context.repo.repo, issue_number: existing.data[0].number, body });
+            } else {
+              await github.rest.issues.create({ owner: context.repo.owner, repo: context.repo.repo, title, body, labels: ['link-rot'] });
+            }
+      - name: Fail the job if link rot was found
+        if: steps.probe.outcome == 'failure'
+        run: exit 1

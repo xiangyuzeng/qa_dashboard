@@ -193,7 +193,7 @@
     "englishSummary": "NIST Handbook 130 is the federally published compilation of model weights-and-measures laws and regulations (including the Uniform Method of Sale of Commodities Regulation and Uniform Weights and Measures Law) adopted in some form by most states. It governs net-quantity declarations, unit pricing, and how commodities sold by weight/volume must be represented. NIST updates it annually (a 2025 edition has since been published after the 2024 edition); legal force comes only through each state's own adoption.",
     "businessImpact": "Luckin's packaged beans, sized beverages, and any product sold by weight/volume must carry accurate net-quantity and price representations under each state's adoption of these NIST model rules.",
     "riskLevel": "信息参考",
-    "sourceUrl": "https://www.nist.gov/pml/owm/nist-handbook-130-2024-edition",
+    "sourceUrl": "https://www.nist.gov/pml/owm/nist-handbook-130-current-edition",
     "recommendedAction": "确保按重量/容量销售的包装商品标示准确净含量并符合所在州度量衡法 — Ensure packaged/by-weight products carry accurate net-quantity labels per each state's weights-and-measures adoption.",
     "applicabilityRuleId": null,
     "applicabilityThreshold": "Commodities sold by weight, measure, or count (model law applied via individual state adoption — 通过各州采纳生效).",
