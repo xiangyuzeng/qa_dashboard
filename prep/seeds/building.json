@@ -353,7 +353,7 @@
     "inspectionCitationRecord": "Local water suppliers (e.g., NYC DEP for NYC premises) enforce via annual test-report tracking and non-compliance notices; the NYS DOH oversees tester certification under § 5-1.31.",
     "penalty": "Enforced by the water supplier/health department; notices of violation, potential discontinuance of water service, and Public Health Law penalties for failure to test.",
     "riskLevel": "中风险",
-    "sourceUrl": "https://regs.health.ny.gov/volume-title-10/653916609/section-5-131-cross-connection-control",
+    "sourceUrl": "https://www.law.cornell.edu/regulations/new-york/10-NYCRR-5-1.31",
     "recommendedAction": "Identify required backflow devices for water-using equipment and schedule a NYS-certified tester to file annual test reports with the water supplier."
   },
   {
@@ -1193,7 +1193,7 @@
     "inspectionCitationRecord": null,
     "penalty": null,
     "riskLevel": "关注",
-    "sourceUrl": "https://www.floridabuilding.org/fbc/thecode/2026_Code_Development/2026_Code_Development.htm",
+    "sourceUrl": "https://www.floridabuilding.org/fbc/thecode/2_thecode.htm",
     "recommendedAction": "Track the 9th Edition adoption schedule and brief the design/construction team so projects permitted after the effective date use the correct code edition."
   },
   {

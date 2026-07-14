@@ -10153,7 +10153,7 @@
     "followupRequired": null,
     "sourceType": "PDF/HTML 报告",
     "riskLevel": "低风险",
-    "sourceUrlOrDocRef": "https://dc.healthinspections.us/ (per-establishment pass/fail search; JS app, no open dataset/API)",
+    "sourceUrlOrDocRef": "https://dc.healthinspections.us/",
     "recommendedAction": "DC publishes per-establishment reports via HealthSpace (JS search, no bulk API) — manual per-record lookup required. Do NOT record as 'no inspection'.",
     "standardizedCategoriesAll": [],
     "cafeRiskTags": [],
@@ -10167,7 +10167,7 @@
     "provenance": {
       "sourceId": "manual_intake",
       "agency": null,
-      "sourceUrl": "https://dc.healthinspections.us/ (per-establishment pass/fail search; JS app, no open dataset/API)",
+      "sourceUrl": "https://dc.healthinspections.us/",
       "docRef": null,
       "collectedAt": "2026-07-14T07:55:46.665Z",
       "aiSummaryAt": "2026-07-14T07:55:46.665Z",

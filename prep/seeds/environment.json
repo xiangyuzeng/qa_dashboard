@@ -507,7 +507,7 @@
     "englishSummary": "Also under the Plastic Pollution Reduction Act (P.L. 2020, c.117), effective May 4, 2022, food service businesses may not sell or provide polystyrene foam food service products (cups, plates, clamshells, trays, utensils). On February 16, 2024, NJDEP extended limited exemptions (raw meat/fish trays and manufacturer-pre-packaged foam items) to May 4, 2025, while foam soda spoons and <=2 oz portion cups became banned May 4, 2024. A business with under $500,000 gross annual income may seek a waiver where no affordable alternative exists.",
     "businessImpact": "Cafés must use non-foam cups, lids, trays, and containers; only narrow extended exemptions remain, so foam hot-cups and portion cups are out and substitutes must be sourced.",
     "riskLevel": "高风险",
-    "sourceUrl": "https://www.njlm.org/CivicAlerts.aspx?AID=2900",
+    "sourceUrl": "https://dep.nj.gov/get-past-plastic/",
     "recommendedAction": "Confirm no polystyrene foam in cups/lids/portion cups/containers chainwide; document any small-business waiver eligibility / 确认全链门店杯盖、小杯、容器均不含发泡塑料，并保留小企业豁免资格证明。",
     "applicabilityRuleId": null,
     "applicabilityThreshold": "All food service businesses; <$500,000 gross income may seek waiver; narrow exemptions extended to 2025-05-04 / 所有食品服务企业适用；总收入低于50万美元可申请豁免；个别豁免延至2025-05-04"
@@ -564,7 +564,7 @@
     "englishSummary": "NJDEP's Basic Industrial Stormwater General Permit (5G2, under N.J.A.C. 7:14A) requires facilities in covered industrial categories (e.g., transportation, warehousing, manufacturing, recycling) that expose materials or activities to stormwater to obtain permit coverage, prepare and implement a Stormwater Pollution Prevention Plan (SPPP), and conduct monitoring. A typical retail café is not a regulated industrial category, but a central warehouse/distribution center or fleet-maintenance yard with outdoor exposure could trigger coverage.",
     "businessImpact": "Retail café storefronts generally fall outside this permit, but a NJ distribution hub, roasting plant, or fleet yard with outdoor material exposure may need 5G2 coverage and an SPPP.",
     "riskLevel": "信息参考",
-    "sourceUrl": "https://dep.nj.gov/wp-content/uploads/njpdes-stormwater/5g2_fact_sheet.pdf",
+    "sourceUrl": "https://dep.nj.gov/stormwater/industrial-stormwater/general-permits/basic-industrial-stormwater-permit-5g2/",
     "recommendedAction": "Assess whether any NJ warehouse/roastery/fleet site has outdoor industrial exposure requiring 5G2 coverage and an SPPP / 评估新泽西仓储/烘焙/车队场地是否存在户外工业暴露需办理5G2许可及SPPP。",
     "applicabilityRuleId": null,
     "applicabilityThreshold": "Covered industrial categories with stormwater exposure (e.g., warehousing, fleet, manufacturing); not typical retail storefronts / 适用有雨水暴露的特定工业类别（仓储、车队、制造等），普通零售门店一般不适用"
@@ -1134,7 +1134,7 @@
     "englishSummary": "Under Title 21 DCMR Chapter 5 (§ 21-520 and related), major land-disturbing activity and major substantial-improvement projects must retain on-site the Stormwater Retention Volume from the 90th-percentile (1.2-inch) storm (80th-percentile / 0.8-inch for substantial improvement), with at least 50% achieved on-site, typically through green infrastructure, and the balance met via Stormwater Retention Credits or an in-lieu fee. DOEE administers the standards.",
     "businessImpact": "Relevant when Luckin does a major build-out or substantial renovation of a DC location — triggering stormwater retention design obligations usually shared with the landlord/developer.",
     "riskLevel": "信息参考",
-    "sourceUrl": "http://dcrules.elaws.us/dcmr/21-520",
+    "sourceUrl": "https://www.dcregs.dc.gov/Common/DCMR/SectionList.aspx?SectionNumber=21-520",
     "recommendedAction": "Flag stormwater retention obligations in lease/build-out agreements for any major DC construction or substantial improvement. 在特区重大施工或改建的租约/装修协议中标注雨水滞留义务。",
     "applicabilityRuleId": null,
     "applicabilityThreshold": "Major land-disturbing activity / substantial improvement (size-gated construction) / 重大土地扰动或重大改建(按规模触发)"
@@ -1153,7 +1153,7 @@
     "englishSummary": "Under Fla. Admin. Code R. 62-6.010 (formerly DOH Chapter 64E-6, transferred to DEP effective July 1, 2021 under the Clean Waterways Act), no grease interceptor or septic tank tied to an onsite sewage treatment and disposal system may be cleaned or pumped out until the servicing company holds a current annual DEP operating permit. Food-establishment grease/sludge must be hauled and disposed of by a permitted service with proper records. Interceptor installation itself is governed by the Florida Building Code Plumbing volume and local FOG programs.",
     "businessImpact": "A Luckin café on a septic/onsite system in Florida must use a DEP-permitted hauler to pump its grease interceptor and retain manifests, and check the local utility's FOG program for sizing/cleaning rules.",
     "riskLevel": "中风险",
-    "sourceUrl": "http://flrules.elaws.us/fac/62-6.010",
+    "sourceUrl": "https://www.flrules.org/gateway/RuleNo.asp?ID=62-6.010",
     "recommendedAction": "Use only DEP-permitted grease/septage haulers in FL, retain pump-out manifests, and confirm local utility FOG requirements per site. 佛州门店仅使用DEP持证油脂收运商，保存抽吸记录，并逐店核实当地FOG要求。",
     "applicabilityRuleId": null,
     "applicabilityThreshold": "Food establishments with grease interceptors on onsite/septic systems; statewide hauler permitting / 现场/化粪系统上装有油脂截留器的餐饮场所；全州收运商许可"

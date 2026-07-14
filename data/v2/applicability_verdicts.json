@@ -80,7 +80,7 @@
     "pending": false,
     "needsVerification": false,
     "effectiveDate": "2017-11-26",
-    "thresholdSourceUrl": "https://www.nyc.gov/site/dca/about/fair-workweek-law.page",
+    "thresholdSourceUrl": "https://www.nyc.gov/site/dca/about/fairworkweek-deductions-laws.page",
     "actionZh": "若被认定为全国 30 家以上的快餐连锁，则适用排班预告、可预测性补偿、调岗优先权等要求；按门店口径需法务确认（在岗 18 / 在岗+筹建 25 / 全状态 30）。",
     "actionEn": "If classified as a fast-food chain with 30+ locations nationally, advance-schedule, predictability-pay and access-to-hours rules apply; counting basis needs legal review (open 18 / open+planned 25 / all-status 30)."
   },
@@ -97,7 +97,7 @@
     "pending": false,
     "needsVerification": false,
     "effectiveDate": null,
-    "thresholdSourceUrl": "https://www.nyc.gov/site/dca/about/paid-safe-sick-leave.page",
+    "thresholdSourceUrl": "https://www.nyc.gov/site/dca/about/paid-sick-leave-law.page",
     "actionZh": "任何在 NYC 有员工的雇主均须提供带薪安全与病假；员工 ≥ 5 人或净收入门槛触发带薪累积。",
     "actionEn": "Any employer with employees in NYC must provide safe/sick leave; paid accrual applies at 5+ employees or the net-income threshold."
   },
@@ -148,7 +148,7 @@
     "pending": true,
     "needsVerification": true,
     "effectiveDate": null,
-    "thresholdSourceUrl": "https://www.nyc.gov/site/dep/water/grease-traps.page",
+    "thresholdSourceUrl": "https://www.nyc.gov/site/dep/water/disposing-of-grease-as-a-business.page",
     "actionZh": "所有餐饮场所均须安装隔油设备；具体规模门槛待核实（2021-09-25 起禁止食物垃圾液化器排入下水道）。",
     "actionEn": "All food-service establishments must install grease interceptors; size cutoffs to verify (food-waste-liquefier sewer discharge banned from 2021-09-25)."
   },
