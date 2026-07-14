@@ -5,6 +5,21 @@ const UA =
 
 export const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
+// Per-request timeout so one slow/unresponsive host can't hang the whole pipeline
+// (fetch has NO default timeout — an unresponsive server blocks forever). On timeout the
+// request aborts, the retry loop kicks in, and the collector's try/catch degrades to a
+// truthful stub. Tunable via HTTP_TIMEOUT_MS.
+const TIMEOUT_MS = Number(process.env.HTTP_TIMEOUT_MS ?? 30000);
+async function fetchT(url: string, init: RequestInit): Promise<Response> {
+  const ac = new AbortController();
+  const timer = setTimeout(() => ac.abort(new Error(`timeout after ${TIMEOUT_MS}ms`)), TIMEOUT_MS);
+  try {
+    return await fetch(url, { ...init, signal: ac.signal });
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
 let lastCall = 0;
 const MIN_GAP_MS = 250; // global polite spacing between requests
 
@@ -25,7 +40,7 @@ export async function getJson<T = unknown>(
   for (let attempt = 0; attempt <= retries; attempt++) {
     try {
       return await paced(async () => {
-        const res = await fetch(url, {
+        const res = await fetchT(url, {
           headers: { "User-Agent": UA, Accept: "application/json", ...headers },
         });
         if (!res.ok) throw new Error(`HTTP ${res.status} ${res.statusText} for ${url}`);
@@ -48,7 +63,7 @@ export async function getText(
   for (let attempt = 0; attempt <= retries; attempt++) {
     try {
       return await paced(async () => {
-        const res = await fetch(url, { headers: { "User-Agent": UA, ...headers } });
+        const res = await fetchT(url, { headers: { "User-Agent": UA, ...headers } });
         if (!res.ok) throw new Error(`HTTP ${res.status} ${res.statusText} for ${url}`);
         return await res.text();
       });
