@@ -107,12 +107,20 @@ export function ReviewClient({ queue }: { queue: ReviewItem[] }) {
         <p className="mt-0.5 text-sm text-slate-500">{t.review.subtitle}</p>
       </div>
 
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-        <Stat label={t.review.undecided} value={mounted ? counts.undecided : counts.total} color="#0F172A" />
-        <Stat label={t.review.approved} value={mounted ? counts.approved : 0} color="#15803D" />
-        <Stat label={t.review.rejected} value={mounted ? counts.rejected : 0} color="#C00000" />
-        <Stat label={t.review.pending} value={counts.total} color="#1F4E79" />
-      </div>
+      {/* With review disabled no decisions can be made, so approved/rejected/undecided are always
+          0/0/total — collapse to the single meaningful count. */}
+      {REVIEW_ENABLED ? (
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+          <Stat label={t.review.undecided} value={mounted ? counts.undecided : counts.total} color="#0F172A" />
+          <Stat label={t.review.approved} value={mounted ? counts.approved : 0} color="#15803D" />
+          <Stat label={t.review.rejected} value={mounted ? counts.rejected : 0} color="#C00000" />
+          <Stat label={t.review.pending} value={counts.total} color="#1F4E79" />
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+          <Stat label={t.review.pending} value={counts.total} color="#1F4E79" />
+        </div>
+      )}
 
       <div
         className={`rounded-md border px-4 py-2.5 text-xs ${
@@ -126,27 +134,30 @@ export function ReviewClient({ queue }: { queue: ReviewItem[] }) {
 
       <SectionCard
         title={t.review.title}
+        // Filter tabs / export / reset all operate on a decision status that can only be set by
+        // the (now-disabled) approve/reject buttons — so with review off they'd always be empty
+        // no-ops. Hide the whole toolbar; the queue shows read-only, unfiltered.
         right={
-          <div className="flex flex-wrap items-center gap-1.5">
-            <FilterTab id="all" label={t.review.filterAll} />
-            <FilterTab id="undecided" label={t.review.undecided} />
-            <FilterTab id="approved" label={t.review.approved} />
-            <FilterTab id="rejected" label={t.review.rejected} />
-            <button
-              onClick={exportDecisions}
-              disabled={!REVIEW_ENABLED}
-              className="ml-1 rounded-md border border-brandnavy px-2.5 py-1 text-xs font-medium text-brandnavy hover:bg-brandnavy/5 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-transparent"
-            >
-              {t.review.export}
-            </button>
-            <button
-              onClick={() => setDecisions({})}
-              disabled={!REVIEW_ENABLED}
-              className="rounded-md px-2.5 py-1 text-xs text-slate-500 underline hover:text-slate-700 disabled:cursor-not-allowed disabled:opacity-40 disabled:no-underline disabled:hover:text-slate-500"
-            >
-              {t.review.reset}
-            </button>
-          </div>
+          REVIEW_ENABLED ? (
+            <div className="flex flex-wrap items-center gap-1.5">
+              <FilterTab id="all" label={t.review.filterAll} />
+              <FilterTab id="undecided" label={t.review.undecided} />
+              <FilterTab id="approved" label={t.review.approved} />
+              <FilterTab id="rejected" label={t.review.rejected} />
+              <button
+                onClick={exportDecisions}
+                className="ml-1 rounded-md border border-brandnavy px-2.5 py-1 text-xs font-medium text-brandnavy hover:bg-brandnavy/5"
+              >
+                {t.review.export}
+              </button>
+              <button
+                onClick={() => setDecisions({})}
+                className="rounded-md px-2.5 py-1 text-xs text-slate-500 underline hover:text-slate-700"
+              >
+                {t.review.reset}
+              </button>
+            </div>
+          ) : undefined
         }
       >
         {shown.length === 0 ? (
