@@ -9,6 +9,9 @@ import type { ReviewItem, ReviewReason } from "@/src/lib/review";
 
 type Decision = "approved" | "rejected";
 const STORAGE_KEY = "qa_review_decisions_v1";
+// No live review workflow yet (approve/reject is localStorage-only, no backend). Flip to true
+// once a real sign-off pipeline is wired — every action button re-enables from this one switch.
+const REVIEW_ENABLED = false;
 const REASON_COLOR: Record<ReviewReason, string> = {
   awaitingSignoff: "#7C3AED",
   enforcementAction: "#C00000",
@@ -104,36 +107,57 @@ export function ReviewClient({ queue }: { queue: ReviewItem[] }) {
         <p className="mt-0.5 text-sm text-slate-500">{t.review.subtitle}</p>
       </div>
 
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-        <Stat label={t.review.undecided} value={mounted ? counts.undecided : counts.total} color="#0F172A" />
-        <Stat label={t.review.approved} value={mounted ? counts.approved : 0} color="#15803D" />
-        <Stat label={t.review.rejected} value={mounted ? counts.rejected : 0} color="#C00000" />
-        <Stat label={t.review.pending} value={counts.total} color="#1F4E79" />
-      </div>
+      {/* With review disabled no decisions can be made, so approved/rejected/undecided are always
+          0/0/total — collapse to the single meaningful count. */}
+      {REVIEW_ENABLED ? (
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+          <Stat label={t.review.undecided} value={mounted ? counts.undecided : counts.total} color="#0F172A" />
+          <Stat label={t.review.approved} value={mounted ? counts.approved : 0} color="#15803D" />
+          <Stat label={t.review.rejected} value={mounted ? counts.rejected : 0} color="#C00000" />
+          <Stat label={t.review.pending} value={counts.total} color="#1F4E79" />
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+          <Stat label={t.review.pending} value={counts.total} color="#1F4E79" />
+        </div>
+      )}
 
-      <div className="rounded-md border border-slate-200 bg-slate-50 px-4 py-2.5 text-xs text-slate-500">{t.review.note}</div>
+      <div
+        className={`rounded-md border px-4 py-2.5 text-xs ${
+          REVIEW_ENABLED
+            ? "border-slate-200 bg-slate-50 text-slate-500"
+            : "border-amber-200 bg-amber-50 text-amber-800"
+        }`}
+      >
+        {REVIEW_ENABLED ? t.review.note : t.review.disabledNote}
+      </div>
 
       <SectionCard
         title={t.review.title}
+        // Filter tabs / export / reset all operate on a decision status that can only be set by
+        // the (now-disabled) approve/reject buttons — so with review off they'd always be empty
+        // no-ops. Hide the whole toolbar; the queue shows read-only, unfiltered.
         right={
-          <div className="flex flex-wrap items-center gap-1.5">
-            <FilterTab id="all" label={t.review.filterAll} />
-            <FilterTab id="undecided" label={t.review.undecided} />
-            <FilterTab id="approved" label={t.review.approved} />
-            <FilterTab id="rejected" label={t.review.rejected} />
-            <button
-              onClick={exportDecisions}
-              className="ml-1 rounded-md border border-brandnavy px-2.5 py-1 text-xs font-medium text-brandnavy hover:bg-brandnavy/5"
-            >
-              {t.review.export}
-            </button>
-            <button
-              onClick={() => setDecisions({})}
-              className="rounded-md px-2.5 py-1 text-xs text-slate-500 underline hover:text-slate-700"
-            >
-              {t.review.reset}
-            </button>
-          </div>
+          REVIEW_ENABLED ? (
+            <div className="flex flex-wrap items-center gap-1.5">
+              <FilterTab id="all" label={t.review.filterAll} />
+              <FilterTab id="undecided" label={t.review.undecided} />
+              <FilterTab id="approved" label={t.review.approved} />
+              <FilterTab id="rejected" label={t.review.rejected} />
+              <button
+                onClick={exportDecisions}
+                className="ml-1 rounded-md border border-brandnavy px-2.5 py-1 text-xs font-medium text-brandnavy hover:bg-brandnavy/5"
+              >
+                {t.review.export}
+              </button>
+              <button
+                onClick={() => setDecisions({})}
+                className="rounded-md px-2.5 py-1 text-xs text-slate-500 underline hover:text-slate-700"
+              >
+                {t.review.reset}
+              </button>
+            </div>
+          ) : undefined
         }
       >
         {shown.length === 0 ? (
@@ -178,7 +202,11 @@ export function ReviewClient({ queue }: { queue: ReviewItem[] }) {
                           <span className={`text-xs font-semibold ${d === "approved" ? "text-emerald-700" : "text-red-700"}`}>
                             {d === "approved" ? t.review.approved : t.review.rejected}
                           </span>
-                          <button onClick={() => set(it.id, null)} className="text-xs text-slate-500 underline hover:text-slate-700">
+                          <button
+                            onClick={() => set(it.id, null)}
+                            disabled={!REVIEW_ENABLED}
+                            className="text-xs text-slate-500 underline hover:text-slate-700 disabled:cursor-not-allowed disabled:opacity-40 disabled:no-underline disabled:hover:text-slate-500"
+                          >
                             {t.review.undo}
                           </button>
                         </>
@@ -186,13 +214,15 @@ export function ReviewClient({ queue }: { queue: ReviewItem[] }) {
                         <>
                           <button
                             onClick={() => set(it.id, "approved")}
-                            className="rounded-md bg-emerald-600 px-2.5 py-1 text-xs font-medium text-white hover:bg-emerald-700"
+                            disabled={!REVIEW_ENABLED}
+                            className="rounded-md bg-emerald-600 px-2.5 py-1 text-xs font-medium text-white hover:bg-emerald-700 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-emerald-600"
                           >
                             {t.review.approve}
                           </button>
                           <button
                             onClick={() => set(it.id, "rejected")}
-                            className="rounded-md border border-red-300 px-2.5 py-1 text-xs font-medium text-red-700 hover:bg-red-50"
+                            disabled={!REVIEW_ENABLED}
+                            className="rounded-md border border-red-300 px-2.5 py-1 text-xs font-medium text-red-700 hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-transparent"
                           >
                             {t.review.reject}
                           </button>
