@@ -48,6 +48,7 @@ export const en = {
     empty: "Nothing awaiting review.",
     filterAll: "All",
     note: "Static deployment: approve/reject decisions are saved in this browser only. Export the JSON and apply it via prep (set reviewStatus) to persist + redeploy.",
+    disabledNote: "Review workflow is not yet live — approve / reject / export are disabled and this queue is read-only for now.",
     reasonCol: "Why flagged",
     reasons: {
       awaitingSignoff: "Pending (hard gate)",
@@ -405,6 +406,7 @@ export const zh: Messages = {
     empty: "暂无待审核记录。",
     filterAll: "全部",
     note: "静态部署：批准/驳回决策仅保存在本浏览器。导出 JSON 后经 prep 写回 reviewStatus 以持久化并重新部署。",
+    disabledNote: "审核流程尚未上线 —— 批准 / 驳回 / 导出已停用，当前队列仅供查看。",
     reasonCol: "标记原因",
     reasons: {
       awaitingSignoff: "待审核（硬门控）",
