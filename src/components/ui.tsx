@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
 import { useLocale, useT } from "@/src/lib/i18n/locale";
 import { RESULT_COLORS, RISK_COLORS, riskLabel } from "@/src/lib/colors";
 
@@ -19,6 +20,61 @@ export function StaticBaselineNotice() {
       </span>
       <span>{t.common.baselineNote}</span>
     </p>
+  );
+}
+
+/**
+ * Summary text that is line-clamped by default and reveals its full content two ways:
+ *  1. native hover tooltip (`title`) for a quick peek while collapsed;
+ *  2. an inline “Show more / Show less” toggle that expands in place (works on touch too).
+ * The toggle only renders when the text is actually being clamped — short summaries stay clean.
+ * Used in dense table cells (e.g. the Regulation title column) where the summary would otherwise
+ * be cut off with no way to read the rest.
+ */
+export function ExpandableText({
+  text,
+  className = "",
+  clampClass = "line-clamp-2",
+}: {
+  text: string;
+  className?: string;
+  clampClass?: string;
+}) {
+  const t = useT();
+  const [expanded, setExpanded] = useState(false);
+  const [clamped, setClamped] = useState(false);
+  const ref = useRef<HTMLParagraphElement>(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    // While collapsed, an overflow (full height > clamped height) means the text is truncated.
+    setClamped(el.scrollHeight > el.clientHeight + 1);
+  }, [text, expanded]);
+
+  if (!text) return null;
+  return (
+    <div className={className}>
+      <p
+        ref={ref}
+        title={expanded ? undefined : text}
+        className={`text-xs text-slate-500 ${expanded ? "" : clampClass}`}
+      >
+        {text}
+      </p>
+      {(clamped || expanded) && (
+        <button
+          type="button"
+          onClick={(e) => {
+            e.stopPropagation();
+            setExpanded((v) => !v);
+          }}
+          className="mt-0.5 text-[11px] font-medium text-brandnavy hover:underline"
+        >
+          {expanded ? t.common.showLess : t.common.showMore}
+        </button>
+      )}
+    </div>
   );
 }
 
