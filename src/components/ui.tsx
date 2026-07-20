@@ -48,32 +48,55 @@ export function ExpandableText({
   const ref = useRef<HTMLParagraphElement>(null);
 
   useEffect(() => {
+    // Only measure while collapsed; when expanded the clamp is off (no overflow) and the
+    // reffed node is unmounted, so keep the last measured `clamped` value.
+    if (expanded) return;
     const el = ref.current;
     if (!el) return;
-    // While collapsed, an overflow (full height > clamped height) means the text is truncated.
     setClamped(el.scrollHeight > el.clientHeight + 1);
   }, [text, expanded]);
 
   if (!text) return null;
+
+  // Expanded: full text with the "Show less" toggle inline at the end of the last line.
+  if (expanded) {
+    return (
+      <div className={className}>
+        <p className={textClass}>
+          {text}{" "}
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              setExpanded(false);
+            }}
+            className="whitespace-nowrap align-baseline text-[11px] font-medium text-brandnavy hover:underline"
+          >
+            {t.common.showLess}
+          </button>
+        </p>
+      </div>
+    );
+  }
+
+  // Collapsed: line-clamped text; the "Show more" toggle sits at the bottom-right of the
+  // last visible line as a small chip (own white background so it reads cleanly over any
+  // row color — default / hover:slate-50 / high-risk tint).
   return (
-    <div className={className}>
-      <p
-        ref={ref}
-        title={expanded ? undefined : text}
-        className={`${textClass} ${expanded ? "" : clampClass}`}
-      >
+    <div className={`relative ${className}`}>
+      <p ref={ref} title={text} className={`${textClass} ${clampClass}`}>
         {text}
       </p>
-      {(clamped || expanded) && (
+      {clamped && (
         <button
           type="button"
           onClick={(e) => {
             e.stopPropagation();
-            setExpanded((v) => !v);
+            setExpanded(true);
           }}
-          className="mt-0.5 text-[11px] font-medium text-brandnavy hover:underline"
+          className="absolute bottom-0 right-0 rounded bg-white pl-2 text-[11px] font-medium text-brandnavy hover:underline"
         >
-          {expanded ? t.common.showLess : t.common.showMore}
+          {t.common.showMore}
         </button>
       )}
     </div>
