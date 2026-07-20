@@ -35,10 +35,12 @@ export function ExpandableText({
   text,
   className = "",
   clampClass = "line-clamp-2",
+  textClass = "text-xs text-slate-500",
 }: {
   text: string;
   className?: string;
   clampClass?: string;
+  textClass?: string;
 }) {
   const t = useT();
   const [expanded, setExpanded] = useState(false);
@@ -58,7 +60,7 @@ export function ExpandableText({
       <p
         ref={ref}
         title={expanded ? undefined : text}
-        className={`text-xs text-slate-500 ${expanded ? "" : clampClass}`}
+        className={`${textClass} ${expanded ? "" : clampClass}`}
       >
         {text}
       </p>

@@ -5,7 +5,7 @@ import { useSearchParams } from "next/navigation";
 import type { ColumnDef } from "@tanstack/react-table";
 import { useLocale, useT } from "@/src/lib/i18n/locale";
 import { DataTable, type FacetCfg } from "@/src/components/table/DataTable";
-import { RiskBadge, Badge, SectionCard, KpiCard, StaticBaselineNotice } from "@/src/components/ui";
+import { RiskBadge, Badge, SectionCard, KpiCard, StaticBaselineNotice, ExpandableText } from "@/src/components/ui";
 import { StackedBar } from "@/src/components/charts";
 import { ComplianceCountdownGantt } from "@/src/components/viz/ComplianceCountdownGantt";
 import { riskLabel, RISK_COLORS } from "@/src/lib/colors";
@@ -154,7 +154,7 @@ export function ComplianceClient({
               ) : (
                 <span className="font-medium text-slate-800">{name}</span>
               )}
-              {summary && <p className="mt-0.5 line-clamp-2 text-xs text-slate-500">{summary}</p>}
+              {summary && <ExpandableText text={summary} className="mt-0.5" />}
             </div>
           );
         },
@@ -189,7 +189,7 @@ export function ComplianceClient({
         header: t.compliance.enforcement,
         cell: ({ row }) => {
           const e = enforcementOf(row.original);
-          return e ? <span className="line-clamp-2 block max-w-xs text-xs text-slate-600">{e}</span> : <span className="text-slate-300">—</span>;
+          return e ? <ExpandableText text={e} className="max-w-xs" textClass="text-xs text-slate-600" /> : <span className="text-slate-300">—</span>;
         },
       },
       { accessorKey: "riskLevel", header: t.common.riskLevel, cell: ({ row }) => <RiskBadge risk={row.original.riskLevel} /> },
