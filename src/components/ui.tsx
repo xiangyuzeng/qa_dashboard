@@ -79,12 +79,14 @@ export function ExpandableText({
     );
   }
 
-  // Collapsed: line-clamped text; the "Show more" toggle sits at the bottom-right of the
-  // last visible line as a small chip (own white background so it reads cleanly over any
-  // row color — default / hover:slate-50 / high-risk tint).
+  // Collapsed: line-clamped text. Reserve right padding on the clamped text so the last line
+  // ends a few chars short (with line-clamp's native "…") and the toggle sits in that empty
+  // space rather than covering text. The toggle keeps its own white background as a fallback
+  // (in case a longer locale label — "Show more" — overruns the reserve) and reads cleanly
+  // over any row color (default / hover:slate-50 / high-risk tint).
   return (
     <div className={`relative ${className}`}>
-      <p ref={ref} title={text} className={`${textClass} ${clampClass}`}>
+      <p ref={ref} title={text} className={`${textClass} ${clampClass} pr-12`}>
         {text}
       </p>
       {clamped && (
@@ -94,7 +96,7 @@ export function ExpandableText({
             e.stopPropagation();
             setExpanded(true);
           }}
-          className="absolute bottom-0 right-0 rounded bg-white pl-2 text-[11px] font-medium text-brandnavy hover:underline"
+          className="absolute bottom-0 right-0 rounded bg-white pl-1 text-[11px] font-medium text-brandnavy hover:underline"
         >
           {t.common.showMore}
         </button>
