@@ -5,7 +5,7 @@ import { useSearchParams } from "next/navigation";
 import type { ColumnDef } from "@tanstack/react-table";
 import { useLocale, useT } from "@/src/lib/i18n/locale";
 import { DataTable, type FacetCfg } from "@/src/components/table/DataTable";
-import { Badge, SectionCard, KpiCard, ApplicabilityBadge } from "@/src/components/ui";
+import { Badge, SectionCard, KpiCard, ApplicabilityBadge, ExpandableText } from "@/src/components/ui";
 import { fmtDate, pickLang } from "@/src/lib/i18n/util";
 import { evaluate, type ApplicabilityVerdict } from "@/src/lib/applicability";
 import type { ApplicabilityRule, CompanyProfile, CountBasis } from "@/src/lib/schema";
@@ -95,7 +95,7 @@ export function ApplicabilityClient({
               <a href={r.thresholdSourceUrl} target="_blank" rel="noopener noreferrer" className="font-medium text-brandnavy hover:underline">
                 {name} ↗
               </a>
-              {action && <p className="mt-0.5 line-clamp-2 text-xs text-slate-500">{action}</p>}
+              {action && <ExpandableText text={action} className="mt-0.5" />}
             </div>
           );
         },
