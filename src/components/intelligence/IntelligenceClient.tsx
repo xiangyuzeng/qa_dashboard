@@ -5,7 +5,7 @@ import { useSearchParams } from "next/navigation";
 import type { ColumnDef } from "@tanstack/react-table";
 import { useLocale, useT } from "@/src/lib/i18n/locale";
 import { DataTable, type FacetCfg } from "@/src/components/table/DataTable";
-import { RiskBadge, Badge } from "@/src/components/ui";
+import { RiskBadge, Badge, ExpandableText } from "@/src/components/ui";
 import { riskLabel } from "@/src/lib/colors";
 import { fmtDate } from "@/src/lib/i18n/util";
 import type { RegulatoryRecord } from "@/src/lib/schema";
@@ -45,7 +45,7 @@ export function IntelligenceClient({
               ) : (
                 <span className="font-medium text-slate-800">{title}</span>
               )}
-              {summary && <p className="mt-0.5 line-clamp-2 text-xs text-slate-500">{summary}</p>}
+              {summary && <ExpandableText text={summary} className="mt-0.5" />}
               {r.relevanceTags.length > 0 && (
                 <div className="mt-1 flex flex-wrap gap-1">
                   {r.relevanceTags.map((tag) => (
