@@ -5,7 +5,7 @@ import { useSearchParams } from "next/navigation";
 import type { ColumnDef } from "@tanstack/react-table";
 import { useLocale, useT } from "@/src/lib/i18n/locale";
 import { DataTable, type FacetCfg } from "@/src/components/table/DataTable";
-import { RiskBadge, Badge, SectionCard } from "@/src/components/ui";
+import { RiskBadge, Badge, SectionCard, ExpandableText } from "@/src/components/ui";
 import { HBar } from "@/src/components/charts";
 import { riskLabel, BAR_DEFAULT } from "@/src/lib/colors";
 import { fmtDate } from "@/src/lib/i18n/util";
@@ -47,7 +47,7 @@ export function ImportClient({
               ) : (
                 <span className="font-medium text-slate-800">{title}</span>
               )}
-              {summary && <p className="mt-0.5 line-clamp-2 text-xs text-slate-500">{summary}</p>}
+              {summary && <ExpandableText text={summary} className="mt-0.5" />}
             </div>
           );
         },
@@ -61,7 +61,10 @@ export function ImportClient({
       {
         accessorKey: "productInvolved",
         header: t.import.product,
-        cell: ({ row }) => <span className="line-clamp-2 block max-w-xs text-xs text-slate-600">{row.original.productInvolved ?? "—"}</span>,
+        cell: ({ row }) => {
+          const p = row.original.productInvolved;
+          return p ? <ExpandableText text={p} className="max-w-xs" textClass="text-xs text-slate-600" /> : <span className="text-slate-300">—</span>;
+        },
       },
       { accessorKey: "publicationDate", header: t.common.date, cell: ({ row }) => fmtDate(row.original.publicationDate) || "—" },
       {
