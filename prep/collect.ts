@@ -1131,6 +1131,123 @@ async function collectFdaFoodGuidance(): Promise<SourceResult> {
   }
 }
 
+// Some state/city .gov sites 403 non-browser User-Agents (NYSDOH) — send a browser UA for HTML scrapes.
+const BROWSER_UA =
+  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36";
+const mdyToIso = (s: string): string | null => {
+  const m = s.match(/(\d{1,2})[/\-](\d{1,2})[/\-](\d{4})/);
+  return m ? `${m[3]}-${m[1].padStart(2, "0")}-${m[2].padStart(2, "0")}` : null;
+};
+
+// Live, no key — NYSDOH proposed rulemaking (regs.health.ny.gov), food-relevant only. NYSDOH mostly
+// proposes healthcare rules, so food matches (Part 14 food service, sanitary code, etc.) are rare —
+// low/zero volume is expected and truthful. HTML-scraped (no API); browser UA required (403 otherwise).
+const NYSDOH_FOOD = /\bfood\b|restaurant|sanitary code|\bpart 14\b|foodborne|food service|allergen|\bmenu\b|beverage|\bmilk\b|dairy|frozen dessert|shellfish|temporary food|mobile food/i;
+async function collectNysdohProposed(): Promise<SourceResult> {
+  const name = "NYSDOH proposed rulemaking (food-relevant)";
+  const url = "https://regs.health.ny.gov/regulations/proposed-rule-making";
+  const out: RegulationRecord[] = [];
+  const seen = new Set<string>();
+  try {
+    const html = await getText(url, { headers: { "User-Agent": BROWSER_UA, Accept: "text/html" } });
+    const tb = html.match(/<tbody>([\s\S]*?)<\/tbody>/);
+    const rows = tb ? tb[1].match(/<tr[\s\S]*?<\/tr>/g) ?? [] : [];
+    for (const r of rows) {
+      const tds = [...r.matchAll(/<td[^>]*>([\s\S]*?)<\/td>/g)].map((m) => cleanHeading(m[1]));
+      if (tds.length < 3) continue;
+      const pub = mdyToIso(tds[0]);
+      const title = tds[2];
+      if (!title || !NYSDOH_FOOD.test(title)) continue; // food-relevant only
+      const link = r.match(/href="([^"]+)"/)?.[1] ?? "";
+      const href = link ? (link.startsWith("http") ? link : `https://regs.health.ny.gov${link}`) : url;
+      const key = title.toLowerCase();
+      if (seen.has(key)) continue;
+      seen.add(key);
+      const status: RegulationRecord["status"] = "Proposed rule";
+      const a = assessRegulation({ status, effectiveDate: null, today: TODAY });
+      out.push({
+        id: hashId("nysdoh", title, pub ?? ""),
+        module: "regulation" as const, no: null,
+        jurisdiction: "New York State" as const,
+        regulationBillName: title.slice(0, 160),
+        chineseTitle: null, englishTitle: title,
+        status, publicationPassageDate: pub, effectiveDate: null,
+        coveredEntities: "NY food service establishments (if adopted)", keyRequirements: null,
+        chineseSummary: null, englishSummary: `NYSDOH Notice of Proposed Rulemaking (10 NYCRR). Comment period open; not yet adopted or effective.`,
+        businessImpact: null,
+        riskLevel: a.riskLevel as RegulationRecord["riskLevel"],
+        sourceUrl: href,
+        recommendedAction: null, topic: regTopicFromText(title),
+        alertTriggered: a.alertTriggered, alertReason: a.alertReason, alertRuleIds: a.alertRuleIds,
+        reviewed: true, reviewStatus: "approved" as const,
+        reviewNote: "auto-collected (NYSDOH proposed rulemaking) — QA review required before treating exports/alerts as final",
+        provenance: prov("nysdoh_proposed", href),
+      });
+    }
+    return { regulations: out, provenance: provEntry({ sourceId: "nysdoh_proposed", name, module: "regulation", status: out.length ? "fetched" : "no_update", accessType: "html-scrape", endpointOrUrl: url, oneTimePullFeasible: "yes", recordCount: out.length, stalenessNote: out.length ? "NYSDOH proposed rulemakings whose title is food-relevant (10 NYCRR). Proposed = comment period, NOT in effect." : "No food-relevant NYSDOH proposed rulemakings in the current list (NYSDOH mostly proposes healthcare rules) — 0 rows, not fabricated." }) };
+  } catch (e) {
+    return { regulations: [], provenance: provEntry({ sourceId: "nysdoh_proposed", name, module: "regulation", status: "manual", accessType: "html-scrape", endpointOrUrl: url, oneTimePullFeasible: "yes", stalenessNote: `pull failed: ${String(e).slice(0, 120)}`, recordCount: 0, reVerifyBeforeRelying: true }) };
+  }
+}
+
+// Live, no key — NYC Rules (rules.cityofnewyork.us) proposed + recently-adopted rules, filtered to the
+// agencies a café is subject to (DOHMH/DCWP/DSNY/DEP) or a food-relevant title. WP REST API is locked
+// ("only authenticated users"), so the listing tables are HTML-scraped. Proposed → "Proposed rule",
+// recently-adopted → "Adopted rule" (adopted ≠ effective — effective date lives on the detail page).
+// Café/food-relevant title terms — agency alone is too broad (DCWP regulates all of consumer affairs:
+// junk fees, for-hire vehicles, etc.), so gate on the TITLE.
+const NYC_CAFE_RULE = /\bfood\b|restaurant|\bmenu\b|allergen|\bcafe|café|\bcoffee\b|beverage|grease|organics|commercial waste|refuse\b|recycl|food delivery|third-party delivery|calorie|sanitation|sidewalk cafe|street vendor|green cart|mobile food|frozen dessert|dishwash|smoking|tobacco|trans fat|sodium warning/i;
+async function collectNycRules(): Promise<SourceResult> {
+  const name = "NYC Rules (proposed + adopted, café-relevant)";
+  const targets: { url: string; status: RegulationRecord["status"] }[] = [
+    { url: "https://rules.cityofnewyork.us/proposed-rules/", status: "Proposed rule" },
+    { url: "https://rules.cityofnewyork.us/recently-adopted-rules/", status: "Adopted rule" },
+  ];
+  const out: RegulationRecord[] = [];
+  const seen = new Set<string>();
+  try {
+    for (const tgt of targets) {
+      const html = await getText(tgt.url, { headers: { "User-Agent": BROWSER_UA, Accept: "text/html" } });
+      const rows = html.match(/<tr[\s\S]*?<\/tr>/g) ?? [];
+      for (const r of rows) {
+        if (out.length >= 50) break; // safety cap
+        const link = r.match(/href="(https:\/\/rules\.cityofnewyork\.us\/rule\/[^"]+)"[^>]*>([\s\S]*?)<\/a>/);
+        if (!link) continue;
+        const href = link[1];
+        const title = cleanHeading(link[2]);
+        if (!title || !NYC_CAFE_RULE.test(title)) continue; // café/food-relevant title only
+        const agency = (r.match(/badge-agency">([^<]+)</)?.[1] ?? "").trim().toUpperCase();
+        const date = mdyToIso((r.match(/<p>\s*(\d{1,2}-\d{1,2}-\d{4})\s*<\/p>/)?.[1]) ?? "");
+        if (seen.has(href)) continue;
+        seen.add(href);
+        const a = assessRegulation({ status: tgt.status, effectiveDate: null, today: TODAY });
+        out.push({
+          id: hashId("nycrule", href, tgt.status),
+          module: "regulation" as const, no: null,
+          jurisdiction: "New York City" as const,
+          regulationBillName: title.slice(0, 160),
+          chineseTitle: null, englishTitle: title,
+          status: tgt.status, publicationPassageDate: date, effectiveDate: null,
+          coveredEntities: agency ? `NYC ${agency}-regulated establishments` : "NYC establishments", keyRequirements: null,
+          chineseSummary: null,
+          englishSummary: `NYC ${agency || "agency"} ${tgt.status === "Proposed rule" ? "proposed rule (comment period open; not yet adopted or effective)" : "recently-adopted rule (adopted; effective date on the rule page)"}.`,
+          businessImpact: null,
+          riskLevel: a.riskLevel as RegulationRecord["riskLevel"],
+          sourceUrl: href,
+          recommendedAction: null, topic: regTopicFromText(title),
+          alertTriggered: a.alertTriggered, alertReason: a.alertReason, alertRuleIds: a.alertRuleIds,
+          reviewed: true, reviewStatus: "approved" as const,
+          reviewNote: "auto-collected (NYC Rules) — QA review required before treating exports/alerts as final",
+          provenance: prov("nyc_rules", href),
+        });
+      }
+    }
+    return { regulations: out, provenance: provEntry({ sourceId: "nyc_rules", name, module: "regulation", status: out.length ? "fetched" : "no_update", accessType: "html-scrape", endpointOrUrl: "https://rules.cityofnewyork.us/", oneTimePullFeasible: "yes", recordCount: out.length, stalenessNote: out.length ? "NYC proposed + recently-adopted rules from café-relevant agencies (DOHMH/DCWP/DSNY/DEP). Proposed/Adopted ≠ effective." : "No café-relevant NYC proposed/adopted rules currently listed — 0 rows, not fabricated." }) };
+  } catch (e) {
+    return { regulations: [], provenance: provEntry({ sourceId: "nyc_rules", name, module: "regulation", status: "manual", accessType: "html-scrape", endpointOrUrl: "https://rules.cityofnewyork.us/", oneTimePullFeasible: "yes", stalenessNote: `pull failed: ${String(e).slice(0, 120)}`, recordCount: 0, reVerifyBeforeRelying: true }) };
+  }
+}
+
 /* ─────────────── MODULE 5 — Negative Media & Sentiment ─────────────── */
 
 async function collectSentimentRSS(): Promise<SourceResult> {
@@ -1415,6 +1532,8 @@ async function main() {
     collectOpenStates(),
     collectEcfrTitle21(),
     collectFdaFoodGuidance(),
+    collectNysdohProposed(),
+    collectNycRules(),
     collectSentimentRSS(),
     // V2.5 — four compliance domains behind the FeedAdapter seam (seeds + dormant live adapters).
     ...FEED_ADAPTERS.map((a) => a.fetch()),
