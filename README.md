@@ -8,8 +8,10 @@ prep + redeploying is the "refresh."
 
 > ⚠️ Data is auto-collected from official public sources and **classified heuristically**;
 > it is for QA reference and must be **reviewed before exports/alerts are treated as final**.
-> Free-text Chinese summaries are blank where source text is English (UI falls back to
-> English) until a translation enrichment pass is added — values are **never fabricated**.
+> Some live feeds are English-only (US federal / RSS): their Chinese is either machine-translated
+> at build time (DeepL — shown with a **机器翻译** badge; see [Chinese machine-translation](#chinese-machine-translation-deepl-api-free--optional))
+> or, when no translation key is set, left as the English original (an **英文原文** badge).
+> Values are **never fabricated**.
 
 ## Stack
 Next.js 15 (App Router) · TypeScript · Tailwind · Recharts 3 · TanStack Table · Zod.
@@ -49,7 +51,8 @@ npm run prep:validate
 npm run prep:export    # → monthly_report.xlsx (openpyxl, 7 sheets) + .docx (python-docx)
 # 4. commit /data + public/exports and redeploy
 ```
-`npm run prep:build` chains collect → validate → export.
+`npm run prep:build` chains collect → enrich → translate → meta → validate → export
+(`prep:translate` = optional DeepL pass, see below; it no-ops without a key).
 **Prereqs for prep:** Node ≥ 20; Python 3 + `openpyxl` + `python-docx` for the export step (`pip install openpyxl python-docx`).
 
 **Excel export (7 sheets, built from scratch):** Monthly Summary · Food-Safety main · Import/Export ·
@@ -63,6 +66,40 @@ sections with risk-shaded tables, for stakeholders who prefer Word/PDF.
 `prep/collect.ts` but ship **dormant** — add a free key to `.env` (see [docs/API_KEYS.md](docs/API_KEYS.md))
 and re-run `prep:collect` to activate; without a key each emits a truthful `manual` provenance stub
 (never a fabricated row). Modules 2/3 also run on Federal-Register + curated seeds; Module 5 on RSS.
+
+## Chinese machine-translation (DeepL API Free) — optional
+
+Several live feeds are **English-only** US sources with no Chinese original: the Federal Register
+import slugs (`/import`), the FDA-recall / Federal-Register / CDC-NORS regulatory feed
+(`/intelligence`), and the Food Safety News RSS sentiment feed (`/sentiment`). By default their rows
+show the **English original** in 中文 mode, tagged with an amber **英文原文** badge.
+
+Add a free **DeepL** key and the `prep:translate` step auto-fills the missing Chinese
+(`chineseTitle` / `chineseSummary`) at build time, tagging each translated row with an indigo
+**机器翻译 / machine-translated** badge (the English original stays authoritative). Translations are
+cached by source-text hash in `data/v2/mt_cache.json`, so unchanged text is never re-translated or
+re-billed, and curated bilingual seed rows are never overwritten. **Failure-safe:** with no key the
+step no-ops (rows stay English) and a DeepL API error never fails the build.
+
+### Get a DeepL API Free key
+1. Go to **https://www.deepl.com/pro-api** → pick the **DeepL API Free** plan → **Sign up for free**
+   (not the *Pro* plan and not the web-app subscription).
+2. Create the account (email + password) and **enter a credit/debit card**. DeepL requires a card to
+   verify even the Free plan; you are **not charged** while you stay on Free and under **500,000
+   characters/month** (this dashboard uses far less — a first full run is ~290 unique strings).
+3. Verify your email, then open **Account → "Authentication Key for DeepL API"** and copy the key.
+   A Free key **always ends in `:fx`** — that suffix routes to `api-free.deepl.com`, the endpoint this
+   repo uses. *(US-available; a few regions can't register the Free plan.)*
+
+### Wire it in
+- **Production (auto-translate on every refresh):** GitHub repo → **Settings → Secrets and variables
+  → Actions → New repository secret** → name it exactly `DEEPL_KEY`, paste the `…:fx` key. The next
+  weekday refresh — or a manual **Actions → Weekday data refresh → Run workflow** — translates the
+  live rows and redeploys. No code change.
+- **Local test:** `export DEEPL_KEY=…:fx && npm run prep:translate` (or `echo 'DEEPL_KEY=…:fx' >> .env`;
+  `.env` is gitignored). Offline dry-run with placeholder text: `DEEPL_MOCK=1 npm run prep:translate`.
+
+See [docs/OPTION1_KEY_SETUP.md](docs/OPTION1_KEY_SETUP.md) for this and every other (free, government) key.
 
 ## Deploy (Vercel)
 1. Push the repo to GitHub/GitLab/Bitbucket (`/data` and `public/exports` are committed).
