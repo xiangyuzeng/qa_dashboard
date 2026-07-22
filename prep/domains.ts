@@ -28,6 +28,7 @@ const prov = (sourceId: string, url: string | null): Provenance => ({
   docRef: null,
   collectedAt: NOW,
   aiSummaryAt: NOW,
+  mtAt: null,
   dataAvailability: "available",
   dataAvailabilityLabel: null,
   njMunicipality: null,

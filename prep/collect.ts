@@ -75,6 +75,7 @@ const prov = (
   docRef: null,
   collectedAt: NOW,
   aiSummaryAt: NOW,
+  mtAt: null,
   dataAvailability: "available",
   dataAvailabilityLabel: null,
   njMunicipality: null,
@@ -813,13 +814,18 @@ async function collectRegulationSeeds(): Promise<SourceResult> {
 }
 
 // LegiScan numeric status → RegStatusEnum; NY Senate statusType → RegStatusEnum.
+// LegiScan progress codes → lifecycle stage. NOTE: 4 = chaptered/enacted = "Signed" (signed into law),
+// NOT "In effect" — the effective date may still be in the future; assessRegulation/effective date
+// decides In-effect vs Pending-effective. (1 Introduced · 2 Engrossed · 3 Enrolled · 4 Passed/Chaptered · 5 Vetoed · 6 Failed)
 const LEGISCAN_STATUS: Record<number, RegulationRecord["status"]> = {
-  1: "Proposed", 2: "Proposed", 3: "Passed", 4: "In effect", 5: "Repealed", 6: "Repealed",
+  1: "Introduced", 2: "Passed", 3: "Passed", 4: "Signed", 5: "Repealed", 6: "Repealed",
 };
+// NY OpenLegislation status → lifecycle stage. SIGNED_BY_GOV = "Signed" (signed into law), NOT
+// "In effect" — signing ≠ effective. Vetoed → Repealed (terminal).
 const NY_STATUS: Record<string, RegulationRecord["status"]> = {
-  INTRODUCED: "Proposed", IN_SENATE_COMM: "Proposed", IN_ASSEMBLY_COMM: "Proposed",
+  INTRODUCED: "Introduced", IN_SENATE_COMM: "Introduced", IN_ASSEMBLY_COMM: "Introduced",
   PASSED_SENATE: "Passed", PASSED_ASSEMBLY: "Passed", DELIVERED_TO_GOV: "Passed",
-  SIGNED_BY_GOV: "In effect", ADOPTED: "In effect", VETOED: "Repealed",
+  SIGNED_BY_GOV: "Signed", ADOPTED: "Signed", VETOED: "Repealed",
 };
 const regTopicFromText = (text: string): RegulationRecord["topic"] => {
   const t = text.toLowerCase();
