@@ -14,7 +14,7 @@ export const en = {
   nav: {
     overview: "Overview",
     alerts: "Alerts",
-    intelligence: "Intelligence",
+    intelligence: "Recall Intelligence",
     inspections: "Inspections",
     benchmark: "Benchmark",
     trends: "Trends",
@@ -142,7 +142,7 @@ export const en = {
     none: "No active alerts in this dataset.",
   },
   intelligence: {
-    title: "Regulatory & Recall Intelligence",
+    title: "Recall Intelligence",
     subtitle: "Federal/state items tagged to coffee/dairy/beverage relevance",
     titleCol: "Title",
     summary: "Summary",
