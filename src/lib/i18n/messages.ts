@@ -86,6 +86,9 @@ export const en = {
     viewDetail: "View detail",
     showMore: "More",
     showLess: "Less",
+    sourceLangEn: "English source",
+    sourceLangEnNote:
+      "This item is from a live English-only U.S. federal source (Federal Register); no Chinese translation is available, so the original English title is shown.",
     back: "Back",
     sourceRef: "Source / Doc ref",
     notPublicOnline: "Data not publicly available online",
@@ -446,6 +449,9 @@ export const zh: Messages = {
     viewDetail: "查看明细",
     showMore: "展开",
     showLess: "收起",
+    sourceLangEn: "英文原文",
+    sourceLangEnNote:
+      "该条目来自纯英文的美国联邦公报(Federal Register)实时数据源,暂无中文翻译,故显示英文原标题。",
     back: "返回",
     sourceRef: "来源 / 文件编号",
     notPublicOnline: "未找到公开数据库",

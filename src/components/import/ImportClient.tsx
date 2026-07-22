@@ -38,6 +38,9 @@ export function ImportClient({
           const title =
             (locale === "zh" ? r.chineseTitle : r.englishTitle) ?? r.englishTitle ?? r.chineseTitle ?? "—";
           const summary = (locale === "zh" ? r.chineseSummary : r.englishSummary) ?? "";
+          // In 中文 mode, live English-only sources (Federal Register) have no chineseTitle
+          // and fall back to the English original — flag that so the language switch isn't confusing.
+          const fallbackToEn = locale === "zh" && !r.chineseTitle && !!r.englishTitle;
           return (
             <div className="max-w-xl">
               {r.sourceUrl ? (
@@ -46,6 +49,13 @@ export function ImportClient({
                 </a>
               ) : (
                 <span className="font-medium text-slate-800">{title}</span>
+              )}
+              {fallbackToEn && (
+                <span className="ml-1.5 align-middle" title={t.common.sourceLangEnNote}>
+                  <Badge color="#92400e" bg="#fef3c7">
+                    {t.common.sourceLangEn}
+                  </Badge>
+                </span>
               )}
               {summary && <ExpandableText text={summary} className="mt-0.5" />}
             </div>
