@@ -5,7 +5,7 @@ import { useSearchParams } from "next/navigation";
 import type { ColumnDef } from "@tanstack/react-table";
 import { useLocale, useT } from "@/src/lib/i18n/locale";
 import { DataTable, type FacetCfg } from "@/src/components/table/DataTable";
-import { RiskBadge, Badge, SectionCard, ExpandableText } from "@/src/components/ui";
+import { RiskBadge, Badge, SectionCard, ExpandableText, SourceLangBadge } from "@/src/components/ui";
 import { HBar } from "@/src/components/charts";
 import { riskLabel, BAR_DEFAULT } from "@/src/lib/colors";
 import { fmtDate } from "@/src/lib/i18n/util";
@@ -67,6 +67,7 @@ export function SentimentClient({
               ) : (
                 <span className="font-medium text-slate-800">{title}</span>
               )}
+              <SourceLangBadge chineseTitle={r.chineseTitle} englishTitle={r.englishTitle} mtAt={r.provenance?.mtAt} />
               {summary && <ExpandableText text={summary} className="mt-0.5" />}
             </div>
           );

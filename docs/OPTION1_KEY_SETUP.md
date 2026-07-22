@@ -41,15 +41,19 @@ All are **free** government/civic APIs (none are AI keys). Add each as a repo Se
 
 | `.env` / Secret var | Unlocks | Module | Where to register | Free tier |
 |---|---|---|---|---|
-| `DEEPL_KEY` *(optional)* | auto-translate English-only live rows → 中文 (`prep:translate`) | Import (Federal Register) | deepl.com → **API Free** plan → Authorization key (ends `:fx`) | 500,000 chars / mo |
+| `DEEPL_KEY` *(optional)* | auto-translate English-only live rows → 中文 (`prep:translate`) | Import + Intelligence/regulatory + Sentiment | deepl.com → **API Free** plan → Authorization key (ends `:fx`) | 500,000 chars / mo |
 
 This is the one **non-government** key: a machine-translation service, not an AI/LLM key. Purely an
 enhancement — **without it the site is fully correct**, it just shows the English original for the
-live English-only import rows (with an "英文原文" badge). With it, `prep:translate` fills the missing
-`chineseTitle`/`chineseSummary` via DeepL, caches by source-text hash in `data/v2/mt_cache.json` (so
-unchanged text is never re-billed), and marks each translated row `provenance.mtAt` → the UI shows a
-"机器翻译 / machine-translated" badge (English original stays authoritative). Failure-safe: no key or
-an API error just leaves those rows English — it never fails the build.
+live English-only rows (with an "英文原文" badge). With it, `prep:translate` fills the missing
+`chineseTitle`/`chineseSummary` on the three English-only live feeds — **import_export** (Federal
+Register), **regulatory** (FDA recalls / Federal Register / CDC NORS → shown on /intelligence), and
+**sentiment** (Food Safety News RSS) — via DeepL, caches by source-text hash in
+`data/v2/mt_cache.json` (so unchanged text is never re-billed), and marks each translated row
+`provenance.mtAt` → the UI shows a "机器翻译 / machine-translated" badge (English original stays
+authoritative). Curated bilingual seeds are never overwritten. Failure-safe: no key or an API error
+just leaves those rows English — it never fails the build. First full run translates ~290 unique
+strings (well under the monthly free tier); later runs only new rows.
 
 ### How to add a key (production)
 GitHub → repo **Settings → Secrets and variables → Actions → New repository secret** → name it exactly as the var above → paste the value. The next weekday refresh (06:00 UTC Mon–Fri) or a manual **Actions → Weekday data refresh → Run workflow** picks it up; Vercel redeploys. No code change.
