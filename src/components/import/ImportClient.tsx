@@ -38,8 +38,11 @@ export function ImportClient({
           const title =
             (locale === "zh" ? r.chineseTitle : r.englishTitle) ?? r.englishTitle ?? r.chineseTitle ?? "—";
           const summary = (locale === "zh" ? r.chineseSummary : r.englishSummary) ?? "";
-          // In 中文 mode, live English-only sources (Federal Register) have no chineseTitle
-          // and fall back to the English original — flag that so the language switch isn't confusing.
+          // In 中文 mode, live English-only sources (Federal Register) have no native Chinese.
+          // Two states to flag so the language switch isn't confusing:
+          //  - mtAt set → the Chinese shown was machine-translated (DeepL) from the English source
+          //  - no chineseTitle → still English-only (no key / translation unavailable) → English original
+          const isMt = locale === "zh" && !!r.provenance?.mtAt && !!r.chineseTitle;
           const fallbackToEn = locale === "zh" && !r.chineseTitle && !!r.englishTitle;
           return (
             <div className="max-w-xl">
@@ -49,6 +52,13 @@ export function ImportClient({
                 </a>
               ) : (
                 <span className="font-medium text-slate-800">{title}</span>
+              )}
+              {isMt && (
+                <span className="ml-1.5 align-middle" title={t.common.mtNote}>
+                  <Badge color="#3730a3" bg="#e0e7ff">
+                    {t.common.mtBadge}
+                  </Badge>
+                </span>
               )}
               {fallbackToEn && (
                 <span className="ml-1.5 align-middle" title={t.common.sourceLangEnNote}>

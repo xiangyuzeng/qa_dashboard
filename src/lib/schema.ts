@@ -348,6 +348,8 @@ export const ProvenanceSchema = z.object({
   collectedAt: z.string().datetime().nullable().default(null),
   /** §9 traceability — when the AI/heuristic summary was generated. */
   aiSummaryAt: z.string().datetime().nullable().default(null),
+  /** §9 traceability — when zh fields were machine-translated from the English source (DeepL). Null = human-curated / none. */
+  mtAt: z.string().datetime().nullable().default(null),
   dataAvailability: DataAvailabilityEnum.default("available"),
   dataAvailabilityLabel: z.string().nullable().default(null),
   /** NJ special handling (spec §11.1) — municipality routing for OPRA/manual. */

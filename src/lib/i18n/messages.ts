@@ -89,6 +89,9 @@ export const en = {
     sourceLangEn: "English source",
     sourceLangEnNote:
       "This item is from a live English-only U.S. federal source (Federal Register); no Chinese translation is available, so the original English title is shown.",
+    mtBadge: "Machine-translated",
+    mtNote:
+      "The Chinese shown here was machine-translated (DeepL) from the English-only source. The English original is authoritative; use the translation for reference only.",
     back: "Back",
     sourceRef: "Source / Doc ref",
     notPublicOnline: "Data not publicly available online",
@@ -452,6 +455,9 @@ export const zh: Messages = {
     sourceLangEn: "英文原文",
     sourceLangEnNote:
       "该条目来自纯英文的美国联邦公报(Federal Register)实时数据源,暂无中文翻译,故显示英文原标题。",
+    mtBadge: "机器翻译",
+    mtNote:
+      "此处中文由英文原文机器翻译(DeepL)生成,仅供参考,以英文原文为准。",
     back: "返回",
     sourceRef: "来源 / 文件编号",
     notPublicOnline: "未找到公开数据库",

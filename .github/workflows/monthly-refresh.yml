@@ -44,7 +44,7 @@ jobs:
 
       - run: pip install openpyxl python-docx
 
-      - name: Refresh data (collect → enrich → domains → meta → validate → export)
+      - name: Refresh data (collect → enrich → domains → translate → meta → validate → export)
         env:
           HTTP_USER_AGENT: "LuckinNA-QA-FoodSafety-Monitor/1.0 (+github-actions)"
           FSIS_USER_AGENT: "LuckinNA-QA-FoodSafety-Monitor/1.0 (+github-actions)"
@@ -55,10 +55,12 @@ jobs:
           NY_SENATE_KEY: ${{ secrets.NY_SENATE_KEY }}
           OPENSTATES_KEY: ${{ secrets.OPENSTATES_KEY }}
           DOL_ENFORCE_KEY: ${{ secrets.DOL_ENFORCE_KEY }}
+          DEEPL_KEY: ${{ secrets.DEEPL_KEY }}
         run: |
           npm run prep:collect
           npm run prep:enrich
           npm run prep:domains
+          npm run prep:translate
           npm run prep:meta
           npm run prep:validate
           npm run prep:export
