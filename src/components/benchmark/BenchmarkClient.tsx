@@ -35,12 +35,10 @@ export function BenchmarkClient({
   const [metric, setMetric] = useState<"failRate" | "avgScore">("failRate");
   const [drill, setDrill] = useState<{ brand: string; metric: DrillMetric } | null>(null);
 
-  // Human label for each drillable metric, reusing existing i18n keys.
+  // Human label for each drillable metric, reusing existing i18n keys. Only count-type numbers are
+  // drillable — rate/score cells (通过率/不合格率/平均分) are computed values, not lists of records.
   const metricLabel: Record<DrillMetric, string> = {
     records: t.benchmark.records,
-    passRate: t.benchmark.passRate,
-    failRate: t.benchmark.failRate,
-    avgScore: t.benchmark.avgScore,
     highRisk: t.overview.kpiHighRisk,
     critical: t.common.critical,
     enforcement: t.benchmark.enforcement,
@@ -175,9 +173,9 @@ export function BenchmarkClient({
                     <tr key={s.brand} className={`border-b border-slate-100 ${isLuckin ? "bg-brandnavy/5 font-semibold" : ""}`}>
                       <td className="px-2 py-2" style={{ color: BRAND_COLORS[s.brand] }}>{s.brand}</td>
                       <td className="px-2 py-2">{drillCell(s.brand, "records", s.records)}</td>
-                      <td className="px-2 py-2">{drillCell(s.brand, "passRate", pct(s.passRate))}</td>
-                      <td className="px-2 py-2">{drillCell(s.brand, "failRate", pct(s.failRate))}</td>
-                      <td className="px-2 py-2">{drillCell(s.brand, "avgScore", s.avgScore ?? "—")}</td>
+                      <td className="px-2 py-2">{pct(s.passRate)}</td>
+                      <td className="px-2 py-2">{pct(s.failRate)}</td>
+                      <td className="px-2 py-2">{s.avgScore ?? "—"}</td>
                       <td className="px-2 py-2">{drillCell(s.brand, "highRisk", s.highRisk)}</td>
                       <td className="px-2 py-2">{drillCell(s.brand, "critical", s.critical)}</td>
                       <td className="px-2 py-2">{drillCell(s.brand, "enforcement", s.enforcement || "—")}</td>

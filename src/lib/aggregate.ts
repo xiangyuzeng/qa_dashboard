@@ -195,26 +195,14 @@ export function brandStats(insp: InspectionRecord[]): BrandStat[] {
  * table cells can expand to their underlying records. The predicates MUST mirror brandStats /
  * passRate / failRate above — kept in this module so there is a single source of truth.
  */
-export type DrillMetric =
-  | "records"
-  | "passRate"
-  | "failRate"
-  | "avgScore"
-  | "highRisk"
-  | "critical"
-  | "enforcement";
+// Only count-type numbers are drillable — pass/fail rate + avg score are computed values, not lists.
+export type DrillMetric = "records" | "highRisk" | "critical" | "enforcement";
 
 export function drillRows(insp: InspectionRecord[], brand: string, metric: DrillMetric): InspectionRecord[] {
   const rows = insp.filter((r) => r.brand === brand);
   switch (metric) {
     case "records":
       return rows;
-    case "passRate":
-      return rows.filter(isEvaluable).filter((r) => PASS_RESULTS.includes(r.inspectionResult as string));
-    case "failRate":
-      return rows.filter(isEvaluable).filter((r) => FAIL_RESULTS.includes(r.inspectionResult as string));
-    case "avgScore":
-      return rows.filter((r) => typeof r.score === "number");
     case "highRisk":
       return rows.filter((r) => r.riskLevel === "高风险");
     case "critical":
