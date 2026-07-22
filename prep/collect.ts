@@ -1006,6 +1006,131 @@ async function collectOpenStates(): Promise<SourceResult> {
   }
 }
 
+// Live, no key — eCFR Title 21 (FDA food regs) recent CHANGES matching food-safety terms.
+// The eCFR search API returns amendments to codified sections; these are ALREADY in the CFR, so a
+// change whose `starts_on` is in the past = In effect, in the future = Pending effective (never
+// "proposed"). Food scope = Title 21 parts < 200 (Subchapter A–B: general / color / food additives;
+// parts 200+ are drugs). Rolling 24-month window.
+const ECFR_TERMS = [
+  "food allergen", "menu labeling", "added sugar", "sodium warning", "color additive",
+  "food additive", "nutrition labeling", "acidified foods", "juice HACCP", "dietary supplement",
+];
+// eCFR headings carry HTML tags + entities (<sub>, &amp;) — strip both for a clean title.
+const cleanHeading = (s: string) =>
+  s.replace(/<[^>]+>/g, "").replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&#\d+;/g, "").replace(/\s+/g, " ").trim();
+// eCFR marks reserved/placeholder sections with an "xxx" heading — drop those.
+const isRealHeading = (s: string) => s.length > 0 && s.toLowerCase() !== "xxx";
+async function collectEcfrTitle21(): Promise<SourceResult> {
+  const name = "eCFR Title 21 — FDA food regulation changes";
+  const base = "https://www.ecfr.gov/api/search/v1/results";
+  const since = new Date(Date.parse(TODAY) - 730 * 86400000).toISOString().slice(0, 10);
+  // Dedupe by section, keeping only the LATEST substantive change (one row per section, not one per
+  // amendment date). Skip pure cross-reference edits — they're pointer updates, not real rule changes.
+  const bySection = new Map<string, { startsOn: string; part: string; section: string | null; secName: string; changeTypes: string[] }>();
+  try {
+    for (const term of ECFR_TERMS) {
+      const url = `${base}?query=${encodeURIComponent(term)}&hierarchy%5Btitle%5D=21&last_modified_after=${since}&per_page=20`;
+      const res = await getJson<{ results?: Record<string, unknown>[] }>(url);
+      for (const r of res.results ?? []) {
+        const h = (r.hierarchy ?? {}) as Record<string, string | null>;
+        const partNum = parseInt(String(h.part ?? ""), 10);
+        if (!Number.isFinite(partNum) || partNum >= 200) continue; // drug parts — out of food scope
+        const headings = (r.headings ?? {}) as Record<string, string | null>;
+        const secName = cleanHeading(String(headings.section || headings.part || ""));
+        if (!isRealHeading(secName)) continue; // reserved / placeholder — skip
+        const changeTypes = Array.isArray(r.change_types) ? (r.change_types as string[]) : [];
+        if (changeTypes.length && changeTypes.every((c) => c === "cross_reference")) continue; // trivial xref
+        const startsOn = typeof r.starts_on === "string" ? r.starts_on : null;
+        if (!startsOn) continue;
+        const secKey = String(h.section ?? h.part ?? "");
+        const prev = bySection.get(secKey);
+        if (!prev || startsOn > prev.startsOn) {
+          bySection.set(secKey, { startsOn, part: String(h.part ?? ""), section: h.section ?? null, secName, changeTypes });
+        }
+      }
+    }
+    const out: RegulationRecord[] = [...bySection.values()]
+      .sort((a, b) => (a.startsOn < b.startsOn ? 1 : -1)) // newest first
+      .slice(0, 25) // cap noise
+      .map((e) => {
+        const ref = e.section ? `§ ${e.section}` : `Part ${e.part}`;
+        const inEffect = Date.parse(e.startsOn) <= Date.parse(TODAY);
+        const status: RegulationRecord["status"] = inEffect ? "In effect" : "Pending effective";
+        const title = `21 CFR ${ref} — ${e.secName}`;
+        const secUrl = `https://www.ecfr.gov/current/title-21/part-${e.part}${e.section ? `/section-${e.section}` : ""}`;
+        const a = assessRegulation({ status, effectiveDate: e.startsOn, today: TODAY });
+        return {
+          id: hashId("ecfr", e.section ?? e.part, e.startsOn),
+          module: "regulation" as const, no: null,
+          jurisdiction: "Federal" as const,
+          regulationBillName: title.slice(0, 160),
+          chineseTitle: null, englishTitle: title,
+          status, publicationPassageDate: e.startsOn, effectiveDate: e.startsOn,
+          coveredEntities: "FDA-regulated food establishments", keyRequirements: null,
+          chineseSummary: null,
+          englishSummary: `Codified change to ${ref} (${e.secName}) in 21 CFR${e.changeTypes.length ? ` — ${e.changeTypes.join(", ")}` : ""}.`,
+          businessImpact: null,
+          riskLevel: a.riskLevel as RegulationRecord["riskLevel"],
+          sourceUrl: secUrl,
+          recommendedAction: null, topic: regTopicFromText(title),
+          alertTriggered: a.alertTriggered, alertReason: a.alertReason, alertRuleIds: a.alertRuleIds,
+          reviewed: true, reviewStatus: "approved" as const,
+          reviewNote: "auto-collected (eCFR Title 21) — QA review required before treating exports/alerts as final",
+          provenance: prov("ecfr_title21", secUrl),
+        };
+      });
+    return { regulations: out, provenance: provEntry({ sourceId: "ecfr_title21", name, module: "regulation", status: out.length ? "fetched" : "no_update", accessType: "official-api", endpointOrUrl: base, oneTimePullFeasible: "yes", recordCount: out.length, stalenessNote: "eCFR Title 21 codified-rule changes (food scope: parts <200) matching food-safety terms; latest change per section, rolling 24-month window, capped 25. Codified = In effect / Pending effective, never proposed." }) };
+  } catch (e) {
+    return { regulations: [], provenance: provEntry({ sourceId: "ecfr_title21", name, module: "regulation", status: "manual", accessType: "official-api", endpointOrUrl: base, oneTimePullFeasible: "yes", stalenessNote: `pull failed: ${String(e).slice(0, 120)}`, recordCount: 0, reVerifyBeforeRelying: true }) };
+  }
+}
+
+// Live, no key — FDA FOOD guidance, sourced from the Federal Register (www.fda.gov guidance search is
+// bot-blocked from data centers). Filters FDA NOTICE docs to titles that are guidance AND food-relevant
+// (title-only — abstracts all contain "Food and Drug Administration", which would match everything).
+// FDA food guidance is infrequent, so low/zero volume is expected and truthful, never padded.
+const FDA_FOOD_GUIDANCE =
+  /food allergen|food label|menu label|added sugar|\bsodium\b|dietary supplement|infant formula|acidified|\bjuice\b|seafood|produce safety|color additive|food additive|nutrition|foodborne|listeria|salmonella|caffeine|\bcoffee|\btea\b|\bbeverage|food contact|\bFSMA\b|food safety|\bHACCP\b|sanitation|allergen/i;
+async function collectFdaFoodGuidance(): Promise<SourceResult> {
+  const name = "FDA food guidance (via Federal Register notices)";
+  const base = "https://www.federalregister.gov/api/v1/documents.json";
+  const out: RegulationRecord[] = [];
+  const seen = new Set<string>();
+  try {
+    const url = `${base}?per_page=200&order=newest&conditions%5Bagencies%5D%5B%5D=food-and-drug-administration&conditions%5Btype%5D%5B%5D=NOTICE&conditions%5Bterm%5D=guidance&fields%5B%5D=title&fields%5B%5D=abstract&fields%5B%5D=publication_date&fields%5B%5D=html_url&fields%5B%5D=document_number`;
+    const res = await getJson<{ results?: Record<string, unknown>[] }>(url);
+    for (const r of res.results ?? []) {
+      const title = String(r.title ?? "");
+      if (!/guidance/i.test(title) || !FDA_FOOD_GUIDANCE.test(title)) continue; // food guidance only
+      const dn = String(r.document_number ?? "");
+      if (dn && seen.has(dn)) continue;
+      if (dn) seen.add(dn);
+      const a = assessRegulation({ status: "Guidance", effectiveDate: null, today: TODAY });
+      out.push({
+        id: hashId("fdaguid", dn || title, String(r.publication_date ?? "")),
+        module: "regulation" as const, no: null,
+        jurisdiction: "Federal",
+        regulationBillName: title.slice(0, 160),
+        chineseTitle: null, englishTitle: title,
+        status: "Guidance", publicationPassageDate: isoFromYmd(String(r.publication_date ?? "")), effectiveDate: null,
+        coveredEntities: "FDA-regulated food establishments", keyRequirements: null,
+        chineseSummary: null, englishSummary: (String(r.abstract ?? "").slice(0, 500) || null),
+        businessImpact: null,
+        riskLevel: a.riskLevel as RegulationRecord["riskLevel"],
+        sourceUrl: String(r.html_url ?? "") || null,
+        recommendedAction: null, topic: regTopicFromText(title),
+        alertTriggered: a.alertTriggered, alertReason: a.alertReason, alertRuleIds: a.alertRuleIds,
+        reviewed: true, reviewStatus: "approved" as const,
+        reviewNote: "auto-collected (FDA food guidance via Federal Register) — QA review required before treating exports/alerts as final",
+        provenance: prov("fda_food_guidance", String(r.html_url ?? "") || null),
+      });
+    }
+    return { regulations: out, provenance: provEntry({ sourceId: "fda_food_guidance", name, module: "regulation", status: out.length ? "fetched" : "no_update", accessType: "official-api", endpointOrUrl: base, oneTimePullFeasible: "yes", recordCount: out.length, stalenessNote: out.length ? "FDA food-guidance availability notices from the Federal Register (title matches food-safety terms). FDA food guidance is infrequent; low volume is expected." : "No FDA FOOD guidance notices in the recent Federal Register window (FDA food guidance is infrequent) — 0 rows, not fabricated." }) };
+  } catch (e) {
+    return { regulations: out, provenance: provEntry({ sourceId: "fda_food_guidance", name, module: "regulation", status: "manual", accessType: "official-api", endpointOrUrl: base, oneTimePullFeasible: "yes", stalenessNote: `pull failed: ${String(e).slice(0, 120)}`, recordCount: out.length, reVerifyBeforeRelying: true }) };
+  }
+}
+
 /* ─────────────── MODULE 5 — Negative Media & Sentiment ─────────────── */
 
 async function collectSentimentRSS(): Promise<SourceResult> {
@@ -1288,6 +1413,8 @@ async function main() {
     collectLegiScanBills(),
     collectNYSenateBills(),
     collectOpenStates(),
+    collectEcfrTitle21(),
+    collectFdaFoodGuidance(),
     collectSentimentRSS(),
     // V2.5 — four compliance domains behind the FeedAdapter seam (seeds + dormant live adapters).
     ...FEED_ADAPTERS.map((a) => a.fetch()),
