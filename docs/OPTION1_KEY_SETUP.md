@@ -71,5 +71,5 @@ npm run prep:collect                         # tsx auto-loads .env
 
 ## Bottom line
 
-- **Nothing above is required for the dashboard to have real live data** — recalls, inspections, import (Federal Register), sentiment, NYC DSNY/DOB/DCWP enforcement, **and now eCFR Title 21 food-regulation changes + FDA food guidance (via Federal Register)** all run **key-free**.
+- **Nothing above is required for the dashboard to have real live data** — recalls, inspections, import (Federal Register), sentiment, NYC DSNY/DOB/DCWP enforcement, eCFR Title 21 food-regulation changes, FDA food guidance (via Federal Register), **and now NYSDOH proposed rulemaking + NYC Rules (proposed/adopted, HTML-scraped)** all run **key-free**.
 - The remaining keys are **enhancement-only**: state-bill feeds (Regulation) and FDA import refusals (Import). Highest-leverage single step: add **`LEGISCAN_KEY`** → Regulation module goes live.
