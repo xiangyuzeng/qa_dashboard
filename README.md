@@ -96,6 +96,9 @@ step no-ops (rows stay English) and a DeepL API error never fails the build.
   → Actions → New repository secret** → name it exactly `DEEPL_KEY`, paste the `…:fx` key. The next
   weekday refresh — or a manual **Actions → Weekday data refresh → Run workflow** — translates the
   live rows and redeploys. No code change.
+- **Verify the key first:** `./scripts/check-deepl-key.sh YOUR_KEY:fx` — checks auth via `/v2/usage`
+  (0 characters consumed), shows remaining quota, does a test EN→ZH translation, and diagnoses
+  403/456 errors. Never prints the key.
 - **Local test:** `export DEEPL_KEY=…:fx && npm run prep:translate` (or `echo 'DEEPL_KEY=…:fx' >> .env`;
   `.env` is gitignored). Offline dry-run with placeholder text: `DEEPL_MOCK=1 npm run prep:translate`.
 
