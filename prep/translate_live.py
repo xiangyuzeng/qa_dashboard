@@ -34,8 +34,11 @@ BATCH = 40  # DeepL allows up to 50 texts/request; stay under.
 
 # Which module files + (english_field, chinese_field) pairs to backfill. English-only live feeds
 # live in these files; curated-seed rows already have zh and are skipped by the "only-fill" rule.
+_TITLE_SUMMARY = [("englishTitle", "chineseTitle"), ("englishSummary", "chineseSummary")]
 TARGETS = [
-    {"file": "import_export.json", "pairs": [("englishTitle", "chineseTitle"), ("englishSummary", "chineseSummary")]},
+    {"file": "import_export.json", "pairs": _TITLE_SUMMARY},  # Federal Register import slugs (English-only)
+    {"file": "regulatory.json", "pairs": _TITLE_SUMMARY},     # FDA recalls / Federal Register / CDC NORS (English-only)
+    {"file": "sentiment.json", "pairs": _TITLE_SUMMARY},      # Food Safety News RSS (English-only)
 ]
 
 

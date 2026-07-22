@@ -175,6 +175,42 @@ export function Badge({
   );
 }
 
+/**
+ * Small inline badge for English-only live sources (Federal Register / RSS / FDA / CDC), shown only
+ * in 中文 mode next to a title. Two states, mutually exclusive:
+ *   - `mtAt` set + a Chinese title present → indigo "机器翻译" (machine-translated by prep:translate)
+ *   - no Chinese title (translation unavailable / no key) → amber "英文原文" (English original shown)
+ * Renders nothing in en mode or for rows with a native/curated Chinese title.
+ */
+export function SourceLangBadge({
+  chineseTitle,
+  englishTitle,
+  mtAt,
+}: {
+  chineseTitle?: string | null;
+  englishTitle?: string | null;
+  mtAt?: string | null;
+}) {
+  const { locale } = useLocale();
+  const t = useT();
+  if (locale !== "zh") return null;
+  if (mtAt && chineseTitle) {
+    return (
+      <span className="ml-1.5 align-middle" title={t.common.mtNote}>
+        <Badge color="#3730a3" bg="#e0e7ff">{t.common.mtBadge}</Badge>
+      </span>
+    );
+  }
+  if (!chineseTitle && englishTitle) {
+    return (
+      <span className="ml-1.5 align-middle" title={t.common.sourceLangEnNote}>
+        <Badge color="#92400e" bg="#fef3c7">{t.common.sourceLangEn}</Badge>
+      </span>
+    );
+  }
+  return null;
+}
+
 export function RiskBadge({ risk }: { risk: string | null }) {
   const { locale } = useLocale();
   if (!risk) return <span className="text-slate-300">—</span>;
