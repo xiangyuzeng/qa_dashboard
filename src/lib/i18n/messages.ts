@@ -183,6 +183,15 @@ export const en = {
       Environment: "Environment",
       Health: "Health",
     },
+    drill: {
+      hint: "Tip: click any number below to see the records behind it.",
+      showing: "The {n} record(s) behind this number:",
+      result: "Result",
+      score: "Score",
+      severity: "Severity",
+      source: "Source",
+      none: "No records.",
+    },
   },
   trends: {
     title: "Trends & Analytics",
@@ -548,6 +557,15 @@ export const zh: Messages = {
       Building: "建筑",
       Environment: "环境",
       Health: "卫生",
+    },
+    drill: {
+      hint: "提示:点击下方任意数字,查看构成它的明细记录。",
+      showing: "构成该数字的 {n} 条记录:",
+      result: "检查结果",
+      score: "分数",
+      severity: "严重程度",
+      source: "来源",
+      none: "无记录。",
     },
   },
   trends: {

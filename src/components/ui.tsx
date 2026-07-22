@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { useLocale, useT } from "@/src/lib/i18n/locale";
 import { RESULT_COLORS, RISK_COLORS, riskLabel } from "@/src/lib/colors";
 
@@ -209,6 +210,63 @@ export function SourceLangBadge({
     );
   }
   return null;
+}
+
+/**
+ * Lightweight modal — portalled to <body>, closes on backdrop click / Esc. Client-only (guards on a
+ * mounted flag so SSR renders nothing). Used for the /benchmark drill-down list.
+ */
+export function Modal({
+  open,
+  onClose,
+  title,
+  subtitle,
+  children,
+}: {
+  open: boolean;
+  onClose: () => void;
+  title: React.ReactNode;
+  subtitle?: React.ReactNode;
+  children: React.ReactNode;
+}) {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [open, onClose]);
+  if (!mounted || !open) return null;
+  return createPortal(
+    <div
+      className="fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-slate-900/40 p-4 sm:p-8"
+      onClick={onClose}
+      role="dialog"
+      aria-modal="true"
+    >
+      <div
+        className="mt-4 w-full max-w-3xl rounded-lg bg-white shadow-xl"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="flex items-start justify-between gap-4 border-b border-slate-200 px-5 py-3">
+          <div>
+            <h2 className="text-sm font-semibold text-slate-900">{title}</h2>
+            {subtitle && <p className="mt-0.5 text-xs text-slate-500">{subtitle}</p>}
+          </div>
+          <button
+            onClick={onClose}
+            aria-label="Close"
+            className="shrink-0 rounded p-1 text-slate-400 hover:bg-slate-100 hover:text-slate-700"
+          >
+            ✕
+          </button>
+        </div>
+        <div className="max-h-[70vh] overflow-y-auto px-5 py-4">{children}</div>
+      </div>
+    </div>,
+    document.body,
+  );
 }
 
 export function RiskBadge({ risk }: { risk: string | null }) {

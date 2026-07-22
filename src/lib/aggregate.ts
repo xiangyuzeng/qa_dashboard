@@ -190,6 +190,40 @@ export function brandStats(insp: InspectionRecord[]): BrandStat[] {
   });
 }
 
+/**
+ * Drill-down: the exact inspection rows that make up one `brandStats` number, so the /benchmark
+ * table cells can expand to their underlying records. The predicates MUST mirror brandStats /
+ * passRate / failRate above — kept in this module so there is a single source of truth.
+ */
+export type DrillMetric =
+  | "records"
+  | "passRate"
+  | "failRate"
+  | "avgScore"
+  | "highRisk"
+  | "critical"
+  | "enforcement";
+
+export function drillRows(insp: InspectionRecord[], brand: string, metric: DrillMetric): InspectionRecord[] {
+  const rows = insp.filter((r) => r.brand === brand);
+  switch (metric) {
+    case "records":
+      return rows;
+    case "passRate":
+      return rows.filter(isEvaluable).filter((r) => PASS_RESULTS.includes(r.inspectionResult as string));
+    case "failRate":
+      return rows.filter(isEvaluable).filter((r) => FAIL_RESULTS.includes(r.inspectionResult as string));
+    case "avgScore":
+      return rows.filter((r) => typeof r.score === "number");
+    case "highRisk":
+      return rows.filter((r) => r.riskLevel === "高风险");
+    case "critical":
+      return rows.filter((r) => r.violationSeverity === "严重（主要）Critical");
+    case "enforcement":
+      return rows.filter(isEnforcement);
+  }
+}
+
 /** Coarse agency category for an enforcement row's regulatoryAgency (stable English keys). */
 export const ENFORCEMENT_CATEGORIES = ["Sanitation", "Consumer", "Fire", "Building", "Environment", "Health"] as const;
 export type EnforcementCategory = (typeof ENFORCEMENT_CATEGORIES)[number];
