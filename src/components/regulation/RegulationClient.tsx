@@ -8,20 +8,14 @@ import { DataTable, type FacetCfg } from "@/src/components/table/DataTable";
 import { RiskBadge, Badge, SectionCard, StaticBaselineNotice, ExpandableText } from "@/src/components/ui";
 import { ComplianceCountdownGantt } from "@/src/components/viz/ComplianceCountdownGantt";
 import { riskLabel } from "@/src/lib/colors";
+import { regStatusLabel, regStatusStyle } from "@/src/lib/regStatus";
 import { fmtDate } from "@/src/lib/i18n/util";
 import type { RegulationRecord } from "@/src/lib/schema";
 import type { GanttBar } from "@/src/lib/aggregate";
 import type { Locale } from "@/src/lib/i18n/messages";
 
-/** Friendly bilingual labels for the regulation status + topic enums. */
-const STATUS_LABEL: Record<string, { zh: string; en: string }> = {
-  Proposed: { zh: "提案中", en: "Proposed" },
-  Passed: { zh: "已通过", en: "Passed" },
-  "In effect": { zh: "已生效", en: "In effect" },
-  "Pending effective": { zh: "待生效", en: "Pending effective" },
-  Repealed: { zh: "已废止", en: "Repealed" },
-  Monitoring: { zh: "持续关注", en: "Monitoring" },
-};
+/** Friendly bilingual labels for the regulation topic enum. Status labels/colors are shared via
+ *  src/lib/regStatus (single source of truth with ComplianceClient). */
 const TOPIC_LABEL: Record<string, { zh: string; en: string }> = {
   menu_labeling: { zh: "菜单标识", en: "Menu labeling" },
   added_sugar: { zh: "添加糖", en: "Added sugar" },
@@ -32,7 +26,7 @@ const TOPIC_LABEL: Record<string, { zh: string; en: string }> = {
   delivery_platform: { zh: "外卖平台", en: "Delivery platform" },
   other: { zh: "其他", en: "Other" },
 };
-const statusLabel = (v: string, locale: Locale) => (locale === "zh" ? STATUS_LABEL[v]?.zh : STATUS_LABEL[v]?.en) ?? v;
+const statusLabel = (v: string, locale: Locale) => regStatusLabel(v, locale);
 const topicLabel = (v: string, locale: Locale) => (locale === "zh" ? TOPIC_LABEL[v]?.zh : TOPIC_LABEL[v]?.en) ?? v;
 
 export function RegulationClient({
@@ -86,7 +80,14 @@ export function RegulationClient({
       {
         accessorKey: "status",
         header: t.regulation.status,
-        cell: ({ row }) => (row.original.status ? <Badge>{statusLabel(row.original.status, locale)}</Badge> : "—"),
+        cell: ({ row }) =>
+          row.original.status ? (
+            <Badge color={regStatusStyle(row.original.status)?.color} bg={regStatusStyle(row.original.status)?.bg}>
+              {statusLabel(row.original.status, locale)}
+            </Badge>
+          ) : (
+            "—"
+          ),
       },
       {
         accessorKey: "topic",

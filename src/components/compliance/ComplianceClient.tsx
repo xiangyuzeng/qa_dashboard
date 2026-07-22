@@ -9,6 +9,7 @@ import { RiskBadge, Badge, SectionCard, KpiCard, StaticBaselineNotice, Expandabl
 import { StackedBar } from "@/src/components/charts";
 import { ComplianceCountdownGantt } from "@/src/components/viz/ComplianceCountdownGantt";
 import { riskLabel, RISK_COLORS } from "@/src/lib/colors";
+import { regStatusLabel, regStatusStyle } from "@/src/lib/regStatus";
 import { fmtDate, pickLang, daysToEffective } from "@/src/lib/i18n/util";
 import type { ComplianceCounts, GanttBar } from "@/src/lib/aggregate";
 import type { Locale } from "@/src/lib/i18n/messages";
@@ -40,14 +41,7 @@ export type ComplianceCommon = {
 
 type ModuleKey = "labor" | "building" | "environment" | "consumer";
 
-const STATUS_LABEL: Record<string, { zh: string; en: string }> = {
-  Proposed: { zh: "提案中", en: "Proposed" },
-  Passed: { zh: "已通过", en: "Passed" },
-  "In effect": { zh: "已生效", en: "In effect" },
-  "Pending effective": { zh: "待生效", en: "Pending effective" },
-  Repealed: { zh: "已废止", en: "Repealed" },
-  Monitoring: { zh: "持续关注", en: "Monitoring" },
-};
+// Status labels/colors are shared via src/lib/regStatus (single source of truth with RegulationClient).
 // One combined topic-label map across the 4 domains (values are unique except the shared "other").
 const TOPIC_LABEL: Record<string, { zh: string; en: string }> = {
   min_wage: { zh: "最低工资", en: "Min wage" },
@@ -75,7 +69,7 @@ const TOPIC_LABEL: Record<string, { zh: string; en: string }> = {
   complaints: { zh: "投诉", en: "Complaints" },
   other: { zh: "其他", en: "Other" },
 };
-const statusLabel = (v: string, l: Locale) => (l === "zh" ? STATUS_LABEL[v]?.zh : STATUS_LABEL[v]?.en) ?? v;
+const statusLabel = (v: string, l: Locale) => regStatusLabel(v, l);
 const topicLabel = (v: string, l: Locale) => (l === "zh" ? TOPIC_LABEL[v]?.zh : TOPIC_LABEL[v]?.en) ?? v;
 const nameOf = (r: ComplianceCommon) => r.regulationBillName ?? r.codeStandardName ?? r.regulationName ?? null;
 const enforcementOf = (r: ComplianceCommon) =>
@@ -175,7 +169,7 @@ export function ComplianceClient({
       });
     }
     cols.push(
-      { accessorKey: "status", header: t.compliance.status, cell: ({ row }) => (row.original.status ? <Badge>{statusLabel(row.original.status, locale)}</Badge> : "—") },
+      { accessorKey: "status", header: t.compliance.status, cell: ({ row }) => (row.original.status ? <Badge color={regStatusStyle(row.original.status)?.color} bg={regStatusStyle(row.original.status)?.bg}>{statusLabel(row.original.status, locale)}</Badge> : "—") },
       {
         // accessor = year (drives the "effective year" facet + sort); cell = full date + urgency badge.
         id: "effectiveDate",

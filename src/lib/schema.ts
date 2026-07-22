@@ -204,15 +204,43 @@ export const ImportActionEnum = z.enum([
   "Other",
 ]);
 
-/** State/local regulation lifecycle status (Module 3). */
+/**
+ * State/local regulation lifecycle status (Module 3), ordered along the real path a rule travels.
+ * TWO tracks feed the same effect states — never collapse an early stage into "In effect":
+ *   Legislative (statutes):  Introduced → Passed → Signed
+ *   Rulemaking (agency regs): Proposed rule → Adopted rule
+ *   Shared effect:            (Signed/Adopted) → Pending effective → In effect
+ *   Cross-cutting / terminal: Guidance, Repealed, Monitoring
+ */
 export const RegStatusEnum = z.enum([
-  "Proposed",
-  "Passed",
-  "In effect",
-  "Pending effective",
-  "Repealed",
-  "Monitoring",
+  "Introduced", // 议案提出 — bill introduced (NOT law, NOT in effect)
+  "Passed", // 议会通过 — passed the legislature, not yet signed
+  "Signed", // 已签署成法 — signed into law; effective date may still be in the future
+  "Proposed", // 拟议(法案/规则)— coarse pre-enactment stage kept for legacy curated rows
+  "Proposed rule", // 拟议规则 — agency proposed rulemaking (comment period; NOT in effect)
+  "Adopted rule", // 规则采纳 — final/adopted rule; effective date may still be in the future
+  "Pending effective", // 待生效 — enacted/adopted, effective date in the future
+  "In effect", // 已生效 — effective date reached; enforceable now
+  "Guidance", // 指南 / 执法更新 — guidance or enforcement update
+  "Repealed", // 已废止 — repealed / vetoed / dead
+  "Monitoring", // 监测中 — on the watchlist, no formal stage yet
 ]);
+export type RegStatus = z.infer<typeof RegStatusEnum>;
+
+/** Lifecycle order for sorting and stage indicators (terminal/cross-cutting last). */
+export const REG_STAGE_ORDER: RegStatus[] = [
+  "Introduced", "Passed", "Signed",
+  "Proposed", "Proposed rule", "Adopted rule",
+  "Pending effective", "In effect",
+  "Guidance", "Repealed", "Monitoring",
+];
+
+/**
+ * Statuses that carry legal force (enacted law / adopted rule). Everything earlier — Introduced,
+ * Passed (not yet signed), Proposed rule — is explicitly NOT enforceable and must never be reported
+ * as "in effect". Compliance-deadline logic keys off THIS set plus the effective date.
+ */
+export const REG_ENFORCEABLE: RegStatus[] = ["Signed", "Adopted rule", "Pending effective", "In effect"];
 
 /** Regulation topic tag (Module 3) — drives filtering + the compliance tracker. */
 export const RegTopicEnum = z.enum([

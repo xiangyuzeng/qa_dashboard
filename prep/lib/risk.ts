@@ -1,5 +1,7 @@
 /** Per-jurisdiction risk rating + static alert flagging (spec §10.1 / template Sheet6). */
 
+import { REG_ENFORCEABLE, type RegStatus } from "../../src/lib/schema";
+
 const CLOSURE_RESULTS = ["Closed", "Permit Suspended", "Stop Sale"];
 
 export type InspAssessInput = {
@@ -131,9 +133,11 @@ export function assessRegulation(opts: {
     opts.effectiveDate != null
       ? Math.round((Date.parse(opts.effectiveDate) - Date.parse(opts.today)) / 86400000)
       : null;
-  const isLaw = ["Passed", "In effect", "Pending effective"].includes(opts.status ?? "");
-  // Imminent compliance: passed/effective and within 90 days (future) or recently in effect.
-  const imminent = isLaw && daysTo != null && daysTo <= 90 && daysTo >= -120;
+  const s = (opts.status ?? "") as RegStatus;
+  // Only enacted law / adopted rule counts toward a compliance DEADLINE. Introduced / Passed (not yet
+  // signed) / Proposed rule are pre-enactment — never treated as in effect (the reporting rule).
+  const enforceable = REG_ENFORCEABLE.includes(s);
+  const imminent = enforceable && daysTo != null && daysTo <= 90 && daysTo >= -120;
   if (imminent) {
     return {
       riskLevel: "高风险",
@@ -142,10 +146,13 @@ export function assessRegulation(opts: {
       alertRuleIds: ["reg.compliance"],
     };
   }
-  if (isLaw) return { riskLevel: "中风险", alertTriggered: false, alertReason: null, alertRuleIds: [] };
-  if (opts.status === "Proposed") return { riskLevel: "关注", alertTriggered: false, alertReason: null, alertRuleIds: [] };
-  if (opts.status === "Repealed") return { riskLevel: "信息参考", alertTriggered: false, alertReason: null, alertRuleIds: [] };
-  return { riskLevel: "低风险", alertTriggered: false, alertReason: null, alertRuleIds: [] };
+  if (enforceable) return { riskLevel: "中风险", alertTriggered: false, alertReason: null, alertRuleIds: [] };
+  // Pre-enactment but actively moving — worth watching, but NOT a compliance obligation yet.
+  if (s === "Introduced" || s === "Passed" || s === "Proposed" || s === "Proposed rule") {
+    return { riskLevel: "关注", alertTriggered: false, alertReason: null, alertRuleIds: [] };
+  }
+  if (s === "Repealed") return { riskLevel: "信息参考", alertTriggered: false, alertReason: null, alertRuleIds: [] };
+  return { riskLevel: "低风险", alertTriggered: false, alertReason: null, alertRuleIds: [] }; // Guidance / Monitoring
 }
 
 /** Regulatory / recall risk (federal feed). */
