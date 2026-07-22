@@ -119,7 +119,8 @@ JSON-import to DB-query. See docs/RUNBOOK.md.
 Real one-time pull: **openFDA** recalls, **Federal Register** (incl. agriculture/import agency slugs),
 **CDC NORS**, **NYC** (DOHMH), **Boston** (Analyze Boston), **Food Safety News RSS** (sentiment),
 **eCFR Title 21** (FDA food-regulation changes, no key), **FDA food guidance** (via Federal Register, no key),
-**NYSDOH proposed rulemaking** + **NYC Rules** (proposed + recently-adopted, café-relevant; HTML-scraped, no key).
+**NYSDOH proposed rulemaking** + **NYC Rules** (proposed + recently-adopted, café-relevant; HTML-scraped, no key),
+**NYC City Record** (Agency Rules notices, café-relevant; Socrata, no key). NY State Register is a documented dormant stub (JS/anti-bot; NY food rules covered by NYSDOH).
 Curated from the May 2026 reference report: **Import/Export** named actions (APHIS HPAI, FDA Prior Notice,
 FSIS Mexico list) and **State/Local Regulation** named laws (CA SB68, NYC added-sugar/sodium, NY S5381).
 Manual/pending (no usable API — see `/sources` + docs/JURISDICTION_PLAYBOOK.md): FDA Warning Letters

@@ -1248,6 +1248,71 @@ async function collectNycRules(): Promise<SourceResult> {
   }
 }
 
+// Live, no key — NYC City Record Online (Socrata dg92-zbpx), "Agency Rules" section, café-relevant
+// agencies + food title. This is NYC's official rulemaking notice-of-record; overlaps rules.cityofnewyork.us
+// (nyc_rules) by design — both are real; QA dedupes at review. Status from the notice title.
+const CITYREC_AGENCY = /Health and Mental Hygiene|Consumer and Worker Protection|Sanitation|Environmental Protection/i;
+const CITYREC_FOOD = /\bfood\b|restaurant|\bmenu\b|allergen|beverage|\bcafe|café|\bcoffee\b|grease|organics|commercial waste|recycl|calorie|\bsugar\b|tobacco|food delivery|sidewalk cafe|street vendor|green cart|mobile food|frozen dessert|sanitary/i;
+async function collectNycCityRecord(): Promise<SourceResult> {
+  const name = "NYC City Record — agency rule notices (café-relevant)";
+  const base = "https://data.cityofnewyork.us/resource/dg92-zbpx.json";
+  const token = process.env.SOCRATA_APP_TOKEN;
+  const out: RegulationRecord[] = [];
+  const seen = new Set<string>();
+  try {
+    const url = `${base}?$where=${encodeURIComponent("section_name='Agency Rules'")}&$order=start_date%20DESC&$limit=200${token ? `&$$app_token=${token}` : ""}`;
+    const rows = await getJson<Record<string, string>[]>(url);
+    for (const r of rows) {
+      if (out.length >= 40) break;
+      const agency = String(r.agency_name ?? "");
+      const title = cleanHeading(String(r.short_title ?? ""));
+      if (!title) continue;
+      if (!CITYREC_AGENCY.test(agency) || !CITYREC_FOOD.test(title)) continue; // café agency AND food title
+      const start = String(r.start_date ?? "").slice(0, 10) || null;
+      const key = `${title.toLowerCase()}|${start ?? ""}`;
+      if (seen.has(key)) continue;
+      seen.add(key);
+      // NYC notice conventions: NOA / Notice of Adoption / Final Rule|Amendment = adopted; NOH / Notice
+      // of Public Hearing / Proposed / Opportunity to Comment = proposed.
+      const status: RegulationRecord["status"] =
+        /adopt|\bNOA\b|final rule|final amendment|effective date/i.test(title) ? "Adopted rule" : "Proposed rule";
+      const a = assessRegulation({ status, effectiveDate: null, today: TODAY });
+      out.push({
+        id: hashId("cityrec", title, start ?? ""),
+        module: "regulation" as const, no: null,
+        jurisdiction: "New York City" as const,
+        regulationBillName: title.slice(0, 160),
+        chineseTitle: null, englishTitle: title,
+        status, publicationPassageDate: start, effectiveDate: null,
+        coveredEntities: `NYC ${agency}-regulated establishments`, keyRequirements: null,
+        chineseSummary: null,
+        englishSummary: `${agency} rule notice in the NYC City Record${status === "Adopted rule" ? " (adopted; effective date in the notice)" : " (proposed / public hearing; not yet adopted or effective)"}. ${cleanHeading(String(r.additional_description_1 ?? "")).slice(0, 300)}`.trim(),
+        businessImpact: null,
+        riskLevel: a.riskLevel as RegulationRecord["riskLevel"],
+        sourceUrl: "https://a856-cityrecord.nyc.gov/",
+        recommendedAction: null, topic: regTopicFromText(title),
+        alertTriggered: a.alertTriggered, alertReason: a.alertReason, alertRuleIds: a.alertRuleIds,
+        reviewed: true, reviewStatus: "approved" as const,
+        reviewNote: "auto-collected (NYC City Record) — QA review required; may overlap NYC Rules website (both official)",
+        provenance: prov("nyc_city_record", "https://a856-cityrecord.nyc.gov/"),
+      });
+    }
+    return { regulations: out, provenance: provEntry({ sourceId: "nyc_city_record", name, module: "regulation", status: out.length ? "fetched" : "no_update", accessType: "open-data", endpointOrUrl: base, oneTimePullFeasible: "yes", recordCount: out.length, stalenessNote: "NYC City Record 'Agency Rules' notices from café-relevant agencies (Socrata dg92-zbpx). Status from the notice title; overlaps nyc_rules by design (both official)." }) };
+  } catch (e) {
+    return { regulations: [], provenance: provEntry({ sourceId: "nyc_city_record", name, module: "regulation", status: "manual", accessType: "open-data", endpointOrUrl: base, oneTimePullFeasible: "yes", stalenessNote: `pull failed: ${String(e).slice(0, 120)}`, recordCount: 0, reVerifyBeforeRelying: true }) };
+  }
+}
+
+// NY State Register — truthful dormant stub. dos.ny.gov WAF-blocks non-browser headers, and the register
+// is a JS-rendered weekly issue (301 redirects, no clean feed/API/parseable PDF list). NY FOOD rulemaking
+// is already captured by nysdoh_proposed; a general NYSR feed would need the weekly-issue PDF parse or a
+// paid data feed. Never fabricates — returns 0 with an honest note.
+async function collectNyStateRegister(): Promise<SourceResult> {
+  const name = "NY State Register (weekly rule-making notices)";
+  const url = "https://dos.ny.gov/state-register";
+  return { regulations: [], provenance: provEntry({ sourceId: "ny_state_register", name, module: "regulation", status: "manual", accessType: "html-scrape", endpointOrUrl: url, oneTimePullFeasible: "partial", recordCount: 0, stalenessNote: "NYSR is a JS-rendered weekly register (WAF anti-bot; issue pages 301-redirect, no clean feed/API). NY food rulemaking is covered by nysdoh_proposed; a general feed needs the weekly-issue PDF parse or a paid feed. Dormant — no rows fabricated.", reVerifyBeforeRelying: true }) };
+}
+
 /* ─────────────── MODULE 5 — Negative Media & Sentiment ─────────────── */
 
 async function collectSentimentRSS(): Promise<SourceResult> {
@@ -1534,6 +1599,8 @@ async function main() {
     collectFdaFoodGuidance(),
     collectNysdohProposed(),
     collectNycRules(),
+    collectNycCityRecord(),
+    collectNyStateRegister(),
     collectSentimentRSS(),
     // V2.5 — four compliance domains behind the FeedAdapter seam (seeds + dormant live adapters).
     ...FEED_ADAPTERS.map((a) => a.fetch()),
