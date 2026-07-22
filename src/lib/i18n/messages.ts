@@ -380,7 +380,7 @@ export const zh: Messages = {
   nav: {
     overview: "总览",
     alerts: "高风险预警",
-    intelligence: "法规情报",
+    intelligence: "召回情报",
     inspections: "检查结果",
     benchmark: "竞品对比",
     trends: "趋势分析",
@@ -508,7 +508,7 @@ export const zh: Messages = {
     none: "本数据集无活跃预警。",
   },
   intelligence: {
-    title: "法规与召回情报",
+    title: "召回情报",
     subtitle: "联邦/州信息，按咖啡/乳制品/饮品相关性标记",
     titleCol: "标题",
     summary: "摘要",
