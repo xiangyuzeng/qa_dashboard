@@ -1410,22 +1410,29 @@ async function collectOSHAEstablishments(): Promise<SourceResult> {
   const endpoint = "https://www.osha.gov/ords/imis/establishment.html";
   return { building: [], provenance: provEntry({ sourceId: "osha_establishments", name, module: "building", status: "manual", accessType: "official-api", endpointOrUrl: endpoint, oneTimePullFeasible: "partial", recordCount: 0, stalenessNote: "Dormant — wire OSHA establishment-search to brand-match citations. No rows fabricated.", reVerifyBeforeRelying: true }) };
 }
-// Owned-brand enforcement match. We match by the FULL BUSINESS NAME "LUCKIN COFFEE", NOT a raw
-// premises address and NOT a loose "%LUCKIN%". Two reasons: (1) OATH exposes no street field
-// (only house + borough + zip), so an address match would misattribute a landlord's/neighbour's
-// violation to us; (2) "Luckin" is also a human surname — a loose match catches individuals
-// (GLUCKIN, LUCKING, LUCKINSON…). The full-name match surfaces only summonses where the company
-// is the cited respondent — truthful, zero misattribution. (Verified: 5 real DSNY summonses in
-// the store zips 10003/10038; ECB building = 0, correctly.)
-// PREFIX (not a leading wildcard) so Socrata can use an index and the scan stays fast/bounded under
-// the HTTP timeout — the respondent value is "LUCKIN COFFEE"; a prefix also catches "LUCKIN COFFEE USA".
-const OWNED_RESPONDENT = "LUCKIN COFFEE%";
+// Owned-entity enforcement match. We match by our OWNED LEGAL/TRADE NAMES as the cited respondent,
+// NOT by premises address. Rationale (empirically verified 2026-07-28 against jz4z-kudi):
+//   • Address matching is unusable as a signal. OATH *does* expose the premises street
+//     (violation_location_house / street_name / block / lot — the earlier "OATH has no street field"
+//     note was simply wrong), but a house+street+zip sweep of all 30 stores returns 2,757 tickets of
+//     which only 5 are ours — the other 2,752 belong to the landlord / co-tenants / banks / delivery
+//     trucks at the same building. A ~550:1 misattribution ratio, so we stay on respondent-name match.
+//   • We match the FULL entity names, not a loose "%LUCKIN%": "Luckin" is also a surname
+//     (GLUCKIN, LUCKING, LUCKINSON…) — a substring match pulls in unrelated individuals.
+//   • Aliases matter. 5 real summonses (incl. 2 DOHMH food-safety) are filed under the operating
+//     entity "FIRST RAY OPERATIONS (NEW YORK) LLC" (parent: First Ray Holdings USA Inc.), which a
+//     "LUCKIN COFFEE%"-only match silently dropped. Both trade and legal names are listed below.
+// PREFIX (not a leading wildcard) so Socrata can index-scan and stay bounded under the HTTP timeout;
+// a prefix also catches suffixed variants ("LUCKIN COFFEE USA", "FIRST RAY OPERATIONS (NEW YORK) LLC").
+const OWNED_RESPONDENTS = ["LUCKIN COFFEE%", "FIRST RAY OPERATIONS%", "FIRST RAY HOLDING%"];
+const ownedRespondentClause = (col: string): string =>
+  "(" + OWNED_RESPONDENTS.map((n) => `upper(${col}) like '${n}'`).join(" OR ") + ")";
 const OATH_BASE = "https://data.cityofnewyork.us/resource/jz4z-kudi.json";
 
 async function oathOwned(agencyLike: string[], limit = 50): Promise<Record<string, string>[]> {
   const clause = agencyLike.map((a) => `upper(issuing_agency) like '${a}'`).join(" OR ");
   return socrata<Record<string, string>>(OATH_BASE, {
-    "$where": `upper(respondent_last_name) like '${OWNED_RESPONDENT}' AND (${clause})`,
+    "$where": `${ownedRespondentClause("respondent_last_name")} AND (${clause})`,
     "$order": "violation_date DESC",
     "$limit": limit,
   });
@@ -1437,7 +1444,7 @@ async function collectDOBBuilding(): Promise<SourceResult> {
   const name = "NYC ECB/DOB violations (respondent = Luckin)";
   try {
     const rows = await socrata<Record<string, string>>(base, {
-      "$where": `upper(respondent_name) like '${OWNED_RESPONDENT}'`,
+      "$where": ownedRespondentClause("respondent_name"),
       "$order": "issue_date DESC",
       "$limit": 50,
     });
@@ -1476,7 +1483,7 @@ async function collectDOBBuilding(): Promise<SourceResult> {
         provenance: prov("nyc_dob_violations", url, { agency: "NYC DOB/ECB", dataAvailabilityLabel: "respondent-matched enforcement" }),
       };
     });
-    return { building: out, provenance: provEntry({ sourceId: "nyc_dob_violations", name, module: "building", status: out.length ? "fetched" : "no_update", jurisdictionId: "New York City", accessType: "open-data", endpointOrUrl: base, oneTimePullFeasible: "yes", recordCount: out.length, stalenessNote: out.length ? "ECB/DOB violations where 'LUCKIN' is the named respondent (live)." : "No ECB/DOB violations name Luckin as respondent (expected for a new chain) — 0 rows, not fabricated." }) };
+    return { building: out, provenance: provEntry({ sourceId: "nyc_dob_violations", name, module: "building", status: out.length ? "fetched" : "no_update", jurisdictionId: "New York City", accessType: "open-data", endpointOrUrl: base, oneTimePullFeasible: "yes", recordCount: out.length, stalenessNote: out.length ? "ECB/DOB violations where a Luckin/First Ray owned entity is the named respondent (live)." : "No ECB/DOB violations name a Luckin/First Ray owned entity (expected for a new chain) — 0 rows, not fabricated." }) };
   } catch (e) {
     return { building: [], provenance: provEntry({ sourceId: "nyc_dob_violations", name, module: "building", status: "manual", accessType: "open-data", endpointOrUrl: base, oneTimePullFeasible: "yes", recordCount: 0, stalenessNote: `pull failed: ${String(e).slice(0, 120)}`, reVerifyBeforeRelying: true }) };
   }
@@ -1514,7 +1521,7 @@ async function collectDSNYEnvironment(): Promise<SourceResult> {
         provenance: prov("nyc_dsny_enforcement", url, { agency: "NYC DSNY / OATH", dataAvailabilityLabel: "respondent-matched enforcement" }),
       };
     });
-    return { environment: out, provenance: provEntry({ sourceId: "nyc_dsny_enforcement", name, module: "environment", status: out.length ? "fetched" : "no_update", jurisdictionId: "New York City", accessType: "open-data", endpointOrUrl: OATH_BASE, oneTimePullFeasible: "yes", recordCount: out.length, stalenessNote: out.length ? "DSNY OATH summonses where 'LUCKIN' is the respondent (live)." : "No DSNY summonses name Luckin as respondent (expected) — 0 rows, not fabricated." }) };
+    return { environment: out, provenance: provEntry({ sourceId: "nyc_dsny_enforcement", name, module: "environment", status: out.length ? "fetched" : "no_update", jurisdictionId: "New York City", accessType: "open-data", endpointOrUrl: OATH_BASE, oneTimePullFeasible: "yes", recordCount: out.length, stalenessNote: out.length ? "DSNY OATH summonses where a Luckin/First Ray owned entity is the respondent (live)." : "No DSNY summonses name a Luckin/First Ray owned entity — 0 rows, not fabricated." }) };
   } catch (e) {
     return { environment: [], provenance: provEntry({ sourceId: "nyc_dsny_enforcement", name, module: "environment", status: "manual", accessType: "open-data", endpointOrUrl: OATH_BASE, oneTimePullFeasible: "yes", recordCount: 0, stalenessNote: `pull failed: ${String(e).slice(0, 120)}`, reVerifyBeforeRelying: true }) };
   }
@@ -1553,9 +1560,131 @@ async function collectDCWPConsumer(): Promise<SourceResult> {
         provenance: prov("nyc_dcwp_consumer", url, { agency: "NYC DCWP / OATH", dataAvailabilityLabel: "respondent-matched enforcement" }),
       };
     });
-    return { consumer: out, provenance: provEntry({ sourceId: "nyc_dcwp_consumer", name, module: "consumer", status: out.length ? "fetched" : "no_update", jurisdictionId: "New York City", accessType: "open-data", endpointOrUrl: OATH_BASE, oneTimePullFeasible: "yes", recordCount: out.length, stalenessNote: out.length ? "DCWP/consumer OATH summonses where 'LUCKIN' is the respondent (live)." : "No DCWP summonses name Luckin as respondent (expected) — 0 rows, not fabricated." }) };
+    return { consumer: out, provenance: provEntry({ sourceId: "nyc_dcwp_consumer", name, module: "consumer", status: out.length ? "fetched" : "no_update", jurisdictionId: "New York City", accessType: "open-data", endpointOrUrl: OATH_BASE, oneTimePullFeasible: "yes", recordCount: out.length, stalenessNote: out.length ? "DCWP/consumer OATH summonses where a Luckin/First Ray owned entity is the respondent (live)." : "No DCWP summonses name a Luckin/First Ray owned entity — 0 rows, not fabricated." }) };
   } catch (e) {
     return { consumer: [], provenance: provEntry({ sourceId: "nyc_dcwp_consumer", name, module: "consumer", status: "manual", accessType: "open-data", endpointOrUrl: OATH_BASE, oneTimePullFeasible: "yes", recordCount: 0, stalenessNote: `pull failed: ${String(e).slice(0, 120)}`, reVerifyBeforeRelying: true }) };
+  }
+}
+
+// Owned-entity food-safety summonses adjudicated at OATH. Sibling of collectNYC (which pulls the
+// DOHMH restaurant-inspection *results* feed, 43nn-pn8j): this pulls the *enforcement/hearing* side —
+// the Notices of Violation against our own operating entity that go to a hearing at OATH. The other
+// OATH collectors only bucket DSNY (environment) and DCWP (consumer) agencies, so DOHMH health
+// summonses — and recently-filed summonses whose issuing_agency hasn't been populated in the open
+// dataset yet — fell through entirely. First Ray Operations is a pure food-service entity, so an
+// owned-entity summons with a DOHMH or not-yet-labeled agency is food-safety in nature; we exclude
+// the agencies already routed to their own modules to avoid double-counting. Feeds the same
+// `inspections` module as café inspections so a store's inspection *and* its adjudicated summons sit
+// side by side. OATH geocodes DOHMH rows to zip only (no premises street), so we attribute to a
+// specific store on an exact house+zip hit against either the violation OR the respondent address
+// (for our own entity the respondent address IS the store) and otherwise keep the cited entity name.
+function loadOwnedStores(): Array<Record<string, unknown>> {
+  try {
+    return JSON.parse(readFileSync(join(OUT, "owned_stores.json"), "utf8")) as Array<Record<string, unknown>>;
+  } catch {
+    return [];
+  }
+}
+// agencies handled by collectDSNYEnvironment / collectDCWPConsumer — kept out of the food-safety bucket.
+const NON_FOODSAFETY_AGENCIES = ["%SANITATION%", "%DSNY%", "DOS -%", "%DCA %", "%DCA-%", "%CONSUMER%", "%WORKER%"];
+async function collectOwnedFoodSafetyOATH(): Promise<SourceResult> {
+  const name = "NYC DOHMH / owned-entity food-safety summonses (via OATH)";
+  const stores = loadOwnedStores();
+  const storeAt = (house: string, zip: string): Record<string, unknown> | null => {
+    if (!house || !zip) return null;
+    return (
+      stores.find((s) => {
+        const m = /^\s*(\d+)/.exec(String(s.address ?? ""));
+        return !!m && m[1] === house && String(s.zip ?? "") === zip;
+      }) ?? null
+    );
+  };
+  try {
+    // owned respondent AND (DOHMH OR agency-not-yet-labeled), minus the DSNY/DCWP agencies routed elsewhere.
+    const excluded = NON_FOODSAFETY_AGENCIES.map((a) => `upper(issuing_agency) not like '${a}'`).join(" AND ");
+    const rows = await socrata<Record<string, string>>(OATH_BASE, {
+      "$where": `${ownedRespondentClause("respondent_last_name")} AND (upper(issuing_agency) like '%DOHMH%' OR issuing_agency IS NULL) AND (issuing_agency IS NULL OR (${excluded}))`,
+      "$order": "violation_date DESC",
+      "$limit": 100,
+    });
+    const out: InspectionRecord[] = rows.map((r) => {
+      const charges = [r.charge_1_code_description, r.charge_2_code_description, r.charge_3_code_description]
+        .filter(Boolean)
+        .map((c) => c.replace(/\s+/g, " ").trim())
+        .join(" | ");
+      const hr = (r.hearing_result || "").toLowerCase();
+      const pen = Number(r.penalty_imposed || 0);
+      const sustained = hr.includes("sustain") || hr.includes("default");
+      const dismissed = hr.includes("dismiss");
+      const result = sustained ? "Fail" : dismissed ? "Pass" : "N/A";
+      const isDohmh = (r.issuing_agency || "").toUpperCase().includes("DOHMH");
+      // for our own entity the respondent address IS the store, so it's a safe fallback when the
+      // violation-location house is blank (as it is on OATH's zip-only DOHMH rows).
+      const st =
+        storeAt(r.violation_location_house || "", r.violation_location_zip_code || "") ??
+        storeAt(r.respondent_address_house || "", r.violation_location_zip_code || r.respondent_address_zip_code || "");
+      const addr =
+        [r.violation_location_house, r.violation_location_street_name, r.violation_location_city, r.violation_location_zip_code]
+          .filter(Boolean)
+          .join(" ") || null;
+      const url = `${OATH_BASE}?ticket_number=${r.ticket_number}`;
+      return finalizeInspection({
+        no: null,
+        jurisdiction: "New York City",
+        regulatoryAgency: isDohmh ? `NYC DOHMH · OATH (${r.issuing_agency})` : "NYC OATH (机构待定 agency pending)",
+        brand: "Luckin Coffee",
+        establishmentType: "甲方门店 Owned Store",
+        storeName: (st?.storeName as string) ?? r.respondent_last_name ?? null,
+        establishmentId: (st?.dohEstablishmentId as string) ?? r.ticket_number ?? null,
+        address: addr ?? (st ? `${st.address as string}, ${st.city as string}, ${st.state as string} ${st.zip as string}` : null),
+        inspectionDate: isoFromYmd(r.violation_date),
+        inspectionType: isDohmh ? "OATH 卫生传票 Health Summons" : "OATH 传票 Summons (机构待定 agency pending)",
+        inspectionResult: result,
+        score: null,
+        grade: null,
+        violationCode: r.charge_1_code || null,
+        chineseViolationSummary: null,
+        englishViolationSummary: charges.slice(0, 400) || (isDohmh ? null : "OATH summons filed against owned entity — issuing agency / charge not yet populated in NYC Open Data; verify on CityPay."),
+        violationSeverity: sustained && pen > 0 ? "严重（主要）Critical" : "一般 Non-critical",
+        followupRequired: sustained || result === "N/A" ? "是 Yes" : "否 No",
+        sourceType: "Open Data API",
+        sourceUrlOrDocRef: url,
+        recommendedAction: null,
+        violationText: charges,
+        sourceId: "nyc_dohmh_oath",
+        sourceUrl: url,
+      });
+    });
+    return {
+      inspections: out,
+      provenance: provEntry({
+        sourceId: "nyc_dohmh_oath",
+        name,
+        jurisdictionId: "New York City",
+        accessType: "open-data",
+        endpointOrUrl: OATH_BASE,
+        oneTimePullFeasible: "yes",
+        recordCount: out.length,
+        stalenessNote: out.length
+          ? "Owned-entity (Luckin Coffee / First Ray Operations) food-safety NOVs adjudicated at OATH — DOHMH agency plus recently-filed summonses whose agency is not yet labeled. OATH geocodes these to zip only; store attribution is name/entity-address-based, never a guessed street."
+          : "No DOHMH / owned-entity food-safety OATH summonses — 0 rows, not fabricated.",
+      }),
+    };
+  } catch (e) {
+    return {
+      inspections: [],
+      provenance: provEntry({
+        sourceId: "nyc_dohmh_oath",
+        name,
+        jurisdictionId: "New York City",
+        accessType: "open-data",
+        endpointOrUrl: OATH_BASE,
+        oneTimePullFeasible: "yes",
+        recordCount: 0,
+        stalenessNote: `pull failed: ${String(e).slice(0, 120)}`,
+        reVerifyBeforeRelying: true,
+      }),
+    };
   }
 }
 
@@ -1584,6 +1713,7 @@ async function main() {
     collectCDC(),
     collectFSIS(),
     collectNYC(),
+    collectOwnedFoodSafetyOATH(),
     collectCambridge(),
     collectBoston(),
     collectLA(),
