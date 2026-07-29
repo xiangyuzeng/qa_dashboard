@@ -52,7 +52,15 @@ export function InspectionsClient({
         header: t.common.establishmentId,
         cell: ({ row }) => <span className="text-xs text-slate-500">{row.original.establishmentId ?? "—"}</span>,
       },
-      { accessorKey: "inspectionDate", header: t.common.date, cell: ({ row }) => row.original.inspectionDate ?? "—" },
+      {
+        accessorKey: "inspectionDate",
+        header: t.inspections.inspectionDate,
+        cell: ({ row }) =>
+          row.original.inspectionDate ??
+          // registered-but-not-yet-inspected owned stores carry no date → show "awaiting" instead of a
+          // blank; other date-less rows (e.g. Boston license status) stay as an em-dash.
+          (row.original.inspectionType?.includes("Awaiting First Inspection") ? t.inspections.awaiting : "—"),
+      },
       { accessorKey: "inspectionResult", header: t.common.result, cell: ({ row }) => <ResultBadge result={row.original.inspectionResult} /> },
       { accessorKey: "score", header: t.common.score, cell: ({ row }) => (row.original.score ?? "—") },
       { accessorKey: "grade", header: t.common.grade, cell: ({ row }) => row.original.grade ?? "—" },
