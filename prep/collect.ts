@@ -1439,6 +1439,56 @@ async function oathOwned(agencyLike: string[], limit = 50): Promise<Record<strin
 }
 const penaltyStr = (n: number): string | null => (n > 0 ? `penalty $${n.toFixed(0)}` : null);
 
+// OATH hearing-result / status / compliance terms → 简体中文 (fallback: keep the source term).
+const OATH_TERM_ZH: Record<string, string> = {
+  DEFAULTED: "缺席判决", DISMISSED: "撤销", "IN VIOLATION": "判定违规", "NOT IN VIOLATION": "未违规",
+  "PAID IN FULL": "已全额缴清", DOCKETED: "已登记判决", "HEARING SCHEDULED": "已排听证",
+  "HEARING COMPLETED": "听证完成", STIPULATION: "和解协议", "WRITTEN OFF": "已核销", ADJOURNED: "延期",
+  "PENALTY DUE": "待缴", "ALL TERMS MET": "已结清",
+};
+const oathTermZh = (s: string): string => OATH_TERM_ZH[s.trim().toUpperCase()] ?? s.trim();
+
+// Full adjudication/penalty picture for an OATH summons, bilingual: base fine vs default-escalated
+// penalty, hearing result, docketed-judgment date, outstanding balance + compliance status. When a
+// docketed judgment still has a balance we point to CityPay for a possible reduced settlement — the
+// settlement *amount* is computed live by CityPay and is NOT in the open dataset, so we never invent
+// a number. `amount` = the figure to drive risk (max of penalty imposed vs. outstanding balance).
+function oathPenaltyDetail(r: Record<string, string>): { en: string; zh: string; amount: number } {
+  const base = Number(r.total_violation_amount || r.charge_1_infraction_amount || 0);
+  const imposed = Number(r.penalty_imposed || 0);
+  const balance = Number(r.balance_due || 0);
+  const paid = Number(r.paid_amount || 0);
+  const result = (r.hearing_result || "").trim();
+  const status = (r.hearing_status || "").trim();
+  const compliance = (r.compliance_status || "").trim();
+  const docketed = isoFromYmd(r.date_judgment_docketed);
+  const escalated = imposed > base && base > 0;
+  const settleable = balance > 0 && /DOCKET/i.test(status);
+  const usd = (n: number) => `$${n.toFixed(0)}`;
+
+  const en: string[] = [];
+  if (escalated) en.push(`base fine ${usd(base)} → penalty ${usd(imposed)} on default`);
+  else if (imposed > 0) en.push(`penalty ${usd(imposed)}`);
+  if (result) en.push(result);
+  if (docketed) en.push(`judgment docketed ${docketed}`);
+  else if (status && !result) en.push(status);
+  if (balance > 0) en.push(`balance due ${usd(balance)}${compliance ? ` (${compliance})` : ""}`);
+  else if (paid > 0 && !/PAID/i.test(status)) en.push("paid in full");
+  if (settleable) en.push("reduced settlement may be available on CityPay");
+
+  const zh: string[] = [];
+  if (escalated) zh.push(`基础罚款 ${usd(base)},缺席判决升至 ${usd(imposed)}`);
+  else if (imposed > 0) zh.push(`罚款 ${usd(imposed)}`);
+  if (result) zh.push(oathTermZh(result));
+  if (docketed) zh.push(`已登记判决(${docketed})`);
+  else if (status && !result) zh.push(oathTermZh(status));
+  if (balance > 0) zh.push(`余额 ${usd(balance)}${compliance ? `(${oathTermZh(compliance)})` : ""}`);
+  else if (paid > 0 && !/PAID/i.test(status)) zh.push("已缴清");
+  if (settleable) zh.push("可在 CityPay 申请和解");
+
+  return { en: en.join(" · "), zh: zh.length ? zh.join(",") + "。" : "", amount: Math.max(imposed, balance) };
+}
+
 // Attribute an OATH ticket to an owned store by house-number + zip. Tries the violation location
 // first, then the respondent address (for our own operating entity the respondent address IS the
 // store — DSNY/DCWP rows carry a real premises street, DOHMH rows are geocoded to zip only). This is
@@ -1551,7 +1601,7 @@ async function collectDSNYEnvironment(): Promise<SourceResult> {
     const rows = await oathOwned(["%SANITATION%", "%DSNY%", "DOS -%"]);
     const out: EnvironmentRecord[] = rows.map((r) => {
       const chg = (r.charge_1_code_description || "DSNY sanitation violation").replace(/\s+/g, " ").trim();
-      const pen = Number(r.penalty_imposed || 0);
+      const det = oathPenaltyDetail(r);
       const url = `${OATH_BASE}?ticket_number=${r.ticket_number}`;
       const { storeName, full } = oathLocationLabel(storeForOATHRow(stores, r), r);
       const atStore = storeName ? ` @ ${storeName}` : "";
@@ -1570,10 +1620,10 @@ async function collectDSNYEnvironment(): Promise<SourceResult> {
         status: null,
         effectiveDate: isoFromYmd(r.violation_date),
         keyRequirements: null,
-        chineseSummary: `${locZh}${chg}。${pen > 0 ? "罚款 $" + pen.toFixed(0) + "。" : ""}${r.hearing_result ? "听证结果:" + r.hearing_result + "。" : ""}`.trim(),
-        englishSummary: `${locEn}${chg}${r.charge_1_code_section ? " (§" + r.charge_1_code_section + ")" : ""}${pen > 0 ? " · penalty $" + pen.toFixed(0) : ""}${r.hearing_result ? " · " + r.hearing_result : ""}`,
+        chineseSummary: `${locZh}${chg}。${det.zh}`.trim(),
+        englishSummary: `${locEn}${chg}${r.charge_1_code_section ? " (§" + r.charge_1_code_section + ")" : ""}${det.en ? " · " + det.en : ""}`,
         businessImpact: full ? `门店 Store: ${full}` : null,
-        riskLevel: (pen >= 2500 ? "高风险" : pen >= 500 ? "中风险" : pen > 0 ? "低风险" : "信息参考") as EnvironmentRecord["riskLevel"],
+        riskLevel: (det.amount >= 2500 ? "高风险" : det.amount >= 500 ? "中风险" : det.amount > 0 ? "低风险" : "信息参考") as EnvironmentRecord["riskLevel"],
         sourceUrl: url,
         recommendedAction: null, topic: null, applicabilityRuleId: null,
         alertTriggered: false, alertReason: null, alertRuleIds: [],
@@ -1595,7 +1645,7 @@ async function collectDCWPConsumer(): Promise<SourceResult> {
     const rows = await oathOwned(["%DCA %", "%DCA-%", "%CONSUMER%", "%WORKER%"]);
     const out: ConsumerRecord[] = rows.map((r) => {
       const chg = (r.charge_1_code_description || "DCWP consumer/worker violation").replace(/\s+/g, " ").trim();
-      const pen = Number(r.penalty_imposed || 0);
+      const det = oathPenaltyDetail(r);
       const url = `${OATH_BASE}?ticket_number=${r.ticket_number}`;
       const { storeName, full } = oathLocationLabel(storeForOATHRow(stores, r), r);
       const atStore = storeName ? ` @ ${storeName}` : "";
@@ -1612,14 +1662,14 @@ async function collectDCWPConsumer(): Promise<SourceResult> {
         agency: `NYC DCWP (${r.issuing_agency || "Consumer Affairs"})`,
         applicabilityThreshold: null, appliesToUs: true,
         keyRequirements: null,
-        complaintEnforcementRecord: `OATH #${r.ticket_number || "—"}${full ? " · " + full : ""}${r.charge_1_code_section ? " · §" + r.charge_1_code_section : ""}${pen > 0 ? " · penalty $" + pen.toFixed(0) : ""}${r.hearing_result ? " · " + r.hearing_result : ""}`,
+        complaintEnforcementRecord: `OATH #${r.ticket_number || "—"}${full ? " · " + full : ""}${r.charge_1_code_section ? " · §" + r.charge_1_code_section : ""}${det.en ? " · " + det.en : ""}`,
         status: null,
         effectiveDate: isoFromYmd(r.violation_date),
-        riskLevel: (pen >= 2500 ? "高风险" : pen >= 500 ? "中风险" : pen > 0 ? "低风险" : "信息参考") as ConsumerRecord["riskLevel"],
+        riskLevel: (det.amount >= 2500 ? "高风险" : det.amount >= 500 ? "中风险" : det.amount > 0 ? "低风险" : "信息参考") as ConsumerRecord["riskLevel"],
         sourceUrl: url,
         recommendedAction: null,
-        chineseSummary: `${locZh}${chg}。${pen > 0 ? "罚款 $" + pen.toFixed(0) + "。" : ""}${r.hearing_result ? "听证结果:" + r.hearing_result + "。" : ""}`.trim(),
-        englishSummary: `${locEn}${chg}${pen > 0 ? " · penalty $" + pen.toFixed(0) : ""}${r.hearing_result ? " · " + r.hearing_result : ""}`,
+        chineseSummary: `${locZh}${chg}。${det.zh}`.trim(),
+        englishSummary: `${locEn}${chg}${det.en ? " · " + det.en : ""}`,
         topic: null, applicabilityRuleId: null,
         alertTriggered: false, alertReason: null, alertRuleIds: [],
         reviewed: true, reviewStatus: "approved" as const,
