@@ -1741,6 +1741,98 @@ async function collectOwnedFoodSafetyOATH(): Promise<SourceResult> {
   }
 }
 
+// Newly-opened owned stores are registered in the DOHMH restaurant feed (43nn-pn8j) under the
+// operating LLC "FIRST RAY OPERATIONS (NEW YORK) LLC" with a placeholder inspection_date of
+// 1900-01-01 and no action/score/grade — permitted but not yet inspected. collectNYC misses them
+// twice over: it filters `inspection_date > 2024-01-01` (drops the placeholder) and only matches
+// dba '%LUCKIN%' (these carry the LLC name). Surface each as an "awaiting first inspection" row so
+// every owned NYC store appears in the inspections view instead of silently missing until its first
+// grade. A camis that already has a real (post-2024) inspection is left to collectNYC to avoid dupes.
+const OWNED_DOHMH_DBA = ["FIRST RAY OPERATIONS", "FIRST RAY HOLDING"];
+async function collectOwnedRegisteredDOHMH(): Promise<SourceResult> {
+  const base = "https://data.cityofnewyork.us/resource/43nn-pn8j.json";
+  const name = "NYC DOHMH — owned-store registrations awaiting first inspection";
+  const stores = loadOwnedStores();
+  // match a DOHMH row to an owned store by DOHMH establishment id (camis) first, then house+zip.
+  const storeFor = (r: Record<string, string>): Record<string, unknown> | null => {
+    const byId = stores.find((s) => String(s.dohEstablishmentId ?? "") === (r.camis ?? ""));
+    if (byId) return byId;
+    const house = (r.building ?? "").trim();
+    const zip = (r.zipcode ?? "").trim();
+    if (!house || !zip) return null;
+    return (
+      stores.find((s) => {
+        const m = /^\s*(\d+)/.exec(String(s.address ?? ""));
+        return !!m && m[1] === house && String(s.zip ?? "") === zip;
+      }) ?? null
+    );
+  };
+  try {
+    const clause = OWNED_DOHMH_DBA.map((n) => `upper(dba) like '%${n}%'`).join(" OR ");
+    const rows = await socrata<Record<string, string>>(base, { "$where": clause, "$order": "camis", "$limit": 200 });
+    const byCamis = new Map<string, Record<string, string>[]>();
+    for (const r of rows) {
+      if (!r.camis) continue;
+      (byCamis.get(r.camis) ?? byCamis.set(r.camis, []).get(r.camis)!).push(r);
+    }
+    const out: InspectionRecord[] = [];
+    for (const [camis, rs] of byCamis) {
+      // any genuine inspection on this camis? (real date + a graded action) → collectNYC's job.
+      const inspected = rs.some((x) => (x.inspection_date ?? "").slice(0, 10) >= "2024-01-01" && !!(x.action || x.score || x.grade));
+      if (inspected) continue;
+      const r0 = rs[0];
+      const st = storeFor(r0);
+      const rawAddr = [r0.building, r0.street, r0.boro, r0.zipcode].filter(Boolean).map((x) => String(x).replace(/\s+/g, " ").trim()).join(" ");
+      const addr = st ? `${st.address}, ${st.city}, ${st.state} ${st.zip}` : rawAddr || null;
+      const label = (st?.storeName as string) ?? (rawAddr ? `${r0.building} ${r0.street}`.replace(/\s+/g, " ").trim() : (r0.dba ?? null));
+      out.push(
+        finalizeInspection({
+          no: null, jurisdiction: "New York City", regulatoryAgency: "NYC DOHMH",
+          brand: "Luckin Coffee",
+          establishmentType: "甲方门店 Owned Store",
+          storeName: label,
+          establishmentId: camis,
+          address: addr,
+          inspectionDate: null,
+          inspectionType: "待检查 Awaiting First Inspection",
+          inspectionResult: "N/A",
+          score: null, grade: null,
+          violationCode: null,
+          chineseViolationSummary: "已在 NYC DOHMH 登记(First Ray Operations 许可证),尚未进行首次卫生检查。",
+          englishViolationSummary: "Registered with NYC DOHMH under the First Ray Operations permit; no health inspection conducted yet.",
+          violationSeverity: null,
+          followupRequired: "否 No",
+          sourceType: "Open Data API",
+          sourceUrlOrDocRef: `${base}?camis=${camis}`,
+          recommendedAction: null,
+          violationText: "",
+          sourceId: "nyc_dohmh_registered",
+          sourceUrl: `${base}?camis=${camis}`,
+        }),
+      );
+    }
+    return {
+      inspections: out,
+      provenance: provEntry({
+        sourceId: "nyc_dohmh_registered", name, jurisdictionId: "New York City", accessType: "open-data",
+        endpointOrUrl: base, oneTimePullFeasible: "yes", recordCount: out.length,
+        stalenessNote: out.length
+          ? "Owned NYC stores registered with DOHMH under the First Ray Operations permit but not yet inspected — shown as awaiting first inspection (no violations, no grade)."
+          : "No owned-store DOHMH registrations awaiting inspection — 0 rows, not fabricated.",
+      }),
+    };
+  } catch (e) {
+    return {
+      inspections: [],
+      provenance: provEntry({
+        sourceId: "nyc_dohmh_registered", name, jurisdictionId: "New York City", accessType: "open-data",
+        endpointOrUrl: base, oneTimePullFeasible: "yes", recordCount: 0,
+        stalenessNote: `pull failed: ${String(e).slice(0, 140)}`, reVerifyBeforeRelying: true,
+      }),
+    };
+  }
+}
+
 /**
  * Pluggable feed registry (spec §6). Each new domain registers its seed collector
  * (build-on-public-data default) + its dormant/gated live adapter (license-swap-later).
@@ -1767,6 +1859,7 @@ async function main() {
     collectFSIS(),
     collectNYC(),
     collectOwnedFoodSafetyOATH(),
+    collectOwnedRegisteredDOHMH(),
     collectCambridge(),
     collectBoston(),
     collectLA(),
