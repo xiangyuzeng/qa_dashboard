@@ -154,6 +154,8 @@ export const en = {
     store: "Store",
     results: "results",
     noRows: "No matching records.",
+    inspectionDate: "Inspection Date",
+    awaiting: "Awaiting",
   },
   detail: {
     title: "Inspection detail",
@@ -529,6 +531,8 @@ export const zh: Messages = {
     store: "门店",
     results: "条结果",
     noRows: "无匹配记录。",
+    inspectionDate: "检查日期",
+    awaiting: "待检查",
   },
   detail: {
     title: "检查明细",
