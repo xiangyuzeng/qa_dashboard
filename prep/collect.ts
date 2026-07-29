@@ -1439,6 +1439,61 @@ async function oathOwned(agencyLike: string[], limit = 50): Promise<Record<strin
 }
 const penaltyStr = (n: number): string | null => (n > 0 ? `penalty $${n.toFixed(0)}` : null);
 
+// Attribute an OATH ticket to an owned store by house-number + zip. Tries the violation location
+// first, then the respondent address (for our own operating entity the respondent address IS the
+// store — DSNY/DCWP rows carry a real premises street, DOHMH rows are geocoded to zip only). This is
+// the SAME house+zip match the food-safety collector uses, hoisted so every OATH collector attributes
+// its summons to a specific Luckin store instead of dropping the location entirely.
+function storeForOATHRow(
+  stores: Array<Record<string, unknown>>,
+  r: Record<string, string>,
+): Record<string, unknown> | null {
+  const at = (house: string, zip: string): Record<string, unknown> | null => {
+    if (!house || !zip) return null;
+    return (
+      stores.find((s) => {
+        const m = /^\s*(\d+)/.exec(String(s.address ?? ""));
+        return !!m && m[1] === house && String(s.zip ?? "") === zip;
+      }) ?? null
+    );
+  };
+  return (
+    at(r.violation_location_house || "", r.violation_location_zip_code || "") ??
+    at(r.respondent_address_house || "", r.violation_location_zip_code || r.respondent_address_zip_code || "")
+  );
+}
+// Human-readable premises address straight off the OATH violation-location fields.
+function oathViolationAddress(r: Record<string, string>): string | null {
+  return (
+    [r.violation_location_house, r.violation_location_street_name, r.violation_location_city, r.violation_location_zip_code]
+      .filter(Boolean)
+      .map((x) => String(x).replace(/\s+/g, " ").trim())
+      .join(" ") || null
+  );
+}
+// Store-attribution label for an OATH summons: prefer the matched owned store's canonical address,
+// otherwise fall back to the raw premises address off the ticket. Returns null when neither is known.
+function oathLocationLabel(
+  st: Record<string, unknown> | null,
+  r: Record<string, string>,
+): { storeName: string | null; label: string | null; full: string | null } {
+  const vaddr = oathViolationAddress(r);
+  let storeName: string | null = null;
+  let label: string | null = vaddr;
+  if (st) {
+    storeName = (st.storeName as string) ?? null;
+    label =
+      [st.address, st.city, st.state && st.zip ? `${st.state} ${st.zip}` : (st.state ?? st.zip)]
+        .filter(Boolean)
+        .join(", ") || vaddr;
+  }
+  // Friendly store name + address, without repeating the name when the address already starts with it
+  // (e.g. store "100 Maiden Ln" whose address is "100 Maiden Ln, …" → just the address).
+  const full =
+    storeName && label && !label.startsWith(storeName) ? `${storeName} · ${label}` : (label ?? storeName);
+  return { storeName, label, full };
+}
+
 async function collectDOBBuilding(): Promise<SourceResult> {
   const base = "https://data.cityofnewyork.us/resource/6bgk-3dad.json"; // ECB violations
   const name = "NYC ECB/DOB violations (respondent = Luckin)";
@@ -1492,26 +1547,32 @@ async function collectDOBBuilding(): Promise<SourceResult> {
 async function collectDSNYEnvironment(): Promise<SourceResult> {
   const name = "NYC DSNY sanitation enforcement (respondent = Luckin, via OATH)";
   try {
+    const stores = loadOwnedStores();
     const rows = await oathOwned(["%SANITATION%", "%DSNY%", "DOS -%"]);
     const out: EnvironmentRecord[] = rows.map((r) => {
       const chg = (r.charge_1_code_description || "DSNY sanitation violation").replace(/\s+/g, " ").trim();
       const pen = Number(r.penalty_imposed || 0);
       const url = `${OATH_BASE}?ticket_number=${r.ticket_number}`;
+      const { storeName, full } = oathLocationLabel(storeForOATHRow(stores, r), r);
+      const atStore = storeName ? ` @ ${storeName}` : "";
+      const atStoreZh = storeName ? `(${storeName})` : "";
+      const locEn = full ? `Store: ${full} · ` : "";
+      const locZh = full ? `门店:${full}。` : "";
       return {
         id: hashId("env-dsny", r.ticket_number),
         module: "environment" as const, no: null,
         jurisdiction: "New York City" as const,
         regulationName: chg,
-        chineseTitle: `DSNY 环卫执法 — ${chg}`,
-        englishTitle: `DSNY sanitation violation — ${chg}`,
+        chineseTitle: `DSNY 环卫执法${atStoreZh} — ${chg}`,
+        englishTitle: `DSNY sanitation violation${atStore} — ${chg}`,
         agency: `NYC DSNY (${r.issuing_agency || "Sanitation"})`,
         applicabilityThreshold: null, appliesToUs: true,
         status: null,
         effectiveDate: isoFromYmd(r.violation_date),
         keyRequirements: null,
-        chineseSummary: `${chg}。${pen > 0 ? "罚款 $" + pen.toFixed(0) + "。" : ""}${r.hearing_result ? "听证结果:" + r.hearing_result + "。" : ""}`.trim(),
-        englishSummary: `${chg}${r.charge_1_code_section ? " (§" + r.charge_1_code_section + ")" : ""}${pen > 0 ? " · penalty $" + pen.toFixed(0) : ""}${r.hearing_result ? " · " + r.hearing_result : ""}`,
-        businessImpact: null,
+        chineseSummary: `${locZh}${chg}。${pen > 0 ? "罚款 $" + pen.toFixed(0) + "。" : ""}${r.hearing_result ? "听证结果:" + r.hearing_result + "。" : ""}`.trim(),
+        englishSummary: `${locEn}${chg}${r.charge_1_code_section ? " (§" + r.charge_1_code_section + ")" : ""}${pen > 0 ? " · penalty $" + pen.toFixed(0) : ""}${r.hearing_result ? " · " + r.hearing_result : ""}`,
+        businessImpact: full ? `门店 Store: ${full}` : null,
         riskLevel: (pen >= 2500 ? "高风险" : pen >= 500 ? "中风险" : pen > 0 ? "低风险" : "信息参考") as EnvironmentRecord["riskLevel"],
         sourceUrl: url,
         recommendedAction: null, topic: null, applicabilityRuleId: null,
@@ -1530,29 +1591,35 @@ async function collectDSNYEnvironment(): Promise<SourceResult> {
 async function collectDCWPConsumer(): Promise<SourceResult> {
   const name = "NYC DCWP consumer/worker enforcement (respondent = Luckin, via OATH)";
   try {
+    const stores = loadOwnedStores();
     const rows = await oathOwned(["%DCA %", "%DCA-%", "%CONSUMER%", "%WORKER%"]);
     const out: ConsumerRecord[] = rows.map((r) => {
       const chg = (r.charge_1_code_description || "DCWP consumer/worker violation").replace(/\s+/g, " ").trim();
       const pen = Number(r.penalty_imposed || 0);
       const url = `${OATH_BASE}?ticket_number=${r.ticket_number}`;
+      const { storeName, full } = oathLocationLabel(storeForOATHRow(stores, r), r);
+      const atStore = storeName ? ` @ ${storeName}` : "";
+      const atStoreZh = storeName ? `(${storeName})` : "";
+      const locEn = full ? `Store: ${full} · ` : "";
+      const locZh = full ? `门店:${full}。` : "";
       return {
         id: hashId("con-dcwp", r.ticket_number),
         module: "consumer" as const, no: null,
         jurisdiction: "New York City" as const,
         regulationName: chg,
-        chineseTitle: `DCWP 消费者/劳工执法 — ${chg}`,
-        englishTitle: `DCWP consumer/worker violation — ${chg}`,
+        chineseTitle: `DCWP 消费者/劳工执法${atStoreZh} — ${chg}`,
+        englishTitle: `DCWP consumer/worker violation${atStore} — ${chg}`,
         agency: `NYC DCWP (${r.issuing_agency || "Consumer Affairs"})`,
         applicabilityThreshold: null, appliesToUs: true,
         keyRequirements: null,
-        complaintEnforcementRecord: `OATH #${r.ticket_number || "—"}${r.charge_1_code_section ? " · §" + r.charge_1_code_section : ""}${pen > 0 ? " · penalty $" + pen.toFixed(0) : ""}${r.hearing_result ? " · " + r.hearing_result : ""}`,
+        complaintEnforcementRecord: `OATH #${r.ticket_number || "—"}${full ? " · " + full : ""}${r.charge_1_code_section ? " · §" + r.charge_1_code_section : ""}${pen > 0 ? " · penalty $" + pen.toFixed(0) : ""}${r.hearing_result ? " · " + r.hearing_result : ""}`,
         status: null,
         effectiveDate: isoFromYmd(r.violation_date),
         riskLevel: (pen >= 2500 ? "高风险" : pen >= 500 ? "中风险" : pen > 0 ? "低风险" : "信息参考") as ConsumerRecord["riskLevel"],
         sourceUrl: url,
         recommendedAction: null,
-        chineseSummary: `${chg}。${pen > 0 ? "罚款 $" + pen.toFixed(0) + "。" : ""}${r.hearing_result ? "听证结果:" + r.hearing_result + "。" : ""}`.trim(),
-        englishSummary: `${chg}${pen > 0 ? " · penalty $" + pen.toFixed(0) : ""}${r.hearing_result ? " · " + r.hearing_result : ""}`,
+        chineseSummary: `${locZh}${chg}。${pen > 0 ? "罚款 $" + pen.toFixed(0) + "。" : ""}${r.hearing_result ? "听证结果:" + r.hearing_result + "。" : ""}`.trim(),
+        englishSummary: `${locEn}${chg}${pen > 0 ? " · penalty $" + pen.toFixed(0) : ""}${r.hearing_result ? " · " + r.hearing_result : ""}`,
         topic: null, applicabilityRuleId: null,
         alertTriggered: false, alertReason: null, alertRuleIds: [],
         reviewed: true, reviewStatus: "approved" as const,
@@ -1590,15 +1657,6 @@ const NON_FOODSAFETY_AGENCIES = ["%SANITATION%", "%DSNY%", "DOS -%", "%DCA %", "
 async function collectOwnedFoodSafetyOATH(): Promise<SourceResult> {
   const name = "NYC DOHMH / owned-entity food-safety summonses (via OATH)";
   const stores = loadOwnedStores();
-  const storeAt = (house: string, zip: string): Record<string, unknown> | null => {
-    if (!house || !zip) return null;
-    return (
-      stores.find((s) => {
-        const m = /^\s*(\d+)/.exec(String(s.address ?? ""));
-        return !!m && m[1] === house && String(s.zip ?? "") === zip;
-      }) ?? null
-    );
-  };
   try {
     // owned respondent AND (DOHMH OR agency-not-yet-labeled), minus the DSNY/DCWP agencies routed elsewhere.
     const excluded = NON_FOODSAFETY_AGENCIES.map((a) => `upper(issuing_agency) not like '${a}'`).join(" AND ");
@@ -1620,13 +1678,8 @@ async function collectOwnedFoodSafetyOATH(): Promise<SourceResult> {
       const isDohmh = (r.issuing_agency || "").toUpperCase().includes("DOHMH");
       // for our own entity the respondent address IS the store, so it's a safe fallback when the
       // violation-location house is blank (as it is on OATH's zip-only DOHMH rows).
-      const st =
-        storeAt(r.violation_location_house || "", r.violation_location_zip_code || "") ??
-        storeAt(r.respondent_address_house || "", r.violation_location_zip_code || r.respondent_address_zip_code || "");
-      const addr =
-        [r.violation_location_house, r.violation_location_street_name, r.violation_location_city, r.violation_location_zip_code]
-          .filter(Boolean)
-          .join(" ") || null;
+      const st = storeForOATHRow(stores, r);
+      const addr = oathViolationAddress(r);
       const url = `${OATH_BASE}?ticket_number=${r.ticket_number}`;
       return finalizeInspection({
         no: null,
