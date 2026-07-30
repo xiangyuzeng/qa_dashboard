@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo } from "react";
+import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import type { ColumnDef } from "@tanstack/react-table";
 import { useLocale, useT } from "@/src/lib/i18n/locale";
@@ -49,13 +50,9 @@ export function EnforcementClient({ data }: { data: EnforcementRecord[] }) {
           const summary = pickLang(locale, r.chineseSummary, r.englishSummary);
           return (
             <div className="max-w-xl">
-              {r.sourceUrl ? (
-                <a href={r.sourceUrl} target="_blank" rel="noopener noreferrer" className="font-medium text-brandnavy hover:underline">
-                  {title} ↗
-                </a>
-              ) : (
-                <span className="font-medium text-slate-800">{title}</span>
-              )}
+              <Link href={`/enforcement/${r.id}`} className="font-medium text-brandnavy hover:underline">
+                {title}
+              </Link>
               {summary && <ExpandableText text={summary} className="mt-0.5" />}
             </div>
           );
