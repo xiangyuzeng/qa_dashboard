@@ -17,7 +17,24 @@ export const CURATED_SOURCE_IDS = new Set<string>([
   "manual_intake", // inspections (partial)
 ]);
 
+/**
+ * Live enforcement source ids: real summonses/violations issued to us, collected INTO the
+ * domain modules (environment/building/consumer) but conceptually NOT regulations. The data
+ * layer routes these to the dedicated /enforcement view and keeps domain pages regulations-only.
+ */
+export const ENFORCEMENT_SOURCE_IDS = new Set<string>([
+  "nyc_dsny_enforcement", // environment — DSNY sanitation summonses (OATH)
+  "nyc_dob_violations", // building — DOB/ECB violations
+  "nyc_dcwp_consumer", // consumer — DCWP summonses (OATH)
+]);
+
 type WithProvenance = { provenance?: { sourceId?: string | null } | null };
+
+/** True when the record is a live enforcement action (a penalty), not a regulation. */
+export function isEnforcement(r: WithProvenance): boolean {
+  const sid = r.provenance?.sourceId ?? null;
+  return sid != null && ENFORCEMENT_SOURCE_IDS.has(sid);
+}
 
 /**
  * True when every record comes from a curated seed source (no live-fetched rows) — i.e. the module
