@@ -1428,6 +1428,11 @@ const OWNED_RESPONDENTS = ["LUCKIN COFFEE%", "FIRST RAY OPERATIONS%", "FIRST RAY
 const ownedRespondentClause = (col: string): string =>
   "(" + OWNED_RESPONDENTS.map((n) => `upper(${col}) like '${n}'`).join(" OR ") + ")";
 const OATH_BASE = "https://data.cityofnewyork.us/resource/jz4z-kudi.json";
+// Human, actionable OATH/ECB summons lookup (view charges, hearing status, pay/dispute/settle).
+// The record links here instead of the raw Open-Data JSON API; CityPay's summons search is
+// POST-only (no GET deep-link), so the summons number is surfaced in the record summary to paste
+// in. The raw API query stays as the record's provenance (data lineage).
+const CITYPAY_ECB = "https://a836-citypay.nyc.gov/citypay/ecb";
 
 async function oathOwned(agencyLike: string[], limit = 50): Promise<Record<string, string>[]> {
   const clause = agencyLike.map((a) => `upper(issuing_agency) like '${a}'`).join(" OR ");
@@ -1573,13 +1578,13 @@ async function collectDOBBuilding(): Promise<SourceResult> {
         effectiveDate: isoFromYmd(r.issue_date),
         coveredEntities: null,
         keyRequirements: null,
-        chineseSummary: `NYC 建筑管制局(ECB/DOB)违规:${vtype}。${penaltyStr(pen) ? "罚款 $" + pen.toFixed(0) + (bal > 0 ? ",待缴 $" + bal.toFixed(0) : "") + "。" : ""}`.trim(),
-        englishSummary: desc || vtype,
+        chineseSummary: `NYC 建筑管制局(ECB/DOB)违规:${vtype}。${penaltyStr(pen) ? "罚款 $" + pen.toFixed(0) + (bal > 0 ? ",待缴 $" + bal.toFixed(0) : "") + "。" : ""}${r.ecb_violation_number ? " · ECB 编号 " + r.ecb_violation_number : ""}`.trim(),
+        englishSummary: `${desc || vtype}${r.ecb_violation_number ? " · ECB #" + r.ecb_violation_number : ""}`,
         businessImpact: null,
         inspectionCitationRecord: `ECB #${r.ecb_violation_number || "—"} · status ${r.ecb_violation_status || "—"}${r.hearing_date ? " · hearing " + (isoFromYmd(r.hearing_date) || r.hearing_date) : ""}`,
         penalty: penaltyStr(pen) ? penaltyStr(pen)! + (bal > 0 ? `, balance due $${bal.toFixed(0)}` : ", paid") : null,
         riskLevel: (sev.includes("1") ? "高风险" : sev.includes("2") ? "中风险" : "低风险") as BuildingRecord["riskLevel"],
-        sourceUrl: url,
+        sourceUrl: CITYPAY_ECB,
         recommendedAction: null,
         topic: null,
         alertTriggered: false, alertReason: null, alertRuleIds: [],
@@ -1620,11 +1625,11 @@ async function collectDSNYEnvironment(): Promise<SourceResult> {
         status: null,
         effectiveDate: isoFromYmd(r.violation_date),
         keyRequirements: null,
-        chineseSummary: `${locZh}${chg}。${det.zh}`.trim(),
-        englishSummary: `${locEn}${chg}${r.charge_1_code_section ? " (§" + r.charge_1_code_section + ")" : ""}${det.en ? " · " + det.en : ""}`,
+        chineseSummary: `${locZh}${chg}。${det.zh}${r.ticket_number ? " · 传票号 " + r.ticket_number : ""}`.trim(),
+        englishSummary: `${locEn}${chg}${r.charge_1_code_section ? " (§" + r.charge_1_code_section + ")" : ""}${det.en ? " · " + det.en : ""}${r.ticket_number ? " · Summons " + r.ticket_number : ""}`,
         businessImpact: full ? `门店 Store: ${full}` : null,
         riskLevel: (det.amount >= 2500 ? "高风险" : det.amount >= 500 ? "中风险" : det.amount > 0 ? "低风险" : "信息参考") as EnvironmentRecord["riskLevel"],
-        sourceUrl: url,
+        sourceUrl: CITYPAY_ECB,
         recommendedAction: null, topic: null, applicabilityRuleId: null,
         alertTriggered: false, alertReason: null, alertRuleIds: [],
         reviewed: true, reviewStatus: "approved" as const,
@@ -1666,10 +1671,10 @@ async function collectDCWPConsumer(): Promise<SourceResult> {
         status: null,
         effectiveDate: isoFromYmd(r.violation_date),
         riskLevel: (det.amount >= 2500 ? "高风险" : det.amount >= 500 ? "中风险" : det.amount > 0 ? "低风险" : "信息参考") as ConsumerRecord["riskLevel"],
-        sourceUrl: url,
+        sourceUrl: CITYPAY_ECB,
         recommendedAction: null,
-        chineseSummary: `${locZh}${chg}。${det.zh}`.trim(),
-        englishSummary: `${locEn}${chg}${det.en ? " · " + det.en : ""}`,
+        chineseSummary: `${locZh}${chg}。${det.zh}${r.ticket_number ? " · 传票号 " + r.ticket_number : ""}`.trim(),
+        englishSummary: `${locEn}${chg}${det.en ? " · " + det.en : ""}${r.ticket_number ? " · Summons " + r.ticket_number : ""}`,
         topic: null, applicabilityRuleId: null,
         alertTriggered: false, alertReason: null, alertRuleIds: [],
         reviewed: true, reviewStatus: "approved" as const,
@@ -1755,7 +1760,7 @@ async function collectOwnedFoodSafetyOATH(): Promise<SourceResult> {
         recommendedAction: null,
         violationText: charges,
         sourceId: "nyc_dohmh_oath",
-        sourceUrl: url,
+        sourceUrl: CITYPAY_ECB,
       });
     });
     return {
