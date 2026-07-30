@@ -28,6 +28,7 @@ export const en = {
     building: "Building & Safety",
     environment: "Environmental",
     consumer: "Consumer Protection",
+    enforcement: "Enforcement",
     review: "Review Queue",
     groupIntelligence: "Intelligence",
     groupModules: "Modules",
@@ -379,6 +380,18 @@ export const en = {
     title: "Consumer & Worker Protection",
     subtitle: "NYC DCWP · state AG · FTC — refund posting, signage, complaints",
   },
+  enforcement: {
+    title: "Enforcement & Penalties",
+    subtitle: "Real summonses & violations issued to Luckin (First Ray) — DSNY sanitation · DOB building · DCWP consumer",
+    note: "Pulled from NYC OATH/ECB open data by respondent name — actual penalties against our entity, kept separate from the regulations in each domain module.",
+    colAgency: "Agency",
+    colViolation: "Violation / summons",
+    colIssuer: "Issuing agency",
+    colDate: "Date",
+    colYear: "Year",
+    kpiTotal: "Total penalties",
+    empty: "No enforcement actions on record for our stores.",
+  },
 };
 
 export type Messages = typeof en;
@@ -405,6 +418,7 @@ export const zh: Messages = {
     building: "建筑与职业安全",
     environment: "环境卫生",
     consumer: "消费者保护",
+    enforcement: "执法罚单",
     review: "审核队列",
     groupIntelligence: "情报",
     groupModules: "监测模块",
@@ -755,6 +769,18 @@ export const zh: Messages = {
   consumer: {
     title: "消费者与员工保护",
     subtitle: "NYC DCWP · 州检察长 · FTC —— 退款告示、标价、投诉",
+  },
+  enforcement: {
+    title: "执法与罚单",
+    subtitle: "开给瑞幸（First Ray）的真实传票/罚单 —— DSNY 环卫 · DOB 建筑 · DCWP 消费者",
+    note: "按被诉方名称从 NYC OATH/ECB 开放数据采集，是针对我方主体的真实处罚，已与各领域模块里的法规分开单列。",
+    colAgency: "机构",
+    colViolation: "违规 / 传票",
+    colIssuer: "开单机构",
+    colDate: "日期",
+    colYear: "年份",
+    kpiTotal: "罚单总数",
+    empty: "我方门店暂无执法处罚记录。",
   },
 };
 

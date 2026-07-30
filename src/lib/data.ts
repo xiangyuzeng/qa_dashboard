@@ -41,6 +41,7 @@ import {
   type Meta,
 } from "./schema";
 import { reasonText, type ReviewItem } from "./review";
+import { isEnforcement } from "./dataMode";
 
 import regulatoryJson from "@/data/v2/regulatory.json";
 import inspectionsJson from "@/data/v2/inspections.json";
@@ -118,19 +119,94 @@ export function getLabor(): LaborRecord[] {
   return ALL_LABOR.filter(isServable);
 }
 
-/** Module 7 — 建筑与职业安全 Building & Occupational Safety (servable only). */
+/**
+ * Domain modules serve REGULATIONS only — live enforcement rows (real summonses issued to us)
+ * are routed to getEnforcement()/the /enforcement view instead, so a penalty never masquerades
+ * as a regulation (with its summons date shown as an "effective date").
+ */
+/** Module 7 — 建筑与职业安全 Building & Occupational Safety (regulations, servable). */
 export function getBuilding(): BuildingRecord[] {
-  return ALL_BUILDING.filter(isServable);
+  return ALL_BUILDING.filter((r) => isServable(r) && !isEnforcement(r));
 }
 
-/** Module 8 — 环境卫生 Environmental & Sanitation (servable only). */
+/** Module 8 — 环境卫生 Environmental & Sanitation (regulations, servable). */
 export function getEnvironment(): EnvironmentRecord[] {
-  return ALL_ENVIRONMENT.filter(isServable);
+  return ALL_ENVIRONMENT.filter((r) => isServable(r) && !isEnforcement(r));
 }
 
-/** Module 9 — 消费者与员工保护 Consumer & Worker Protection (servable only). */
+/** Module 9 — 消费者与员工保护 Consumer & Worker Protection (regulations, servable). */
 export function getConsumer(): ConsumerRecord[] {
-  return ALL_CONSUMER.filter(isServable);
+  return ALL_CONSUMER.filter((r) => isServable(r) && !isEnforcement(r));
+}
+
+/**
+ * Enforcement & penalties — real summonses/violations issued to Luckin (First Ray), pulled
+ * from the domain files by provenance and normalized to one shape. Newest first.
+ */
+export type EnforcementRecord = {
+  id: string;
+  sourceId: string;
+  originModule: "environment" | "building" | "consumer";
+  agencyGroup: "DSNY" | "DOB" | "DCWP" | "OTHER";
+  agency: string | null;
+  jurisdiction: string | null;
+  chineseTitle: string | null;
+  englishTitle: string | null;
+  chineseSummary: string | null;
+  englishSummary: string | null;
+  date: string | null; // summons/adjudication date (stored as effectiveDate on the source row)
+  riskLevel: string | null;
+  sourceUrl: string | null;
+  recommendedAction: string | null;
+};
+
+const AGENCY_GROUP: Record<string, EnforcementRecord["agencyGroup"]> = {
+  nyc_dsny_enforcement: "DSNY",
+  nyc_dob_violations: "DOB",
+  nyc_dcwp_consumer: "DCWP",
+};
+
+type EnforcementSource = {
+  id: string;
+  jurisdiction: string | null;
+  chineseTitle: string | null;
+  englishTitle: string | null;
+  chineseSummary: string | null;
+  englishSummary: string | null;
+  agency: string | null;
+  effectiveDate: string | null;
+  riskLevel: string | null;
+  sourceUrl: string | null;
+  recommendedAction: string | null;
+  provenance?: { sourceId?: string | null } | null;
+};
+
+function toEnforcement(r: EnforcementSource, originModule: EnforcementRecord["originModule"]): EnforcementRecord {
+  const sid = r.provenance?.sourceId ?? "";
+  return {
+    id: r.id,
+    sourceId: sid,
+    originModule,
+    agencyGroup: AGENCY_GROUP[sid] ?? "OTHER",
+    agency: r.agency,
+    jurisdiction: r.jurisdiction,
+    chineseTitle: r.chineseTitle,
+    englishTitle: r.englishTitle,
+    chineseSummary: r.chineseSummary,
+    englishSummary: r.englishSummary,
+    date: r.effectiveDate,
+    riskLevel: r.riskLevel,
+    sourceUrl: r.sourceUrl,
+    recommendedAction: r.recommendedAction,
+  };
+}
+
+export function getEnforcement(): EnforcementRecord[] {
+  const out: EnforcementRecord[] = [];
+  for (const r of ALL_ENVIRONMENT) if (isServable(r) && isEnforcement(r)) out.push(toEnforcement(r, "environment"));
+  for (const r of ALL_BUILDING) if (isServable(r) && isEnforcement(r)) out.push(toEnforcement(r, "building"));
+  for (const r of ALL_CONSUMER) if (isServable(r) && isEnforcement(r)) out.push(toEnforcement(r, "consumer"));
+  return out.sort((a, b) => (b.date ?? "").localeCompare(a.date ?? ""));
 }
 
 /**
