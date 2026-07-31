@@ -156,9 +156,14 @@ export type EnforcementRecord = {
   englishSummary: string | null;
   date: string | null; // summons/adjudication date (stored as effectiveDate on the source row)
   riskLevel: string | null;
-  sourceUrl: string | null;
   recommendedAction: string | null;
+  ticketNumber: string | null; // OATH summons / ECB violation number (from the open-data query)
+  govUrl: string; // human government lookup page (NYC CityPay ECB)
+  apiUrl: string | null; // raw NYC Open Data API query (data lineage)
 };
+
+// Human, actionable NYC government lookup for OATH/ECB summonses (view charges, pay/dispute/settle).
+const CITYPAY_ECB_URL = "https://a836-citypay.nyc.gov/citypay/ecb";
 
 const AGENCY_GROUP: Record<string, EnforcementRecord["agencyGroup"]> = {
   nyc_dsny_enforcement: "DSNY",
@@ -178,11 +183,14 @@ type EnforcementSource = {
   riskLevel: string | null;
   sourceUrl: string | null;
   recommendedAction: string | null;
-  provenance?: { sourceId?: string | null } | null;
+  provenance?: { sourceId?: string | null; sourceUrl?: string | null } | null;
 };
 
 function toEnforcement(r: EnforcementSource, originModule: EnforcementRecord["originModule"]): EnforcementRecord {
   const sid = r.provenance?.sourceId ?? "";
+  // The raw open-data query (provenance, else the legacy sourceUrl) carries the summons number.
+  const apiUrl = r.provenance?.sourceUrl ?? (r.sourceUrl && /data\.cityofnewyork\.us/.test(r.sourceUrl) ? r.sourceUrl : null);
+  const ticketNumber = apiUrl?.match(/(?:ticket_number|ecb_violation_number)=([^&]+)/)?.[1] ?? null;
   return {
     id: r.id,
     sourceId: sid,
@@ -196,8 +204,10 @@ function toEnforcement(r: EnforcementSource, originModule: EnforcementRecord["or
     englishSummary: r.englishSummary,
     date: r.effectiveDate,
     riskLevel: r.riskLevel,
-    sourceUrl: r.sourceUrl,
     recommendedAction: r.recommendedAction,
+    ticketNumber,
+    govUrl: CITYPAY_ECB_URL,
+    apiUrl,
   };
 }
 
@@ -207,6 +217,15 @@ export function getEnforcement(): EnforcementRecord[] {
   for (const r of ALL_BUILDING) if (isServable(r) && isEnforcement(r)) out.push(toEnforcement(r, "building"));
   for (const r of ALL_CONSUMER) if (isServable(r) && isEnforcement(r)) out.push(toEnforcement(r, "consumer"));
   return out.sort((a, b) => (b.date ?? "").localeCompare(a.date ?? ""));
+}
+
+/** All enforcement ids — for generateStaticParams on the /enforcement/[id] drill-down. */
+export function getEnforcementIds(): string[] {
+  return getEnforcement().map((r) => r.id);
+}
+
+export function getEnforcementById(id: string): EnforcementRecord | undefined {
+  return getEnforcement().find((r) => r.id === id);
 }
 
 /**

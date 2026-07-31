@@ -391,6 +391,14 @@ export const en = {
     colYear: "Year",
     kpiTotal: "Total penalties",
     empty: "No enforcement actions on record for our stores.",
+    fields: "Summons details",
+    summary: "Summary",
+    ticketNumber: "Summons #",
+    recommended: "Recommended action",
+    lookupTitle: "Government lookup",
+    govNote: "CityPay has no per-summons deep link — open CityPay and search by the summons number above (view charges & hearing status, pay/dispute/settle).",
+    viewOnGov: "View on CityPay",
+    rawData: "Raw open-data record",
   },
 };
 
@@ -781,6 +789,14 @@ export const zh: Messages = {
     colYear: "年份",
     kpiTotal: "罚单总数",
     empty: "我方门店暂无执法处罚记录。",
+    fields: "传票详情",
+    summary: "摘要",
+    ticketNumber: "传票号",
+    recommended: "建议行动",
+    lookupTitle: "政府页面查询",
+    govNote: "CityPay 无法按单号深链——打开 CityPay，用上方传票号搜索即可（查看罚项与裁决状态，并缴费/申辩/和解）。",
+    viewOnGov: "在 CityPay 查看",
+    rawData: "原始开放数据记录",
   },
 };
 
