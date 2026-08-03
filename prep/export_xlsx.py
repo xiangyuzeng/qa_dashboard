@@ -1,19 +1,21 @@
 #!/usr/bin/env python3
 """
-Excel export — builds a 7-sheet styled workbook FROM SCRATCH with openpyxl.Workbook()
+Excel export — builds a 13-sheet styled workbook FROM SCRATCH with openpyxl.Workbook()
 (no template). The old May workbook was the 6-sheet "no-café" variant with zero risk
 fills (the "too plain" artifact); this rewrite authors the workbook in code so the
 styling — 5-level Risk-Level cell fills, navy bilingual frozen headers, autofilter — is
 the source of truth.
 
 Sheets: 1) 月度摘要 Monthly Summary · 2) 食品安全主表 · 3) 进口出口监管 · 4) 州地方法规 ·
-5) 咖啡馆检查 (incl. 门店编号) · 6) 数据源日志 · 7) 字段说明.
+5) 用工合规 · 6) 建筑与职业安全 · 7) 环境卫生 · 8) 消费者与员工保护 · 9) 执法罚单 ·
+10) 咖啡馆检查 (incl. 门店编号) · 11) 适用性矩阵 · 12) 数据源日志 · 13) 字段说明.
 Output is a STATIC file the dashboard links to (public/exports/monthly_report.xlsx).
 
 Run: npm run prep:export   (python3 prep/export_xlsx.py)  ·  needs: pip install openpyxl
 """
 import json
 import os
+import re
 from openpyxl import Workbook, load_workbook
 from openpyxl.styles import PatternFill, Font, Alignment, Border, Side
 from openpyxl.utils import get_column_letter
@@ -60,6 +62,15 @@ SHEET8_COLS = ["no", "jurisdiction", "regulationName", "chineseTitle", "englishT
                "applicabilityThreshold", "appliesToUs", "keyRequirements", "complaintEnforcementRecord",
                "status", "effectiveDate", "riskLevel", "sourceUrl", "recommendedAction"]
 assert len(SHEET5_COLS) == 18 and len(SHEET6_COLS) == 19 and len(SHEET7_COLS) == 17 and len(SHEET8_COLS) == 15
+
+# ── 执法罚单 Enforcement — real summonses issued to us. Deliberately NOT mirrored from
+#    src/lib/schema.ts: this sheet's shape is the DERIVED EnforcementRecord in src/lib/data.ts
+#    (ticketNumber/agencyGroup/govUrl are computed at read time, not fields on the stored
+#    Environment/Building/Consumer records), so there is no SHEET9_COLUMNS to keep in sync. ──
+SHEET_ENF_COLS = ["no", "agencyGroup", "agency", "ticketNumber", "date", "jurisdiction",
+                  "chineseTitle", "englishTitle", "chineseSummary", "englishSummary",
+                  "originModule", "riskLevel", "recommendedAction", "govUrl", "apiUrl"]
+assert len(SHEET_ENF_COLS) == 15
 
 # ── Bilingual headers (data-key → "中文\nEnglish") ──
 HDR1 = {
@@ -117,12 +128,67 @@ HDR_DOMAIN = {
 }
 HDR5 = HDR6 = HDR7 = HDR8 = HDR_DOMAIN
 
+# ── 执法罚单 headers ──
+HDR_ENF = {
+    "no": "序号\nNo.", "agencyGroup": "执法机构\nAgency", "agency": "签发单位\nIssuer",
+    "ticketNumber": "传票号\nSummons No.", "date": "罚单日期\nSummons Date",
+    "jurisdiction": "地区\nJurisdiction", "chineseTitle": "违规事项\nViolation (ZH)",
+    "englishTitle": "违规事项\nViolation (EN)", "chineseSummary": "中文摘要\nSummary (ZH)",
+    "englishSummary": "英文摘要\nSummary (EN)", "originModule": "来源模块\nOrigin Module",
+    "riskLevel": "风险等级\nRisk Level", "recommendedAction": "建议行动\nRecommended Action",
+    "govUrl": "缴费/申诉\nPay / Dispute", "apiUrl": "数据溯源\nData Lineage",
+}
+
 MODULE_LABEL = {
     "food_safety": "食品安全 Food Safety", "import": "进口出口 Import", "regulation": "州地方法规 Regulation",
     "inspection": "咖啡馆检查 Inspection", "sentiment": "负面舆情 Sentiment",
     "labor": "用工合规 Labor", "building": "建筑与职业安全 Building", "environment": "环境卫生 Environmental",
-    "consumer": "消费者与员工保护 Consumer",
+    "consumer": "消费者与员工保护 Consumer", "enforcement": "执法罚单 Enforcement",
 }
+
+# ── Enforcement routing — MIRRORS src/lib/dataMode.ts ENFORCEMENT_SOURCE_IDS and
+#    src/lib/data.ts toEnforcement(). Live summonses issued to us are collected INTO the
+#    environment/building/consumer domain files but are NOT regulations: the dashboard routes
+#    them to /enforcement and keeps the domain pages regulations-only. The export must make the
+#    same split, or a penalty ships in a regulation sheet with its summons date read as an
+#    "effective date". ──
+ENFORCEMENT_SOURCE_IDS = {"nyc_dsny_enforcement", "nyc_dob_violations", "nyc_dcwp_consumer"}
+AGENCY_GROUP = {"nyc_dsny_enforcement": "DSNY", "nyc_dob_violations": "DOB", "nyc_dcwp_consumer": "DCWP"}
+# Human, actionable NYC lookup for OATH/ECB summonses (view charges, pay/dispute/settle).
+CITYPAY_ECB_URL = "https://a836-citypay.nyc.gov/citypay/ecb"
+TICKET_RE = re.compile(r"(?:ticket_number|ecb_violation_number)=([^&]+)")
+
+
+def is_enforcement(r):
+    return ((r.get("provenance") or {}).get("sourceId")) in ENFORCEMENT_SOURCE_IDS
+
+
+def to_enforcement(r, origin_module):
+    """Normalize a domain row into the flat enforcement shape (mirrors toEnforcement in data.ts)."""
+    prov = r.get("provenance") or {}
+    sid = prov.get("sourceId") or ""
+    # The raw open-data query (provenance, else the legacy sourceUrl) carries the summons number.
+    api_url = prov.get("sourceUrl")
+    if not api_url:
+        su = r.get("sourceUrl")
+        api_url = su if su and "data.cityofnewyork.us" in su else None
+    m = TICKET_RE.search(api_url) if api_url else None
+    return {
+        "agencyGroup": AGENCY_GROUP.get(sid, "OTHER"),
+        "agency": r.get("agency"),
+        "ticketNumber": m.group(1) if m else None,
+        "date": r.get("effectiveDate"),  # summons/adjudication date, stored as effectiveDate
+        "jurisdiction": r.get("jurisdiction"),
+        "chineseTitle": r.get("chineseTitle"),
+        "englishTitle": r.get("englishTitle"),
+        "chineseSummary": r.get("chineseSummary"),
+        "englishSummary": r.get("englishSummary"),
+        "originModule": MODULE_LABEL[origin_module],
+        "riskLevel": r.get("riskLevel"),
+        "recommendedAction": r.get("recommendedAction"),
+        "govUrl": CITYPAY_ECB_URL,
+        "apiUrl": api_url,
+    }
 # mirrors the bilingual glosses in src/lib/schema.ts PullStatusEnum comments
 STATUS_LABEL = {
     "fetched": "已抓取 Fetched", "filtered": "已筛选 Filtered", "no_update": "未发现更新 No update",
@@ -165,7 +231,10 @@ WIDTHS = {
     # V2.5 compliance-domain columns
     "codeStandardName": 28, "regulationName": 28, "applicabilityThreshold": 26, "appliesToUs": 14,
     "enforcementRecord": 32, "codeCitation": 20, "inspectionCitationRecord": 30, "penalty": 22,
-    "complaintEnforcementRecord": 30, "_default": 18,
+    "complaintEnforcementRecord": 30,
+    # 执法罚单 columns
+    "agencyGroup": 12, "ticketNumber": 18, "date": 13, "originModule": 22, "govUrl": 34, "apiUrl": 46,
+    "_default": 18,
 }
 SUMMARY_COLS = 7  # width of the bespoke summary sheet (A..G)
 
@@ -309,7 +378,8 @@ def build_summary_sheet(wb, meta, matrix, verdicts=None):
     c.fill, c.font, c.alignment, c.border = HEADER_FILL, HEADER_FONT, HEADER_ALIGN, BORDER
     ws.row_dimensions[r].height = 24
     r += 1
-    for m in ["food_safety", "import", "regulation", "labor", "building", "environment", "consumer", "inspection", "sentiment"]:
+    for m in ["food_safety", "import", "regulation", "labor", "building", "environment", "consumer",
+              "enforcement", "inspection", "sentiment"]:
         mc = ws.cell(row=r, column=1, value=MODULE_LABEL[m])
         mc.font, mc.border = Font(bold=True), BORDER
         total = 0
@@ -415,6 +485,9 @@ def build_field_guide_sheet(wb):
         ("（通用 Common）", "风险等级 Risk Level", "5 级：高风险 / 中风险 / 低风险 / 关注 / 信息参考；单元格按等级着色。"),
         ("（通用 Common）", "建议行动 Recommended Action", "针对该条目的质量行动建议。"),
         ("咖啡馆检查 Inspections", "门店编号 Establishment ID", "NYC camis / Boston licenseno / 设施编号；重复违规检测的稳定关联键。"),
+        ("执法罚单 Enforcement", "—", "已开具给我方（瑞幸 / First Ray）的真实罚单/传票，按 provenance 从环境卫生 / 建筑与职业安全 / 消费者与员工保护三个模块中抽出单列。这些行不再计入上述三表——罚单不是法规，其日期是开单日而非生效日。"),
+        ("执法罚单 Enforcement", "传票号 Summons No.", "OATH / ECB 传票号，可在 NYC CityPay（缴费/申诉列）查询、缴纳或申诉。"),
+        ("执法罚单 Enforcement", "数据溯源 Data Lineage", "NYC Open Data 原始查询地址（按传票号），用于复核该行来源。"),
         ("数据源日志 Sources", "状态 Status", "抓取状态：已抓取 / 已筛选 / 未发现更新 / 人工 / 排除。"),
         ("负面舆情 Sentiment", "（无独立工作表 no own sheet）", "舆情仅汇总于月度摘要（KPI + 风险分布矩阵）；明细见仪表盘 /sentiment，绝不转载文章正文。"),
     ]
@@ -455,10 +528,12 @@ def build_field_guide_sheet(wb):
     return ws
 
 
-def risk_mix(reg, imp, regs, insp, sent, labor=None, building=None, environment=None, consumer=None):
+def risk_mix(reg, imp, regs, insp, sent, labor=None, building=None, environment=None, consumer=None,
+             enforcement=None):
     mods = {"food_safety": reg, "import": imp, "regulation": regs,
             "labor": labor or [], "building": building or [], "environment": environment or [],
-            "consumer": consumer or [], "inspection": insp, "sentiment": sent}
+            "consumer": consumer or [], "enforcement": enforcement or [],
+            "inspection": insp, "sentiment": sent}
     return {m: {lvl: sum(1 for r in rows if r.get("riskLevel") == lvl) for lvl in RISK_LEVELS}
             for m, rows in mods.items()}
 
@@ -508,10 +583,14 @@ def verify(path, expect_high_fill):
     wb = load_workbook(path)
     titles = wb.sheetnames
     expect = ["月度摘要", "食品安全主表", "进口出口监管", "州地方法规", "用工合规", "建筑与职业安全",
-              "环境卫生", "消费者与员工保护", "咖啡馆检查", "适用性矩阵", "数据源日志", "字段说明"]
+              "环境卫生", "消费者与员工保护", "执法罚单", "咖啡馆检查", "适用性矩阵", "数据源日志", "字段说明"]
     assert titles == expect, f"sheet titles/order: {titles}"
     hdr5 = [c.value for c in wb["咖啡馆检查"][1]]
     assert any(h and "门店编号" in str(h) for h in hdr5), "missing 门店编号 col on 咖啡馆检查"
+    # 执法罚单 must carry the summons number (the key that ties a row to CityPay/OATH). Header-only
+    # assertion: a clean month with zero summonses is a legitimate export, not a failure.
+    hdr_enf = [c.value for c in wb["执法罚单"][1]]
+    assert any(h and "传票号" in str(h) for h in hdr_enf), "missing 传票号 col on 执法罚单"
     # Applicability sheet must carry the 适用? verdict column + at least one rule row.
     hdr_ap = [c.value for c in wb["适用性矩阵"][1]]
     assert any(h and "适用?" in str(h) for h in hdr_ap), "missing 适用? col on 适用性矩阵"
@@ -535,15 +614,29 @@ def main():
     regs = [r for r in load("regulations.json") if servable(r)]
     sent = [r for r in load("sentiment.json") if servable(r) and not r.get("excluded")]
     labor = [r for r in load("labor.json") if servable(r)]
-    building = [r for r in load("building.json") if servable(r)]
-    environment = [r for r in load("environment.json") if servable(r)]
-    consumer = [r for r in load("consumer.json") if servable(r)]
+
+    # Domain modules carry BOTH curated regulations and live enforcement rows. Split them the
+    # same way the dashboard does (getBuilding/getEnvironment/getConsumer vs getEnforcement):
+    # regulations stay on their domain sheet, summonses go to 执法罚单. Without this split the
+    # penalties ship twice — once mis-typed as a regulation.
+    building_all = [r for r in load("building.json") if servable(r)]
+    environment_all = [r for r in load("environment.json") if servable(r)]
+    consumer_all = [r for r in load("consumer.json") if servable(r)]
+    building = [r for r in building_all if not is_enforcement(r)]
+    environment = [r for r in environment_all if not is_enforcement(r)]
+    consumer = [r for r in consumer_all if not is_enforcement(r)]
+    enforcement = ([to_enforcement(r, "environment") for r in environment_all if is_enforcement(r)]
+                   + [to_enforcement(r, "building") for r in building_all if is_enforcement(r)]
+                   + [to_enforcement(r, "consumer") for r in consumer_all if is_enforcement(r)])
+    enforcement.sort(key=lambda r: r.get("date") or "", reverse=True)  # newest first, as on /enforcement
+
     verdicts = load("applicability_verdicts.json")
     meta = load("meta.json")
 
     wb = Workbook()
     wb.remove(wb.active)  # drop the default empty sheet
-    build_summary_sheet(wb, meta, risk_mix(reg, imp, regs, insp, sent, labor, building, environment, consumer), verdicts)
+    build_summary_sheet(wb, meta, risk_mix(reg, imp, regs, insp, sent, labor, building, environment,
+                                           consumer, enforcement), verdicts)
     build_table_sheet(wb, "食品安全主表", SHEET1_COLS, HDR1, reg)
     build_table_sheet(wb, "进口出口监管", SHEET3_COLS, HDR3, imp)
     build_table_sheet(wb, "州地方法规", SHEET4_COLS, HDR4, regs)
@@ -551,6 +644,7 @@ def main():
     build_table_sheet(wb, "建筑与职业安全", SHEET6_COLS, HDR6, building)
     build_table_sheet(wb, "环境卫生", SHEET7_COLS, HDR7, environment)
     build_table_sheet(wb, "消费者与员工保护", SHEET8_COLS, HDR8, consumer)
+    build_table_sheet(wb, "执法罚单", SHEET_ENF_COLS, HDR_ENF, enforcement)
     build_table_sheet(wb, "咖啡馆检查", SHEET2_COLS, HDR2, insp)
     build_applicability_sheet(wb, verdicts)
     build_sources_sheet(wb, meta)
@@ -558,10 +652,10 @@ def main():
 
     os.makedirs(OUT_DIR, exist_ok=True)
     wb.save(OUT)
-    print(f"export: 12 sheets — summary · {len(reg)} food-safety · {len(imp)} import · {len(regs)} regulation · "
+    print(f"export: 13 sheets — summary · {len(reg)} food-safety · {len(imp)} import · {len(regs)} regulation · "
           f"{len(labor)} labor · {len(building)} building · {len(environment)} env · {len(consumer)} consumer · "
-          f"{len(insp)} inspection · {len(verdicts)} applicability · {len(meta.get('provenance', []))} sources "
-          f"→ public/exports/monthly_report.xlsx")
+          f"{len(enforcement)} enforcement · {len(insp)} inspection · {len(verdicts)} applicability · "
+          f"{len(meta.get('provenance', []))} sources → public/exports/monthly_report.xlsx")
     verify(OUT, expect_high_fill=any(r.get("riskLevel") == "高风险" for r in reg))
 
 
