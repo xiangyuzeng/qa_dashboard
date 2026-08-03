@@ -40,7 +40,9 @@
       "osha_dob_building": 88,
       "dep_dsny_env": 85,
       "nyc_dsny_enforcement": 5,
-      "dcwp_ftc_consumer": 88
+      "dcwp_ftc_consumer": 88,
+      "nyc_dob_violations": 0,
+      "nyc_dcwp_consumer": 0
     },
     "labor": 100,
     "building": 88,
@@ -671,9 +673,23 @@
       "oneTimePullFeasible": "no"
     },
     {
+      "jurisdictionId": "New York City",
+      "endpointOrUrl": "https://data.cityofnewyork.us/resource/jz4z-kudi.json",
+      "collectedAt": "2026-08-03T09:38:08.218Z",
+      "recordCount": 38,
+      "stalenessNote": "NYC OATH/ECB hearings — strict café-chain brand match (word-boundary aliases) across DSNY/DEP/FDNY/DOB/DCWP/DOHMH. Competitor enforcement only; no fabricated brand attribution.",
+      "reVerifyBeforeRelying": false,
+      "module": "inspection",
+      "status": "fetched",
+      "sourceId": "nyc_oath",
+      "name": "NYC OATH Hearings — multi-agency enforcement",
+      "accessType": "open-data",
+      "oneTimePullFeasible": "yes"
+    },
+    {
       "jurisdictionId": null,
       "endpointOrUrl": null,
-      "collectedAt": "2026-08-03T09:38:08.218Z",
+      "collectedAt": "2026-08-03T17:19:11.509Z",
       "recordCount": 100,
       "stalenessNote": "Curated authoritative rules; live DCWP + DOL enforcedata enforcement augments when enabled.",
       "reVerifyBeforeRelying": false,
@@ -687,7 +703,7 @@
     {
       "jurisdictionId": null,
       "endpointOrUrl": "https://enforcedata.dol.gov/views/data_summary.php",
-      "collectedAt": "2026-08-03T09:38:08.218Z",
+      "collectedAt": "2026-08-03T17:19:11.509Z",
       "recordCount": 0,
       "stalenessNote": "Dormant — set DOL_ENFORCE_KEY + wire the WHD bulk parse. No rows fabricated.",
       "reVerifyBeforeRelying": true,
@@ -701,7 +717,7 @@
     {
       "jurisdictionId": null,
       "endpointOrUrl": null,
-      "collectedAt": "2026-08-03T09:38:08.218Z",
+      "collectedAt": "2026-08-03T17:19:11.509Z",
       "recordCount": 88,
       "stalenessNote": "Curated authoritative standards; live ECB/DOB violation enforcement augments (nyc_dob_violations).",
       "reVerifyBeforeRelying": false,
@@ -715,7 +731,7 @@
     {
       "jurisdictionId": null,
       "endpointOrUrl": "https://www.osha.gov/ords/imis/establishment.html",
-      "collectedAt": "2026-08-03T09:38:08.218Z",
+      "collectedAt": "2026-08-03T17:19:11.509Z",
       "recordCount": 0,
       "stalenessNote": "Dormant — wire OSHA establishment-search to brand-match citations. No rows fabricated.",
       "reVerifyBeforeRelying": true,
@@ -729,7 +745,7 @@
     {
       "jurisdictionId": null,
       "endpointOrUrl": null,
-      "collectedAt": "2026-08-03T09:38:08.218Z",
+      "collectedAt": "2026-08-03T17:19:11.509Z",
       "recordCount": 85,
       "stalenessNote": "Curated authoritative rules; live DSNY enforcement augments (nyc_dsny_enforcement).",
       "reVerifyBeforeRelying": false,
@@ -743,7 +759,7 @@
     {
       "jurisdictionId": null,
       "endpointOrUrl": null,
-      "collectedAt": "2026-08-03T09:38:08.218Z",
+      "collectedAt": "2026-08-03T17:19:11.509Z",
       "recordCount": 88,
       "stalenessNote": "Curated authoritative rules; live DCWP enforcement augments (nyc_dcwp_consumer).",
       "reVerifyBeforeRelying": false,
@@ -753,20 +769,6 @@
       "status": "manual",
       "accessType": "none",
       "oneTimePullFeasible": "partial"
-    },
-    {
-      "jurisdictionId": "New York City",
-      "endpointOrUrl": "https://data.cityofnewyork.us/resource/jz4z-kudi.json",
-      "collectedAt": "2026-08-03T09:38:08.218Z",
-      "recordCount": 38,
-      "stalenessNote": "NYC OATH/ECB hearings — strict café-chain brand match (word-boundary aliases) across DSNY/DEP/FDNY/DOB/DCWP/DOHMH. Competitor enforcement only; no fabricated brand attribution.",
-      "reVerifyBeforeRelying": false,
-      "module": "inspection",
-      "status": "fetched",
-      "sourceId": "nyc_oath",
-      "name": "NYC OATH Hearings — multi-agency enforcement",
-      "accessType": "open-data",
-      "oneTimePullFeasible": "yes"
     }
   ]
 }
