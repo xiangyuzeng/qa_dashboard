@@ -16,7 +16,7 @@ prep + redeploying is the "refresh."
 ## Stack
 Next.js 15 (App Router) · TypeScript · Tailwind · Recharts 3 · TanStack Table · Zod.
 Data: versioned JSON under `/data/v2`, read at build time. Report export: static files
-**built from scratch** — a 7-sheet styled Excel (`openpyxl`) + a matching bilingual Word `.docx`
+**built from scratch** — a 13-sheet styled Excel (`openpyxl`) + a matching bilingual Word `.docx`
 (`python-docx`); see below. **Zero serverless functions** — the entire app is static/SSG on the CDN.
 
 ## Monitoring modules (V2)
@@ -48,17 +48,21 @@ HTTP_USER_AGENT="LuckinNA-QA-FoodSafety-Monitor/1.0 (contact: you@luckin)" npm r
 # 2. (optional) add manual records for no-API jurisdictions in intake/inspections.json
 # 3. QA REVIEW the prepared /data, then validate + export
 npm run prep:validate
-npm run prep:export    # → monthly_report.xlsx (openpyxl, 7 sheets) + .docx (python-docx)
+npm run prep:export    # → monthly_report.xlsx (openpyxl, 13 sheets) + .docx (python-docx)
 # 4. commit /data + public/exports and redeploy
 ```
 `npm run prep:build` chains collect → enrich → translate → meta → validate → export
 (`prep:translate` = optional DeepL pass, see below; it no-ops without a key).
 **Prereqs for prep:** Node ≥ 20; Python 3 + `openpyxl` + `python-docx` for the export step (`pip install openpyxl python-docx`).
 
-**Excel export (7 sheets, built from scratch):** Monthly Summary · Food-Safety main · Import/Export ·
-State/Local Regulation · Café Inspections (incl. 门店编号 Establishment ID) · Sources Log · Field Guide —
-with 5-level Risk-Level cell fills, navy bilingual frozen headers, and autofilter. The exporter
-(`prep/export_xlsx.py`) reopens the file and asserts the 7 sheets / risk fills / est-id col / pull-log.
+**Excel export (13 sheets, built from scratch):** Monthly Summary · Food-Safety main · Import/Export ·
+State/Local Regulation · Labor · Building & Occupational Safety · Environmental · Consumer & Worker
+Protection · **Enforcement & Penalties** · Café Inspections (incl. 门店编号 Establishment ID) ·
+Applicability Matrix · Sources Log · Field Guide — with 5-level Risk-Level cell fills, navy bilingual
+frozen headers, and autofilter. Enforcement rows (real summonses issued to us) are split out of the
+domain sheets the same way the dashboard splits them, so a penalty never ships as a regulation. The
+exporter (`prep/export_xlsx.py`) reopens the file and asserts the 13 sheets / risk fills / est-id col /
+summons-no col / pull-log.
 A matching **bilingual Word (`.docx`) report** (`prep/export_docx.py`, python-docx) covers the same
 sections with risk-shaded tables, for stakeholders who prefer Word/PDF.
 

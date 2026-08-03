@@ -35,6 +35,10 @@ prep/.raw/
 __pycache__/
 *.pyc
 
+# python venv for the prep export step (openpyxl / python-docx)
+.venv/
+venv/
+
 # vercel
 .vercel
 

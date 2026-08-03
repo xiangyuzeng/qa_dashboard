@@ -85,17 +85,33 @@ source URL/doc ref + that the SHEET1..4 export-column lengths are 12/23/16/16 (d
 - **`provenance[]`** (`SourceProvenance`) adds `module` + `status` (PullStatusEnum:
   `fetched|filtered|no_update|manual|excluded`) for the Sheet 6 data-source log / `/sources`.
 
-## 7-sheet Excel export (`prep/export_xlsx.py`)
+## 13-sheet Excel export (`prep/export_xlsx.py`)
 Built from scratch with `openpyxl.Workbook()` (not a template). Sheets & sources:
-1. **月度摘要** ← `meta.summary` + `counts` + a module×5-level risk-mix matrix.
+1. **月度摘要** ← `meta.summary` + `counts` + a module×5-level risk-mix matrix + compliance posture.
 2. **食品安全主表** ← `SHEET1_COLUMNS` (RegulatoryRecord, 12).
 3. **进口出口监管** ← `SHEET3_COLUMNS` (ImportExportRecord, 16).
 4. **州地方法规** ← `SHEET4_COLUMNS` (RegulationRecord, 16).
-5. **咖啡馆检查** ← `SHEET2_COLUMNS` (InspectionRecord, 23, incl. 门店编号).
-6. **数据源日志** ← `meta.provenance` (source/module/status/records/URL/notes).
-7. **字段说明** — per-module field guide + risk-color & status legends.
+5. **用工合规** ← `SHEET5_COLUMNS` (LaborRecord, 18).
+6. **建筑与职业安全** ← `SHEET6_COLUMNS` (BuildingRecord, 19).
+7. **环境卫生** ← `SHEET7_COLUMNS` (EnvironmentRecord, 17).
+8. **消费者与员工保护** ← `SHEET8_COLUMNS` (ConsumerRecord, 15).
+9. **执法罚单** ← `SHEET_ENF_COLS` (15) — see "Enforcement split" below.
+10. **咖啡馆检查** ← `SHEET2_COLUMNS` (InspectionRecord, 23, incl. 门店编号).
+11. **适用性矩阵** ← `applicability_verdicts.json` (rule / threshold / our value / verdict).
+12. **数据源日志** ← `meta.provenance` (source/module/status/records/URL/notes).
+13. **字段说明** — per-module field guide + risk-color & status legends.
 Styling: 5-level Risk-Level cell fills (`高风险 F4CCCC`, `中风险 FCE4D6`, `低风险 E2EFDA`, `信息参考 FFF2CC`,
 `关注 D9EAD3`; high-risk rows also get the red fill + bold), navy bilingual frozen headers, autofilter.
-The column orders mirror `SHEET1..4_COLUMNS` in `schema.ts` (Python hardcodes + asserts the lengths;
+The column orders mirror `SHEET1..8_COLUMNS` in `schema.ts` (Python hardcodes + asserts the lengths;
 `validate.ts` prints/asserts them too). `export_xlsx.py` `verify()` reopens the file and asserts the
-7 sheets / 门店编号 col / a high-risk fill / pull-log rows. Serves `reviewed` rows only.
+13 sheets / 门店编号 col / 传票号 col / a high-risk fill / pull-log rows. Serves `reviewed` rows only.
+
+### Enforcement split (sheet 9)
+Live summonses issued to us are collected INTO the `environment` / `building` / `consumer` domain
+files (source ids `nyc_dsny_enforcement`, `nyc_dob_violations`, `nyc_dcwp_consumer` — see
+`src/lib/dataMode.ts`), but they are **not regulations**: their `effectiveDate` is the summons date,
+not a rule's effective date. The export mirrors the dashboard's split (`getEnforcement()` vs
+`getBuilding()`/`getEnvironment()`/`getConsumer()` in `src/lib/data.ts`) — enforcement rows are
+**excluded** from sheets 6–8 and normalized onto sheet 9, which adds derived columns not present on
+the stored records (`ticketNumber` parsed from the Open Data query, `agencyGroup`, CityPay `govUrl`).
+Because the shape is derived, there is deliberately **no `SHEET9_COLUMNS` in `schema.ts`** to mirror.

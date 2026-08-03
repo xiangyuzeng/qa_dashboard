@@ -1,16 +1,19 @@
 #!/usr/bin/env python3
 """
-Word (.docx) export — a bilingual monthly report mirroring the 7-section structure of the
+Word (.docx) export — a bilingual monthly report mirroring the section structure of the
 Excel export, authored from scratch with python-docx. Reuses the column arrays / headers /
-servable-filter / risk-mix logic from export_xlsx.py (single source of truth) so the two
-exports never drift. Risk-Level cells are shaded by level (5-level palette) like the workbook.
+servable-filter / risk-mix / enforcement-split logic from export_xlsx.py (single source of
+truth) so the two exports never drift. Risk-Level cells are shaded by level (5-level palette)
+like the workbook.
 
 Word is narrower than Excel, so each module renders a CURATED, readable column subset (the
 full 12/16/16/23-column tables live in the .xlsx system-of-record). The café table keeps
-门店编号 Establishment ID. Sentiment stays summary-only (no own section), same as the xlsx.
+门店编号 Establishment ID; the enforcement table keeps 传票号 Summons No. Sentiment stays
+summary-only (no own section), same as the xlsx.
 
-Sections: 月度摘要 Monthly Summary · 食品安全主表 · 进口出口监管 · 州地方法规 ·
-咖啡馆检查 · 数据源日志 · 字段说明.
+Sections: 月度摘要 Monthly Summary · 食品安全主表 · 进口出口监管 · 州地方法规 · 用工合规 ·
+建筑与职业安全 · 环境卫生 · 消费者与员工保护 · 执法罚单 · 咖啡馆检查 · 适用性矩阵 ·
+数据源日志 · 字段说明.
 Output is a STATIC file the dashboard links to (public/exports/monthly_report.docx).
 
 Run: npm run prep:export   (python3 prep/export_docx.py)   ·   needs: pip install python-docx
@@ -33,6 +36,8 @@ from export_xlsx import (
     servable,
     fmt,
     risk_mix,
+    is_enforcement,
+    to_enforcement,
     OUT_DIR,
 )
 
@@ -71,6 +76,10 @@ ENV_COLS = [("no", "序号 No."), ("jurisdiction", "地区 Jur."), ("regulationN
             ("appliesToUs", "适用 Applies"), ("status", "状态 Status"), ("riskLevel", "风险 Risk")]
 CONSUMER_COLS = [("no", "序号 No."), ("jurisdiction", "地区 Jur."), ("regulationName", "法规 Regulation"),
                  ("appliesToUs", "适用 Applies"), ("status", "状态 Status"), ("riskLevel", "风险 Risk")]
+# 执法罚单 — real summonses issued to us. Keeps 传票号 (the CityPay/OATH lookup key); the full
+# 15-column table (incl. summaries, pay/dispute + lineage URLs) lives in the .xlsx.
+ENF_COLS = [("no", "序号 No."), ("agencyGroup", "机构 Agency"), ("ticketNumber", "传票号 Summons No."),
+            ("date", "罚单日期 Date"), ("title", "违规事项 Violation"), ("riskLevel", "风险 Risk")]
 # Verdict cell shading for the Applicability section (mirror export_xlsx APPLIES_FILL fgColors).
 APPLIES_SHADE = {
     "applies": "F4CCCC", "approaching": "FCE4D6", "not_yet": "E2EFDA", "always": "DDEBF7", "na": "E7EBF0",
@@ -210,7 +219,8 @@ def build_summary(doc, meta, matrix, verdicts=None):
         _set_cell(head.cells[ci + 1], lvl, size=7.5, bold=True, color=WHITE, align_center=True)
     _shade(head.cells[-1], NAVY)
     _set_cell(head.cells[-1], "合计 Total", size=7.5, bold=True, color=WHITE, align_center=True)
-    for m in ["food_safety", "import", "regulation", "labor", "building", "environment", "consumer", "inspection", "sentiment"]:
+    for m in ["food_safety", "import", "regulation", "labor", "building", "environment", "consumer",
+              "enforcement", "inspection", "sentiment"]:
         row = mt.add_row()
         _set_cell(row.cells[0], MODULE_LABEL[m], size=8, bold=True)
         total = 0
@@ -304,6 +314,8 @@ def build_field_guide(doc):
         _set_cell(row.cells[1], RISK_DESC[lvl], size=8)
     doc.add_paragraph("数据源状态 Status：" + " · ".join(STATUS_LABEL.values()))
     doc.add_paragraph("门店编号 Establishment ID：NYC camis / Boston licenseno / 设施编号；重复违规检测的稳定关联键。")
+    doc.add_paragraph("传票号 Summons No.：OATH / ECB 传票号，可在 NYC CityPay 查询缴费或申诉。执法罚单为已开具给我方的真实罚单，"
+                      "按数据来源从环境卫生 / 建筑与职业安全 / 消费者与员工保护三节中抽出单列——罚单不是法规，其日期为开单日而非生效日。")
     doc.add_paragraph("负面舆情 Sentiment：仅汇总于月度摘要（KPI + 风险分布矩阵），明细见仪表盘 /sentiment，绝不转载文章正文。")
 
 
@@ -313,6 +325,7 @@ def verify(path):
     assert any("数据源日志" in h for h in headings), f"missing Sources section; headings={headings[:8]}"
     assert any("字段说明" in h for h in headings), "missing Field Guide section"
     assert any("用工合规" in h for h in headings), "missing Labor section"
+    assert any("执法罚单" in h for h in headings), "missing Enforcement section"
     assert any("适用性矩阵" in h for h in headings), "missing Applicability section"
     # at least one table has a 门店编号 (Establishment ID) header cell
     has_estid = any(
@@ -360,9 +373,20 @@ def main():
     regs = [r for r in load("regulations.json") if servable(r)]
     sent = [r for r in load("sentiment.json") if servable(r) and not r.get("excluded")]
     labor = [r for r in load("labor.json") if servable(r)]
-    building = [r for r in load("building.json") if servable(r)]
-    environment = [r for r in load("environment.json") if servable(r)]
-    consumer = [r for r in load("consumer.json") if servable(r)]
+
+    # Same regulation/enforcement split as the workbook (see export_xlsx.main) — summonses are
+    # not regulations and must not ship inside the domain sections.
+    building_all = [r for r in load("building.json") if servable(r)]
+    environment_all = [r for r in load("environment.json") if servable(r)]
+    consumer_all = [r for r in load("consumer.json") if servable(r)]
+    building = [r for r in building_all if not is_enforcement(r)]
+    environment = [r for r in environment_all if not is_enforcement(r)]
+    consumer = [r for r in consumer_all if not is_enforcement(r)]
+    enforcement = ([to_enforcement(r, "environment") for r in environment_all if is_enforcement(r)]
+                   + [to_enforcement(r, "building") for r in building_all if is_enforcement(r)]
+                   + [to_enforcement(r, "consumer") for r in consumer_all if is_enforcement(r)])
+    enforcement.sort(key=lambda r: r.get("date") or "", reverse=True)  # newest first
+
     verdicts = load("applicability_verdicts.json")
     meta = load("meta.json")
 
@@ -371,7 +395,8 @@ def main():
     doc.styles["Normal"].font.name = "Calibri"
     doc.styles["Normal"].font.size = Pt(9)
 
-    build_summary(doc, meta, risk_mix(reg, imp, regs, insp, sent, labor, building, environment, consumer), verdicts)
+    build_summary(doc, meta, risk_mix(reg, imp, regs, insp, sent, labor, building, environment,
+                                      consumer, enforcement), verdicts)
 
     doc.add_page_break()
     doc.add_heading("食品安全主表 Food Safety", level=1)
@@ -388,6 +413,11 @@ def main():
     add_module_table(doc, ENV_COLS, environment)
     doc.add_heading("消费者与员工保护 Consumer & Worker Protection", level=1)
     add_module_table(doc, CONSUMER_COLS, consumer)
+    doc.add_heading("执法罚单 Enforcement & Penalties", level=1)
+    doc.add_paragraph("已开具给我方的真实罚单/传票（从环境卫生 / 建筑与职业安全 / 消费者与员工保护三个模块按数据来源抽出）。"
+                      "可凭传票号在 NYC CityPay 查询、缴纳或申诉：https://a836-citypay.nyc.gov/citypay/ecb"
+                      "  /  Summonses issued to us; look up, pay or dispute by summons number at NYC CityPay.")
+    add_module_table(doc, ENF_COLS, enforcement)
     doc.add_heading("咖啡馆检查 Café Inspections", level=1)
     add_module_table(doc, INSP_COLS, insp)
 
@@ -400,7 +430,8 @@ def main():
     doc.save(OUT)
     print(f"export(docx): summary · {len(reg)} food-safety · {len(imp)} import · {len(regs)} regulation · "
           f"{len(labor)} labor · {len(building)} building · {len(environment)} env · {len(consumer)} consumer · "
-          f"{len(insp)} inspection · {len(verdicts)} applicability · {len(meta.get('provenance', []))} sources → public/exports/monthly_report.docx")
+          f"{len(enforcement)} enforcement · {len(insp)} inspection · {len(verdicts)} applicability · "
+          f"{len(meta.get('provenance', []))} sources → public/exports/monthly_report.docx")
     verify(OUT)
 
 
