@@ -55,6 +55,17 @@ npm run prep:export    # → monthly_report.xlsx (openpyxl, 13 sheets) + .docx (
 (`prep:translate` = optional DeepL pass, see below; it no-ops without a key).
 **Prereqs for prep:** Node ≥ 20; Python 3 + `openpyxl` + `python-docx` for the export step (`pip install openpyxl python-docx`).
 
+**Store footprint** (`owned_stores.json` / `company_profile.json` — the Applicability Engine's
+denominators) is refreshed separately from a read-only ops-DB extract, since it is not a public
+feed and so is not part of `prep:collect`:
+```bash
+python3 prep/build_footprint.py            # dry-run: field-by-field diff, writes nothing
+python3 prep/build_footprint.py --apply    # then: prep:domains → prep:validate → prep:export
+```
+It **patches** the committed rows rather than regenerating them — `dohEstablishmentId` (CAMIS),
+`licenseNumbers`, `reviewed` and `estimatedEmployeeCount` do not come from the ops DB and must
+survive a refresh. Running it when the roster is already current is a no-op.
+
 **Excel export (13 sheets, built from scratch):** Monthly Summary · Food-Safety main · Import/Export ·
 State/Local Regulation · Labor · Building & Occupational Safety · Environmental · Consumer & Worker
 Protection · **Enforcement & Penalties** · Café Inspections (incl. 门店编号 Establishment ID) ·
