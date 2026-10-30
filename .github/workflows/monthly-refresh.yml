@@ -24,6 +24,7 @@ concurrency:
 permissions:
   contents: write
   pull-requests: write
+  issues: write
 
 jobs:
   refresh:
@@ -57,6 +58,7 @@ jobs:
           DOL_ENFORCE_KEY: ${{ secrets.DOL_ENFORCE_KEY }}
           DEEPL_KEY: ${{ secrets.DEEPL_KEY }}
         run: |
+          exec > >(tee -a prep.log) 2>&1
           npm run prep:collect
           npm run prep:enrich
           npm run prep:domains
@@ -111,3 +113,40 @@ jobs:
             `prep:validate` + `npm run build` already passed in CI.
             Merging this PR deploys via Vercel.
           delete-branch: true
+
+      # A failed refresh leaves the site on the last good snapshot, and a red scheduled run is easy
+      # to miss (Sept–Oct 2026: ~7 weeks of near-daily duplicate-id validate failures went unseen).
+      # Surface it as one open issue (body refreshed per failure, no daily ping); a green run closes it.
+      - name: Open/refresh an issue on failure
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const { owner, repo } = context.repo;
+            let log = '';
+            try { log = fs.readFileSync('prep.log', 'utf8'); } catch {}
+            const lines = log.split('\n');
+            const hits = lines.filter(l => /✗|FAILED/.test(l));
+            const excerpt = (hits.length ? hits : lines.slice(-20)).join('\n').trim();
+            const run = `${context.serverUrl}/${owner}/${repo}/actions/runs/${context.runId}`;
+            const body = `The weekday data refresh failed — the dashboard stays on the last good snapshot until a run succeeds.\n\nLatest failed run: ${run}\n\n\`\`\`\n${excerpt || '(no prep output captured — the failure was outside the prep step; see the run log)'}\n\`\`\``;
+            const open = await github.rest.issues.listForRepo({ owner, repo, state: 'open', labels: 'refresh-failure' });
+            if (open.data.length) {
+              await github.rest.issues.update({ owner, repo, issue_number: open.data[0].number, body });
+            } else {
+              await github.rest.issues.create({ owner, repo, title: 'Weekday data refresh is failing', body, labels: ['refresh-failure'] });
+            }
+
+      - name: Close the failure issue once a refresh succeeds
+        if: success()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            const run = `${context.serverUrl}/${owner}/${repo}/actions/runs/${context.runId}`;
+            const open = await github.rest.issues.listForRepo({ owner, repo, state: 'open', labels: 'refresh-failure' });
+            for (const i of open.data) {
+              await github.rest.issues.createComment({ owner, repo, issue_number: i.number, body: `Refresh succeeded again: ${run}` });
+              await github.rest.issues.update({ owner, repo, issue_number: i.number, state: 'closed' });
+            }
