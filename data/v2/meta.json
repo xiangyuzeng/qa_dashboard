@@ -1,39 +1,39 @@
 {
   "schemaVersion": "2.0.0",
-  "dataAsOf": "2026-10-21",
+  "dataAsOf": "2026-10-30",
   "reportingPeriod": {
     "label": "2026-10 (real pull)",
     "year": 2026,
     "month": 10
   },
-  "generatedAt": "2026-10-21T11:03:20.029Z",
+  "generatedAt": "2026-10-30T15:11:26.937Z",
   "isSeedData": false,
   "counts": {
-    "regulatory": 139,
-    "inspections": 242,
-    "alerts": 217,
+    "regulatory": 141,
+    "inspections": 262,
+    "alerts": 218,
     "pendingReview": 0,
     "importExport": 23,
-    "regulation": 85,
+    "regulation": 39,
     "sentiment": 15,
-    "highRisk": 192,
-    "watch": 44,
+    "highRisk": 193,
+    "watch": 37,
     "bySource": {
-      "fda_recall": 64,
-      "federal_register": 35,
+      "fda_recall": 65,
+      "federal_register": 36,
       "cdc_nors": 40,
-      "nyc_dohmh": 140,
+      "nyc_dohmh": 142,
       "nyc_dohmh_oath": 6,
-      "boston_ckan": 48,
+      "nyc_dohmh_registered": 16,
+      "boston_ckan": 50,
       "manual_intake": 10,
       "nyc_oath": 38,
       "may_report_import": 6,
       "federal_register_import": 17,
       "may_report_regulation": 8,
-      "ecfr_title21": 16,
-      "fda_food_guidance": 2,
-      "nyc_rules": 50,
-      "nyc_city_record": 9,
+      "ecfr_title21": 20,
+      "fda_food_guidance": 3,
+      "nyc_city_record": 8,
       "food_safety_news_rss": 15,
       "dcwp_dol_labor": 100,
       "osha_dob_building": 88,
@@ -67,8 +67,8 @@
     ],
     "keyHighlights": [
       {
-        "zh": "本月高风险事项 192 项、关注 44 项",
-        "en": "192 high-risk and 44 watch items this period"
+        "zh": "本月高风险事项 193 项、关注 37 项",
+        "en": "193 high-risk and 37 watch items this period"
       },
       {
         "zh": "州/地方合规临近：CA SB68 (2026-07-01)、NY 过敏原法 (~2026-11)、NYC added-sugar 已生效",
@@ -80,6 +80,46 @@
       }
     ],
     "highRiskItems": [
+      {
+        "recordId": "reg-aef8bdc5e42d",
+        "module": "food_safety",
+        "titleZh": null,
+        "titleEn": "Saratoga Potato Chips LLC: Undeclared soy.",
+        "riskLevel": "高风险",
+        "href": "/intelligence"
+      },
+      {
+        "recordId": "reg-bcb6800e2b5a",
+        "module": "food_safety",
+        "titleZh": null,
+        "titleEn": "Refresco Beverages US Inc: May contain undeclared aspartame.",
+        "riskLevel": "高风险",
+        "href": "/intelligence"
+      },
+      {
+        "recordId": "reg-44f7221ef227",
+        "module": "food_safety",
+        "titleZh": null,
+        "titleEn": "Made Fresh Salads Inc: Products may be contaminated with Listeria monocytogenes.",
+        "riskLevel": "高风险",
+        "href": "/intelligence"
+      },
+      {
+        "recordId": "reg-542482bedf24",
+        "module": "food_safety",
+        "titleZh": null,
+        "titleEn": "Holsum De Puerto Rico, Inc.: Undeclared colors (FD&C Blue No. 1 and FD&C Yellow No. 5)",
+        "riskLevel": "高风险",
+        "href": "/intelligence"
+      },
+      {
+        "recordId": "reg-ef5a83d8f6dd",
+        "module": "food_safety",
+        "titleZh": null,
+        "titleEn": "DEANO'S PASTA: Undeclared Lobster",
+        "riskLevel": "高风险",
+        "href": "/intelligence"
+      },
       {
         "recordId": "reg-c1985806173b",
         "module": "food_safety",
@@ -135,46 +175,6 @@
         "titleEn": "GIAS FOOD INC.: Contamination with Listeria monocytogenes",
         "riskLevel": "高风险",
         "href": "/intelligence"
-      },
-      {
-        "recordId": "reg-6d09bc22a231",
-        "module": "food_safety",
-        "titleZh": null,
-        "titleEn": "The Better Bakehouse Snack Company: Undeclared Milk.",
-        "riskLevel": "高风险",
-        "href": "/intelligence"
-      },
-      {
-        "recordId": "reg-abed89db8f67",
-        "module": "food_safety",
-        "titleZh": null,
-        "titleEn": "Berlin Seeds: Product contains alfalfa seed recalled by the supplier due to potential E. coli and/or Sal",
-        "riskLevel": "高风险",
-        "href": "/intelligence"
-      },
-      {
-        "recordId": "reg-070324ec599d",
-        "module": "food_safety",
-        "titleZh": null,
-        "titleEn": "Saint Francis Apizza LLC: Undeclared soy allergen: soybean oil and soy lecithin",
-        "riskLevel": "高风险",
-        "href": "/intelligence"
-      },
-      {
-        "recordId": "reg-eacef16b4973",
-        "module": "food_safety",
-        "titleZh": null,
-        "titleEn": "A&P CREATIONS: Product contains undeclared Sildenafil and Tadalafil.",
-        "riskLevel": "高风险",
-        "href": "/intelligence"
-      },
-      {
-        "recordId": "reg-8ce7a8da19ac",
-        "module": "food_safety",
-        "titleZh": null,
-        "titleEn": "J K Patisserie & Bakery LLC: Product contains undeclared soybean oil and soy lecithin in the Ingredient Statement. Soy ",
-        "riskLevel": "高风险",
-        "href": "/intelligence"
       }
     ],
     "keyActions": [
@@ -196,8 +196,8 @@
     {
       "jurisdictionId": null,
       "endpointOrUrl": "https://api.fda.gov/food/enforcement.json?sort=report_date:desc&limit=80",
-      "collectedAt": "2026-10-21T11:03:20.029Z",
-      "recordCount": 64,
+      "collectedAt": "2026-10-30T15:11:26.937Z",
+      "recordCount": 65,
       "stalenessNote": null,
       "reVerifyBeforeRelying": false,
       "module": "food_safety",
@@ -210,8 +210,8 @@
     {
       "jurisdictionId": null,
       "endpointOrUrl": "https://www.federalregister.gov/api/v1/documents.json",
-      "collectedAt": "2026-10-21T11:03:20.029Z",
-      "recordCount": 35,
+      "collectedAt": "2026-10-30T15:11:26.937Z",
+      "recordCount": 36,
       "stalenessNote": null,
       "reVerifyBeforeRelying": false,
       "module": "food_safety",
@@ -224,7 +224,7 @@
     {
       "jurisdictionId": null,
       "endpointOrUrl": "https://data.cdc.gov/resource/5xkq-dg7x.json",
-      "collectedAt": "2026-10-21T11:03:20.029Z",
+      "collectedAt": "2026-10-30T15:11:26.937Z",
       "recordCount": 40,
       "stalenessNote": "NORS is annual and lags ~2–3 years.",
       "reVerifyBeforeRelying": false,
@@ -238,7 +238,7 @@
     {
       "jurisdictionId": null,
       "endpointOrUrl": "https://www.fsis.usda.gov/fsis/api/recall/v/1",
-      "collectedAt": "2026-10-21T11:03:20.029Z",
+      "collectedAt": "2026-10-30T15:11:26.937Z",
       "recordCount": 0,
       "stalenessNote": "pull failed (needs descriptive UA): Error: HTTP 403 Forbidden for https://www.fsis.usda.gov/fsis/api/recall/v/1",
       "reVerifyBeforeRelying": true,
@@ -252,8 +252,8 @@
     {
       "jurisdictionId": "New York City",
       "endpointOrUrl": "https://data.cityofnewyork.us/resource/43nn-pn8j.json",
-      "collectedAt": "2026-10-21T11:03:20.029Z",
-      "recordCount": 140,
+      "collectedAt": "2026-10-30T15:11:26.937Z",
+      "recordCount": 142,
       "stalenessNote": null,
       "reVerifyBeforeRelying": false,
       "module": "food_safety",
@@ -266,7 +266,7 @@
     {
       "jurisdictionId": "New York City",
       "endpointOrUrl": "https://data.cityofnewyork.us/resource/jz4z-kudi.json",
-      "collectedAt": "2026-10-21T11:03:20.029Z",
+      "collectedAt": "2026-10-30T15:11:26.937Z",
       "recordCount": 6,
       "stalenessNote": "Owned-entity (Luckin Coffee / First Ray Operations) food-safety NOVs adjudicated at OATH — DOHMH agency plus recently-filed summonses whose agency is not yet labeled. OATH geocodes these to zip only; store attribution is name/entity-address-based, never a guessed street.",
       "reVerifyBeforeRelying": false,
@@ -280,9 +280,9 @@
     {
       "jurisdictionId": "New York City",
       "endpointOrUrl": "https://data.cityofnewyork.us/resource/43nn-pn8j.json",
-      "collectedAt": "2026-10-21T11:03:20.029Z",
-      "recordCount": 0,
-      "stalenessNote": "No owned-store DOHMH registrations awaiting inspection — 0 rows, not fabricated.",
+      "collectedAt": "2026-10-30T15:11:26.937Z",
+      "recordCount": 16,
+      "stalenessNote": "Owned NYC stores registered with DOHMH (dba Luckin Coffee / First Ray Operations) but not yet inspected — shown as awaiting first inspection (no violations, no grade).",
       "reVerifyBeforeRelying": false,
       "module": "food_safety",
       "status": "manual",
@@ -294,7 +294,7 @@
     {
       "jurisdictionId": "Cambridge",
       "endpointOrUrl": "https://data.cambridgema.gov/resource/ryb9-qzmw.json",
-      "collectedAt": "2026-10-21T11:03:20.029Z",
+      "collectedAt": "2026-10-30T15:11:26.937Z",
       "recordCount": 0,
       "stalenessNote": "ryb9-qzmw is a permit-cases dataset (no violation/result fields) — needs the correct Cambridge sanitary-inspections resource or manual intake",
       "reVerifyBeforeRelying": true,
@@ -308,8 +308,8 @@
     {
       "jurisdictionId": "Boston",
       "endpointOrUrl": "https://data.boston.gov/api/3/action/datastore_search?resource_id=4582bec6-2b4f-4f9e-bc55-cbaa73117f4c",
-      "collectedAt": "2026-10-21T11:03:20.029Z",
-      "recordCount": 48,
+      "collectedAt": "2026-10-30T15:11:26.937Z",
+      "recordCount": 50,
       "stalenessNote": null,
       "reVerifyBeforeRelying": false,
       "module": "food_safety",
@@ -322,7 +322,7 @@
     {
       "jurisdictionId": "Los Angeles County",
       "endpointOrUrl": "https://services1.arcgis.com/JXBurs0uwQlwOiHt/arcgis/rest/services/Restaurant_Inspection_Grades/FeatureServer/0/query",
-      "collectedAt": "2026-10-21T11:03:20.029Z",
+      "collectedAt": "2026-10-30T15:11:26.937Z",
       "recordCount": 0,
       "stalenessNote": "ArcGIS grades dataset is stale (newest n/a) — no current LA County feed; manual export needed. No stale rows shipped.",
       "reVerifyBeforeRelying": true,
@@ -336,7 +336,7 @@
     {
       "jurisdictionId": null,
       "endpointOrUrl": null,
-      "collectedAt": "2026-10-21T11:03:20.029Z",
+      "collectedAt": "2026-10-30T15:11:26.937Z",
       "recordCount": 10,
       "stalenessNote": "Manually-collected records — verify each before approving.",
       "reVerifyBeforeRelying": false,
@@ -350,7 +350,7 @@
     {
       "jurisdictionId": null,
       "endpointOrUrl": null,
-      "collectedAt": "2026-10-21T11:03:20.029Z",
+      "collectedAt": "2026-10-30T15:11:26.937Z",
       "recordCount": 6,
       "stalenessNote": "Manual-curated from the May 2026 report; live Federal Register import slugs augment.",
       "reVerifyBeforeRelying": false,
@@ -364,7 +364,7 @@
     {
       "jurisdictionId": null,
       "endpointOrUrl": "https://www.federalregister.gov/api/v1/documents.json",
-      "collectedAt": "2026-10-21T11:03:20.029Z",
+      "collectedAt": "2026-10-30T15:11:26.937Z",
       "recordCount": 17,
       "stalenessNote": null,
       "reVerifyBeforeRelying": false,
@@ -378,7 +378,7 @@
     {
       "jurisdictionId": null,
       "endpointOrUrl": "https://api-datadashboard.fda.gov/v1/import_refusals",
-      "collectedAt": "2026-10-21T11:03:20.029Z",
+      "collectedAt": "2026-10-30T15:11:26.937Z",
       "recordCount": 0,
       "stalenessNote": "FDA_OII_USER/FDA_OII_KEY not set — collector dormant. Add keys + re-run prep:collect to activate (docs/API_KEYS.md). No rows fabricated.",
       "reVerifyBeforeRelying": true,
@@ -392,7 +392,7 @@
     {
       "jurisdictionId": null,
       "endpointOrUrl": null,
-      "collectedAt": "2026-10-21T11:03:20.029Z",
+      "collectedAt": "2026-10-30T15:11:26.937Z",
       "recordCount": 8,
       "stalenessNote": "Manual-curated named laws (Sweet Truth, SB68, NY S5381…); state-bill APIs (LegiScan/NY-Senate) can augment with keys — see docs/API_KEYS.md.",
       "reVerifyBeforeRelying": false,
@@ -406,7 +406,7 @@
     {
       "jurisdictionId": null,
       "endpointOrUrl": "https://api.legiscan.com/",
-      "collectedAt": "2026-10-21T11:03:20.029Z",
+      "collectedAt": "2026-10-30T15:11:26.937Z",
       "recordCount": 0,
       "stalenessNote": "LEGISCAN_KEY not set — collector dormant. Add key + re-run prep:collect to activate (docs/API_KEYS.md). No rows fabricated.",
       "reVerifyBeforeRelying": true,
@@ -420,7 +420,7 @@
     {
       "jurisdictionId": null,
       "endpointOrUrl": "https://legislation.nysenate.gov/api/3",
-      "collectedAt": "2026-10-21T11:03:20.029Z",
+      "collectedAt": "2026-10-30T15:11:26.937Z",
       "recordCount": 0,
       "stalenessNote": "NY_SENATE_KEY not set — collector dormant. Add key + re-run prep:collect to activate (docs/API_KEYS.md). No rows fabricated.",
       "reVerifyBeforeRelying": true,
@@ -434,7 +434,7 @@
     {
       "jurisdictionId": null,
       "endpointOrUrl": "https://v3.openstates.org/bills",
-      "collectedAt": "2026-10-21T11:03:20.029Z",
+      "collectedAt": "2026-10-30T15:11:26.937Z",
       "recordCount": 0,
       "stalenessNote": "OPENSTATES_KEY not set — collector dormant. Add key + re-run prep:collect to activate (docs/API_KEYS.md). No rows fabricated.",
       "reVerifyBeforeRelying": true,
@@ -448,8 +448,8 @@
     {
       "jurisdictionId": null,
       "endpointOrUrl": "https://www.ecfr.gov/api/search/v1/results",
-      "collectedAt": "2026-10-21T11:03:20.029Z",
-      "recordCount": 16,
+      "collectedAt": "2026-10-30T15:11:26.937Z",
+      "recordCount": 20,
       "stalenessNote": "eCFR Title 21 codified-rule changes (food scope: parts <200) matching food-safety terms; latest change per section, rolling 24-month window, capped 25. Codified = In effect / Pending effective, never proposed.",
       "reVerifyBeforeRelying": false,
       "module": "regulation",
@@ -462,8 +462,8 @@
     {
       "jurisdictionId": null,
       "endpointOrUrl": "https://www.federalregister.gov/api/v1/documents.json",
-      "collectedAt": "2026-10-21T11:03:20.029Z",
-      "recordCount": 2,
+      "collectedAt": "2026-10-30T15:11:26.937Z",
+      "recordCount": 3,
       "stalenessNote": "FDA food-guidance availability notices from the Federal Register (title matches food-safety terms). FDA food guidance is infrequent; low volume is expected.",
       "reVerifyBeforeRelying": false,
       "module": "regulation",
@@ -476,7 +476,7 @@
     {
       "jurisdictionId": null,
       "endpointOrUrl": "https://regs.health.ny.gov/regulations/proposed-rule-making",
-      "collectedAt": "2026-10-21T11:03:20.029Z",
+      "collectedAt": "2026-10-30T15:11:26.937Z",
       "recordCount": 0,
       "stalenessNote": "No food-relevant NYSDOH proposed rulemakings in the current list (NYSDOH mostly proposes healthcare rules) — 0 rows, not fabricated.",
       "reVerifyBeforeRelying": false,
@@ -490,12 +490,12 @@
     {
       "jurisdictionId": null,
       "endpointOrUrl": "https://rules.cityofnewyork.us/",
-      "collectedAt": "2026-10-21T11:03:20.029Z",
-      "recordCount": 50,
-      "stalenessNote": "NYC proposed + recently-adopted rules from café-relevant agencies (DOHMH/DCWP/DSNY/DEP). Proposed/Adopted ≠ effective.",
-      "reVerifyBeforeRelying": false,
+      "collectedAt": "2026-10-30T15:11:26.937Z",
+      "recordCount": 0,
+      "stalenessNote": "pull failed: Error: HTTP 403 Forbidden for https://rules.cityofnewyork.us/proposed-rules/",
+      "reVerifyBeforeRelying": true,
       "module": "regulation",
-      "status": "fetched",
+      "status": "manual",
       "sourceId": "nyc_rules",
       "name": "NYC Rules (proposed + adopted, café-relevant)",
       "accessType": "html-scrape",
@@ -504,8 +504,8 @@
     {
       "jurisdictionId": null,
       "endpointOrUrl": "https://data.cityofnewyork.us/resource/dg92-zbpx.json",
-      "collectedAt": "2026-10-21T11:03:20.029Z",
-      "recordCount": 9,
+      "collectedAt": "2026-10-30T15:11:26.937Z",
+      "recordCount": 8,
       "stalenessNote": "NYC City Record 'Agency Rules' notices from café-relevant agencies (Socrata dg92-zbpx). Status from the notice title; overlaps nyc_rules by design (both official).",
       "reVerifyBeforeRelying": false,
       "module": "regulation",
@@ -518,7 +518,7 @@
     {
       "jurisdictionId": null,
       "endpointOrUrl": "https://dos.ny.gov/state-register",
-      "collectedAt": "2026-10-21T11:03:20.029Z",
+      "collectedAt": "2026-10-30T15:11:26.937Z",
       "recordCount": 0,
       "stalenessNote": "NYSR is a JS-rendered weekly register (WAF anti-bot; issue pages 301-redirect, no clean feed/API). NY food rulemaking is covered by nysdoh_proposed; a general feed needs the weekly-issue PDF parse or a paid feed. Dormant — no rows fabricated.",
       "reVerifyBeforeRelying": true,
@@ -532,7 +532,7 @@
     {
       "jurisdictionId": null,
       "endpointOrUrl": "https://www.foodsafetynews.com/feed/",
-      "collectedAt": "2026-10-21T11:03:20.029Z",
+      "collectedAt": "2026-10-30T15:11:26.937Z",
       "recordCount": 15,
       "stalenessNote": "Metadata + link only; never rehosts article bodies. §11 exclusions flagged (excluded=true kept for audit).",
       "reVerifyBeforeRelying": false,
@@ -546,7 +546,7 @@
     {
       "jurisdictionId": "New York City",
       "endpointOrUrl": "https://data.cityofnewyork.us/resource/6bgk-3dad.json",
-      "collectedAt": "2026-10-21T11:03:20.029Z",
+      "collectedAt": "2026-10-30T15:11:26.937Z",
       "recordCount": 0,
       "stalenessNote": "No ECB/DOB violations name a Luckin/First Ray owned entity (expected for a new chain) — 0 rows, not fabricated.",
       "reVerifyBeforeRelying": false,
@@ -560,7 +560,7 @@
     {
       "jurisdictionId": "New York City",
       "endpointOrUrl": "https://data.cityofnewyork.us/resource/jz4z-kudi.json",
-      "collectedAt": "2026-10-21T11:03:20.029Z",
+      "collectedAt": "2026-10-30T15:11:26.937Z",
       "recordCount": 6,
       "stalenessNote": "DSNY OATH summonses where a Luckin/First Ray owned entity is the respondent (live).",
       "reVerifyBeforeRelying": false,
@@ -574,7 +574,7 @@
     {
       "jurisdictionId": "New York City",
       "endpointOrUrl": "https://data.cityofnewyork.us/resource/jz4z-kudi.json",
-      "collectedAt": "2026-10-21T11:03:20.029Z",
+      "collectedAt": "2026-10-30T15:11:26.937Z",
       "recordCount": 0,
       "stalenessNote": "No DCWP summonses name a Luckin/First Ray owned entity — 0 rows, not fabricated.",
       "reVerifyBeforeRelying": false,
@@ -588,7 +588,7 @@
     {
       "jurisdictionId": null,
       "endpointOrUrl": null,
-      "collectedAt": "2026-10-21T11:03:20.029Z",
+      "collectedAt": "2026-10-30T15:11:26.937Z",
       "recordCount": 0,
       "stalenessNote": "No clean public JSON feed (healthdata.gov cj9t-m28d is non-tabular); HTML-scrape or manual intake only.",
       "reVerifyBeforeRelying": true,
@@ -602,7 +602,7 @@
     {
       "jurisdictionId": "San Francisco",
       "endpointOrUrl": null,
-      "collectedAt": "2026-10-21T11:03:20.029Z",
+      "collectedAt": "2026-10-30T15:11:26.937Z",
       "recordCount": 0,
       "stalenessNote": "LIVES feed (pyih-qa8i) frozen at 2019; real 2019 café rows seeded via intake/inspections.json.",
       "reVerifyBeforeRelying": false,
@@ -616,7 +616,7 @@
     {
       "jurisdictionId": "Washington DC",
       "endpointOrUrl": null,
-      "collectedAt": "2026-10-21T11:03:20.029Z",
+      "collectedAt": "2026-10-30T15:11:26.937Z",
       "recordCount": 0,
       "stalenessNote": "HTML/PDF reports — manual intake.",
       "reVerifyBeforeRelying": false,
@@ -630,7 +630,7 @@
     {
       "jurisdictionId": "Newark, NJ",
       "endpointOrUrl": null,
-      "collectedAt": "2026-10-21T11:03:20.029Z",
+      "collectedAt": "2026-10-30T15:11:26.937Z",
       "recordCount": 0,
       "stalenessNote": "JS/CAPTCHA lookup — manual / OPRA via Food & Drug Bureau.",
       "reVerifyBeforeRelying": false,
@@ -644,7 +644,7 @@
     {
       "jurisdictionId": "Bergen County, NJ",
       "endpointOrUrl": null,
-      "collectedAt": "2026-10-21T11:03:20.029Z",
+      "collectedAt": "2026-10-30T15:11:26.937Z",
       "recordCount": 0,
       "stalenessNote": "No online DB — OPRA request per municipality.",
       "reVerifyBeforeRelying": false,
@@ -658,7 +658,7 @@
     {
       "jurisdictionId": "Florida (FDACS)",
       "endpointOrUrl": null,
-      "collectedAt": "2026-10-21T11:03:20.029Z",
+      "collectedAt": "2026-10-30T15:11:26.937Z",
       "recordCount": 0,
       "stalenessNote": "robots.txt default-deny — manual UI / public-records request.",
       "reVerifyBeforeRelying": false,
@@ -672,7 +672,7 @@
     {
       "jurisdictionId": null,
       "endpointOrUrl": null,
-      "collectedAt": "2026-10-21T11:04:53.835Z",
+      "collectedAt": "2026-10-30T15:13:47.446Z",
       "recordCount": 100,
       "stalenessNote": "Curated authoritative rules; live DCWP + DOL enforcedata enforcement augments when enabled.",
       "reVerifyBeforeRelying": false,
@@ -686,7 +686,7 @@
     {
       "jurisdictionId": null,
       "endpointOrUrl": "https://enforcedata.dol.gov/views/data_summary.php",
-      "collectedAt": "2026-10-21T11:04:53.835Z",
+      "collectedAt": "2026-10-30T15:13:47.446Z",
       "recordCount": 0,
       "stalenessNote": "Dormant — set DOL_ENFORCE_KEY + wire the WHD bulk parse. No rows fabricated.",
       "reVerifyBeforeRelying": true,
@@ -700,7 +700,7 @@
     {
       "jurisdictionId": null,
       "endpointOrUrl": null,
-      "collectedAt": "2026-10-21T11:04:53.835Z",
+      "collectedAt": "2026-10-30T15:13:47.446Z",
       "recordCount": 88,
       "stalenessNote": "Curated authoritative standards; live ECB/DOB violation enforcement augments (nyc_dob_violations).",
       "reVerifyBeforeRelying": false,
@@ -714,7 +714,7 @@
     {
       "jurisdictionId": null,
       "endpointOrUrl": "https://www.osha.gov/ords/imis/establishment.html",
-      "collectedAt": "2026-10-21T11:04:53.835Z",
+      "collectedAt": "2026-10-30T15:13:47.446Z",
       "recordCount": 0,
       "stalenessNote": "Dormant — wire OSHA establishment-search to brand-match citations. No rows fabricated.",
       "reVerifyBeforeRelying": true,
@@ -728,7 +728,7 @@
     {
       "jurisdictionId": null,
       "endpointOrUrl": null,
-      "collectedAt": "2026-10-21T11:04:53.835Z",
+      "collectedAt": "2026-10-30T15:13:47.446Z",
       "recordCount": 85,
       "stalenessNote": "Curated authoritative rules; live DSNY enforcement augments (nyc_dsny_enforcement).",
       "reVerifyBeforeRelying": false,
@@ -742,7 +742,7 @@
     {
       "jurisdictionId": null,
       "endpointOrUrl": null,
-      "collectedAt": "2026-10-21T11:04:53.835Z",
+      "collectedAt": "2026-10-30T15:13:47.446Z",
       "recordCount": 88,
       "stalenessNote": "Curated authoritative rules; live DCWP enforcement augments (nyc_dcwp_consumer).",
       "reVerifyBeforeRelying": false,
@@ -756,7 +756,7 @@
     {
       "jurisdictionId": "New York City",
       "endpointOrUrl": "https://data.cityofnewyork.us/resource/jz4z-kudi.json",
-      "collectedAt": "2026-10-21T11:04:53.835Z",
+      "collectedAt": "2026-10-30T15:13:47.446Z",
       "recordCount": 38,
       "stalenessNote": "NYC OATH/ECB hearings — strict café-chain brand match (word-boundary aliases) across DSNY/DEP/FDNY/DOB/DCWP/DOHMH. Competitor enforcement only; no fabricated brand attribution.",
       "reVerifyBeforeRelying": false,
