@@ -64,6 +64,14 @@ const isoFromYmd = (s: string | null | undefined): string | null => {
   return /^\d{4}-\d{2}-\d{2}/.test(s) ? s.slice(0, 10) : null;
 };
 
+// Socrata/CKAN return an inspection's per-violation rows in no fixed order (two identical
+// requests can differ), and rows[0] feeds the record id via its violation code — sort first so
+// the same inspection keeps the same id (and summary order) run to run.
+const sortViolationRows = (rows: Record<string, string>[], codeKey: string, textKey: string) => {
+  const cmp = (a = "", b = "") => (a < b ? -1 : a > b ? 1 : 0);
+  return rows.sort((a, b) => cmp(a[codeKey], b[codeKey]) || cmp(a[textKey], b[textKey]));
+};
+
 const prov = (
   sourceId: string,
   url: string | null,
@@ -291,6 +299,9 @@ type RawInsp = {
   sourceUrlOrDocRef: string | null;
   recommendedAction: string | null;
   establishmentId?: string | null;
+  /** Source's own unique key (e.g. OATH ticket number). When set, the id hashes this instead of
+   *  store+date+code — a summons shares all three with the DOHMH inspection that issued it. */
+  idKey?: string | null;
   violationText: string;
   sourceId: string;
   sourceUrl: string | null;
@@ -308,7 +319,9 @@ function finalizeInspection(p: RawInsp): InspectionRecord {
     categories: cls.all,
   });
   return {
-    id: hashId("insp", p.jurisdiction, p.establishmentId ?? p.storeName, p.inspectionDate, p.violationCode ?? cls.label ?? ""),
+    id: p.idKey
+      ? hashId("insp", p.jurisdiction, p.idKey)
+      : hashId("insp", p.jurisdiction, p.establishmentId ?? p.storeName, p.inspectionDate, p.violationCode ?? cls.label ?? ""),
     module: "inspection" as const,
     no: p.no,
     jurisdiction: p.jurisdiction as InspectionRecord["jurisdiction"],
@@ -366,6 +379,7 @@ async function collectNYC(): Promise<SourceResult> {
     }
     const out: InspectionRecord[] = [];
     for (const rows of groups.values()) {
+      sortViolationRows(rows, "violation_code", "violation_description");
       const r0 = rows[0];
       const violText = rows.map((x) => x.violation_description).filter(Boolean).join(" | ");
       const hasCritical = rows.some((x) => (x.critical_flag ?? "").toLowerCase().startsWith("critical"));
@@ -477,6 +491,7 @@ async function collectBoston(): Promise<SourceResult> {
     }
     const out: InspectionRecord[] = [];
     for (const rows of groups.values()) {
+      sortViolationRows(rows, "violcode", "violdesc");
       const r0 = rows[0];
       const nm = r0.businessname ?? r0.dbaname ?? r0.name ?? "";
       const violText = rows.map((x) => x.violdesc).filter(Boolean).join(" | ");
@@ -1759,6 +1774,7 @@ async function collectOwnedFoodSafetyOATH(): Promise<SourceResult> {
         sourceUrlOrDocRef: url,
         recommendedAction: null,
         violationText: charges,
+        idKey: r.ticket_number ? `oath:${r.ticket_number}` : null,
         sourceId: "nyc_dohmh_oath",
         sourceUrl: CITYPAY_ECB,
       });
@@ -1796,14 +1812,14 @@ async function collectOwnedFoodSafetyOATH(): Promise<SourceResult> {
   }
 }
 
-// Newly-opened owned stores are registered in the DOHMH restaurant feed (43nn-pn8j) under the
-// operating LLC "FIRST RAY OPERATIONS (NEW YORK) LLC" with a placeholder inspection_date of
-// 1900-01-01 and no action/score/grade — permitted but not yet inspected. collectNYC misses them
-// twice over: it filters `inspection_date > 2024-01-01` (drops the placeholder) and only matches
-// dba '%LUCKIN%' (these carry the LLC name). Surface each as an "awaiting first inspection" row so
-// every owned NYC store appears in the inspections view instead of silently missing until its first
-// grade. A camis that already has a real (post-2024) inspection is left to collectNYC to avoid dupes.
-const OWNED_DOHMH_DBA = ["FIRST RAY OPERATIONS", "FIRST RAY HOLDING"];
+// Newly-opened owned stores are registered in the DOHMH restaurant feed (43nn-pn8j) with a
+// placeholder inspection_date of 1900-01-01 and no action/score/grade — permitted but not yet
+// inspected. collectNYC filters `inspection_date > 2024-01-01`, so it drops the placeholder. Surface
+// each as an "awaiting first inspection" row so every owned NYC store appears in the inspections view
+// instead of silently missing until its first grade. The dba is matched with the same owned-entity
+// list as OATH: DOHMH first listed these under "FIRST RAY OPERATIONS (NEW YORK) LLC", then (by
+// 2026-10) relabelled them "LUCKIN COFFEE" — matching only one name dropped them all once.
+// A camis that already has a real (post-2024) inspection is left to collectNYC to avoid dupes.
 async function collectOwnedRegisteredDOHMH(): Promise<SourceResult> {
   const base = "https://data.cityofnewyork.us/resource/43nn-pn8j.json";
   const name = "NYC DOHMH — owned-store registrations awaiting first inspection";
@@ -1823,8 +1839,7 @@ async function collectOwnedRegisteredDOHMH(): Promise<SourceResult> {
     );
   };
   try {
-    const clause = OWNED_DOHMH_DBA.map((n) => `upper(dba) like '%${n}%'`).join(" OR ");
-    const rows = await socrata<Record<string, string>>(base, { "$where": clause, "$order": "camis", "$limit": 200 });
+    const rows = await socrata<Record<string, string>>(base, { "$where": ownedRespondentClause("dba"), "$order": "camis", "$limit": 400 });
     const byCamis = new Map<string, Record<string, string>[]>();
     for (const r of rows) {
       if (!r.camis) continue;
@@ -1853,8 +1868,8 @@ async function collectOwnedRegisteredDOHMH(): Promise<SourceResult> {
           inspectionResult: "N/A",
           score: null, grade: null,
           violationCode: null,
-          chineseViolationSummary: "已在 NYC DOHMH 登记(First Ray Operations 许可证),尚未进行首次卫生检查。",
-          englishViolationSummary: "Registered with NYC DOHMH under the First Ray Operations permit; no health inspection conducted yet.",
+          chineseViolationSummary: "已在 NYC DOHMH 登记,尚未进行首次卫生检查。",
+          englishViolationSummary: "Registered with NYC DOHMH; no health inspection conducted yet.",
           violationSeverity: null,
           followupRequired: "否 No",
           sourceType: "Open Data API",
@@ -1872,7 +1887,7 @@ async function collectOwnedRegisteredDOHMH(): Promise<SourceResult> {
         sourceId: "nyc_dohmh_registered", name, jurisdictionId: "New York City", accessType: "open-data",
         endpointOrUrl: base, oneTimePullFeasible: "yes", recordCount: out.length,
         stalenessNote: out.length
-          ? "Owned NYC stores registered with DOHMH under the First Ray Operations permit but not yet inspected — shown as awaiting first inspection (no violations, no grade)."
+          ? "Owned NYC stores registered with DOHMH (dba Luckin Coffee / First Ray Operations) but not yet inspected — shown as awaiting first inspection (no violations, no grade)."
           : "No owned-store DOHMH registrations awaiting inspection — 0 rows, not fabricated.",
       }),
     };
