@@ -582,11 +582,13 @@ async function collectSanFrancisco(): Promise<SourceResult> {
         if (!brand) continue;
         // "114135, 114185.1 [d-e] - Store wiping cloths….,  113984(d), 114097 - Properly wash…."
         // → one "<code list> - <text>." part per violation; keep the text, first code for violationCode.
+        // Separators also come as ". , 114268 - …" and, for a violation with no code, "., - IMMEDIATE …".
         const parts = (r.violation_codes || "")
-          .split(/\.,\s+(?=\d)/)
+          .split(/\.\s*,\s+(?=\d|-\s)/)
           .map((v) => v.replace(/\s+/g, " ").trim())
           .filter(Boolean)
           .map((v) => {
+            if (v.startsWith("- ")) return { code: "", text: v.slice(2).replace(/\.$/, "") };
             const i = v.indexOf(" - ");
             return i >= 0
               ? { code: (v.slice(0, i).match(/\d[\d.]*/) ?? [""])[0], text: v.slice(i + 3).replace(/\.$/, "") }
@@ -850,8 +852,8 @@ async function collectLA(): Promise<SourceResult> {
     const out = kept.map(({ r, date }) => {
       const sn = r["SERIAL NUMBER"];
       const vs = sortViolationRows(viol.get(sn) ?? [], "VIOLATION CODE", "VIOLATION DESCRIPTION");
-      // "# 07. PROPER HOT AND COLD HOLDING TEMPERATURES" → drop the "# 07." item number
-      const violText = vs.map((v) => v["VIOLATION DESCRIPTION"].replace(/^#\s*\d+\.\s*/, "").replace(/\s+/g, " ").trim()).filter(Boolean).join(" | ");
+      // "# 07. PROPER HOT AND COLD HOLDING TEMPERATURES" / "# 01A. …" → drop the item number
+      const violText = vs.map((v) => v["VIOLATION DESCRIPTION"].replace(/^#\s*\d+[A-Z]?\.\s*/, "").replace(/\s+/g, " ").trim()).filter(Boolean).join(" | ");
       const score = /^\d+(\.\d+)?$/.test((r.SCORE ?? "").trim()) ? Number(r.SCORE) : null;
       const g = (r.GRADE ?? "").trim().toUpperCase();
       const grade = g === "A" || g === "B" || g === "C" ? g : null;
