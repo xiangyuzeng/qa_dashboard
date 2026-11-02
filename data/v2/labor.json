@@ -33,13 +33,19 @@
       "agency": null,
       "sourceUrl": "https://www.dol.gov/agencies/whd/pump-at-work",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:PUMP for Nursing Mothers Act (FLSA Section 7(r))|Federal",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -76,13 +82,19 @@
       "agency": null,
       "sourceUrl": "https://www.federalregister.gov/documents/2024/04/26/2024-08038/defining-and-delimiting-the-exemptions-for-executive-administrative-professional-outside-sales-and",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:DOL 2024 Overtime Final Rule (FLSA White-Collar Salary Threshold) — Vacated|Federal",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -119,13 +131,19 @@
       "agency": null,
       "sourceUrl": "https://www.dol.gov/agencies/whd/flsa/tips",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:DOL 80/20/30 Tip Credit Rule (2021) — Vacated by Restaurant Law Center v. DOL|Federal",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -162,13 +180,19 @@
       "agency": null,
       "sourceUrl": "https://www.dol.gov/agencies/whd/flsa/misclassification/rulemaking",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:DOL 2024 Independent Contractor Classification Rule (FLSA Economic Reality Test)|Federal",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -205,13 +229,19 @@
       "agency": null,
       "sourceUrl": "https://www.nlrb.gov/about-nlrb/what-we-do/the-standard-for-determining-joint-employer-status-final-rule",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:NLRB Joint-Employer Standard (2020 Rule reinstated; 2023 Rule vacated)|Federal",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -248,13 +278,19 @@
       "agency": null,
       "sourceUrl": "https://www.dol.gov/agencies/whd/government-contracts/eo14026",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:Executive Order 14026 — Minimum Wage for Federal Contractors (Revoked)|Federal",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -291,13 +327,19 @@
       "agency": null,
       "sourceUrl": "https://www.dol.gov/agencies/whd/fact-sheets/2a-child-labor-restaurants",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:FLSA Child Labor Provisions for Nonagricultural Employment (29 CFR Part 570)|Federal",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -334,13 +376,19 @@
       "agency": null,
       "sourceUrl": "https://www.dol.gov/agencies/whd/polygraph",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:Employee Polygraph Protection Act of 1988 (EPPA)|Federal",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -377,13 +425,19 @@
       "agency": null,
       "sourceUrl": "https://www.eeoc.gov/data/eeo-1-employer-information-report-statistics",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:EEO-1 Component 1 Report (Title VII Section 709(c); 29 CFR 1602)|Federal",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -420,13 +474,19 @@
       "agency": null,
       "sourceUrl": "https://www.eeoc.gov/newsroom/eeoc-commission-votes-rescind-2024-harassment-guidance",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:EEOC Enforcement Guidance on Harassment in the Workplace (2024) — Rescinded|Federal",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -463,13 +523,19 @@
       "agency": null,
       "sourceUrl": "https://www.osha.gov/heat-exposure/rulemaking",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:OSHA Proposed Rule — Heat Injury and Illness Prevention in Outdoor and Indoor Work Settings|Federal",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -506,13 +572,19 @@
       "agency": null,
       "sourceUrl": "https://www.law.cornell.edu/regulations/new-york/12-NYCRR-142-2.4",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:Spread of Hours Pay (Minimum Wage Order for Miscellaneous Industries and Occupations)|New York State",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -549,13 +621,19 @@
       "agency": null,
       "sourceUrl": "https://dol.ny.gov/hospitality-industry-wage-order-cr146",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:Hospitality Industry Wage Order — Tip Credit and Tip Pooling (12 NYCRR Part 146)|New York State",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -592,13 +670,19 @@
       "agency": null,
       "sourceUrl": "https://www.nysenate.gov/legislation/bills/2025/S3006",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:Frequency of Pay for Manual Workers (Labor Law § 191), as amended by FY2026 Budget (A03006C / S3006, Ch. 56 of 2025)|New York State",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -635,13 +719,19 @@
       "agency": null,
       "sourceUrl": "https://www.nysenate.gov/legislation/bills/2023/S2832/amendment/A",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:Wage Theft as Larceny (Penal Law § 155.05, amended by Chapter 353 of 2023, S2832-A)|New York State",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -678,13 +768,19 @@
       "agency": null,
       "sourceUrl": "https://dol.ny.gov/warn-notice-filing-instructions",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:New York State Worker Adjustment and Retraining Notification (WARN) Act (Labor Law § 860; 12 NYCRR Part 921)|New York State",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -721,13 +817,19 @@
       "agency": null,
       "sourceUrl": "https://dol.ny.gov/freelance-isnt-free-act",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:New York State Freelance Isn't Free Act (General Business Law Article 44-A)|New York State",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -764,13 +866,19 @@
       "agency": null,
       "sourceUrl": "https://www.nysenate.gov/legislation/bills/2023/S8358/amendment/C",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:New York Retail Worker Safety Act (Labor Law § 27-c, Chapter 308 of 2024, as amended)|New York State",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -807,13 +915,19 @@
       "agency": null,
       "sourceUrl": "https://dol.ny.gov/ny-hero-act",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:New York Health and Essential Rights Act (NY HERO Act) — Airborne Infectious Disease Exposure Prevention (Labor Law §§ 218-b and 27-d)|New York State",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -850,13 +964,19 @@
       "agency": null,
       "sourceUrl": "https://dol.ny.gov/system/files/documents/2024/09/p705-policy-on-the-rights-of-employees-to-express-breast-milk-in-the-workplace_-24-1.pdf",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:Right of Nursing Employees to Express Breast Milk / Paid Lactation Breaks (Labor Law § 206-c)|New York State",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -893,13 +1013,19 @@
       "agency": null,
       "sourceUrl": "https://www.nyc.gov/site/dca/workers/workersrights/know-your-worker-rights.page",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:NYC Temporary Schedule Change Law (NYC Admin. Code §§ 20-1261 to 20-1265)|New York City",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -936,13 +1062,19 @@
       "agency": null,
       "sourceUrl": "https://www.nj.gov/labor/lwdhome/press/2025/20251001_Minimum_Wage.shtml",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:New Jersey State Minimum Wage (Small Employer / Seasonal Track), N.J.S.A. 34:11-56a4|New Jersey",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -979,13 +1111,19 @@
       "agency": null,
       "sourceUrl": "https://www.nj.gov/labor/worker-protections/earnedsick/law.shtml",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:New Jersey Earned Sick Leave Act, N.J.S.A. 34:11D-1 et seq.|New Jersey",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1022,13 +1160,19 @@
       "agency": null,
       "sourceUrl": "https://www.law.cornell.edu/regulations/new-jersey/N-J-A-C-12-56-6-1",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:New Jersey State Wage and Hour Law – Overtime, N.J.S.A. 34:11-56a4 & N.J.A.C. 12:56-6.1|New Jersey",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1065,13 +1209,19 @@
       "agency": null,
       "sourceUrl": "https://www.nj.gov/labor/myworkrights/worker-protections/tipped_workers/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:New Jersey Tipped-Employee Cash Wage & Tip Credit, N.J.A.C. 12:56-3.5|New Jersey",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1108,13 +1258,19 @@
       "agency": null,
       "sourceUrl": "https://pub.njleg.gov/bills/2018/AL19/212_.PDF",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:New Jersey Wage Theft Act, P.L. 2019, c. 212|New Jersey",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1151,13 +1307,19 @@
       "agency": null,
       "sourceUrl": "https://www.nj.gov/labor/worker-protections/myworkrights/independentcontractors.shtml",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:New Jersey ABC Test for Worker Classification & 2020 Misclassification Enforcement Package (P.L. 2019 c.212; P.L. 2019 c.373; A-5890/A-5891)|New Jersey",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1194,13 +1356,19 @@
       "agency": null,
       "sourceUrl": "https://www.njoag.gov/about/divisions-and-offices/division-on-civil-rights-home/know-the-law/njlad/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:New Jersey Law Against Discrimination (LAD), N.J.S.A. 10:5-1 et seq.|New Jersey",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1239,13 +1407,19 @@
       "agency": null,
       "sourceUrl": "https://www.njoag.gov/about/divisions-and-offices/division-on-civil-rights-home/know-the-law/new-jersey-family-leave-act/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:New Jersey Family Leave Act (NJFLA), N.J.S.A. 34:11B-1 et seq. (as amended by A-3451 / S-2950, signed Jan. 17, 2026)|New Jersey",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1282,13 +1456,19 @@
       "agency": null,
       "sourceUrl": "https://www.nj.gov/labor/lwdhome/press/2025/20250530_Salary_Ranges.shtml",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:New Jersey Pay and Benefit Transparency Law, P.L. 2024, c. 91 (S2310)|New Jersey",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1325,13 +1505,19 @@
       "agency": null,
       "sourceUrl": "https://www.nj.gov/labor/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:New Jersey Opportunity to Compete Act ('Ban the Box'), N.J.S.A. 34:6B-11 et seq.|New Jersey",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1368,13 +1554,19 @@
       "agency": null,
       "sourceUrl": "https://www.nj.gov/oag/dcr/downloads/fact_BRST.pdf",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:NJLAD Lactation/Breastfeeding Accommodation Amendment, P.L. 2017, c. 263 (amending N.J.S.A. 10:5-12)|New Jersey",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1411,13 +1603,19 @@
       "agency": null,
       "sourceUrl": "https://pub.njleg.gov/Bills/2024/A2500/2443_I1.HTM",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:New Jersey Assembly Bill A2443 – Workplace Harassment Standard, Policy & Training Mandate (221st Legislature)|New Jersey",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1454,13 +1652,19 @@
       "agency": null,
       "sourceUrl": "https://www.dir.ca.gov/dlse/faq_minimumwage.htm",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:California State Minimum Wage (Labor Code §1182.12)|California",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1497,13 +1701,19 @@
       "agency": null,
       "sourceUrl": "https://www.dir.ca.gov/dlse/Fast-Food-Minimum-Wage-FAQ.htm",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:AB 1228 – Fast Food Restaurant Minimum Wage ($20/hour) (Labor Code §1474 et seq.)|California",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1540,13 +1750,19 @@
       "agency": null,
       "sourceUrl": "https://www.dir.ca.gov/dlse/Fast-Food-Minimum-Wage-FAQ.htm",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:Fast Food Council Annual Minimum Wage Adjustment (Labor Code §1474(b)) – Pending CPI Increase|California",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1583,13 +1799,19 @@
       "agency": null,
       "sourceUrl": "https://www.dir.ca.gov/dlse/faq_overtime.htm",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:California Daily Overtime and Double-Time Law (Labor Code §510)|California",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1626,13 +1848,19 @@
       "agency": null,
       "sourceUrl": "https://www.dir.ca.gov/dlse/faq_mealperiods.htm",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:California Meal & Rest Period Requirements and Premium Pay (Labor Code §§512, 226.7; IWC Wage Order 5)|California",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1669,13 +1897,19 @@
       "agency": null,
       "sourceUrl": "https://www.dir.ca.gov/dlse/FAQ_ReportingTimePay.htm",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:California Reporting Time Pay / Show-Up Pay (IWC Wage Order 5, §5)|California",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1712,13 +1946,19 @@
       "agency": null,
       "sourceUrl": "https://www.dir.ca.gov/dlse/paid_sick_leave.htm",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:SB 616 – Healthy Workplaces, Healthy Families Act Expansion (Paid Sick Leave) (Labor Code §245 et seq.)|California",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1755,13 +1995,19 @@
       "agency": null,
       "sourceUrl": "https://leginfo.legislature.ca.gov/faces/billNavClient.xhtml?bill_id=202120220AB1003",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:Intentional Theft of Wages as Grand Theft (AB 1003; Penal Code §487m)|California",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1798,13 +2044,19 @@
       "agency": null,
       "sourceUrl": "https://www.dir.ca.gov/dlse/faq_independentcontractor.htm",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:AB 5 – Worker Classification / ABC Test (Labor Code §2775 et seq.)|California",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1841,13 +2093,19 @@
       "agency": null,
       "sourceUrl": "https://calcivilrights.ca.gov/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:CROWN Act – Race Discrimination Including Natural Hair (SB 188; FEHA, Gov. Code §12926)|California",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1884,13 +2142,19 @@
       "agency": null,
       "sourceUrl": "https://calcivilrights.ca.gov/shpt/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:SB 1343 – Mandatory Sexual Harassment Prevention Training (Gov. Code §12950.1)|California",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1927,13 +2191,19 @@
       "agency": null,
       "sourceUrl": "https://calcivilrights.ca.gov/fair-chance-act/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:California Fair Chance Act (AB 1008; Gov. Code §12952), as amended by 2023 CRD regulations|California",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1970,13 +2240,19 @@
       "agency": null,
       "sourceUrl": "https://www.dir.ca.gov/dlse/Lactation_Accommodation.htm",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:Lactation Accommodation Requirements (AB 1976 / SB 142; Labor Code §§1030–1034)|California",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2013,13 +2289,19 @@
       "agency": null,
       "sourceUrl": "https://leginfo.legislature.ca.gov/faces/billNavClient.xhtml?bill_id=202520260SB294",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:SB 294 – Workplace Know Your Rights Act (Labor Code §§1550–1559)|California",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2056,13 +2338,19 @@
       "agency": null,
       "sourceUrl": "https://www.mass.gov/info-details/massachusetts-law-about-minimum-wage",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:Massachusetts Minimum Fair Wage Law (M.G.L. c. 151, § 1)|Massachusetts",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2099,13 +2387,19 @@
       "agency": null,
       "sourceUrl": "https://www.mass.gov/info-details/minimum-wage-and-overtime-information",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:Massachusetts Service Rate (Tipped Minimum Wage) (M.G.L. c. 151, § 7)|Massachusetts",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2142,13 +2436,19 @@
       "agency": null,
       "sourceUrl": "https://www.mass.gov/info-details/mass-general-laws-c149-ss-152a",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:Massachusetts Tips Act — Service Charges and Tip Pools (M.G.L. c. 149, § 152A)|Massachusetts",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2185,13 +2485,19 @@
       "agency": null,
       "sourceUrl": "https://www.mass.gov/info-details/earned-sick-time",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:Massachusetts Earned Sick Time Law (M.G.L. c. 149, § 148C)|Massachusetts",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2228,13 +2534,19 @@
       "agency": null,
       "sourceUrl": "https://www.mass.gov/info-details/paid-family-and-medical-leave-pfml-overview-and-benefits",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:Massachusetts Paid Family and Medical Leave (PFML) (M.G.L. c. 175M)|Massachusetts",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2271,13 +2583,19 @@
       "agency": null,
       "sourceUrl": "https://www.mass.gov/info-details/massachusetts-law-about-wages",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:Massachusetts Wage Act — Timely Payment of Wages & Treble Damages (M.G.L. c. 149, § 148)|Massachusetts",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2314,13 +2632,19 @@
       "agency": null,
       "sourceUrl": "https://www.mass.gov/info-details/massachusetts-law-about-independent-contractors",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:Massachusetts Independent Contractor Law — ABC Test (M.G.L. c. 149, § 148B)|Massachusetts",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2357,13 +2681,19 @@
       "agency": null,
       "sourceUrl": "https://www.mass.gov/info-details/minimum-wage-and-overtime-information",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:Massachusetts Overtime Law & Restaurant Exemption (M.G.L. c. 151, § 1A)|Massachusetts",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2400,13 +2730,19 @@
       "agency": null,
       "sourceUrl": "https://www.mass.gov/info-details/learn-about-the-crown-act",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:Massachusetts CROWN Act — Hairstyle Discrimination (M.G.L. c. 151B, as amended 2022)|Massachusetts",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2443,13 +2779,19 @@
       "agency": null,
       "sourceUrl": "https://www.mass.gov/info-details/cori-and-employment",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:Massachusetts 'Ban the Box' / CORI Restrictions on Job Applications (M.G.L. c. 151B, § 4(9½))|Massachusetts",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2486,13 +2828,19 @@
       "agency": null,
       "sourceUrl": "https://malegislature.gov/Bills/194/S1236",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:An Act relative to the scheduling of employees (Fair Workweek) — S.1236 / H.1974 (2025–2026 session)|Massachusetts",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2529,13 +2877,19 @@
       "agency": null,
       "sourceUrl": "https://www.floridajobs.org/florida-minimum-wage",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:Florida Minimum Wage (Art. X, §24, Fla. Const. / Fla. Stat. §448.110) — 2020 Amendment 2 Schedule|Florida",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2572,13 +2926,19 @@
       "agency": null,
       "sourceUrl": "https://www.flsenate.gov/Session/Bill/2023/1718/BillText/er/HTML",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:Florida E-Verify Mandate for Private Employers (SB 1718, 2023; Fla. Stat. §448.095)|Florida",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2615,13 +2975,19 @@
       "agency": null,
       "sourceUrl": "https://www.flsenate.gov/Laws/Statutes/2024/Chapter760/All",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:Florida Civil Rights Act of 1992 (Fla. Stat. Chapter 760, Part I)|Florida",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2660,13 +3026,19 @@
       "agency": null,
       "sourceUrl": "https://www.flsenate.gov/Session/Bill/2024/433",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:Florida Employment Regulations Preemption Act (HB 433, 2024) — Local Scheduling & Wage/Benefit Preemption (Fla. Stat. §448.007)|Florida",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2703,13 +3075,19 @@
       "agency": null,
       "sourceUrl": "https://www.flsenate.gov/Laws/Statutes/2025/448.08",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:Florida Wage Payment Law — Final Pay / Unpaid Wages (Fla. Stat. §448.08; Art. X §24 enforcement)|Florida",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2746,13 +3124,19 @@
       "agency": null,
       "sourceUrl": "https://code.dccouncil.gov/us/dc/council/code/sections/32-1003",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:District of Columbia Minimum Wage Revision Act / Living Wage Act (D.C. Code §32-1003)|Washington DC",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2789,13 +3173,19 @@
       "agency": null,
       "sourceUrl": "https://code.dccouncil.gov/us/dc/council/code/sections/32-531.02",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:DC Accrued Sick and Safe Leave Act of 2008, as amended (D.C. Code §32-531.01 et seq.; §32-531.02)|Washington DC",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2832,13 +3222,19 @@
       "agency": null,
       "sourceUrl": "https://code.dccouncil.gov/us/dc/council/laws/21-264",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:Universal Paid Leave Amendment Act of 2016 (D.C. Law 21-264; D.C. Code §32-541.01 et seq.)|Washington DC",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2875,13 +3271,19 @@
       "agency": null,
       "sourceUrl": "https://code.dccouncil.gov/us/dc/council/laws/25-138",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:Wage Transparency Omnibus Amendment Act of 2023 (D.C. Law 25-138; D.C. Code §32-1451 et seq.)|Washington DC",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2918,13 +3320,19 @@
       "agency": null,
       "sourceUrl": "https://code.dccouncil.gov/us/dc/council/laws/22-196",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:Tipped Wage Workers Fairness Amendment Act of 2018 (D.C. Law 22-196) — Sexual Harassment Training & Reporting|Washington DC",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2961,13 +3369,19 @@
       "agency": null,
       "sourceUrl": "https://www.restaurantdive.com/news/dc-tip-credit-25-dollar-minimum-wage-ballot-initiative/807257/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:DC Living Wage for All Ballot Initiative (2026) — Minimum Wage Increase & Tip-Credit Elimination (Proposed)|Washington DC",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -3004,13 +3418,19 @@
       "agency": null,
       "sourceUrl": "https://www.eeoc.gov/statutes/equal-pay-act-1963",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:Equal Pay Act of 1963 (29 U.S.C. § 206(d))|Federal",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -3047,13 +3467,19 @@
       "agency": null,
       "sourceUrl": "https://www.dol.gov/general/topic/termination/plantclosings",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:Worker Adjustment and Retraining Notification (WARN) Act (29 U.S.C. § 2101 et seq.)|Federal",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -3090,13 +3516,19 @@
       "agency": null,
       "sourceUrl": "https://www.dir.ca.gov/dlse/Cal-WARNAct.html",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:California WARN Act (Cal-WARN), Labor Code §§ 1400–1408|California",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -3133,13 +3565,19 @@
       "agency": null,
       "sourceUrl": "https://www.dir.ca.gov/dlse/lc_2810.5_notice.pdf",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:California Wage Theft Prevention Act – Notice to Employee, Labor Code § 2810.5|California",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -3176,13 +3614,19 @@
       "agency": null,
       "sourceUrl": "https://leginfo.legislature.ca.gov/faces/billNavClient.xhtml?bill_id=202320240SB399",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:Worker Freedom from Employer Intimidation Act (SB 399), Labor Code § 1137|California",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -3219,13 +3663,19 @@
       "agency": null,
       "sourceUrl": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXXI/Chapter149/Section19B",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:Lie Detector Tests as a Condition of Employment, G.L. c. 149, § 19B|Massachusetts",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -3262,13 +3712,19 @@
       "agency": null,
       "sourceUrl": "https://www.mass.gov/info-details/pay-transparency-in-massachusetts",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:Act Relative to Salary Range Transparency (Chapter 141 of the Acts of 2024)|Massachusetts",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -3305,13 +3761,19 @@
       "agency": null,
       "sourceUrl": "https://code.dccouncil.gov/us/dc/council/laws/24-175",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:Non-Compete Clarification Amendment Act of 2022 (D.C. Law 24-175), D.C. Official Code § 32-581.01 et seq.|Washington DC",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -3348,13 +3810,19 @@
       "agency": null,
       "sourceUrl": "https://www.federalregister.gov/documents/2026/02/12/2026-02866/revision-of-the-negative-option-rule-withdrawal-of-the-cars-rule-removal-of-the-non-compete-rule-to",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:FTC Non-Compete Clause Rule (16 C.F.R. Part 910) — Vacated and Removed|Federal",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -3391,13 +3859,19 @@
       "agency": null,
       "sourceUrl": "https://code.dccouncil.gov/us/dc/council/laws/20-152",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:Fair Criminal Record Screening Amendment Act of 2014 (D.C. Official Code § 32-1341 et seq.) — 'Ban the Box'|Washington DC",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -3434,13 +3908,19 @@
       "agency": null,
       "sourceUrl": "https://www.nyc.gov/site/dca/about/fairworkweek-deductions-laws.page",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:NYC Fair Workweek Law — Fast Food (6 RCNY Ch. 7 Subch. F)|New York City",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -3477,13 +3957,19 @@
       "agency": null,
       "sourceUrl": "https://www.nyc.gov/site/dca/about/paid-sick-leave-law.page",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:NYC Earned Safe and Sick Time Act (Paid Safe and Sick Leave)|New York City",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -3520,13 +4006,19 @@
       "agency": null,
       "sourceUrl": "https://www.dol.gov/agencies/whd/flsa/tips",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:FLSA Tip Regulations — Tip Credit & Dual Jobs (29 CFR 531)|Federal",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -3563,13 +4055,19 @@
       "agency": null,
       "sourceUrl": "https://dol.ny.gov/minimum-wage-0",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:NY Minimum Wage (NYC rate)|New York State",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -3606,13 +4104,19 @@
       "agency": null,
       "sourceUrl": "https://dol.ny.gov/notice-pay-rate",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:Wage Theft Prevention Act (Labor Law §195)|New York State",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -3649,13 +4153,19 @@
       "agency": null,
       "sourceUrl": "https://codelibrary.amlegal.com/codes/newyorkcity/latest/NYCadmin/0-0-0-131240",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:NYC Fast Food Just Cause / Wrongful Discharge (Admin Code §20-1272)|New York City",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -3692,13 +4202,19 @@
       "agency": null,
       "sourceUrl": "https://www.dol.gov/agencies/whd/fmla",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:Family and Medical Leave Act (FMLA)|Federal",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -3735,13 +4251,19 @@
       "agency": null,
       "sourceUrl": "https://www.eeoc.gov/statutes/title-vii-civil-rights-act-1964",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:Title VII of the Civil Rights Act of 1964|Federal",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -3778,13 +4300,19 @@
       "agency": null,
       "sourceUrl": "https://www.eeoc.gov/disability-discrimination",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:Americans with Disabilities Act — Title I (Employment)|Federal",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -3821,13 +4349,19 @@
       "agency": null,
       "sourceUrl": "https://www.eeoc.gov/statutes/age-discrimination-employment-act-1967",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:Age Discrimination in Employment Act (ADEA)|Federal",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -3864,13 +4398,19 @@
       "agency": null,
       "sourceUrl": "https://www.eeoc.gov/wysk/what-you-should-know-about-pregnant-workers-fairness-act",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:Pregnant Workers Fairness Act (PWFA)|Federal",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -3907,13 +4447,19 @@
       "agency": null,
       "sourceUrl": "https://dol.ny.gov/pay-transparency",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:NY Pay Transparency Law|New York State",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -3950,13 +4496,19 @@
       "agency": null,
       "sourceUrl": "https://www.nyc.gov/site/cchr/law/fair-chance-act.page",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:NYC Fair Chance Act (Ban the Box)|New York City",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -3993,13 +4545,19 @@
       "agency": null,
       "sourceUrl": "https://www.nyc.gov/site/cchr/law/lactation.page",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:NYC Lactation Accommodation (Local Laws 185/186 of 2018)|New York City",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -4036,13 +4594,19 @@
       "agency": null,
       "sourceUrl": "https://www.nlrb.gov/about-nlrb/rights-we-protect/the-law/employees",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:National Labor Relations Act — Protected Concerted Activity (§7)|Federal",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -4079,13 +4643,19 @@
       "agency": null,
       "sourceUrl": "https://www.uscis.gov/i-9",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:Form I-9 Employment Eligibility Verification (IRCA)|Federal",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -4122,13 +4692,19 @@
       "agency": null,
       "sourceUrl": "https://paidfamilyleave.ny.gov/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:NY Paid Family Leave|New York State",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -4165,13 +4741,19 @@
       "agency": null,
       "sourceUrl": "https://www.ny.gov/new-york-state-paid-prenatal-leave/paid-prenatal-leave-faqs",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:NY Paid Prenatal Personal Leave (Labor Law §196-b)|New York State",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -4208,13 +4790,19 @@
       "agency": null,
       "sourceUrl": "https://www.ny.gov/programs/combating-sexual-harassment-workplace",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:NY Sexual Harassment Prevention Policy & Annual Training|New York State",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -4251,13 +4839,19 @@
       "agency": null,
       "sourceUrl": "https://www.dol.gov/agencies/whd/flsa",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:FLSA Federal Minimum Wage & Overtime|Federal",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -4294,13 +4888,19 @@
       "agency": null,
       "sourceUrl": "https://dol.ny.gov/posting-requirements-under-nys-labor-law",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-labor:Required Federal/State/City Workplace Postings|New York City",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   }
 ]

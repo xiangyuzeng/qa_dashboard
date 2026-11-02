@@ -1,12 +1,6 @@
-/** Deterministic ids so re-running the pull is stable and dedupes cleanly. */
-import { createHash } from "node:crypto";
+// Record ids are issued by prep:merge from data/v2/id_registry.json — never computed from source data.
+// The source's own identifier goes in provenance.externalKey (see ./stage.ts extKey).
 
-export const hashId = (prefix: string, ...parts: (string | number | null | undefined)[]) =>
-  `${prefix}-${createHash("sha1")
-    .update(parts.map((p) => String(p ?? "")).join("|"))
-    .digest("hex")
-    .slice(0, 12)}`;
-
-/** Normalize a store/area key for repeat-violation grouping. */
+/** Normalize a name/identifier for matching (repeat-violation grouping, bill numbers). */
 export const normKey = (s: string | null | undefined) =>
   (s ?? "").toUpperCase().replace(/[^A-Z0-9]+/g, " ").trim();

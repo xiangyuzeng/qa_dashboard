@@ -12,10 +12,11 @@ import { writeFileSync, mkdirSync, existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { getBytes, getJson, getText, postForm, postJson, socrata } from "./lib/http";
 import { parseDelimited, toObjects, unzip } from "./lib/bulk";
+import { STAGE_DIR, UNASSIGNED_ID, extKey } from "./lib/stage";
 import { matchBrand, brandOrOther, establishmentType, inScope } from "./lib/match";
 import { classify } from "./lib/classify";
 import { assessInspection, assessRegulatory, assessImport, assessRegulation } from "./lib/risk";
-import { hashId, normKey } from "./lib/ids";
+import { normKey } from "./lib/ids";
 import { importSeeds, regulationSeeds } from "./seeds";
 import { CompanyProfileSchema, ApplicabilityRulesFileSchema } from "../src/lib/schema";
 import {
@@ -89,6 +90,13 @@ const prov = (
   dataAvailabilityLabel: null,
   njMunicipality: null,
   njRoutedTo: null,
+  // identity + source-tracking fields: externalKey is set per collector; the rest belong to prep:merge
+  externalKey: null,
+  firstSeenAt: null,
+  lastSeenAt: null,
+  missingRuns: 0,
+  notReturnedDays: null,
+  sourceState: "current",
   ...extra,
 });
 
@@ -144,7 +152,7 @@ async function collectOpenFDA(): Promise<SourceResult> {
       const a = assessRegulatory({ category: "召回事件", text, classification: r.classification });
       const title = `${r.recalling_firm ?? "Recall"}: ${(r.reason_for_recall ?? "").slice(0, 90)}`;
       out.push({
-        id: hashId("reg", "openfda", r.recall_number ?? title),
+        id: UNASSIGNED_ID,
         no: null, category: "召回事件", chineseTitle: null, englishTitle: title,
         source: "FDA (openFDA)", publicationDate: isoFromYmd(r.report_date),
         chineseSummary: null,
@@ -152,7 +160,7 @@ async function collectOpenFDA(): Promise<SourceResult> {
         sourceUrl: `https://api.fda.gov/food/enforcement.json?search=recall_number:%22${encodeURIComponent(r.recall_number ?? "")}%22`,
         riskLevel: a.riskLevel as RegulatoryRecord["riskLevel"], relevanceNotes: r.classification ?? null, recommendedAction: null,
         ...regBase(), relevanceTags: tags, alertTriggered: a.alertTriggered, alertReason: a.alertReason, alertRuleIds: a.alertRuleIds,
-        provenance: prov("fda_recall", `https://api.fda.gov/food/enforcement.json?search=recall_number:%22${r.recall_number ?? ""}%22`),
+        provenance: prov("fda_recall", `https://api.fda.gov/food/enforcement.json?search=recall_number:%22${r.recall_number ?? ""}%22`, { externalKey: extKey("fda-recall", r.recall_number ?? title) }),
       });
     }
     return { regulatory: out, provenance: provEntry({ sourceId: "fda_recall", name, accessType: "official-api", endpointOrUrl: url, oneTimePullFeasible: "yes", recordCount: out.length }) };
@@ -180,14 +188,14 @@ async function collectFederalRegister(): Promise<SourceResult> {
         const category = /rule/i.test(type) ? "法规标准" : "监管动态";
         const a = assessRegulatory({ category, text: `${title} ${abstract}` });
         out.push({
-          id: hashId("reg", "fedreg", dn || title),
+          id: UNASSIGNED_ID,
           no: null, category, chineseTitle: null, englishTitle: title,
           source: "Federal Register", publicationDate: isoFromYmd(String(d.publication_date ?? "")),
           chineseSummary: null, englishSummary: abstract.slice(0, 260) || null,
           sourceUrl: String(d.html_url ?? "") || null,
           riskLevel: a.riskLevel as RegulatoryRecord["riskLevel"], relevanceNotes: type || null, recommendedAction: null,
           ...regBase(), relevanceTags: relevanceTags(`${title} ${abstract}`),
-          provenance: prov("federal_register", String(d.html_url ?? "")),
+          provenance: prov("federal_register", String(d.html_url ?? ""), { externalKey: extKey("fedreg", dn || title) }),
         });
       }
     }
@@ -212,7 +220,7 @@ async function collectCDC(): Promise<SourceResult> {
       const ill = r.illnesses ? Number(r.illnesses) : null;
       const a = assessRegulatory({ category: "食品安全事件", text, illnesses: ill });
       return {
-        id: hashId("reg", "cdc", r.year, r.month, r.state, etio, r.illnesses),
+        id: UNASSIGNED_ID,
         no: null, category: "食品安全事件", chineseTitle: null,
         englishTitle: `Foodborne outbreak — ${etio} (${r.state ?? "US"}, ${r.year ?? ""})`,
         source: "CDC NORS", publicationDate: r.year ? `${r.year}-${String(r.month || "1").padStart(2, "0")}-01` : null,
@@ -222,7 +230,8 @@ async function collectCDC(): Promise<SourceResult> {
         riskLevel: a.riskLevel as RegulatoryRecord["riskLevel"], relevanceNotes: r.setting ?? null, recommendedAction: null,
         ...regBase(), relevanceTags: relevanceTags(text).length ? relevanceTags(text) : ["beverage"],
         alertTriggered: a.alertTriggered, alertReason: a.alertReason, alertRuleIds: a.alertRuleIds,
-        provenance: prov("cdc_nors", "https://data.cdc.gov/Foodborne-Waterborne-and-Related-Diseases/NORS/5xkq-dg7x"),
+        // NORS rows carry no identifier of their own — the reported outbreak attributes are the only key
+        provenance: prov("cdc_nors", "https://data.cdc.gov/Foodborne-Waterborne-and-Related-Diseases/NORS/5xkq-dg7x", { externalKey: extKey("cdc-nors", r.year, r.month, r.state, etio, r.illnesses) }),
       };
     });
     return { regulatory: out, provenance: provEntry({ sourceId: "cdc_nors", name, accessType: "open-data", endpointOrUrl: base, oneTimePullFeasible: "yes", recordCount: out.length, stalenessNote: "NORS is annual and lags ~2–3 years." }) };
@@ -258,14 +267,14 @@ async function collectFSIS(): Promise<SourceResult> {
       if (!/coffee|espresso|latte|cappuccino|macchiato|cold[ -]?brew|\bchai\b|matcha|frappe|breakfast sandwich|croissant|\bpastr/i.test(text)) continue;
       const a = assessRegulatory({ category: "召回事件", text, classification: r.field_recall_classification });
       out.push({
-        id: hashId("reg", "fsis", r.field_recall_number ?? title),
+        id: UNASSIGNED_ID,
         no: null, category: "召回事件", chineseTitle: null, englishTitle: title.slice(0, 140),
         source: "USDA / FSIS", publicationDate: isoFlexible(r.field_recall_date),
         chineseSummary: null, englishSummary: stripHtml(r.field_summary ?? "").slice(0, 260) || title,
         sourceUrl: "https://www.fsis.usda.gov/recalls",
         riskLevel: a.riskLevel as RegulatoryRecord["riskLevel"], relevanceNotes: r.field_recall_classification ?? null, recommendedAction: null,
         ...regBase(), relevanceTags: tags, alertTriggered: a.alertTriggered, alertReason: a.alertReason, alertRuleIds: a.alertRuleIds,
-        provenance: prov("fsis_recall", "https://www.fsis.usda.gov/recalls"),
+        provenance: prov("fsis_recall", "https://www.fsis.usda.gov/recalls", { externalKey: extKey("fsis-recall", r.field_recall_number ?? title) }),
       });
     }
     return { regulatory: out, provenance: provEntry({ sourceId: "fsis_recall", name, accessType: "official-api", endpointOrUrl: url, oneTimePullFeasible: "yes", recordCount: out.length, stalenessNote: "FSIS is meat/poultry/egg — kept only items whose text matches café beverages/breakfast/pastry; out-of-scope meat recalls excluded. Set FSIS_USER_AGENT to avoid the 403." }) };
@@ -300,9 +309,9 @@ type RawInsp = {
   sourceUrlOrDocRef: string | null;
   recommendedAction: string | null;
   establishmentId?: string | null;
-  /** Source's own unique key (e.g. OATH ticket number). When set, the id hashes this instead of
-   *  store+date+code — a summons shares all three with the DOHMH inspection that issued it. */
-  idKey?: string | null;
+  /** The source's own identity for this inspection (provenance.externalKey) — e.g. the OATH ticket
+   *  number or camis + inspection date. Used to match the record across refreshes; never our id. */
+  externalKey: string;
   violationText: string;
   sourceId: string;
   sourceUrl: string | null;
@@ -320,9 +329,7 @@ function finalizeInspection(p: RawInsp): InspectionRecord {
     categories: cls.all,
   });
   return {
-    id: p.idKey
-      ? hashId("insp", p.jurisdiction, p.idKey)
-      : hashId("insp", p.jurisdiction, p.establishmentId ?? p.storeName, p.inspectionDate, p.violationCode ?? cls.label ?? ""),
+    id: UNASSIGNED_ID,
     module: "inspection" as const,
     no: p.no,
     jurisdiction: p.jurisdiction as InspectionRecord["jurisdiction"],
@@ -357,7 +364,7 @@ function finalizeInspection(p: RawInsp): InspectionRecord {
     reviewed: true,
     reviewStatus: "approved",
     reviewNote: "auto-collected — QA review required before treating exports/alerts as final",
-    provenance: prov(p.sourceId, p.sourceUrl),
+    provenance: prov(p.sourceId, p.sourceUrl, { externalKey: p.externalKey }),
   };
 }
 
@@ -429,7 +436,7 @@ async function collectNYC(): Promise<SourceResult> {
           recommendedAction: null,
           violationText: violText,
           // one record per camis + date (the grouping key) — never derived from which violation rows came back
-          idKey: `nyc:${r0.camis}|${(r0.inspection_date ?? "").slice(0, 10)}`,
+          externalKey: extKey("nyc-dohmh", r0.camis, (r0.inspection_date ?? "").slice(0, 10)),
           sourceId: "nyc_dohmh",
           sourceUrl: `https://data.cityofnewyork.us/resource/43nn-pn8j.json?camis=${r0.camis}`,
         }),
@@ -502,7 +509,7 @@ async function collectBoston(): Promise<SourceResult> {
           followupRequired: result === "Fail" || result === "Closed" || result === "Permit Suspended" ? "是 Yes" : "否 No",
           sourceType: "Open Data API",
           sourceUrlOrDocRef: PAGE, recommendedAction: null,
-          idKey: `bos:${key}`,
+          externalKey: extKey("boston-isd", key),
           violationText: violText, sourceId: "boston_ckan", sourceUrl: PAGE,
         }),
       );
@@ -526,14 +533,15 @@ const BENCH_NOTE = `Priority brands only, newest ${PER_BRAND_CAP} inspections pe
 function capPerBrand(rows: InspectionRecord[], cap = PER_BRAND_CAP): InspectionRecord[] {
   const byBrand = new Map<string, InspectionRecord[]>();
   const seen = new Set<string>();
+  const key = (r: InspectionRecord) => r.provenance.externalKey ?? "";
   for (const r of rows) {
-    if (seen.has(r.id)) continue;
-    seen.add(r.id);
+    if (seen.has(key(r))) continue; // records have no id yet — the source's key identifies them
+    seen.add(key(r));
     const k = r.brand ?? "其他 Other";
     (byBrand.get(k) ?? byBrand.set(k, []).get(k)!).push(r);
   }
   const newestFirst = (a: InspectionRecord, b: InspectionRecord) =>
-    (b.inspectionDate ?? "").localeCompare(a.inspectionDate ?? "") || a.id.localeCompare(b.id);
+    (b.inspectionDate ?? "").localeCompare(a.inspectionDate ?? "") || key(a).localeCompare(key(b));
   return [...byBrand.values()].flatMap((rs) => rs.sort(newestFirst).slice(0, cap));
 }
 
@@ -585,7 +593,7 @@ async function collectChicago(): Promise<SourceResult> {
             violationSeverity: /\bPRIORITY VIOLATION\b/i.test(r.violations || "") ? "严重（主要）Critical" : violText ? "一般 Non-critical" : null,
             followupRequired: result === "Fail" ? "是 Yes" : "否 No",
             sourceType: "Open Data API", sourceUrlOrDocRef: url, recommendedAction: null,
-            idKey: `chi:${r.inspection_id}`,
+            externalKey: extKey("chicago-cdph", r.inspection_id),
             violationText: violText, sourceId: "chicago_cdph", sourceUrl: url,
           }),
         );
@@ -648,7 +656,7 @@ async function collectSanFrancisco(): Promise<SourceResult> {
             followupRequired: result === "Conditional Pass" || result === "Closed" ? "是 Yes" : "否 No",
             sourceType: "Open Data API", sourceUrlOrDocRef: url, recommendedAction: null,
             // ~6% of rows repeat permit+date+type with a different total_time — same inspection
-            idKey: `sf:${r.permit_number}|${date ?? ""}|${r.inspection_type ?? ""}`,
+            externalKey: extKey("sf-dph", r.permit_number, date, r.inspection_type),
             violationText: violText, sourceId: "sf_dph", sourceUrl: url,
           }),
         );
@@ -717,7 +725,7 @@ async function collectSantaClara(): Promise<SourceResult> {
         violationSeverity: vs.some((v) => String(v.critical) === "true") ? "严重（主要）Critical" : violText ? "一般 Non-critical" : null,
         followupRequired: result === "Conditional Pass" || result === "Closed" ? "是 Yes" : "否 No",
         sourceType: "Open Data API", sourceUrlOrDocRef: url, recommendedAction: null,
-        idKey: `scc:${i.inpsection_id}`,
+        externalKey: extKey("scc-deh", i.inpsection_id),
         violationText: violText, sourceId: "scc_deh", sourceUrl: url,
       });
     });
@@ -779,7 +787,7 @@ async function collectFairfax(): Promise<SourceResult> {
           violationSeverity: null,
           followupRequired: result === "Fail" || result === "Closed" ? "是 Yes" : "否 No",
           sourceType: "Open Data API", sourceUrlOrDocRef: report, recommendedAction: null,
-          idKey: `ffx:${r.INSPECTIONID}`,
+          externalKey: extKey("fairfax-hd", String(r.INSPECTIONID ?? "")),
           violationText: "", sourceId: "fairfax_hd", sourceUrl: report,
         }),
       );
@@ -826,7 +834,7 @@ async function collectCambridge(): Promise<SourceResult> {
           violationSeverity: rows.some((x) => /\(P\)\s*$/.test(x.code_description || "")) ? "严重（主要）Critical" : violText ? "一般 Non-critical" : null,
           followupRequired: "否 No",
           sourceType: "Open Data API", sourceUrlOrDocRef: url, recommendedAction: null,
-          idKey: `cam:${id}`,
+          externalKey: extKey("cambridge-isd", id),
           violationText: violText, sourceId: "cambridge_socrata", sourceUrl: url,
         }),
       );
@@ -908,7 +916,7 @@ async function collectLA(): Promise<SourceResult> {
         violationSeverity: vs.some((v) => Number(v.POINTS) >= 4) ? "严重（主要）Critical" : violText ? "一般 Non-critical" : null,
         followupRequired: result === "Fail" ? "是 Yes" : "否 No",
         sourceType: "Open Data API", sourceUrlOrDocRef: PAGE, recommendedAction: null,
-        idKey: `la:${sn}`,
+        externalKey: extKey("la-deh", sn),
         violationText: violText, sourceId: "la_county_arcgis", sourceUrl: PAGE,
       });
     });
@@ -973,7 +981,7 @@ async function collectSouthernNevada(): Promise<SourceResult> {
         violationSeverity: vs.some((v) => Number(v.violation_demerits) >= 5) ? "严重（主要）Critical" : violText ? "一般 Non-critical" : null,
         followupRequired: result === "Fail" || result === "Closed" ? "是 Yes" : "否 No",
         sourceType: "Open Data API", sourceUrlOrDocRef: PAGE, recommendedAction: null,
-        idKey: `snhd:${i.serial_number}`,
+        externalKey: extKey("snhd", i.serial_number),
         violationText: violText, sourceId: "snhd", sourceUrl: PAGE,
       });
     });
@@ -1036,7 +1044,7 @@ async function collectSanDiego(): Promise<SourceResult> {
             violationSeverity: vs.some((v) => v.major) ? "严重（主要）Critical" : violText ? "一般 Non-critical" : null,
             followupRequired: result === "Fail" || result === "Closed" ? "是 Yes" : "否 No",
             sourceType: "Open Data API", sourceUrlOrDocRef: PAGE, recommendedAction: null,
-            idKey: `sd:${i.inspection_id}`,
+            externalKey: extKey("sd-dehq", String(i.inspection_id)),
             violationText: violText, sourceId: "sd_dehq", sourceUrl: PAGE,
           }),
         );
@@ -1077,7 +1085,7 @@ async function collectPasadena(): Promise<SourceResult> {
     const add = (key: string, rec: InspectionRecord, preferNew: boolean) => {
       if (preferNew || !byKey.has(key)) byKey.set(key, rec);
     };
-    const base = (p: Permit, date: string, type: string | null, score: number | null, result: string, viols: LegViol[], idKey: string) => {
+    const base = (p: Permit, date: string, type: string | null, score: number | null, result: string, viols: LegViol[], key: string) => {
       const nm = p.DBA || p.CompanyName || "";
       const violText = viols.map((v) => (v.ViolationItem || "").replace(/\s+/g, " ").trim()).filter(Boolean).join(" | ");
       return finalizeInspection({
@@ -1091,7 +1099,7 @@ async function collectPasadena(): Promise<SourceResult> {
         violationSeverity: viols.some((v) => Number(v.Score) >= 4) ? "严重（主要）Critical" : violText ? "一般 Non-critical" : null,
         followupRequired: result === "Fail" || result === "Permit Suspended" ? "是 Yes" : "否 No",
         sourceType: "Open Data API", sourceUrlOrDocRef: PAGE, recommendedAction: null,
-        idKey, violationText: violText, sourceId: "pasadena_ph", sourceUrl: PAGE,
+        externalKey: key, violationText: violText, sourceId: "pasadena_ph", sourceUrl: PAGE,
       });
     };
     for (const p of permits.leg.values()) {
@@ -1103,7 +1111,7 @@ async function collectPasadena(): Promise<SourceResult> {
         const score = typeof i.InspectionScore === "number" ? i.InspectionScore : null;
         const suspended = viols.some((v) => /permit suspension/i.test(v.ViolationItem ?? ""));
         const result = suspended ? "Permit Suspended" : band(score) ?? "N/A";
-        add(`${norm(p.FullAddressLine1)}|${date}`, base(p, date, i.InspectionType ?? null, score, result, viols, `pas:env:${p.BlLicenseId}|${date}|${i.InspectionType ?? ""}`), true);
+        add(`${norm(p.FullAddressLine1)}|${date}`, base(p, date, i.InspectionType ?? null, score, result, viols, extKey("pasadena-envision", p.BlLicenseId, date, i.InspectionType)), true);
       }
     }
     for (const p of permits.cur.values()) {
@@ -1114,7 +1122,7 @@ async function collectPasadena(): Promise<SourceResult> {
         const score = typeof i.ViolationScore === "number" ? i.ViolationScore : null;
         const rating = (i.ViolationRating ?? "").toLowerCase();
         const result = /suspend|closed|closure/.test(rating) ? "Permit Suspended" : rating === "pass" ? "Pass" : band(score) ?? "N/A";
-        add(`${norm(p.FullAddressLine1)}|${date}`, base(p, date, i.InspectionType ?? null, score, result, [], `pas:${i.InspectionNumber ?? `${p.BlLicenseId}|${date}`}`), false);
+        add(`${norm(p.FullAddressLine1)}|${date}`, base(p, date, i.InspectionType ?? null, score, result, [], extKey("pasadena-ph", i.InspectionNumber ?? `${p.BlLicenseId}|${date}`)), false);
       }
     }
     const capped = capPerBrand([...byKey.values()]);
@@ -1198,7 +1206,7 @@ async function collectDC(): Promise<SourceResult> {
           violationSeverity: (p ?? 0) > 0 ? "严重（主要）Critical" : (pf ?? 0) + (c ?? 0) > 0 || violText ? "一般 Non-critical" : null,
           followupRequired: (p ?? 0) > 0 ? "是 Yes" : "否 No",
           sourceType: "PDF/HTML 报告", sourceUrlOrDocRef: url, recommendedAction: null,
-          idKey: `dc:${v.id}`,
+          externalKey: extKey("dc-health", v.id),
           violationText: violText, sourceId: "dc_health", sourceUrl: url,
         }),
       );
@@ -1241,6 +1249,8 @@ async function collectIntake(): Promise<SourceResult> {
         sourceUrlOrDocRef: s("sourceUrlOrDocRef"),
         recommendedAction: s("recommendedAction"),
         violationText: String(e.englishViolationSummary ?? e.chineseViolationSummary ?? ""),
+        // intake rows are transcribed by hand and carry no source id — store + date + type identify them
+        externalKey: extKey("intake", e.jurisdiction as string, s("storeName"), isoFlexible(s("inspectionDate")), s("inspectionType")),
         sourceId: "manual_intake",
         sourceUrl: s("sourceUrlOrDocRef"),
       });
@@ -1271,7 +1281,7 @@ async function collectImportSeeds(): Promise<SourceResult> {
     const a = assessImport({ action: s.regulatoryAction, text: `${s.englishTitle} ${s.englishSummary}` });
     const riskLevel = s.riskLevel as ImportExportRecord["riskLevel"];
     return {
-      id: hashId("imp", s.englishTitle, s.publicationDate),
+      id: UNASSIGNED_ID,
       module: "import" as const,
       no: null,
       category: s.category,
@@ -1296,7 +1306,7 @@ async function collectImportSeeds(): Promise<SourceResult> {
       reviewed: true,
       reviewStatus: "approved" as const,
       reviewNote: "curated from 2026-05 report",
-      provenance: prov("may_report_import", s.sourceUrl),
+      provenance: prov("may_report_import", s.sourceUrl, { externalKey: extKey("seed-import", s.englishTitle, s.publicationDate) }),
     };
   });
   return { importExport: out, provenance: provEntry({ sourceId: "may_report_import", name: "Curated import items (2026-05 report)", module: "import", status: "manual", accessType: "none", oneTimePullFeasible: "partial", recordCount: out.length, stalenessNote: "Manual-curated from the May 2026 report; live Federal Register import slugs augment." }) };
@@ -1323,7 +1333,7 @@ async function collectFederalRegisterImport(): Promise<SourceResult> {
         const agencyName = Array.isArray(d.agencies) && d.agencies[0] ? String((d.agencies[0] as { name?: string }).name ?? slug) : slug;
         const a = assessImport({ action: "Rule/Notice", text });
         out.push({
-          id: hashId("imp", "fedreg", dn || title),
+          id: UNASSIGNED_ID,
           module: "import" as const,
           no: null,
           category: "联邦公报进口/贸易 Federal Register Import/Trade",
@@ -1348,7 +1358,7 @@ async function collectFederalRegisterImport(): Promise<SourceResult> {
           reviewed: true,
           reviewStatus: "approved" as const,
           reviewNote: "auto-collected — QA review required before treating exports/alerts as final",
-          provenance: prov("federal_register_import", String(d.html_url ?? "")),
+          provenance: prov("federal_register_import", String(d.html_url ?? ""), { externalKey: extKey("fedreg", dn || title) }),
         });
       }
     }
@@ -1384,12 +1394,13 @@ async function collectImportRefusals(): Promise<SourceResult> {
       // (that's thousands of out-of-scope items, e.g. ginger root). Never fabricate the rest.
       if (!/coffee|tea|dairy|milk|cream|beverage|drink|juice|cocoa|chocolate|sugar|syrup|flavor|matcha|\bwater\b/i.test(product)) continue;
       const firm = String(d.FirmName ?? "");
-      const id = hashId("imp", "fda_oii", firm, String(d.RefusalDate ?? ""), product);
-      if (seen.has(id)) continue; // collapse identical firm/date/product rows
-      seen.add(id);
+      // the refusals feed has no row id — firm + refusal date + product identify a refusal
+      const key = extKey("fda-oii", firm, String(d.RefusalDate ?? ""), product);
+      if (seen.has(key)) continue; // collapse identical firm/date/product rows
+      seen.add(key);
       const charges = String(d.RefusalCharges ?? "");
       out.push({
-        id,
+        id: UNASSIGNED_ID,
         module: "import" as const,
         no: null,
         category: "进口拒绝 Import Refusal (FDA OII)",
@@ -1414,7 +1425,7 @@ async function collectImportRefusals(): Promise<SourceResult> {
         reviewed: true,
         reviewStatus: "approved" as const,
         reviewNote: "auto-collected (FDA OII) — QA review required before treating exports/alerts as final",
-        provenance: prov("fda_oii_import_refusals", ref),
+        provenance: prov("fda_oii_import_refusals", ref, { externalKey: key }),
       });
     }
     return { importExport: out, provenance: provEntry({ sourceId: "fda_oii_import_refusals", name, module: "import", status: out.length ? "fetched" : "no_update", accessType: "official-api", endpointOrUrl: endpoint, oneTimePullFeasible: "yes", recordCount: out.length, stalenessNote: "Café-relevant refusals only (coffee/tea/dairy/beverage products) from the 2000 most-recent; capped 30." }) };
@@ -1431,7 +1442,7 @@ async function collectRegulationSeeds(): Promise<SourceResult> {
     const riskLevel = s.riskLevel as RegulationRecord["riskLevel"];
     const alertTriggered = a.alertTriggered || riskLevel === "高风险";
     return {
-      id: hashId("reg2", s.regulationBillName, s.jurisdiction),
+      id: UNASSIGNED_ID,
       module: "regulation" as const,
       no: null,
       jurisdiction: s.jurisdiction as RegulationRecord["jurisdiction"],
@@ -1456,7 +1467,7 @@ async function collectRegulationSeeds(): Promise<SourceResult> {
       reviewed: true,
       reviewStatus: "approved" as const,
       reviewNote: "curated from 2026-05 report",
-      provenance: prov("may_report_regulation", s.sourceUrl),
+      provenance: prov("may_report_regulation", s.sourceUrl, { externalKey: extKey("seed-regulation", s.regulationBillName, s.jurisdiction) }),
     };
   });
   return { regulations: out, provenance: provEntry({ sourceId: "may_report_regulation", name: "Curated state/local regulations (2026-05 report)", module: "regulation", status: "manual", accessType: "none", oneTimePullFeasible: "partial", recordCount: out.length, stalenessNote: "Manual-curated named laws (Sweet Truth, SB68, NY S5381…); state-bill APIs (LegiScan/NY-Senate) can augment with keys — see docs/API_KEYS.md." }) };
@@ -1493,7 +1504,8 @@ const isFoodBillTitle = (title: string) =>
   /food|menu|allergen|sugar|sodium|\blabel|packaging|pfas|beverage|restaurant|dietary|nutrition|additive/i.test(title);
 // Cross-source bill id: normalize the identifier (strip case/space) + use the full jurisdiction name so
 // the SAME bill from LegiScan and OpenStates collapses to one id (deduped in main()).
-const billId = (identifier: string, jurisdiction: string | null) => hashId("reg2", normKey(identifier), jurisdiction ?? "");
+// One shared namespace across LegiScan / OpenStates / NY Senate, so the same bill from several feeds is one object.
+const billKey = (identifier: string, jurisdiction: string | null) => extKey("bill", normKey(identifier), jurisdiction ?? "");
 
 // Key-gated — LegiScan state-bill search (GET). Activates when LEGISCAN_KEY is set; else dormant stub.
 // Without the key the output is identical to today; with it, CA/NY/NJ/MA/FL food-bill rows augment Module 3.
@@ -1519,14 +1531,14 @@ async function collectLegiScanBills(): Promise<SourceResult> {
         const billNumber = String(b.bill_number ?? b.number ?? "");
         const title = String(b.title ?? "");
         if (!billNumber || !isFoodBillTitle(title)) continue; // drop off-topic full-text matches
-        const id = billId(billNumber, STATE_MAP[st]);
-        if (seen.has(id)) continue;
-        seen.add(id);
+        const key = billKey(billNumber, STATE_MAP[st]);
+        if (seen.has(key)) continue;
+        seen.add(key);
         kept++;
         const status = LEGISCAN_STATUS[Number(b.status ?? 0)] ?? "Monitoring";
         const a = assessRegulation({ status, effectiveDate: null, today: TODAY });
         out.push({
-          id, module: "regulation" as const, no: null,
+          id: UNASSIGNED_ID, module: "regulation" as const, no: null,
           jurisdiction: STATE_MAP[st],
           regulationBillName: `${billNumber} ${title}`.trim().slice(0, 160),
           chineseTitle: null, englishTitle: title || billNumber,
@@ -1539,7 +1551,7 @@ async function collectLegiScanBills(): Promise<SourceResult> {
           alertTriggered: a.alertTriggered, alertReason: a.alertReason, alertRuleIds: a.alertRuleIds,
           reviewed: true, reviewStatus: "approved" as const,
           reviewNote: "auto-collected (LegiScan) — QA review required before treating exports/alerts as final",
-          provenance: prov("legiscan_bills", String(b.state_link ?? b.url ?? "") || null),
+          provenance: prov("legiscan_bills", String(b.state_link ?? b.url ?? "") || null, { externalKey: key }),
         });
       }
     }
@@ -1572,9 +1584,9 @@ async function collectNYSenateBills(): Promise<SourceResult> {
         const printNo = String(b.basePrintNo ?? b.printNo ?? "");
         const title = String(b.title ?? "");
         if (!printNo || !isFoodBillTitle(title) || Number(b.session ?? 0) < 2021) continue; // food + recent (2021+)
-        const id = billId(printNo, "New York State");
-        if (seen.has(id)) continue;
-        seen.add(id);
+        const key = billKey(printNo, "New York State");
+        if (seen.has(key)) continue;
+        seen.add(key);
         kept++;
         const summary = String(b.summary ?? "");
         const statusObj = (b.status ?? {}) as Record<string, unknown>;
@@ -1582,7 +1594,7 @@ async function collectNYSenateBills(): Promise<SourceResult> {
         const a = assessRegulation({ status, effectiveDate: null, today: TODAY });
         const url = `https://www.nysenate.gov/legislation/bills/${String(b.session ?? "")}/${printNo}`;
         out.push({
-          id, module: "regulation" as const, no: null,
+          id: UNASSIGNED_ID, module: "regulation" as const, no: null,
           jurisdiction: "New York State",
           regulationBillName: `${printNo} ${title}`.trim().slice(0, 160),
           chineseTitle: null, englishTitle: title || printNo,
@@ -1594,7 +1606,7 @@ async function collectNYSenateBills(): Promise<SourceResult> {
           alertTriggered: a.alertTriggered, alertReason: a.alertReason, alertRuleIds: a.alertRuleIds,
           reviewed: true, reviewStatus: "approved" as const,
           reviewNote: "auto-collected (NY Senate) — QA review required before treating exports/alerts as final",
-          provenance: prov("ny_senate_bills", url),
+          provenance: prov("ny_senate_bills", url, { externalKey: key }),
         });
       }
     }
@@ -1626,13 +1638,13 @@ async function collectOpenStates(): Promise<SourceResult> {
         const identifier = String(b.identifier ?? "");
         const title = String(b.title ?? "");
         if (!identifier || !isFoodBillTitle(title)) continue; // drop off-topic full-text matches
-        const id = billId(identifier, STATE_MAP[st]);
-        if (seen.has(id)) continue;
-        seen.add(id);
+        const key = billKey(identifier, STATE_MAP[st]);
+        if (seen.has(key)) continue;
+        seen.add(key);
         kept++;
         const a = assessRegulation({ status: "Monitoring", effectiveDate: null, today: TODAY });
         out.push({
-          id, module: "regulation" as const, no: null,
+          id: UNASSIGNED_ID, module: "regulation" as const, no: null,
           jurisdiction: STATE_MAP[st],
           regulationBillName: `${identifier} ${title}`.trim().slice(0, 160),
           chineseTitle: null, englishTitle: title || identifier,
@@ -1645,7 +1657,7 @@ async function collectOpenStates(): Promise<SourceResult> {
           alertTriggered: a.alertTriggered, alertReason: a.alertReason, alertRuleIds: a.alertRuleIds,
           reviewed: true, reviewStatus: "approved" as const,
           reviewNote: "auto-collected (OpenStates) — QA review required before treating exports/alerts as final",
-          provenance: prov("openstates_bills", String(b.openstates_url ?? "") || null),
+          provenance: prov("openstates_bills", String(b.openstates_url ?? "") || null, { externalKey: key }),
         });
       }
     }
@@ -1709,7 +1721,7 @@ async function collectEcfrTitle21(): Promise<SourceResult> {
         const secUrl = `https://www.ecfr.gov/current/title-21/part-${e.part}${e.section ? `/section-${e.section}` : ""}`;
         const a = assessRegulation({ status, effectiveDate: e.startsOn, today: TODAY });
         return {
-          id: hashId("ecfr", e.section ?? e.part, e.startsOn),
+          id: UNASSIGNED_ID,
           module: "regulation" as const, no: null,
           jurisdiction: "Federal" as const,
           regulationBillName: title.slice(0, 160),
@@ -1725,7 +1737,7 @@ async function collectEcfrTitle21(): Promise<SourceResult> {
           alertTriggered: a.alertTriggered, alertReason: a.alertReason, alertRuleIds: a.alertRuleIds,
           reviewed: true, reviewStatus: "approved" as const,
           reviewNote: "auto-collected (eCFR Title 21) — QA review required before treating exports/alerts as final",
-          provenance: prov("ecfr_title21", secUrl),
+          provenance: prov("ecfr_title21", secUrl, { externalKey: extKey("ecfr", e.section ?? e.part, e.startsOn) }),
         };
       });
     return { regulations: out, provenance: provEntry({ sourceId: "ecfr_title21", name, module: "regulation", status: out.length ? "fetched" : "no_update", accessType: "official-api", endpointOrUrl: base, oneTimePullFeasible: "yes", recordCount: out.length, stalenessNote: "eCFR Title 21 codified-rule changes (food scope: parts <200) matching food-safety terms; latest change per section, rolling 24-month window, capped 25. Codified = In effect / Pending effective, never proposed." }) };
@@ -1756,7 +1768,7 @@ async function collectFdaFoodGuidance(): Promise<SourceResult> {
       if (dn) seen.add(dn);
       const a = assessRegulation({ status: "Guidance", effectiveDate: null, today: TODAY });
       out.push({
-        id: hashId("fdaguid", dn || title, String(r.publication_date ?? "")),
+        id: UNASSIGNED_ID,
         module: "regulation" as const, no: null,
         jurisdiction: "Federal",
         regulationBillName: title.slice(0, 160),
@@ -1771,7 +1783,7 @@ async function collectFdaFoodGuidance(): Promise<SourceResult> {
         alertTriggered: a.alertTriggered, alertReason: a.alertReason, alertRuleIds: a.alertRuleIds,
         reviewed: true, reviewStatus: "approved" as const,
         reviewNote: "auto-collected (FDA food guidance via Federal Register) — QA review required before treating exports/alerts as final",
-        provenance: prov("fda_food_guidance", String(r.html_url ?? "") || null),
+        provenance: prov("fda_food_guidance", String(r.html_url ?? "") || null, { externalKey: dn ? extKey("fedreg", dn) : extKey("fda-guidance", title, String(r.publication_date ?? "")) }),
       });
     }
     return { regulations: out, provenance: provEntry({ sourceId: "fda_food_guidance", name, module: "regulation", status: out.length ? "fetched" : "no_update", accessType: "official-api", endpointOrUrl: base, oneTimePullFeasible: "yes", recordCount: out.length, stalenessNote: out.length ? "FDA food-guidance availability notices from the Federal Register (title matches food-safety terms). FDA food guidance is infrequent; low volume is expected." : "No FDA FOOD guidance notices in the recent Federal Register window (FDA food guidance is infrequent) — 0 rows, not fabricated." }) };
@@ -1815,7 +1827,7 @@ async function collectNysdohProposed(): Promise<SourceResult> {
       const status: RegulationRecord["status"] = "Proposed rule";
       const a = assessRegulation({ status, effectiveDate: null, today: TODAY });
       out.push({
-        id: hashId("nysdoh", title, pub ?? ""),
+        id: UNASSIGNED_ID,
         module: "regulation" as const, no: null,
         jurisdiction: "New York State" as const,
         regulationBillName: title.slice(0, 160),
@@ -1830,7 +1842,8 @@ async function collectNysdohProposed(): Promise<SourceResult> {
         alertTriggered: a.alertTriggered, alertReason: a.alertReason, alertRuleIds: a.alertRuleIds,
         reviewed: true, reviewStatus: "approved" as const,
         reviewNote: "auto-collected (NYSDOH proposed rulemaking) — QA review required before treating exports/alerts as final",
-        provenance: prov("nysdoh_proposed", href),
+        // the NYSDOH listing has no rule number — title + publication date identify a proposal
+        provenance: prov("nysdoh_proposed", href, { externalKey: extKey("nysdoh-rule", title, pub) }),
       });
     }
     return { regulations: out, provenance: provEntry({ sourceId: "nysdoh_proposed", name, module: "regulation", status: out.length ? "fetched" : "no_update", accessType: "html-scrape", endpointOrUrl: url, oneTimePullFeasible: "yes", recordCount: out.length, stalenessNote: out.length ? "NYSDOH proposed rulemakings whose title is food-relevant (10 NYCRR). Proposed = comment period, NOT in effect." : "No food-relevant NYSDOH proposed rulemakings in the current list (NYSDOH mostly proposes healthcare rules) — 0 rows, not fabricated." }) };
@@ -1871,7 +1884,7 @@ async function collectNycRules(): Promise<SourceResult> {
         seen.add(href);
         const a = assessRegulation({ status: tgt.status, effectiveDate: null, today: TODAY });
         out.push({
-          id: hashId("nycrule", href, tgt.status),
+          id: UNASSIGNED_ID,
           module: "regulation" as const, no: null,
           jurisdiction: "New York City" as const,
           regulationBillName: title.slice(0, 160),
@@ -1887,7 +1900,8 @@ async function collectNycRules(): Promise<SourceResult> {
           alertTriggered: a.alertTriggered, alertReason: a.alertReason, alertRuleIds: a.alertRuleIds,
           reviewed: true, reviewStatus: "approved" as const,
           reviewNote: "auto-collected (NYC Rules) — QA review required before treating exports/alerts as final",
-          provenance: prov("nyc_rules", href),
+          // the rule page is the rule; proposed → adopted is a status change, not a new rule
+          provenance: prov("nyc_rules", href, { externalKey: extKey("nyc-rule", href) }),
         });
       }
     }
@@ -1927,7 +1941,7 @@ async function collectNycCityRecord(): Promise<SourceResult> {
         /adopt|\bNOA\b|final rule|final amendment|effective date/i.test(title) ? "Adopted rule" : "Proposed rule";
       const a = assessRegulation({ status, effectiveDate: null, today: TODAY });
       out.push({
-        id: hashId("cityrec", title, start ?? ""),
+        id: UNASSIGNED_ID,
         module: "regulation" as const, no: null,
         jurisdiction: "New York City" as const,
         regulationBillName: title.slice(0, 160),
@@ -1943,7 +1957,7 @@ async function collectNycCityRecord(): Promise<SourceResult> {
         alertTriggered: a.alertTriggered, alertReason: a.alertReason, alertRuleIds: a.alertRuleIds,
         reviewed: true, reviewStatus: "approved" as const,
         reviewNote: "auto-collected (NYC City Record) — QA review required; may overlap NYC Rules website (both official)",
-        provenance: prov("nyc_city_record", "https://a856-cityrecord.nyc.gov/"),
+        provenance: prov("nyc_city_record", "https://a856-cityrecord.nyc.gov/", { externalKey: r.request_id ? extKey("city-record", r.request_id) : extKey("city-record", title, start) }),
       });
     }
     return { regulations: out, provenance: provEntry({ sourceId: "nyc_city_record", name, module: "regulation", status: out.length ? "fetched" : "no_update", accessType: "open-data", endpointOrUrl: base, oneTimePullFeasible: "yes", recordCount: out.length, stalenessNote: "NYC City Record 'Agency Rules' notices from café-relevant agencies (Socrata dg92-zbpx). Status from the notice title; overlaps nyc_rules by design (both official)." }) };
@@ -1986,7 +2000,7 @@ async function collectSentimentRSS(): Promise<SourceResult> {
           ? "competitor_incident"
           : "negative_coverage";
       out.push({
-        id: hashId("sent", link || title),
+        id: UNASSIGNED_ID,
         module: "sentiment" as const,
         no: null,
         sentimentCategory: cat,
@@ -2009,7 +2023,7 @@ async function collectSentimentRSS(): Promise<SourceResult> {
         reviewed: true,
         reviewStatus: "approved" as const,
         reviewNote: "auto-collected RSS — metadata + link only",
-        provenance: prov("food_safety_news_rss", /^https?:\/\//.test(link) ? link : feedUrl),
+        provenance: prov("food_safety_news_rss", /^https?:\/\//.test(link) ? link : feedUrl, { externalKey: extKey("article", link || title) }),
       });
     }
     return { sentiment: out, provenance: provEntry({ sourceId: "food_safety_news_rss", name, module: "sentiment", status: out.length ? "filtered" : "no_update", accessType: "open-data", endpointOrUrl: feedUrl, oneTimePullFeasible: "yes", recordCount: out.length, stalenessNote: "Metadata + link only; never rehosts article bodies. §11 exclusions flagged (excluded=true kept for audit)." }) };
@@ -2215,7 +2229,7 @@ async function collectDOBBuilding(): Promise<SourceResult> {
       const pen = Number(r.penality_imposed || 0), bal = Number(r.balance_due || 0);
       const url = `${base}?ecb_violation_number=${r.ecb_violation_number}`;
       return {
-        id: hashId("bldg-ecb", r.ecb_violation_number || r.isn_dob_bis_extract),
+        id: UNASSIGNED_ID,
         module: "building" as const, no: null,
         jurisdiction: "New York City" as const,
         codeStandardName: vtype,
@@ -2239,7 +2253,7 @@ async function collectDOBBuilding(): Promise<SourceResult> {
         alertTriggered: false, alertReason: null, alertRuleIds: [],
         reviewed: true, reviewStatus: "approved" as const,
         reviewNote: "brand-matched ECB/DOB enforcement (respondent name contains 'LUCKIN') — live NYC Open Data",
-        provenance: prov("nyc_dob_violations", url, { agency: "NYC DOB/ECB", dataAvailabilityLabel: "respondent-matched enforcement" }),
+        provenance: prov("nyc_dob_violations", url, { agency: "NYC DOB/ECB", dataAvailabilityLabel: "respondent-matched enforcement", externalKey: extKey("ecb", r.ecb_violation_number || r.isn_dob_bis_extract) }),
       };
     });
     return { building: out, provenance: provEntry({ sourceId: "nyc_dob_violations", name, module: "building", status: out.length ? "fetched" : "no_update", jurisdictionId: "New York City", accessType: "open-data", endpointOrUrl: base, oneTimePullFeasible: "yes", recordCount: out.length, stalenessNote: out.length ? "ECB/DOB violations where a Luckin/First Ray owned entity is the named respondent (live)." : "No ECB/DOB violations name a Luckin/First Ray owned entity (expected for a new chain) — 0 rows, not fabricated." }) };
@@ -2263,7 +2277,7 @@ async function collectDSNYEnvironment(): Promise<SourceResult> {
       const locEn = full ? `Store: ${full} · ` : "";
       const locZh = full ? `门店:${full}。` : "";
       return {
-        id: hashId("env-dsny", r.ticket_number),
+        id: UNASSIGNED_ID,
         module: "environment" as const, no: null,
         jurisdiction: "New York City" as const,
         regulationName: chg,
@@ -2283,7 +2297,7 @@ async function collectDSNYEnvironment(): Promise<SourceResult> {
         alertTriggered: false, alertReason: null, alertRuleIds: [],
         reviewed: true, reviewStatus: "approved" as const,
         reviewNote: "brand-matched DSNY enforcement (OATH respondent contains 'LUCKIN') — live NYC Open Data",
-        provenance: prov("nyc_dsny_enforcement", url, { agency: "NYC DSNY / OATH", dataAvailabilityLabel: "respondent-matched enforcement" }),
+        provenance: prov("nyc_dsny_enforcement", url, { agency: "NYC DSNY / OATH", dataAvailabilityLabel: "respondent-matched enforcement", externalKey: extKey("oath", r.ticket_number) }),
       };
     });
     return { environment: out, provenance: provEntry({ sourceId: "nyc_dsny_enforcement", name, module: "environment", status: out.length ? "fetched" : "no_update", jurisdictionId: "New York City", accessType: "open-data", endpointOrUrl: OATH_BASE, oneTimePullFeasible: "yes", recordCount: out.length, stalenessNote: out.length ? "DSNY OATH summonses where a Luckin/First Ray owned entity is the respondent (live)." : "No DSNY summonses name a Luckin/First Ray owned entity — 0 rows, not fabricated." }) };
@@ -2307,7 +2321,7 @@ async function collectDCWPConsumer(): Promise<SourceResult> {
       const locEn = full ? `Store: ${full} · ` : "";
       const locZh = full ? `门店:${full}。` : "";
       return {
-        id: hashId("con-dcwp", r.ticket_number),
+        id: UNASSIGNED_ID,
         module: "consumer" as const, no: null,
         jurisdiction: "New York City" as const,
         regulationName: chg,
@@ -2328,7 +2342,7 @@ async function collectDCWPConsumer(): Promise<SourceResult> {
         alertTriggered: false, alertReason: null, alertRuleIds: [],
         reviewed: true, reviewStatus: "approved" as const,
         reviewNote: "brand-matched DCWP enforcement (OATH respondent contains 'LUCKIN') — live NYC Open Data",
-        provenance: prov("nyc_dcwp_consumer", url, { agency: "NYC DCWP / OATH", dataAvailabilityLabel: "respondent-matched enforcement" }),
+        provenance: prov("nyc_dcwp_consumer", url, { agency: "NYC DCWP / OATH", dataAvailabilityLabel: "respondent-matched enforcement", externalKey: extKey("oath", r.ticket_number) }),
       };
     });
     return { consumer: out, provenance: provEntry({ sourceId: "nyc_dcwp_consumer", name, module: "consumer", status: out.length ? "fetched" : "no_update", jurisdictionId: "New York City", accessType: "open-data", endpointOrUrl: OATH_BASE, oneTimePullFeasible: "yes", recordCount: out.length, stalenessNote: out.length ? "DCWP/consumer OATH summonses where a Luckin/First Ray owned entity is the respondent (live)." : "No DCWP summonses name a Luckin/First Ray owned entity — 0 rows, not fabricated." }) };
@@ -2454,7 +2468,7 @@ async function collectOwnedFoodSafetyOATH(): Promise<SourceResult> {
         sourceUrlOrDocRef: url,
         recommendedAction: null,
         violationText: charges,
-        idKey: r.ticket_number ? `oath:${r.ticket_number}` : null,
+        externalKey: extKey("oath", r.ticket_number),
         sourceId: "nyc_dohmh_oath",
         sourceUrl: CITYPAY_ECB,
       });
@@ -2556,6 +2570,7 @@ async function collectOwnedRegisteredDOHMH(): Promise<SourceResult> {
           sourceUrlOrDocRef: `${base}?camis=${camis}`,
           recommendedAction: null,
           violationText: "",
+          externalKey: extKey("nyc-dohmh-registration", camis),
           sourceId: "nyc_dohmh_registered",
           sourceUrl: `${base}?camis=${camis}`,
         }),
@@ -2675,14 +2690,13 @@ async function main() {
     provEntry({ sourceId: "fl_fdacs", name: "Florida FDACS Food Permit Center", jurisdictionId: "Florida (FDACS)", accessType: "none", oneTimePullFeasible: "no", stalenessNote: "robots.txt default-deny — manual UI / public-records request." }),
   );
 
-  // Dedupe module-1 regulatory by id BEFORE numbering — FSIS publishes each recall twice (English +
-  // Spanish) under the same field_recall_number, so both hash to one id. Keep first occurrence
-  // (English leads in the FSIS feed, and this dashboard is English-primary). Without this the two
-  // rows survive as a duplicate id and fail prep:validate — the reason a real refresh (whenever FSIS
-  // isn't 403'd) couldn't validate. Mirrors the regulations dedup further down.
+  // Dedupe module-1 regulatory by the source's key BEFORE numbering — FSIS publishes each recall
+  // twice (English + Spanish) under the same field_recall_number. Keep first occurrence (English
+  // leads in the FSIS feed, and this dashboard is English-primary). Mirrors the regulations dedup.
   {
     const seen = new Set<string>();
-    const deduped = regulatory.filter((r) => (seen.has(r.id) ? false : (seen.add(r.id), true)));
+    const k = (r: RegulatoryRecord) => r.provenance.externalKey ?? "";
+    const deduped = regulatory.filter((r) => (seen.has(k(r)) ? false : (seen.add(k(r)), true)));
     regulatory.length = 0;
     regulatory.push(...deduped);
   }
@@ -2708,39 +2722,14 @@ async function main() {
     console.warn("appliesToUs stamping skipped:", String(e).slice(0, 140));
   }
 
-  // repeat-violation grouping: same STORE repeating the same standardized category (≥2
-  // inspections). Store-level keeps the signal meaningful (vs. lumping every same-brand
-  // store in a city together). Café-★ categories (17/18) also raise the café-repeat flag.
-  const groups = new Map<string, InspectionRecord[]>();
-  for (const r of inspections) {
-    if (r.standardizedCategoryId == null || !r.storeName) continue;
-    // address makes the key location-specific (NYC/Boston `dba` is the brand name, not a store).
-    const key = `${normKey(`${r.storeName} ${r.address ?? ""}`)}|${r.jurisdiction}|${r.standardizedCategoryId}`;
-    (groups.get(key) ?? groups.set(key, []).get(key)!).push(r);
-  }
-  for (const [key, rows] of groups) {
-    if (rows.length < 2) continue;
-    const gid = hashId("rg", key);
-    const cafeRepeat = rows[0].standardizedCategoryId === 17 || rows[0].standardizedCategoryId === 18;
-    for (const r of rows) {
-      r.repeatViolationGroupId = gid;
-      if (!r.alertRuleIds.includes("repeat.same")) {
-        r.alertRuleIds.push("repeat.same");
-        if (cafeRepeat) r.alertRuleIds.push("cafe.repeat");
-        r.alertTriggered = true;
-        r.alertReason = [r.alertReason, "repeat violation (same store + category)"]
-          .filter(Boolean)
-          .join("; ");
-        if (r.riskLevel === "低风险") r.riskLevel = "中风险";
-      }
-    }
-  }
+  // Repeat-violation grouping runs in prep:merge, over the merged store (today's pull + history).
 
   // Dedupe regulations across sources — LegiScan / OpenStates / NY-Senate overlap on the same bills
-  // (collapsed via the shared billId); curated seeds keep distinct ids. Keep first occurrence.
+  // (one shared "bill:" key); curated seeds keep distinct keys. Keep first occurrence.
   {
     const seenReg = new Set<string>();
-    const deduped = regulations.filter((r) => (seenReg.has(r.id) ? false : (seenReg.add(r.id), true)));
+    const k = (r: RegulationRecord) => r.provenance.externalKey ?? "";
+    const deduped = regulations.filter((r) => (seenReg.has(k(r)) ? false : (seenReg.add(k(r)), true)));
     regulations.length = 0;
     regulations.push(...deduped);
   }
@@ -2767,15 +2756,7 @@ async function main() {
   const bySource: Record<string, number> = {};
   for (const r of allRecords) bySource[r.provenance.sourceId] = (bySource[r.provenance.sourceId] ?? 0) + 1;
 
-  const hrefFor = (m: string, id: string) =>
-    m === "inspection" ? `/inspections/${id}` : m === "import" ? "/import" : m === "regulation" ? "/regulation" : m === "sentiment" ? "/sentiment" : "/intelligence";
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const titleOf = (r: any, lang: "zh" | "en") => (lang === "zh" ? (r.chineseTitle ?? r.storeName ?? null) : (r.englishTitle ?? r.storeName ?? null));
-  const highRiskItems = allRecords
-    .filter((r) => r.riskLevel === "高风险")
-    .slice(0, 12)
-    .map((r) => ({ recordId: r.id, module: r.module, titleZh: titleOf(r, "zh"), titleEn: titleOf(r, "en"), riskLevel: r.riskLevel, href: hrefFor(r.module, r.id) }));
-
+  // summary.highRiskItems links records by OUR id, so prep:meta fills it in after prep:merge.
   const summary = {
     reportNameZh: `${TODAY.slice(0, 7)} 瑞幸北美 食品安全·进口合规·地方法规·舆情监测月报`,
     reportNameEn: `Luckin NA Food Safety · Import Compliance · Local Regulation · Sentiment Monitor — ${TODAY.slice(0, 7)}`,
@@ -2791,7 +2772,7 @@ async function main() {
       { zh: "州/地方合规临近：CA SB68 (2026-07-01)、NY 过敏原法 (~2026-11)、NYC added-sugar 已生效", en: "Imminent state/local compliance: CA SB68 (2026-07-01), NY allergen law (~2026-11), NYC added-sugar in effect" },
       { zh: "进口监管：APHIS 禽类限制持续；FDA Prior Notice 基线适用；CBP CSMS 本轮无直接更新", en: "Import: APHIS poultry restrictions ongoing; FDA Prior Notice baseline; no direct CBP CSMS update this run" },
     ],
-    highRiskItems,
+    highRiskItems: [],
     keyActions: [
       { zh: "在 2026-07-01 前完成 CA 门店主要过敏原披露实施", en: "Complete CA major-allergen disclosure before 2026-07-01" },
       { zh: "建立菜单/饮品 added sugars 与过敏原数据库并同步配方变更", en: "Build menu added-sugars + allergen database; sync with recipe changes" },
@@ -2825,19 +2806,19 @@ async function main() {
     provenance,
   };
 
-  mkdirSync(OUT, { recursive: true });
-  writeFileSync(join(OUT, "regulatory.json"), JSON.stringify(regulatory, null, 2) + "\n");
-  writeFileSync(join(OUT, "inspections.json"), JSON.stringify(inspections, null, 2) + "\n");
-  writeFileSync(join(OUT, "import_export.json"), JSON.stringify(importExport, null, 2) + "\n");
-  writeFileSync(join(OUT, "regulations.json"), JSON.stringify(regulations, null, 2) + "\n");
-  writeFileSync(join(OUT, "sentiment.json"), JSON.stringify(sentiment, null, 2) + "\n");
-  writeFileSync(join(OUT, "labor.json"), JSON.stringify(labor, null, 2) + "\n");
-  writeFileSync(join(OUT, "building.json"), JSON.stringify(building, null, 2) + "\n");
-  writeFileSync(join(OUT, "environment.json"), JSON.stringify(environment, null, 2) + "\n");
-  writeFileSync(join(OUT, "consumer.json"), JSON.stringify(consumer, null, 2) + "\n");
-  writeFileSync(join(OUT, "meta.json"), JSON.stringify(meta, null, 2) + "\n");
+  mkdirSync(STAGE_DIR, { recursive: true });
+  writeFileSync(join(STAGE_DIR, "regulatory.json"), JSON.stringify(regulatory, null, 2) + "\n");
+  writeFileSync(join(STAGE_DIR, "inspections.json"), JSON.stringify(inspections, null, 2) + "\n");
+  writeFileSync(join(STAGE_DIR, "import_export.json"), JSON.stringify(importExport, null, 2) + "\n");
+  writeFileSync(join(STAGE_DIR, "regulations.json"), JSON.stringify(regulations, null, 2) + "\n");
+  writeFileSync(join(STAGE_DIR, "sentiment.json"), JSON.stringify(sentiment, null, 2) + "\n");
+  writeFileSync(join(STAGE_DIR, "labor.json"), JSON.stringify(labor, null, 2) + "\n");
+  writeFileSync(join(STAGE_DIR, "building.json"), JSON.stringify(building, null, 2) + "\n");
+  writeFileSync(join(STAGE_DIR, "environment.json"), JSON.stringify(environment, null, 2) + "\n");
+  writeFileSync(join(STAGE_DIR, "consumer.json"), JSON.stringify(consumer, null, 2) + "\n");
+  writeFileSync(join(STAGE_DIR, "meta.json"), JSON.stringify(meta, null, 2) + "\n");
   console.log(
-    `\nwrote ${regulatory.length} regulatory + ${inspections.length} insp + ${importExport.length} import + ${regulations.length} regs + ${sentiment.length} sentiment + ${labor.length} labor + ${building.length} building + ${environment.length} env + ${consumer.length} consumer (${alerts} alerts, ${highRisk} high, ${watch} watch) to data/v2/`,
+    `\nwrote ${regulatory.length} regulatory + ${inspections.length} insp + ${importExport.length} import + ${regulations.length} regs + ${sentiment.length} sentiment + ${labor.length} labor + ${building.length} building + ${environment.length} env + ${consumer.length} consumer (${alerts} alerts, ${highRisk} high, ${watch} watch) to ${STAGE_DIR} (prep:merge assigns ids)`,
   );
 }
 

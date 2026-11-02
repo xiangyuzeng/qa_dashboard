@@ -5,7 +5,7 @@ import { useSearchParams } from "next/navigation";
 import type { ColumnDef } from "@tanstack/react-table";
 import { useLocale, useT } from "@/src/lib/i18n/locale";
 import { DataTable, type FacetCfg } from "@/src/components/table/DataTable";
-import { RiskBadge, ResultBadge, Badge } from "@/src/components/ui";
+import { RiskBadge, ResultBadge, Badge, SourceStateBadge } from "@/src/components/ui";
 import { riskLabel } from "@/src/lib/colors";
 import type { InspectionRecord } from "@/src/lib/schema";
 
@@ -45,7 +45,12 @@ export function InspectionsClient({
       {
         accessorKey: "storeName",
         header: t.inspections.store,
-        cell: ({ row }) => <span className="font-medium text-slate-800">{row.original.storeName ?? "—"}</span>,
+        cell: ({ row }) => (
+          <span>
+            <span className="font-medium text-slate-800">{row.original.storeName ?? "—"}</span>
+            <SourceStateBadge provenance={row.original.provenance} />
+          </span>
+        ),
       },
       {
         accessorKey: "establishmentId",

@@ -30,13 +30,19 @@
       "agency": null,
       "sourceUrl": "https://www.federalregister.gov/index/2026/agriculture-department",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-import:APHIS/USDA Published Restrictions on Live Poultry, Poultry Meat and Other Poultry Products From Specified Regions|2026-05-14",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -70,13 +76,19 @@
       "agency": null,
       "sourceUrl": "https://www.federalregister.gov/index/2026/agriculture-department",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-import:APHIS Published Additional HPAI/Newcastle Disease-Related Import Restrictions|2026-05-26",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -114,13 +126,19 @@
       "agency": null,
       "sourceUrl": "https://www.federalregister.gov/documents/2026/05/15/2026-09833/request-for-information-on-modified-organisms-subject-to-the-plant-protection-act",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-import:APHIS Requested Information on Modified Organisms Subject to the Plant Protection Act|2026-05-15",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -156,13 +174,19 @@
       "agency": null,
       "sourceUrl": "https://www.fsis.usda.gov/inspection/import-export/import-export-library/mexico",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-import:FSIS Mexico Import/Export Library Listed Ineligible Products as of May 9, 2026|2026-05-09",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -198,13 +222,19 @@
       "agency": null,
       "sourceUrl": "https://www.fda.gov/industry/fda-import-process/prior-notice-imported-foods",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-import:FDA Prior Notice Requirement Remains Applicable to Imported Foods|",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -240,13 +270,19 @@
       "agency": null,
       "sourceUrl": "https://www.cbp.gov/trade/automated/cargo-systems-messaging-service",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-import:No May 2026 CBP CSMS Update Directly Affecting Food Imports Was Identified in This Run|",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -282,13 +318,19 @@
       "agency": null,
       "sourceUrl": "https://www.federalregister.gov/documents/2026/11/02/2026-22309/notice-of-request-for-revision-to-and-extension-of-approval-of-an-information-collection-operations",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "fedreg:2026-22309",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -322,13 +364,19 @@
       "agency": null,
       "sourceUrl": "https://www.federalregister.gov/documents/2026/10/20/2026-21433/minimum-maturation-temperature-for-beef-and-ovine-meat-from-regions-affected-with-foot-and-mouth",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "fedreg:2026-21433",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -364,13 +412,19 @@
       "agency": null,
       "sourceUrl": "https://www.federalregister.gov/documents/2026/10/19/2026-21311/notice-of-availability-of-a-pest-risk-analysis-for-the-importation-of-fresh-passion-fruit-from-viet",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "fedreg:2026-21311",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -404,13 +458,19 @@
       "agency": null,
       "sourceUrl": "https://www.federalregister.gov/documents/2026/10/29/2026-22089/pleasure-vessels-of-malta-entitled-to-cruising-licenses",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "fedreg:2026-22089",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -446,13 +506,19 @@
       "agency": null,
       "sourceUrl": "https://www.federalregister.gov/documents/2026/10/27/2026-21853/customs-broker-permit-user-fee-payment-for-2027",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "fedreg:2026-21853",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -486,13 +552,19 @@
       "agency": null,
       "sourceUrl": "https://www.federalregister.gov/documents/2026/10/22/2026-21600/indefinite-suspension-of-the-de-minimis-exemption-for-mail-shipments-and-new-postal-informal-entry",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "fedreg:2026-21600",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -526,13 +598,19 @@
       "agency": null,
       "sourceUrl": "https://www.federalregister.gov/documents/2026/10/22/2026-21570/modification-of-the-test-of-the-new-electronic-informal-entry-process-for-mail",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "fedreg:2026-21570",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -568,13 +646,19 @@
       "agency": null,
       "sourceUrl": "https://www.federalregister.gov/documents/2026/10/20/2026-21408/accreditation-of-sgs-north-america-inc-reserve-la-as-a-commercial-laboratory",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "fedreg:2026-21408",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -610,13 +694,19 @@
       "agency": null,
       "sourceUrl": "https://www.federalregister.gov/documents/2026/10/20/2026-21407/accreditation-and-approval-of-sgs-north-america-inc-carteret-nj-as-a-commercial-gauger-and",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "fedreg:2026-21407",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -624,14 +714,14 @@
     "module": "import",
     "no": 16,
     "category": "联邦公报进口/贸易 Federal Register Import/Trade",
-    "chineseTitle": "关于续期已批准信息收集的请求通知：实验室认证、交易及豁免",
+    "chineseTitle": null,
     "englishTitle": "Notice of Request To Renew an Approved Information Collection: Accreditation of Laboratories, Transactions, and Exemptions",
     "agency": "Agriculture Department",
     "countryRegion": null,
     "productInvolved": null,
     "publicationDate": "2026-05-22",
     "regulatoryAction": "Rule/Notice",
-    "chineseSummary": "根据1995年《减少文书工作法》以及美国管理和预算办公室（OMB）的规定，美国农业部食品安全检验局（FSIS）现宣布，拟申请续期实验室认证的信息收集工作；与官方机构的交易",
+    "chineseSummary": null,
     "englishSummary": "In accordance with the Paperwork Reduction Act of 1995 and Office of Management and Budget (OMB) regulations, FSIS is announcing its intention to request a renewal of the information collection for the accreditation of laboratories; transactions with official ",
     "importExportImpact": null,
     "documentationRequirement": null,
@@ -652,13 +742,19 @@
       "agency": null,
       "sourceUrl": "https://www.federalregister.gov/documents/2026/05/22/2026-10315/notice-of-request-to-renew-an-approved-information-collection-accreditation-of-laboratories",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
-      "mtAt": "2026-07-22T22:09:21.829Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
+      "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "fedreg:2026-10315",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -666,14 +762,14 @@
     "module": "import",
     "no": 17,
     "category": "联邦公报进口/贸易 Federal Register Import/Trade",
-    "chineseTitle": "生猪屠宰场中的肉眼屠后检查",
+    "chineseTitle": null,
     "englishTitle": "Visual Post-Mortem Inspection in Swine Slaughter Establishments",
     "agency": "Agriculture Department",
     "countryRegion": null,
     "productInvolved": null,
     "publicationDate": "2026-05-21",
     "regulatoryAction": "Rule/Notice",
-    "chineseSummary": "美国农业部食品安全检验局（FSIS）正在修订其法规，以取消所有生猪屠宰场（即在传统生猪屠宰检验制度下运营的屠宰场或",
+    "chineseSummary": null,
     "englishSummary": "FSIS is amending its regulations to end mandatory mandibular lymph nodes (\"lymph nodes\") incision and viscera palpation of swine carcasses in all swine slaughter establishments (i.e., establishments operating under traditional swine slaughter inspection or the",
     "importExportImpact": null,
     "documentationRequirement": null,
@@ -692,13 +788,19 @@
       "agency": null,
       "sourceUrl": "https://www.federalregister.gov/documents/2026/05/21/2026-10186/visual-post-mortem-inspection-in-swine-slaughter-establishments",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
-      "mtAt": "2026-07-22T22:09:21.829Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
+      "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "fedreg:2026-10186",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -734,13 +836,19 @@
       "agency": null,
       "sourceUrl": "https://www.federalregister.gov/documents/2026/11/02/2026-22351/corrosion-resistant-steel-products-from-mexico-notice-of-court-decision-not-in-harmony-with-the",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "fedreg:2026-22351",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -748,7 +856,7 @@
     "module": "import",
     "no": 19,
     "category": "联邦公报进口/贸易 Federal Register Import/Trade",
-    "chineseTitle": "反倾销或反补贴税命令、调查结论或调查中止；申请行政复审及加入年度调查服务名单的机会；关于复审申请格式说明",
+    "chineseTitle": null,
     "englishTitle": "Antidumping or Countervailing Duty Order, Finding, or Suspended Investigation; Opportunity To Request Administrative Review and Join Annual Inquiry Service List; Note Regarding Format of Review Requests",
     "agency": "Commerce Department",
     "countryRegion": null,
@@ -778,13 +886,19 @@
       "agency": null,
       "sourceUrl": "https://www.federalregister.gov/documents/2026/11/02/2026-22345/antidumping-or-countervailing-duty-order-finding-or-suspended-investigation-opportunity-to-request",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
-      "mtAt": "2026-08-05T08:30:13.865Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
+      "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "fedreg:2026-22345",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -818,13 +932,19 @@
       "agency": null,
       "sourceUrl": "https://www.federalregister.gov/documents/2026/11/02/2026-22343/large-power-transformers-from-the-republic-of-korea-preliminary-results-of-antidumping-duty",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "fedreg:2026-22343",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -832,7 +952,7 @@
     "module": "import",
     "no": 21,
     "category": "联邦公报进口/贸易 Federal Register Import/Trade",
-    "chineseTitle": "反倾销或反补贴税命令、裁定或调查中止；日落复审预先通知",
+    "chineseTitle": null,
     "englishTitle": "Antidumping or Countervailing Duty Order, Finding, or Suspended Investigation; Advance Notification of Sunset Review",
     "agency": "Commerce Department",
     "countryRegion": null,
@@ -860,13 +980,19 @@
       "agency": null,
       "sourceUrl": "https://www.federalregister.gov/documents/2026/11/02/2026-22313/antidumping-or-countervailing-duty-order-finding-or-suspended-investigation-advance-notification-of",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
-      "mtAt": "2026-08-03T09:38:09.331Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
+      "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "fedreg:2026-22313",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -874,14 +1000,14 @@
     "module": "import",
     "no": 22,
     "category": "联邦公报进口/贸易 Federal Register Import/Trade",
-    "chineseTitle": "启动五年期（日落）审查",
+    "chineseTitle": null,
     "englishTitle": "Initiation of Five-Year (Sunset) Reviews",
     "agency": "Commerce Department",
     "countryRegion": null,
     "productInvolved": null,
     "publicationDate": "2026-11-02",
     "regulatoryAction": "Rule/Notice",
-    "chineseSummary": "根据经修订的《1930年关税法》（以下简称“该法”），美国商务部（商务部）正在自动启动对反倾销税（AD）和反补贴税（CVD）命令以及已暂停调查的五年期复审（日落复审）……",
+    "chineseSummary": null,
     "englishSummary": "In accordance with the Tariff Act of 1930, as amended (the Act), the U.S. Department of Commerce (Commerce) is automatically initiating the five-year reviews (Sunset Reviews) of the antidumping duty (AD) and countervailing duty (CVD) orders and suspended inves",
     "importExportImpact": null,
     "documentationRequirement": null,
@@ -904,13 +1030,19 @@
       "agency": null,
       "sourceUrl": "https://www.federalregister.gov/documents/2026/11/02/2026-22312/initiation-of-five-year-sunset-reviews",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
-      "mtAt": "2026-08-03T09:38:09.331Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
+      "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "fedreg:2026-22312",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   }
 ]

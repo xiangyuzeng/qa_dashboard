@@ -87,6 +87,11 @@ export const en = {
     viewDetail: "View detail",
     showMore: "More",
     showLess: "Less",
+    notReturned: "Not returned by source for {n} day(s)",
+    notReturnedLatest: "Not returned in the latest pull",
+    notReturnedNote: "The source pulled fine but no longer lists this record (last seen {date}). Kept for reference.",
+    withdrawn: "Withdrawn by source",
+    withdrawnNote: "Not returned by 3+ consecutive successful pulls of its source (last seen {date}). Kept for reference.",
     sourceLangEn: "English source",
     sourceLangEnNote:
       "This item is from a live English-only U.S. federal source (Federal Register); no Chinese translation is available, so the original English title is shown.",
@@ -488,6 +493,11 @@ export const zh: Messages = {
     viewDetail: "查看明细",
     showMore: "展开",
     showLess: "收起",
+    notReturned: "来源已 {n} 天未返回",
+    notReturnedLatest: "来源本次未返回",
+    notReturnedNote: "来源拉取正常,但已不再返回这条记录(最后一次出现:{date})。记录保留备查。",
+    withdrawn: "来源已撤下",
+    withdrawnNote: "来源连续 3 次以上拉取成功都未返回这条记录(最后一次出现:{date})。记录保留备查。",
     sourceLangEn: "英文原文",
     sourceLangEnNote:
       "该条目来自纯英文的美国联邦公报(Federal Register)实时数据源,暂无中文翻译,故显示英文原标题。",

@@ -51,8 +51,10 @@ npm run prep:validate
 npm run prep:export    # → monthly_report.xlsx (openpyxl, 13 sheets) + .docx (python-docx)
 # 4. commit /data + public/exports and redeploy
 ```
-`npm run prep:build` chains collect → enrich → translate → meta → validate → export
-(`prep:translate` = optional DeepL pass, see below; it no-ops without a key).
+`npm run prep:build` chains collect → enrich → domains → translate → merge → meta → validate → export
+(`prep:translate` = optional DeepL pass, see below; it no-ops without a key). `prep:merge` is the only
+step that issues record ids (from `data/v2/id_registry.json`) and updates the published store instead of
+rebuilding it — see docs/RUNBOOK.md "Record ids and how a refresh updates the store".
 **Prereqs for prep:** Node ≥ 20; Python 3 + `openpyxl` + `python-docx` for the export step (`pip install openpyxl python-docx`).
 
 **Excel export (13 sheets, built from scratch):** Monthly Summary · Food-Safety main · Import/Export ·

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useLocale, useT } from "@/src/lib/i18n/locale";
-import { SectionCard, RiskBadge, Badge } from "@/src/components/ui";
+import { SectionCard, RiskBadge, Badge, SourceStateBadge } from "@/src/components/ui";
 import { fmtDate, pickLang } from "@/src/lib/i18n/util";
 import type { EnforcementRecord } from "@/src/lib/data";
 
@@ -43,6 +43,7 @@ export function EnforcementDetailClient({ record: r }: { record: EnforcementReco
         </Badge>
         <h1 className="text-lg font-bold text-slate-900">{title}</h1>
         <RiskBadge risk={r.riskLevel} />
+        <SourceStateBadge provenance={r.provenance} />
       </div>
 
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">

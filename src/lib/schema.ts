@@ -375,6 +375,17 @@ export const TriggerDimensionEnum = z.enum([
 /** ISO date 'YYYY-MM-DD' or null. Formatted to 'YYYY/MM/DD' on Excel export. */
 const isoDate = z.string().regex(/^\d{4}-\d{2}-\d{2}$/);
 
+/**
+ * Where a stored record stands relative to its source (records are never auto-deleted):
+ *   current   — returned by the latest refresh (or its source failed that day, so unchanged)
+ *   missing   — the source pulled fine but no longer returns it ("来源已 N 天未返回")
+ *   withdrawn — missing for 3+ consecutive successful pulls ("来源已撤下"), still kept
+ *   history   — older than what we pull from that source (e.g. pushed out of a newest-N sample);
+ *               not a source change, kept as history without a warning
+ */
+export const SourceStateEnum = z.enum(["current", "missing", "withdrawn", "history"]);
+export type SourceState = z.infer<typeof SourceStateEnum>;
+
 export const ProvenanceSchema = z.object({
   /** Stable key into meta.provenance / jurisdictions (e.g. 'nyc_dohmh', 'bergen_opra'). */
   sourceId: z.string().min(1),
@@ -392,6 +403,20 @@ export const ProvenanceSchema = z.object({
   /** NJ special handling (spec §11.1) — municipality routing for OPRA/manual. */
   njMunicipality: z.string().nullable().default(null),
   njRoutedTo: z.string().nullable().default(null),
+  /**
+   * The source system's own identifier for this record, namespaced (e.g. "oath:0184526F0").
+   * Kept for matching across refreshes and for exchanging data with the source — the record's
+   * `id` is ours, issued once by prep:merge from data/v2/id_registry.json, never derived from this.
+   */
+  externalKey: z.string().nullable().default(null),
+  /** First / most recent refresh in which the source returned this record. */
+  firstSeenAt: z.string().datetime().nullable().default(null),
+  lastSeenAt: z.string().datetime().nullable().default(null),
+  /** Consecutive successful pulls of its source that did not return this record (while still in range). */
+  missingRuns: z.number().int().min(0).default(0),
+  /** Days between lastSeenAt and the refresh date when the source stopped returning it; null when current. */
+  notReturnedDays: z.number().int().min(0).nullable().default(null),
+  sourceState: SourceStateEnum.default("current"),
 });
 export type Provenance = z.infer<typeof ProvenanceSchema>;
 

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useLocale, useT } from "@/src/lib/i18n/locale";
-import { SectionCard, RiskBadge, ResultBadge, Badge } from "@/src/components/ui";
+import { SectionCard, RiskBadge, ResultBadge, Badge, SourceStateBadge } from "@/src/components/ui";
 import { cafeRiskLabel } from "@/src/lib/cafeRisks";
 import { fmtDate } from "@/src/lib/i18n/util";
 import type { InspectionRecord, ViolationCategory } from "@/src/lib/schema";
@@ -41,6 +41,7 @@ export function DetailClient({
         <h1 className="text-xl font-bold text-slate-900">{v(r.storeName)}</h1>
         <RiskBadge risk={r.riskLevel} />
         <ResultBadge result={r.inspectionResult} />
+        <SourceStateBadge provenance={r.provenance} />
         {r.provenance.dataAvailability !== "available" && (
           <Badge color="#fff" bg="#B45309">
             {r.provenance.dataAvailabilityLabel ?? t.common.notPublicOnline}

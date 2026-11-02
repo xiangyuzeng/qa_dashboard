@@ -44,3 +44,6 @@ venv/
 
 # typescript
 *.tsbuildinfo
+
+# prep pipeline stage: today's pull before prep:merge (never committed)
+.prep/

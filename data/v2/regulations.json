@@ -30,13 +30,19 @@
       "agency": null,
       "sourceUrl": "https://www.nyc.gov/site/doh/about/press/pr2025/new-added-sugars-warning-rule-goes-into-effect-2025.page",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-regulation:NYC Added Sugars Warning / Sweet Truth Act|New York City",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -70,13 +76,19 @@
       "agency": null,
       "sourceUrl": "https://rules.cityofnewyork.us/rule/high-sugar-warnings-on-food-service-establishment-menus/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-regulation:High Sugar Warnings on Food Service Establishment Menus|New York City",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -110,13 +122,19 @@
       "agency": null,
       "sourceUrl": "https://legiscan.com/CA/text/SB68/id/3269035",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-regulation:SB 68 / ADDE Act|California",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -150,13 +168,19 @@
       "agency": null,
       "sourceUrl": "https://www.gtlaw.com/en/insights/2025/9/california-poised-to-become-first-state-to-mandate-food-allergen-disclosures-for-restaurants-sb-68-awaits-gov-newsoms-signature",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-regulation:SB 68 / ADDE Act Implementation Commentary|California",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -192,13 +216,19 @@
       "agency": null,
       "sourceUrl": "https://www.nysenate.gov/newsroom/press-releases/2025/pete-harckham/harckham-lunsford-bill-requiring-allergen-labeling",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-regulation:S.5381 / A.6558A NY Allergen Law|New York State",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -232,13 +262,19 @@
       "agency": null,
       "sourceUrl": "https://www.spencerfane.com/insight/additional-legislation-expected-to-mandate-food-allergen-disclosures-for-food-establishments-what-you-need-to-know/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-regulation:NY Allergen Law industry update|New York State",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -272,13 +308,19 @@
       "agency": null,
       "sourceUrl": "https://www.the-sun.com/money/16333160/olive-garden-takeout-change-toxic-packaging-ban-maine/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-regulation:Maine PFAS in Food Packaging Ban|Other",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -312,13 +354,19 @@
       "agency": null,
       "sourceUrl": "https://www.allergicliving.com/2026/02/18/restaurant-allergen-bills-introduced-in-3-states-how-you-can-help/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-regulation:Restaurant allergen disclosure bills (MI/NJ/MD)|Other",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -354,13 +402,19 @@
       "agency": null,
       "sourceUrl": "https://www.ecfr.gov/current/title-21/part-150/section-150.110",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "ecfr:150.110|2026-10-13",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -396,13 +450,19 @@
       "agency": null,
       "sourceUrl": "https://www.ecfr.gov/current/title-21/part-150/section-150.140",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "ecfr:150.140|2026-10-13",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -438,13 +498,19 @@
       "agency": null,
       "sourceUrl": "https://www.ecfr.gov/current/title-21/part-145/section-145.110",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "ecfr:145.110|2026-10-13",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -480,13 +546,19 @@
       "agency": null,
       "sourceUrl": "https://www.ecfr.gov/current/title-21/part-155/section-155.200",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "ecfr:155.200|2026-10-13",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -522,13 +594,19 @@
       "agency": null,
       "sourceUrl": "https://www.ecfr.gov/current/title-21/part-172/section-172.383",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "ecfr:172.383|2026-09-25",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -564,13 +642,19 @@
       "agency": null,
       "sourceUrl": "https://www.ecfr.gov/current/title-21/part-146/section-146.140",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "ecfr:146.140|2026-08-19",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -606,13 +690,19 @@
       "agency": null,
       "sourceUrl": "https://www.ecfr.gov/current/title-21/part-130/section-130.10",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "ecfr:130.10|2026-07-20",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -646,13 +736,19 @@
       "agency": null,
       "sourceUrl": "https://www.ecfr.gov/current/title-21/part-73/section-73.530",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "ecfr:73.530|2026-03-24",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -686,13 +782,19 @@
       "agency": null,
       "sourceUrl": "https://www.ecfr.gov/current/title-21/part-16/section-16.1",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "ecfr:16.1|2025-12-18",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -726,13 +828,19 @@
       "agency": null,
       "sourceUrl": "https://www.ecfr.gov/current/title-21/part-1/section-1.281",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "ecfr:1.281|2025-10-27",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -766,13 +874,19 @@
       "agency": null,
       "sourceUrl": "https://www.ecfr.gov/current/title-21/part-172/section-172.380",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "ecfr:172.380|2025-09-04",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -806,13 +920,19 @@
       "agency": null,
       "sourceUrl": "https://www.ecfr.gov/current/title-21/part-173/section-173.356",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "ecfr:173.356|2025-09-03",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -846,13 +966,19 @@
       "agency": null,
       "sourceUrl": "https://www.ecfr.gov/current/title-21/part-73/section-73.168",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "ecfr:73.168|2025-08-29",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -886,13 +1012,19 @@
       "agency": null,
       "sourceUrl": "https://www.ecfr.gov/current/title-21/part-73/section-73.80",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "ecfr:73.80|2025-06-26",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -926,13 +1058,19 @@
       "agency": null,
       "sourceUrl": "https://www.ecfr.gov/current/title-21/part-73/section-73.69",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "ecfr:73.69|2025-06-26",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -966,13 +1104,19 @@
       "agency": null,
       "sourceUrl": "https://www.ecfr.gov/current/title-21/part-73/section-73.167",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "ecfr:73.167|2025-06-26",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1006,13 +1150,19 @@
       "agency": null,
       "sourceUrl": "https://www.ecfr.gov/current/title-21/part-101/section-101.13",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "ecfr:101.13|2025-04-28",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1046,13 +1196,19 @@
       "agency": null,
       "sourceUrl": "https://www.ecfr.gov/current/title-21/part-101/section-101.65",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "ecfr:101.65|2025-04-28",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1086,13 +1242,19 @@
       "agency": null,
       "sourceUrl": "https://www.ecfr.gov/current/title-21/part-73/section-73.297",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "ecfr:73.297|2025-02-19",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1126,13 +1288,19 @@
       "agency": null,
       "sourceUrl": "https://www.ecfr.gov/current/title-21/part-80/section-80.10",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "ecfr:80.10|2024-12-09",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1166,13 +1334,19 @@
       "agency": null,
       "sourceUrl": "https://www.federalregister.gov/documents/2026/10/27/2026-21838/us-origin-statements-on-seafood-draft-guidance-for-industry-availability",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "fedreg:2026-21838",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1206,13 +1380,19 @@
       "agency": null,
       "sourceUrl": "https://www.federalregister.gov/documents/2026/09/09/2026-18368/temporary-policies-for-compounding-certain-starter-parenteral-nutrition-drug-products-for-neonates",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "fedreg:2026-18368",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1246,13 +1426,19 @@
       "agency": null,
       "sourceUrl": "https://www.federalregister.gov/documents/2026/05/22/2026-10284/protein-efficiency-ratio-rat-bioassay-studies-to-demonstrate-that-a-new-infant-formula-supports-the",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "fedreg:2026-10284",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1286,13 +1472,19 @@
       "agency": null,
       "sourceUrl": "https://rules.cityofnewyork.us/rule/recordkeeping-requirements-for-third-party-food-delivery-services/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "nyc-rule:https://rules.cityofnewyork.us/rule/recordkeeping-requirements-for-third-party-food-delivery-services/",
+      "firstSeenAt": "2026-11-02T19:15:26.000Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1326,13 +1518,19 @@
       "agency": null,
       "sourceUrl": "https://rules.cityofnewyork.us/rule/amendment-of-rules-relating-to-outdoor-dining-areas/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "nyc-rule:https://rules.cityofnewyork.us/rule/amendment-of-rules-relating-to-outdoor-dining-areas/",
+      "firstSeenAt": "2026-11-02T19:15:26.000Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1366,13 +1564,19 @@
       "agency": null,
       "sourceUrl": "https://rules.cityofnewyork.us/rule/minimum-pay-for-food-delivery-workers/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "nyc-rule:https://rules.cityofnewyork.us/rule/minimum-pay-for-food-delivery-workers/",
+      "firstSeenAt": "2026-11-02T19:15:26.000Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1406,13 +1610,19 @@
       "agency": null,
       "sourceUrl": "https://rules.cityofnewyork.us/rule/emergency-food-assistance-program/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "nyc-rule:https://rules.cityofnewyork.us/rule/emergency-food-assistance-program/",
+      "firstSeenAt": "2026-11-02T19:15:26.000Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1446,13 +1656,19 @@
       "agency": null,
       "sourceUrl": "https://rules.cityofnewyork.us/rule/reimbursement-of-outdoor-heating-expenses-for-certain-restaurants/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "nyc-rule:https://rules.cityofnewyork.us/rule/reimbursement-of-outdoor-heating-expenses-for-certain-restaurants/",
+      "firstSeenAt": "2026-11-02T19:15:26.000Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1486,13 +1702,19 @@
       "agency": null,
       "sourceUrl": "https://rules.cityofnewyork.us/rule/extension-of-comment-period-for-dsny-commercial-waste-zone-rule/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "nyc-rule:https://rules.cityofnewyork.us/rule/extension-of-comment-period-for-dsny-commercial-waste-zone-rule/",
+      "firstSeenAt": "2026-11-02T19:15:26.000Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1526,13 +1748,19 @@
       "agency": null,
       "sourceUrl": "https://rules.cityofnewyork.us/rule/implementation-dates-for-the-brooklyn-north-and-upper-manhattan-commercial-waste-zonesdsny-proposed-implementation-dates-for-the-brooklyn-north-and-upper-manhattan-commercial-waste-zones/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "nyc-rule:https://rules.cityofnewyork.us/rule/implementation-dates-for-the-brooklyn-north-and-upper-manhattan-commercial-waste-zonesdsny-proposed-implementation-dates-for-the-brooklyn-north-and-upper-manhattan-commercial-waste-zones/",
+      "firstSeenAt": "2026-11-02T19:15:26.000Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1566,13 +1794,19 @@
       "agency": null,
       "sourceUrl": "https://rules.cityofnewyork.us/rule/implementation-of-the-eighth-and-ninth-commercial-waste-zones-and-infrequent-waste-generators-amended/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "nyc-rule:https://rules.cityofnewyork.us/rule/implementation-of-the-eighth-and-ninth-commercial-waste-zones-and-infrequent-waste-generators-amended/",
+      "firstSeenAt": "2026-11-02T19:15:26.000Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1606,13 +1840,19 @@
       "agency": null,
       "sourceUrl": "https://rules.cityofnewyork.us/rule/restaurant-surcharges/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "nyc-rule:https://rules.cityofnewyork.us/rule/restaurant-surcharges/",
+      "firstSeenAt": "2026-11-02T19:15:26.000Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1646,13 +1886,19 @@
       "agency": null,
       "sourceUrl": "https://rules.cityofnewyork.us/rule/dsny-proposed-implementation-dates-for-sixth-and-seventh-commercial-waste-zones/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "nyc-rule:https://rules.cityofnewyork.us/rule/dsny-proposed-implementation-dates-for-sixth-and-seventh-commercial-waste-zones/",
+      "firstSeenAt": "2026-11-02T19:15:26.000Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1686,13 +1932,19 @@
       "agency": null,
       "sourceUrl": "https://rules.cityofnewyork.us/rule/dsny-proposed-amendment-of-rules-relating-to-collection-of-commercial-waste/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "nyc-rule:https://rules.cityofnewyork.us/rule/dsny-proposed-amendment-of-rules-relating-to-collection-of-commercial-waste/",
+      "firstSeenAt": "2026-11-02T19:15:26.000Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1726,13 +1978,19 @@
       "agency": null,
       "sourceUrl": "https://rules.cityofnewyork.us/rule/food-service-establishment-sanitary-inspection-requirements/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "nyc-rule:https://rules.cityofnewyork.us/rule/food-service-establishment-sanitary-inspection-requirements/",
+      "firstSeenAt": "2026-11-02T19:15:26.000Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1766,13 +2024,19 @@
       "agency": null,
       "sourceUrl": "https://rules.cityofnewyork.us/rule/dsny-proposed-rule-relating-to-the-implementation-of-the-second-and-third-commercial-waste-zones/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "nyc-rule:https://rules.cityofnewyork.us/rule/dsny-proposed-rule-relating-to-the-implementation-of-the-second-and-third-commercial-waste-zones/",
+      "firstSeenAt": "2026-11-02T19:15:26.000Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1806,13 +2070,19 @@
       "agency": null,
       "sourceUrl": "https://rules.cityofnewyork.us/rule/proposed-amendments-to-rule-relating-to-commercial-waste-customers-and-private-carters/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "nyc-rule:https://rules.cityofnewyork.us/rule/proposed-amendments-to-rule-relating-to-commercial-waste-customers-and-private-carters/",
+      "firstSeenAt": "2026-11-02T19:15:26.000Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1846,13 +2116,19 @@
       "agency": null,
       "sourceUrl": "https://rules.cityofnewyork.us/rule/proposed-rules-to-alter-the-level-of-service-commercial-waste-zone-awardees-must-provide-to-assigned-customer/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "nyc-rule:https://rules.cityofnewyork.us/rule/proposed-rules-to-alter-the-level-of-service-commercial-waste-zone-awardees-must-provide-to-assigned-customer/",
+      "firstSeenAt": "2026-11-02T19:15:26.000Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1886,13 +2162,19 @@
       "agency": null,
       "sourceUrl": "https://rules.cityofnewyork.us/rule/amendment-of-rules-relating-to-applicants-and-renewal-applications-for-mobile-food-vending-licenses-or-permits/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "nyc-rule:https://rules.cityofnewyork.us/rule/amendment-of-rules-relating-to-applicants-and-renewal-applications-for-mobile-food-vending-licenses-or-permits/",
+      "firstSeenAt": "2026-11-02T19:15:26.000Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1926,13 +2208,19 @@
       "agency": null,
       "sourceUrl": "https://rules.cityofnewyork.us/rule/amendment-to-renewal-applications-for-mobile-food-vending-permits-chapter-6/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "nyc-rule:https://rules.cityofnewyork.us/rule/amendment-to-renewal-applications-for-mobile-food-vending-permits-chapter-6/",
+      "firstSeenAt": "2026-11-02T19:15:26.000Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1966,13 +2254,19 @@
       "agency": null,
       "sourceUrl": "https://rules.cityofnewyork.us/rule/cwz-trade-waste-rate-cap/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "nyc-rule:https://rules.cityofnewyork.us/rule/cwz-trade-waste-rate-cap/",
+      "firstSeenAt": "2026-11-02T19:15:26.000Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2006,13 +2300,19 @@
       "agency": null,
       "sourceUrl": "https://rules.cityofnewyork.us/rule/dsny-proposed-rule-relating-to-commercial-waste-zone-records-and-reporting-requirements/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "nyc-rule:https://rules.cityofnewyork.us/rule/dsny-proposed-rule-relating-to-commercial-waste-zone-records-and-reporting-requirements/",
+      "firstSeenAt": "2026-11-02T19:15:26.000Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2046,13 +2346,19 @@
       "agency": null,
       "sourceUrl": "https://rules.cityofnewyork.us/rule/high-sugar-warnings-on-food-service-establishment-menus/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "nyc-rule:https://rules.cityofnewyork.us/rule/high-sugar-warnings-on-food-service-establishment-menus/",
+      "firstSeenAt": "2026-11-02T19:15:26.000Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2086,13 +2392,19 @@
       "agency": null,
       "sourceUrl": "https://rules.cityofnewyork.us/rule/amendment-of-rules-relating-to-sale-of-flavored-tobacco-products-electronic-cigarettes-and-flavored-e-liquids/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "nyc-rule:https://rules.cityofnewyork.us/rule/amendment-of-rules-relating-to-sale-of-flavored-tobacco-products-electronic-cigarettes-and-flavored-e-liquids/",
+      "firstSeenAt": "2026-11-02T19:15:26.000Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2126,13 +2438,19 @@
       "agency": null,
       "sourceUrl": "https://rules.cityofnewyork.us/rule/installation-of-sidewalk-and-roadway-cafes-in-areas-under-the-landmark-preservation-commissions-jurisdiction/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "nyc-rule:https://rules.cityofnewyork.us/rule/installation-of-sidewalk-and-roadway-cafes-in-areas-under-the-landmark-preservation-commissions-jurisdiction/",
+      "firstSeenAt": "2026-11-02T19:15:26.000Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2166,13 +2484,19 @@
       "agency": null,
       "sourceUrl": "https://rules.cityofnewyork.us/rule/dsny-proposed-amendment-to-rule-relating-to-mandatory-organics/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "nyc-rule:https://rules.cityofnewyork.us/rule/dsny-proposed-amendment-to-rule-relating-to-mandatory-organics/",
+      "firstSeenAt": "2026-11-02T19:15:26.000Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2206,13 +2530,19 @@
       "agency": null,
       "sourceUrl": "https://rules.cityofnewyork.us/rule/repeal-of-rules-related-to-sidewalk-cafes-no-public-hearing-see-notice-for-commenting-options/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "nyc-rule:https://rules.cityofnewyork.us/rule/repeal-of-rules-related-to-sidewalk-cafes-no-public-hearing-see-notice-for-commenting-options/",
+      "firstSeenAt": "2026-11-02T19:15:26.000Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2246,13 +2576,19 @@
       "agency": null,
       "sourceUrl": "https://rules.cityofnewyork.us/rule/smoking-in-outdoor-restaurants-and-certain-public-places/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "nyc-rule:https://rules.cityofnewyork.us/rule/smoking-in-outdoor-restaurants-and-certain-public-places/",
+      "firstSeenAt": "2026-11-02T19:15:26.000Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2286,13 +2622,19 @@
       "agency": null,
       "sourceUrl": "https://rules.cityofnewyork.us/rule/dsny-initial-zone-rule-for-commercial-waste-zones/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "nyc-rule:https://rules.cityofnewyork.us/rule/dsny-initial-zone-rule-for-commercial-waste-zones/",
+      "firstSeenAt": "2026-11-02T19:15:26.000Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2326,13 +2668,19 @@
       "agency": null,
       "sourceUrl": "https://rules.cityofnewyork.us/rule/third-party-food-delivery-service/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "nyc-rule:https://rules.cityofnewyork.us/rule/third-party-food-delivery-service/",
+      "firstSeenAt": "2026-11-02T19:15:26.000Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2366,13 +2714,19 @@
       "agency": null,
       "sourceUrl": "https://rules.cityofnewyork.us/rule/open-restaurants-enforcement-emergency-rule/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "nyc-rule:https://rules.cityofnewyork.us/rule/open-restaurants-enforcement-emergency-rule/",
+      "firstSeenAt": "2026-11-02T19:15:26.000Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2406,13 +2760,19 @@
       "agency": null,
       "sourceUrl": "https://rules.cityofnewyork.us/rule/set-out-of-putrescible-solid-waste-in-rigid-receptacles-with-tight-fitting-lids/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "nyc-rule:https://rules.cityofnewyork.us/rule/set-out-of-putrescible-solid-waste-in-rigid-receptacles-with-tight-fitting-lids/",
+      "firstSeenAt": "2026-11-02T19:15:26.000Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2446,13 +2806,19 @@
       "agency": null,
       "sourceUrl": "https://rules.cityofnewyork.us/rule/minimum-pay-for-food-delivery-workers-updated/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "nyc-rule:https://rules.cityofnewyork.us/rule/minimum-pay-for-food-delivery-workers-updated/",
+      "firstSeenAt": "2026-11-02T19:15:26.000Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2486,13 +2852,19 @@
       "agency": null,
       "sourceUrl": "https://rules.cityofnewyork.us/rule/food-service-establishment-sanitary-inspection-procedures-and-letter-grading-reduction-or-waiving-of-monetary-penalties-for-certain-first-time-violations/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "nyc-rule:https://rules.cityofnewyork.us/rule/food-service-establishment-sanitary-inspection-procedures-and-letter-grading-reduction-or-waiving-of-monetary-penalties-for-certain-first-time-violations/",
+      "firstSeenAt": "2026-11-02T19:15:26.000Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2526,13 +2898,19 @@
       "agency": null,
       "sourceUrl": "https://rules.cityofnewyork.us/rule/mobile-food-vending-reduction-or-waiving-of-monetary-penalties-for-certain-first-time-violations/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "nyc-rule:https://rules.cityofnewyork.us/rule/mobile-food-vending-reduction-or-waiving-of-monetary-penalties-for-certain-first-time-violations/",
+      "firstSeenAt": "2026-11-02T19:15:26.000Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2566,13 +2944,19 @@
       "agency": null,
       "sourceUrl": "https://rules.cityofnewyork.us/rule/time-for-placing-solid-waste-and-recyclable-materials-out-at-the-curb-for-collection/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "nyc-rule:https://rules.cityofnewyork.us/rule/time-for-placing-solid-waste-and-recyclable-materials-out-at-the-curb-for-collection/",
+      "firstSeenAt": "2026-11-02T19:15:26.000Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2606,13 +2990,19 @@
       "agency": null,
       "sourceUrl": "https://rules.cityofnewyork.us/rule/application-process-for-tobacco-retail-dealer-and-electronic-cigarette-retail-dealer-licenses/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "nyc-rule:https://rules.cityofnewyork.us/rule/application-process-for-tobacco-retail-dealer-and-electronic-cigarette-retail-dealer-licenses/",
+      "firstSeenAt": "2026-11-02T19:15:26.000Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2646,13 +3036,19 @@
       "agency": null,
       "sourceUrl": "https://rules.cityofnewyork.us/rule/rates-charged-for-collection-removal-disposal-or-recycling-of-trade-waste/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "nyc-rule:https://rules.cityofnewyork.us/rule/rates-charged-for-collection-removal-disposal-or-recycling-of-trade-waste/",
+      "firstSeenAt": "2026-11-02T19:15:26.000Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2686,13 +3082,19 @@
       "agency": null,
       "sourceUrl": "https://rules.cityofnewyork.us/rule/supervisory-licenses-and-amendment-waiting-list-rules-for-mobile-food-vending-permits/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "nyc-rule:https://rules.cityofnewyork.us/rule/supervisory-licenses-and-amendment-waiting-list-rules-for-mobile-food-vending-permits/",
+      "firstSeenAt": "2026-11-02T19:15:26.000Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2726,13 +3128,19 @@
       "agency": null,
       "sourceUrl": "https://rules.cityofnewyork.us/rule/amendments-to-green-cart-rules/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "nyc-rule:https://rules.cityofnewyork.us/rule/amendments-to-green-cart-rules/",
+      "firstSeenAt": "2026-11-02T19:15:26.000Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2766,13 +3174,19 @@
       "agency": null,
       "sourceUrl": "https://rules.cityofnewyork.us/rule/third-party-food-delivery-service-workers/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "nyc-rule:https://rules.cityofnewyork.us/rule/third-party-food-delivery-service-workers/",
+      "firstSeenAt": "2026-11-02T19:15:26.000Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2806,13 +3220,19 @@
       "agency": null,
       "sourceUrl": "https://rules.cityofnewyork.us/rule/disabled-veterans-mobile-food-vendor-permit/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "nyc-rule:https://rules.cityofnewyork.us/rule/disabled-veterans-mobile-food-vendor-permit/",
+      "firstSeenAt": "2026-11-02T19:15:26.000Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2846,13 +3266,19 @@
       "agency": null,
       "sourceUrl": "https://rules.cityofnewyork.us/rule/disabled-veterans-mobile-food-unit-vending-permit/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "nyc-rule:https://rules.cityofnewyork.us/rule/disabled-veterans-mobile-food-unit-vending-permit/",
+      "firstSeenAt": "2026-11-02T19:15:26.000Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2886,13 +3312,19 @@
       "agency": null,
       "sourceUrl": "https://rules.cityofnewyork.us/rule/third-party-food-delivery-services-and-third-party-courier-services/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "nyc-rule:https://rules.cityofnewyork.us/rule/third-party-food-delivery-services-and-third-party-courier-services/",
+      "firstSeenAt": "2026-11-02T19:15:26.000Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2926,13 +3358,19 @@
       "agency": null,
       "sourceUrl": "https://rules.cityofnewyork.us/rule/proposed-rule-banning-the-use-of-residential-addresses-for-tobacco-retail-dealer-and-electronic-cigarette-retail-dealer-licenses/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "nyc-rule:https://rules.cityofnewyork.us/rule/proposed-rule-banning-the-use-of-residential-addresses-for-tobacco-retail-dealer-and-electronic-cigarette-retail-dealer-licenses/",
+      "firstSeenAt": "2026-11-02T19:15:26.000Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2966,13 +3404,19 @@
       "agency": null,
       "sourceUrl": "https://rules.cityofnewyork.us/rule/penalties-for-single-use-beverage-plastics/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "nyc-rule:https://rules.cityofnewyork.us/rule/penalties-for-single-use-beverage-plastics/",
+      "firstSeenAt": "2026-11-02T19:15:26.000Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -3006,13 +3450,19 @@
       "agency": null,
       "sourceUrl": "https://rules.cityofnewyork.us/rule/appendices-23-a-23-b-and-23-c-of-chapter-23-food-service-establishment-sanitary-inspection-procedures-and-letter-grading/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "nyc-rule:https://rules.cityofnewyork.us/rule/appendices-23-a-23-b-and-23-c-of-chapter-23-food-service-establishment-sanitary-inspection-procedures-and-letter-grading/",
+      "firstSeenAt": "2026-11-02T19:15:26.000Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -3046,13 +3496,19 @@
       "agency": null,
       "sourceUrl": "https://rules.cityofnewyork.us/rule/waiting-list-for-full-term-mobile-food-vending-permits/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "nyc-rule:https://rules.cityofnewyork.us/rule/waiting-list-for-full-term-mobile-food-vending-permits/",
+      "firstSeenAt": "2026-11-02T19:15:26.000Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -3086,13 +3542,19 @@
       "agency": null,
       "sourceUrl": "https://rules.cityofnewyork.us/rule/food-retail-expansion-to-support-health-program-fresh/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "nyc-rule:https://rules.cityofnewyork.us/rule/food-retail-expansion-to-support-health-program-fresh/",
+      "firstSeenAt": "2026-11-02T19:15:26.000Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -3126,13 +3588,19 @@
       "agency": null,
       "sourceUrl": "https://rules.cityofnewyork.us/rule/repeal-of-sanitation-penalty-schedule-moving-to-dsny-rules/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "nyc-rule:https://rules.cityofnewyork.us/rule/repeal-of-sanitation-penalty-schedule-moving-to-dsny-rules/",
+      "firstSeenAt": "2026-11-02T19:15:26.000Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -3166,13 +3634,19 @@
       "agency": null,
       "sourceUrl": "https://rules.cityofnewyork.us/rule/department-of-sanitation-penalty-schedule/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "nyc-rule:https://rules.cityofnewyork.us/rule/department-of-sanitation-penalty-schedule/",
+      "firstSeenAt": "2026-11-02T19:15:26.000Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -3206,13 +3680,19 @@
       "agency": null,
       "sourceUrl": "https://rules.cityofnewyork.us/rule/33143/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "nyc-rule:https://rules.cityofnewyork.us/rule/33143/",
+      "firstSeenAt": "2026-11-02T19:15:26.000Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -3246,13 +3726,19 @@
       "agency": null,
       "sourceUrl": "https://rules.cityofnewyork.us/rule/food-waste-liquefiers/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "nyc-rule:https://rules.cityofnewyork.us/rule/food-waste-liquefiers/",
+      "firstSeenAt": "2026-11-02T19:15:26.000Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -3286,13 +3772,19 @@
       "agency": null,
       "sourceUrl": "https://a856-cityrecord.nyc.gov/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "city-record:20260609003",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -3326,13 +3818,19 @@
       "agency": null,
       "sourceUrl": "https://a856-cityrecord.nyc.gov/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "city-record:20260605008",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -3366,13 +3864,19 @@
       "agency": null,
       "sourceUrl": "https://a856-cityrecord.nyc.gov/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "city-record:20260402006",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -3406,13 +3910,19 @@
       "agency": null,
       "sourceUrl": "https://a856-cityrecord.nyc.gov/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "city-record:20260327013",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -3446,13 +3956,19 @@
       "agency": null,
       "sourceUrl": "https://a856-cityrecord.nyc.gov/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "city-record:20260310018",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -3486,13 +4002,19 @@
       "agency": null,
       "sourceUrl": "https://a856-cityrecord.nyc.gov/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "city-record:20260202001",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -3526,13 +4048,19 @@
       "agency": null,
       "sourceUrl": "https://a856-cityrecord.nyc.gov/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "city-record:20260107004",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -3566,13 +4094,19 @@
       "agency": null,
       "sourceUrl": "https://a856-cityrecord.nyc.gov/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "city-record:20251118024",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   }
 ]
