@@ -1578,5 +1578,1525 @@
  "HOT WATER AVAILABLE": {
   "en": "Hot water available",
   "zh": "提供热水"
+ },
+ "Registered with NYC DOHMH; no health inspection conducted yet.": {
+  "en": "Registered with NYC DOHMH; no health inspection conducted yet.",
+  "zh": "已在 NYC DOHMH 登记,尚未进行首次卫生检查。"
+ },
+ "\"V\" Threads  Use Limitation (C)": {
+  "en": "\"V\" Threads, Use Limitation (C)",
+  "zh": "“V”形螺纹——使用限制 (C)"
+ },
+ "(A )Cooling Methods (Pf)": {
+  "en": "(A) Cooling Methods (Pf)",
+  "zh": "(A) 冷却方法 (Pf)"
+ },
+ "(A)  (B)  (C)  (E) and (G) Pasteurized Foods  Prohibited Re-Service  and Prohibited Food  (C)": {
+  "en": "(A), (B), (C), (E) and (G) Pasteurized Foods, Prohibited Re-Service, and Prohibited Food (C)",
+  "zh": "(A)、(B)、(C)、(E)及(G) 巴氏杀菌食品、禁止再次供应及禁用食品 (C)"
+ },
+ "(A)  (B)  (C)  (E) and (G) Pasteurized Foods  Prohibited Re-Service  and Prohibited Food (P)": {
+  "en": "(A), (B), (C), (E) and (G) Pasteurized Foods, Prohibited Re-Service, and Prohibited Food (P)",
+  "zh": "(A)、(B)、(C)、(E)及(G) 巴氏杀菌食品、禁止再次供应及禁用食品 (P)"
+ },
+ "(A)  (B) and (C)(1)  (4)-(16) Demonstration (Pf)": {
+  "en": "(A), (B) and (C)(1), (4)-(16) Demonstration (Pf)",
+  "zh": "(A)、(B)及(C)(1)、(4)-(16) 知识展示(现场负责人) (Pf)"
+ },
+ "(A)  (B) and (D) Equipment  Utensils  Linens and Single-Service and Single-Use Articles Storing (C)": {
+  "en": "(A), (B) and (D) Equipment, Utensils, Linens and Single-Service and Single-Use Articles Storing (C)",
+  "zh": "(A)、(B)及(D) 设备、器具、布草及一次性餐具与一次性用品的存放 (C)"
+ },
+ "(A) & (C) Responsibility of Permit Holder  Person in Charge  and Conditional Employees (P)": {
+  "en": "(A) & (C) Responsibility of Permit Holder, Person in Charge, and Conditional Employees (P)",
+  "zh": "(A)及(C) 许可证持有人、现场负责人及附条件录用员工的责任 (P)"
+ },
+ "(A) and (C) Equipment  Utensils  Linens and Single-Service and Single-Use Articles-Storing (C)": {
+  "en": "(A) and (C) Equipment, Utensils, Linens and Single-Service and Single-Use Articles - Storing (C)",
+  "zh": "(A)及(C) 设备、器具、布草及一次性餐具与一次性用品——存放 (C)"
+ },
+ "(A) and (C) Good Repair and Calibration-Utensils and Temperature and Pressure Measuring Devices (C)": {
+  "en": "(A) and (C) Good Repair and Calibration - Utensils and Temperature and Pressure Measuring Devices (C)",
+  "zh": "(A)及(C) 保持完好与校准——器具及温度和压力测量装置 (C)"
+ },
+ "(A) Ceasing Operations and Reporting (Pf)": {
+  "en": "(A) Ceasing Operations and Reporting (Pf)",
+  "zh": "(A) 停止营业与报告 (Pf)"
+ },
+ "(A) Consumer Self-Service Operations (P)": {
+  "en": "(A) Consumer Self-Service Operations (P)",
+  "zh": "(A) 消费者自助服务操作 (P)"
+ },
+ "(A) Gloves  Use Limitation (P)": {
+  "en": "(A) Gloves, Use Limitation (P)",
+  "zh": "(A) 手套——使用限制 (P)"
+ },
+ "(A)(1) Time/Temperature Control for Safety Food  Hot and Cold Holding (P)": {
+  "en": "(A)(1) Time/Temperature Control for Safety Food, Hot and Cold Holding (P)",
+  "zh": "(A)(1) 温控食品(TCS)——热保温与冷藏保温 (P)"
+ },
+ "(A)(2) and (B) Time/Temperature Control for Safety Food  Hot and Cold Holding (P)": {
+  "en": "(A)(2) and (B) Time/Temperature Control for Safety Food, Hot and Cold Holding (P)",
+  "zh": "(A)(2)及(B) 温控食品(TCS)——热保温与冷藏保温 (P)"
+ },
+ "(B) & (E) Responsibility of Permit Holder  Person in Charge  and Conditional Employees (Pf )": {
+  "en": "(B) & (E) Responsibility of Permit Holder, Person in Charge, and Conditional Employees (Pf)",
+  "zh": "(B)及(E) 许可证持有人、现场负责人及附条件录用员工的责任 (Pf)"
+ },
+ "(B) and (C) Consumer Self-Service Operations (Pf)": {
+  "en": "(B) and (C) Consumer Self-Service Operations (Pf)",
+  "zh": "(B)及(C) 消费者自助服务操作 (Pf)"
+ },
+ "(B) and (C) Equipment  Food-Contact Surfaces  Nonfood-Contact Surfaces  and Utensils (C)": {
+  "en": "(B) and (C) Equipment, Food-Contact Surfaces, Nonfood-Contact Surfaces, and Utensils (C)",
+  "zh": "(B)及(C) 设备、食品接触面、非食品接触面及器具(清洁度) (C)"
+ },
+ "(B) Cooling Methods (C)": {
+  "en": "(B) Cooling Methods (C)",
+  "zh": "(B) 冷却方法 (C)"
+ },
+ "(B) Good Repair and Calibration (Pf)": {
+  "en": "(B) Good Repair and Calibration (Pf)",
+  "zh": "(B) 保持完好与校准 (Pf)"
+ },
+ "(B)-(D) Gloves  Use Limitations (C)": {
+  "en": "(B)-(D) Gloves, Use Limitations (C)",
+  "zh": "(B)-(D) 手套——使用限制 (C)"
+ },
+ "(C) Equipment  Cloths Washers and Dryers  and Storage Cabinets  Contamination Prevention (C)": {
+  "en": "(C) Equipment, Cloths Washers and Dryers, and Storage Cabinets, Contamination Prevention (C)",
+  "zh": "(C) 设备、洗衣机与烘干机及储物柜——防止污染 (C)"
+ },
+ "(C)(2) (3) and (17) Demonstration (Pf)": {
+  "en": "(C)(2) (3) and (17) Demonstration (Pf)",
+  "zh": "(C)(2)、(3)及(17) 知识展示(现场负责人) (Pf)"
+ },
+ "(D) and (F) Responsibility of Permit Holder  Person in Charge  and Conditional Employees Responsibility of the PIC to Exclude or Restrict (P)": {
+  "en": "(D) and (F) Responsibility of Permit Holder, Person in Charge, and Conditional Employees Responsibility of the PIC to Exclude or Restrict (P)",
+  "zh": "(D)及(F) 许可证持有人、现场负责人及附条件录用员工的责任——现场负责人对员工禁止上岗或限制作业的责任 (P)"
+ },
+ "(D) Pasteurized Foods  Prohibited Re-Service  and Prohibited Foods (P)": {
+  "en": "(D) Pasteurized Foods, Prohibited Re-Service, and Prohibited Foods (P)",
+  "zh": "(D) 巴氏杀菌食品、禁止再次供应及禁用食品 (P)"
+ },
+ "(O) Person in Charge-Duties (Pf)": {
+  "en": "(O) Person in Charge - Duties (Pf)",
+  "zh": "(O) 现场负责人——职责 (Pf)"
+ },
+ "Absorbent Materials on Floors  Use Limitation (C)": {
+  "en": "Absorbent Materials on Floors, Use Limitation (C)",
+  "zh": "地面吸附性材料——使用限制 (C)"
+ },
+ "Additives (P)": {
+  "en": "Additives (P)",
+  "zh": "添加剂 (P)"
+ },
+ "Adequate Handwashing/Where/When/How": {
+  "en": "Adequate Handwashing/Where/When/How",
+  "zh": "充分洗手(地点/时机/方法)"
+ },
+ "Approved Food  or Color Additives": {
+  "en": "Approved Food or Color Additives",
+  "zh": "合规的食品添加剂或色素添加剂"
+ },
+ "Approved Sewage Disposal System (P)": {
+  "en": "Approved Sewage Disposal System (P)",
+  "zh": "合规的污水处理系统 (P)"
+ },
+ "Approved Source": {
+  "en": "Approved Source",
+  "zh": "合规来源"
+ },
+ "Approved System and Cleanable Fixtures (C)": {
+  "en": "Approved System and Cleanable Fixtures (C)",
+  "zh": "合规系统(管道)与易清洁的卫生器具 (C)"
+ },
+ "Approved System and Cleanable Fixtures (P)": {
+  "en": "Approved System and Cleanable Fixtures (P)",
+  "zh": "合规系统(管道)与易清洁的卫生器具 (P)"
+ },
+ "Approved System-Source (P)": {
+  "en": "Approved System - Source (P)",
+  "zh": "合规系统——水源 (P)"
+ },
+ "Approved-Materials  Mobile Water Tank and Mobile Food Establishment Water Tank (C)": {
+  "en": "Approved - Materials, Mobile Water Tank and Mobile Food Establishment Water Tank (C)",
+  "zh": "合规材料——流动水箱及流动食品经营场所水箱 (C)"
+ },
+ "Approved-Materials (P)": {
+  "en": "Approved - Materials (P)",
+  "zh": "合规材料 (P)"
+ },
+ "Area  Enclosures and Receptacles  Good Repair (C)": {
+  "en": "Area, Enclosures and Receptacles, Good Repair (C)",
+  "zh": "区域、围挡及垃圾容器——保持完好 (C)"
+ },
+ "Assignment (Pf)": {
+  "en": "Assignment (Pf)",
+  "zh": "指派(现场负责人) (Pf)"
+ },
+ "Backflow Prevention  Air Gap (P)": {
+  "en": "Backflow Prevention, Air Gap (P)",
+  "zh": "防回流——空气隔断 (P)"
+ },
+ "Backflow Prevention (P)": {
+  "en": "Backflow Prevention (P)",
+  "zh": "防回流 (P)"
+ },
+ "Backflow Prevention Device  Carbonator (P)": {
+  "en": "Backflow Prevention Device, Carbonator (P)",
+  "zh": "防回流装置——碳酸化器 (P)"
+ },
+ "Backflow Prevention Device  Design Standard (P)": {
+  "en": "Backflow Prevention Device, Design Standard (P)",
+  "zh": "防回流装置——设计标准 (P)"
+ },
+ "Backflow Prevention Device  Location (C)": {
+  "en": "Backflow Prevention Device, Location (C)",
+  "zh": "防回流装置——安装位置 (C)"
+ },
+ "Backflow Prevention Device  When Required (P)": {
+  "en": "Backflow Prevention Device, When Required (P)",
+  "zh": "防回流装置——须设置的情形 (P)"
+ },
+ "Before Use After Cleaning (P)": {
+  "en": "Before Use After Cleaning (P)",
+  "zh": "清洁后、使用前(消毒) (P)"
+ },
+ "Beverage Tubing  Separation (C)": {
+  "en": "Beverage Tubing, Separation (C)",
+  "zh": "饮料管路——分隔 (C)"
+ },
+ "Bottled Drinking Water (P)": {
+  "en": "Bottled Drinking Water (P)",
+  "zh": "瓶装饮用水 (P)"
+ },
+ "Can Openers (C)": {
+  "en": "Can Openers (C)",
+  "zh": "开罐器 (C)"
+ },
+ "Can Openers on Vending Machines (C)": {
+  "en": "Can Openers on Vending Machines (C)",
+  "zh": "自动售货机上的开罐器 (C)"
+ },
+ "Capacity and Drainage (C)": {
+  "en": "Capacity and Drainage (C)",
+  "zh": "容量与排水 (C)"
+ },
+ "Case Lot Handling Apparatuses  Movability (C)": {
+  "en": "Case Lot Handling Apparatuses, Movability (C)",
+  "zh": "整箱货物搬运装置——可移动性 (C)"
+ },
+ "Cast Iron  Use Limitations (C)": {
+  "en": "Cast Iron, Use Limitations (C)",
+  "zh": "铸铁——使用限制 (C)"
+ },
+ "Characteristics-Materials for Construction and Repair (C)": {
+  "en": "Characteristics - Materials for Construction and Repair (C)",
+  "zh": "特性——建造与维修用材料 (C)"
+ },
+ "Characteristics-Single-Service and Single-Use (C)": {
+  "en": "Characteristics - Single-Service and Single-Use (C)",
+  "zh": "特性——一次性餐具与一次性用品 (C)"
+ },
+ "Characteristics-Single-Service and Single-Use (P)": {
+  "en": "Characteristics - Single-Service and Single-Use (P)",
+  "zh": "特性——一次性餐具与一次性用品 (P)"
+ },
+ "Chemicals for Washing  Treatment  Storage and Processing Fruits and Vegetables  Criteria (P )": {
+  "en": "Chemicals for Washing, Treatment, Storage and Processing Fruits and Vegetables, Criteria (P)",
+  "zh": "果蔬清洗、处理、储存及加工用化学品——标准 (P)"
+ },
+ "Chemicals for Washing  Treatment  Storage and Processing Fruits and Vegetables  Criteria (P)": {
+  "en": "Chemicals for Washing, Treatment, Storage and Processing Fruits and Vegetables, Criteria (P)",
+  "zh": "果蔬清洗、处理、储存及加工用化学品——标准 (P)"
+ },
+ "CIP Equipment (C)": {
+  "en": "CIP Equipment (C)",
+  "zh": "就地清洗(CIP)设备 (C)"
+ },
+ "CIP Equipment (Pf)": {
+  "en": "CIP Equipment (Pf)",
+  "zh": "就地清洗(CIP)设备 (Pf)"
+ },
+ "Clean Cloths  Hair Restraint": {
+  "en": "Clean Cloths, Hair Restraint",
+  "zh": "清洁衣物、发套/发网"
+ },
+ "Clean condition-Hands and Arms (P)": {
+  "en": "Clean condition - Hands and Arms (P)",
+  "zh": "清洁状况——手部与手臂 (P)"
+ },
+ "Clean Condition-Outer Clothing (C)": {
+  "en": "Clean Condition - Outer Clothing (C)",
+  "zh": "清洁状况——外衣 (C)"
+ },
+ "Clean Linens (C)": {
+  "en": "Clean Linens (C)",
+  "zh": "洁净布草 (C)"
+ },
+ "Clean-up of Vomiting and Diarrheal Events (Pf)": {
+  "en": "Clean-up of Vomiting and Diarrheal Events (Pf)",
+  "zh": "呕吐与腹泻事件的清理 (Pf)"
+ },
+ "Cleaning Agents and Sanitizers  Availability (Pf)": {
+  "en": "Cleaning Agents and Sanitizers, Availability (Pf)",
+  "zh": "清洁剂与消毒剂——可用性 (Pf)"
+ },
+ "Cleaning Floors  Dustless Methods (C)": {
+  "en": "Cleaning Floors, Dustless Methods (C)",
+  "zh": "地面清洁——无尘方法 (C)"
+ },
+ "Cleaning Implements and Supplies (C)": {
+  "en": "Cleaning Implements and Supplies (C)",
+  "zh": "清洁工具与用品 (C)"
+ },
+ "Cleaning Maintenance Tools  Preventing Contamination (Pf)": {
+  "en": "Cleaning Maintenance Tools, Preventing Contamination (Pf)",
+  "zh": "清洁维护工具——防止污染 (Pf)"
+ },
+ "Cleaning Procedure (P)": {
+  "en": "Cleaning Procedure (P)",
+  "zh": "清洁程序 (P)"
+ },
+ "Cleaning Receptacles (C)": {
+  "en": "Cleaning Receptacles (C)",
+  "zh": "垃圾容器的清洁 (C)"
+ },
+ "Cleaning Ventilation Systems  Nuisance and Discharge Prohibition (C)": {
+  "en": "Cleaning Ventilation Systems, Nuisance and Discharge Prohibition (C)",
+  "zh": "通风系统清洁——禁止滋扰与排放 (C)"
+ },
+ "Closing Toilet Room Doors (C)": {
+  "en": "Closing Toilet Room Doors (C)",
+  "zh": "关闭卫生间门 (C)"
+ },
+ "Clothes Washers and Dryers (C)": {
+  "en": "Clothes Washers and Dryers (C)",
+  "zh": "洗衣机与烘干机 (C)"
+ },
+ "Community or Individual Facility (C)": {
+  "en": "Community or Individual Facility (C)",
+  "zh": "公共或独立设施(垃圾处置) (C)"
+ },
+ "Compliance with Food Law  (Pf)": {
+  "en": "Compliance with Food Law (Pf)",
+  "zh": "遵守食品法规 (Pf)"
+ },
+ "Compliance with Food Law (C)": {
+  "en": "Compliance with Food Law (C)",
+  "zh": "遵守食品法规 (C)"
+ },
+ "Compliance with Food Law (P)": {
+  "en": "Compliance with Food Law (P)",
+  "zh": "遵守食品法规 (P)"
+ },
+ "Condenser Unit  Separation (C)": {
+  "en": "Condenser Unit, Separation (C)",
+  "zh": "冷凝机组——隔离 (C)"
+ },
+ "Condiments  Protection (C)": {
+  "en": "Condiments, Protection (C)",
+  "zh": "调味品——防护 (C)"
+ },
+ "Conditioning Device  Design (C)": {
+  "en": "Conditioning Device, Design (C)",
+  "zh": "调节装置(水处理)——设计 (C)"
+ },
+ "Conditioning Device  Location (C)": {
+  "en": "Conditioning Device, Location (C)",
+  "zh": "调节装置(水处理)——安装位置 (C)"
+ },
+ "Conditions of Use (C)": {
+  "en": "Conditions of Use (C)",
+  "zh": "使用条件(有毒有害物质) (C)"
+ },
+ "Conditions of Use (P)": {
+  "en": "Conditions of Use (P)",
+  "zh": "使用条件(有毒有害物质) (P)"
+ },
+ "Conditions of Use (Pf)": {
+  "en": "Conditions of Use (Pf)",
+  "zh": "使用条件(有毒有害物质) (Pf)"
+ },
+ "Conformance w/ Approved Procedures": {
+  "en": "Conformance w/ Approved Procedures",
+  "zh": "符合经批准的程序"
+ },
+ "Conformance with Approved Procedures (P)": {
+  "en": "Conformance with Approved Procedures (P)",
+  "zh": "符合经批准的程序 (P)"
+ },
+ "Conformance with Approved Procedures (Pf)": {
+  "en": "Conformance with Approved Procedures (Pf)",
+  "zh": "符合经批准的程序 (Pf)"
+ },
+ "Consumer Advisories": {
+  "en": "Consumer Advisories",
+  "zh": "消费者提示"
+ },
+ "Consumption of Animal Foods that are Raw  Undercooked  or Not Otherwise Processed to Eliminate Pathogens (Pf)": {
+  "en": "Consumption of Animal Foods that are Raw, Undercooked, or Not Otherwise Processed to Eliminate Pathogens (Pf)",
+  "zh": "食用生的、未煮熟或未经其他消除病原体处理的动物性食品 (Pf)"
+ },
+ "Controlling Pests (Pf)": {
+  "en": "Controlling Pests (Pf)",
+  "zh": "虫害控制 (Pf)"
+ },
+ "Conveniently Located (C)": {
+  "en": "Conveniently Located (C)",
+  "zh": "位置便利 (C)"
+ },
+ "Conveying Sewage (P)": {
+  "en": "Conveying Sewage (P)",
+  "zh": "污水输送 (P)"
+ },
+ "Cooking and Baking Equipment (C)": {
+  "en": "Cooking and Baking Equipment (C)",
+  "zh": "烹饪与烘焙设备 (C)"
+ },
+ "Cooking Temperatures": {
+  "en": "Cooking Temperatures",
+  "zh": "烹饪温度"
+ },
+ "Cooling  Heating  and Holding Capacities-Equipment (Pf)": {
+  "en": "Cooling, Heating, and Holding Capacities - Equipment (Pf)",
+  "zh": "冷却、加热及保温能力——设备 (Pf)"
+ },
+ "Cooling (P)": {
+  "en": "Cooling (P)",
+  "zh": "冷却 (P)"
+ },
+ "Copper Use Limitation (P)": {
+  "en": "Copper Use Limitation (P)",
+  "zh": "铜的使用限制 (P)"
+ },
+ "Cross Connection Back Siphonage  Backflow": {
+  "en": "Cross Connection Back Siphonage, Backflow",
+  "zh": "交叉连接、虹吸倒流及回流"
+ },
+ "Cutting Surfaces (C)": {
+  "en": "Cutting Surfaces (C)",
+  "zh": "切割面 (C)"
+ },
+ "Designated Areas-Employee Accommodations for eating / drinking/smoking (C)": {
+  "en": "Designated Areas - Employee Accommodations for eating / drinking/smoking (C)",
+  "zh": "指定区域——员工进食/饮水/吸烟场所 (C)"
+ },
+ "Designation-Dressing Areas and Lockers (C)": {
+  "en": "Designation - Dressing Areas and Lockers (C)",
+  "zh": "指定设置——更衣区与储物柜 (C)"
+ },
+ "Discarding or Reconditioning Unsafe  Adulterated  or Contaminated Food (P)": {
+  "en": "Discarding or Reconditioning Unsafe, Adulterated, or Contaminated Food (P)",
+  "zh": "不安全、掺假或受污染食品的丢弃或重新处理 (P)"
+ },
+ "Discharges from the Eyes  Nose  and Mouth (C)": {
+  "en": "Discharges from the Eyes, Nose, and Mouth (C)",
+  "zh": "眼、鼻、口分泌物 (C)"
+ },
+ "Dispensing Equipment  Protection of Equipment and Food (C)": {
+  "en": "Dispensing Equipment, Protection of Equipment and Food (C)",
+  "zh": "分配设备——设备与食品的防护 (C)"
+ },
+ "Dispensing Equipment  Protection of Equipment and Food (P)": {
+  "en": "Dispensing Equipment, Protection of Equipment and Food (P)",
+  "zh": "分配设备——设备与食品的防护 (P)"
+ },
+ "Documentation of Proposed Variance and Justification (Pf)": {
+  "en": "Documentation of Proposed Variance and Justification (Pf)",
+  "zh": "拟申请豁免许可及理由的书面材料 (Pf)"
+ },
+ "Drain boards (C)": {
+  "en": "Drain boards (C)",
+  "zh": "沥水板 (C)"
+ },
+ "Dressing Rooms Clean/Lockers Provided": {
+  "en": "Dressing Rooms Clean/Lockers Provided",
+  "zh": "更衣室清洁/配备储物柜"
+ },
+ "Dry Cleaning-Methods (C)": {
+  "en": "Dry Cleaning - Methods (C)",
+  "zh": "干式清洁——方法 (C)"
+ },
+ "Drying Mops (C)": {
+  "en": "Drying Mops (C)",
+  "zh": "拖把晾干 (C)"
+ },
+ "Eating  Drinking  or Using Tobacco (C)": {
+  "en": "Eating, Drinking, or Using Tobacco (C)",
+  "zh": "进食、饮水或使用烟草 (C)"
+ },
+ "Eggs (P)": {
+  "en": "Eggs (P)",
+  "zh": "蛋类 (P)"
+ },
+ "Enclosed System  Sloped to Drain (C)": {
+  "en": "Enclosed System, Sloped to Drain (C)",
+  "zh": "封闭系统——坡向排水 (C)"
+ },
+ "Equipment  Clothes Washers  Dryers and Storage Cabinets  Contamination Prevention Location (C)": {
+  "en": "Equipment, Clothes Washers, Dryers and Storage Cabinets, Contamination Prevention Location (C)",
+  "zh": "设备、洗衣机、烘干机及储物柜——防止污染的放置位置 (C)"
+ },
+ "Equipment and Utensils  Air-Drying Required (C)": {
+  "en": "Equipment and Utensils, Air-Drying Required (C)",
+  "zh": "设备与器具——须自然风干 (C)"
+ },
+ "Equipment and Utensils-Durability and Strength (C)": {
+  "en": "Equipment and Utensils - Durability and Strength (C)",
+  "zh": "设备与器具——耐用性与强度 (C)"
+ },
+ "Equipment Compartments  Drainage (C)": {
+  "en": "Equipment Compartments, Drainage (C)",
+  "zh": "设备隔间——排水 (C)"
+ },
+ "Equipment Food-Contact Surfaces and Utensils-Frequency (C)": {
+  "en": "Equipment Food-Contact Surfaces and Utensils - Frequency (C)",
+  "zh": "设备食品接触面与器具——(清洁)频率 (C)"
+ },
+ "Equipment Food-Contact Surfaces and Utensils-Frequency (P)": {
+  "en": "Equipment Food-Contact Surfaces and Utensils - Frequency (P)",
+  "zh": "设备食品接触面与器具——(清洁)频率 (P)"
+ },
+ "Equipment Openings  Closures and Deflectors (C)": {
+  "en": "Equipment Openings, Closures and Deflectors (C)",
+  "zh": "设备开口、封盖与导流板 (C)"
+ },
+ "Equipment-Lubricating and Reassembling (C)": {
+  "en": "Equipment - Lubricating and Reassembling (C)",
+  "zh": "设备——润滑与重新组装 (C)"
+ },
+ "Exclusions & Restrictions (P)": {
+  "en": "Exclusions & Restrictions (P)",
+  "zh": "禁止上岗与限制作业 (P)"
+ },
+ "Exterior Walls and Roofs  Protective Barrier (C)": {
+  "en": "Exterior Walls and Roofs, Protective Barrier (C)",
+  "zh": "外墙与屋顶——防护屏障 (C)"
+ },
+ "Fish (P)": {
+  "en": "Fish (P)",
+  "zh": "鱼类 (P)"
+ },
+ "Fixed Equipment  Elevation or Sealing (C)": {
+  "en": "Fixed Equipment, Elevation or Sealing (C)",
+  "zh": "固定设备——架高或密封 (C)"
+ },
+ "Fixed Equipment  Spacing or Sealing-Installation (C)": {
+  "en": "Fixed Equipment, Spacing or Sealing - Installation (C)",
+  "zh": "固定设备的间距或密封——安装 (C)"
+ },
+ "Floor and Wall Junctures  Coved  and Enclosed or Sealed (C)": {
+  "en": "Floor and Wall Junctures, Coved, and Enclosed or Sealed (C)",
+  "zh": "地墙交接处——圆弧处理并封闭或密封 (C)"
+ },
+ "Floor Carpeting  Restrictions and Installation (C)": {
+  "en": "Floor Carpeting, Restrictions and Installation (C)",
+  "zh": "地毯——使用限制与铺设 (C)"
+ },
+ "Floor Covering  Mats and Duckboards (C)": {
+  "en": "Floor Covering, Mats and Duckboards (C)",
+  "zh": "地面覆盖物——地垫与格栅踏板 (C)"
+ },
+ "Flushing a Waste Retention Tank (C)": {
+  "en": "Flushing a Waste Retention Tank (C)",
+  "zh": "废水储存罐的冲洗 (C)"
+ },
+ "Food Contact Surfaces Design": {
+  "en": "Food Contact Surfaces Design",
+  "zh": "食品接触面的设计"
+ },
+ "Food Contact with Equipment  Utensils  and Linens (P)": {
+  "en": "Food Contact with Equipment, Utensils, and Linens (P)",
+  "zh": "食品与设备、器具及布草的接触 (P)"
+ },
+ "Food in a Hermetically Sealed Container (P)": {
+  "en": "Food in a Hermetically Sealed Container (P)",
+  "zh": "密封容器包装的食品 (P)"
+ },
+ "Food Labels (C)": {
+  "en": "Food Labels (C)",
+  "zh": "食品标签 (C)"
+ },
+ "Food Labels (Pf)": {
+  "en": "Food Labels (Pf)",
+  "zh": "食品标签 (Pf)"
+ },
+ "Food Preparation (C)": {
+  "en": "Food Preparation (C)",
+  "zh": "食品制备 (C)"
+ },
+ "Food products protected against contamination(Properly covered/secured for overnight storage).": {
+  "en": "Food products protected against contamination (Properly covered/secured for overnight storage).",
+  "zh": "食品防污染保护(隔夜存放须妥善覆盖/封好)。"
+ },
+ "Food Restrictions & Preparation": {
+  "en": "Food Restrictions & Preparation",
+  "zh": "食品限制与制备"
+ },
+ "Food Storage  Prohibited Areas (C)": {
+  "en": "Food Storage, Prohibited Areas (C)",
+  "zh": "食品储存——禁止存放区域 (C)"
+ },
+ "Food Storage Containers Identified with Common Name of Food (C)": {
+  "en": "Food Storage Containers Identified with Common Name of Food (C)",
+  "zh": "食品储存容器标明食品常用名 (C)"
+ },
+ "Food Temperature Measuring Devices (P)": {
+  "en": "Food Temperature Measuring Devices (P)",
+  "zh": "食品温度测量装置 (P)"
+ },
+ "Food Temperature Measuring Devices (Pf)": {
+  "en": "Food Temperature Measuring Devices (Pf)",
+  "zh": "食品温度测量装置 (Pf)"
+ },
+ "Food Thermometers Provided": {
+  "en": "Food Thermometers Provided",
+  "zh": "配备食品温度计"
+ },
+ "Food-Contact Surfaces-Cleanability (Pf)": {
+  "en": "Food-Contact Surfaces - Cleanability (Pf)",
+  "zh": "食品接触面——易清洁性 (Pf)"
+ },
+ "Food-Contact Surfaces-Lubricating and Reassembling (C)": {
+  "en": "Food-Contact Surfaces - Lubricating and Reassembling (C)",
+  "zh": "食品接触面——润滑与重新组装 (C)"
+ },
+ "Frozen Food (C)": {
+  "en": "Frozen Food (C)",
+  "zh": "冷冻食品 (C)"
+ },
+ "Galvanized Metal  Use Limitation (P)": {
+  "en": "Galvanized Metal, Use Limitation (P)",
+  "zh": "镀锌金属——使用限制 (P)"
+ },
+ "Good Hygienic Practices": {
+  "en": "Good Hygienic Practices",
+  "zh": "良好卫生规范"
+ },
+ "Grease Trap(C)": {
+  "en": "Grease Trap (C)",
+  "zh": "隔油池 (C)"
+ },
+ "Hand Antiseptics (Pf)": {
+  "en": "Hand Antiseptics (Pf)",
+  "zh": "手部消毒剂 (Pf)"
+ },
+ "Hand Drying Provision (Pf)": {
+  "en": "Hand Drying Provision (Pf)",
+  "zh": "干手设施的配备 (Pf)"
+ },
+ "Handling of Food & Ice": {
+  "en": "Handling of Food & Ice",
+  "zh": "食品与冰的处理"
+ },
+ "Handling Prohibition-Animals (Pf)": {
+  "en": "Handling Prohibition - Animals (Pf)",
+  "zh": "禁止接触——动物 (Pf)"
+ },
+ "Handwashing Aids and Devices  Use Restrictions (C)": {
+  "en": "Handwashing Aids and Devices, Use Restrictions (C)",
+  "zh": "洗手辅助用品与装置——使用限制 (C)"
+ },
+ "Handwashing Cleanser  Availability (Pf)": {
+  "en": "Handwashing Cleanser, Availability (Pf)",
+  "zh": "洗手清洁剂——配备 (Pf)"
+ },
+ "Handwashing Signage  (C)": {
+  "en": "Handwashing Signage (C)",
+  "zh": "洗手标识 (C)"
+ },
+ "Handwashing Sinks  Installation (C)": {
+  "en": "Handwashing Sinks, Installation (C)",
+  "zh": "洗手池的安装 (C)"
+ },
+ "Handwashing Sinks-Numbers and Capacities (Pf)": {
+  "en": "Handwashing Sinks - Numbers and Capacities (Pf)",
+  "zh": "洗手池——数量与容量 (Pf)"
+ },
+ "Heating  Ventilation  Air Conditioning System Vents (C)": {
+  "en": "Heating, Ventilation, Air Conditioning System Vents (C)",
+  "zh": "供暖、通风、空调系统通风口 (C)"
+ },
+ "Honestly Presented (C)": {
+  "en": "Honestly Presented (C)",
+  "zh": "如实呈现(不得误导) (C)"
+ },
+ "Hose  Construction and Identification (P)": {
+  "en": "Hose, Construction and Identification (P)",
+  "zh": "软管——构造与标识 (P)"
+ },
+ "Hot Oil Filtering Equipment (C)": {
+  "en": "Hot Oil Filtering Equipment (C)",
+  "zh": "热油过滤设备 (C)"
+ },
+ "Hot Water and Chemical-Methods (P)": {
+  "en": "Hot Water and Chemical - Methods (P)",
+  "zh": "热水与化学消毒——方法 (P)"
+ },
+ "Ice Units  Separation of Drains (C)": {
+  "en": "Ice Units, Separation of Drains (C)",
+  "zh": "制冰机——排水管分隔 (C)"
+ },
+ "Ice Used as Exterior Coolant  Prohibited as Ingredient (P)": {
+  "en": "Ice Used as Exterior Coolant, Prohibited as Ingredient (P)",
+  "zh": "用作外部冷却的冰——禁止作为食材 (P)"
+ },
+ "Identifying Information  Prominence-Original Containers (Pf)": {
+  "en": "Identifying Information, Prominence - Original Containers (Pf)",
+  "zh": "识别信息醒目标示——原装容器 (Pf)"
+ },
+ "Improper Cleaning of Receptacles": {
+  "en": "Improper Cleaning of Receptacles",
+  "zh": "垃圾容器清洁不当"
+ },
+ "Improper Storage of Re-usable Utensils": {
+  "en": "Improper Storage of Re-usable Utensils",
+  "zh": "可重复使用器具存放不当"
+ },
+ "In-Use Utensils  Between-Use Storage (C)": {
+  "en": "In-Use Utensils, Between-Use Storage (C)",
+  "zh": "使用中的器具——使用间隙的存放 (C)"
+ },
+ "Insect Control Devices  Design and Installation (C)": {
+  "en": "Insect Control Devices, Design and Installation (C)",
+  "zh": "灭虫装置——设计与安装 (C)"
+ },
+ "Inspection and Cleaning Port  Protected and Secured (C)": {
+  "en": "Inspection and Cleaning Port, Protected and Secured (C)",
+  "zh": "检修清洁口——防护与固定 (C)"
+ },
+ "Intensity-Lighting (C)": {
+  "en": "Intensity - Lighting (C)",
+  "zh": "照明强度 (C)"
+ },
+ "Juice Treated-Commercially Processed (P)": {
+  "en": "Juice Treated - Commercially Processed (P)",
+  "zh": "经处理的果汁——商业化加工 (P)"
+ },
+ "Juice Treated-Commercially Processed (Pf)": {
+  "en": "Juice Treated - Commercially Processed (Pf)",
+  "zh": "经处理的果汁——商业化加工 (Pf)"
+ },
+ "Kick Plates Removable (C)": {
+  "en": "Kick Plates Removable (C)",
+  "zh": "踢脚板可拆卸 (C)"
+ },
+ "Kitchenware and Tableware-Preventing Contamination (C)": {
+  "en": "Kitchenware and Tableware - Preventing Contamination (C)",
+  "zh": "厨具与餐具——防止污染 (C)"
+ },
+ "Labeled  Common Name": {
+  "en": "Labeled, Common Name",
+  "zh": "标注常用名"
+ },
+ "Light Bulbs  Protective Shielding (C)": {
+  "en": "Light Bulbs, Protective Shielding (C)",
+  "zh": "灯泡——防护罩 (C)"
+ },
+ "Linens and Napkins  Use Limitations (C)": {
+  "en": "Linens and Napkins, Use Limitations (C)",
+  "zh": "布草与餐巾——使用限制 (C)"
+ },
+ "Living or Sleeping Quarters  Separation (C)": {
+  "en": "Living or Sleeping Quarters, Separation (C)",
+  "zh": "居住或睡眠区——分隔 (C)"
+ },
+ "Living/Sleeping Quaters/Laundry": {
+  "en": "Living/Sleeping Quarters/Laundry",
+  "zh": "居住/睡眠区/洗衣房"
+ },
+ "Loading of Soiled Items  Warewashing Machines (C)": {
+  "en": "Loading of Soiled Items, Warewashing Machines (C)",
+  "zh": "脏污物品的装载——器皿清洗机 (C)"
+ },
+ "Low Sanitizer Alarm": {
+  "en": "Low Sanitizer Alarm",
+  "zh": "消毒剂低量报警"
+ },
+ "Maintenance-Fingernails (Pf)": {
+  "en": "Maintenance - Fingernails (Pf)",
+  "zh": "指甲维护 (Pf)"
+ },
+ "Manual and Mechanical Warewashing Equipment  Chemical Sanitization-Temperature  pH  Concentration and Hardness (Pf)": {
+  "en": "Manual and Mechanical Warewashing Equipment, Chemical Sanitization - Temperature, pH, Concentration and Hardness (Pf)",
+  "zh": "手工与机械器皿清洗设备——化学消毒:温度、pH值、浓度与硬度 (Pf)"
+ },
+ "Manual Warewashing  Sink Compartment Requirements (C)": {
+  "en": "Manual Warewashing, Sink Compartment Requirements (C)",
+  "zh": "手工器皿清洗——水槽分格要求 (C)"
+ },
+ "Manual Warewashing  Sink Compartment Requirements (Pf)": {
+  "en": "Manual Warewashing, Sink Compartment Requirements (Pf)",
+  "zh": "手工器皿清洗——水槽分格要求 (Pf)"
+ },
+ "Manual Warewashing Equipment  Chemical Sanitization Using Detergent-Sanitizers (C)": {
+  "en": "Manual Warewashing Equipment, Chemical Sanitization Using Detergent-Sanitizers (C)",
+  "zh": "手工器皿清洗设备——使用洗涤消毒剂进行化学消毒 (C)"
+ },
+ "Manual Warewashing Equipment  Heaters and Baskets (Pf)": {
+  "en": "Manual Warewashing Equipment, Heaters and Baskets (Pf)",
+  "zh": "手工器皿清洗设备——加热器与提篮 (Pf)"
+ },
+ "Manual Warewashing Equipment  Hot Water Sanitization Temperatures (P)": {
+  "en": "Manual Warewashing Equipment, Hot Water Sanitization Temperatures (P)",
+  "zh": "手工器皿清洗设备——热水消毒温度 (P)"
+ },
+ "Manual Warewashing Equipment  Wash Solution Temperature (Pf)": {
+  "en": "Manual Warewashing Equipment, Wash Solution Temperature (Pf)",
+  "zh": "手工器皿清洗设备——洗涤液温度 (Pf)"
+ },
+ "Mechanical Warewashing Equipment  Sanitization Pressure (C)": {
+  "en": "Mechanical Warewashing Equipment, Sanitization Pressure (C)",
+  "zh": "机械器皿清洗设备——消毒冲洗压力 (C)"
+ },
+ "Mechanical Warewashing Equipment  Wash Solution Temperature (Pf)": {
+  "en": "Mechanical Warewashing Equipment, Wash Solution Temperature (Pf)",
+  "zh": "机械器皿清洗设备——洗涤液温度 (Pf)"
+ },
+ "Mechanical Washing (C)": {
+  "en": "Mechanical Washing (C)",
+  "zh": "机械清洗 (C)"
+ },
+ "Mechanical-Ventilation (C)": {
+  "en": "Mechanical - Ventilation (C)",
+  "zh": "机械通风 (C)"
+ },
+ "Medicines  FirstAid Storage": {
+  "en": "Medicines, First Aid Storage",
+  "zh": "药品与急救用品的存放"
+ },
+ "Microwave Ovens (C)": {
+  "en": "Microwave Ovens (C)",
+  "zh": "微波炉 (C)"
+ },
+ "Molluscan Shellfish  Original Container (C)": {
+  "en": "Molluscan Shellfish, Original Container (C)",
+  "zh": "软体贝类——原包装容器 (C)"
+ },
+ "Mop Sink not Provided": {
+  "en": "Mop Sink not Provided",
+  "zh": "未配备拖把池"
+ },
+ "Non-Compliance w/Employee Health Policy": {
+  "en": "Non-Compliance w/Employee Health Policy",
+  "zh": "未遵守员工健康政策"
+ },
+ "Non-Continuous Cooking of Raw Animal Foods (P)": {
+  "en": "Non-Continuous Cooking of Raw Animal Foods (P)",
+  "zh": "生动物性食品的非连续烹饪 (P)"
+ },
+ "Non-Continuous Cooking of Raw Animal Foods (Pf)": {
+  "en": "Non-Continuous Cooking of Raw Animal Foods (Pf)",
+  "zh": "生动物性食品的非连续烹饪 (Pf)"
+ },
+ "Nonstick Coatings  Use Limitation (C)": {
+  "en": "Nonstick Coatings, Use Limitation (C)",
+  "zh": "不粘涂层——使用限制 (C)"
+ },
+ "Other Forms of Information (C)": {
+  "en": "Other Forms of Information (C)",
+  "zh": "其他形式的信息 (C)"
+ },
+ "Other Liquid Wastes and Rainwater (C)": {
+  "en": "Other Liquid Wastes and Rainwater (C)",
+  "zh": "其他液体废物与雨水 (C)"
+ },
+ "Outdoor Enclosure (C)": {
+  "en": "Outdoor Enclosure (C)",
+  "zh": "室外围挡设施(垃圾存放) (C)"
+ },
+ "Outdoor Food Vending Areas. Overhead Protection (C)": {
+  "en": "Outdoor Food Vending Areas. Overhead Protection (C)",
+  "zh": "室外食品售卖区——顶部遮蔽 (C)"
+ },
+ "Outdoor refuse Areas  Curbed and Graded to Drain (C)": {
+  "en": "Outdoor refuse Areas, Curbed and Graded to Drain (C)",
+  "zh": "室外垃圾区——设路缘并有排水坡度 (C)"
+ },
+ "Outdoor Servicing Areas  Overhead Protection (C)": {
+  "en": "Outdoor Servicing Areas, Overhead Protection (C)",
+  "zh": "室外维护服务区——顶部遮蔽 (C)"
+ },
+ "Outdoor Storage Surface (C)": {
+  "en": "Outdoor Storage Surface (C)",
+  "zh": "室外存放区地面 (C)"
+ },
+ "Outdoor Walking and Driving Surfaces  Graded to Drain (C)": {
+  "en": "Outdoor Walking and Driving Surfaces, Graded to Drain (C)",
+  "zh": "室外步行与行车路面——有排水坡度 (C)"
+ },
+ "Outer Openings  Protected (C)": {
+  "en": "Outer Openings, Protected (C)",
+  "zh": "外部开口——防护 (C)"
+ },
+ "Outside Receptacles (C)": {
+  "en": "Outside Receptacles (C)",
+  "zh": "室外垃圾容器 (C)"
+ },
+ "Outside Storage Improperly Maintained": {
+  "en": "Outside Storage Improperly Maintained",
+  "zh": "室外存放区维护不当"
+ },
+ "Outside Storage Prohibitions (C)": {
+  "en": "Outside Storage Prohibitions (C)",
+  "zh": "室外存放禁止事项 (C)"
+ },
+ "Package Integrity (Pf)": {
+  "en": "Package Integrity (Pf)",
+  "zh": "包装完整性 (Pf)"
+ },
+ "Packaged and Unpackaged Food-Separation  Packaging  and Segregation  (C)": {
+  "en": "Packaged and Unpackaged Food - Separation, Packaging, and Segregation (C)",
+  "zh": "包装与未包装食品——分隔、包装与隔离 (C)"
+ },
+ "Packaged and Unpackaged Food-Separation  Packaging  and Segregation (P)": {
+  "en": "Packaged and Unpackaged Food - Separation, Packaging, and Segregation (P)",
+  "zh": "包装与未包装食品——分隔、包装与隔离 (P)"
+ },
+ "Parasite Destruction": {
+  "en": "Parasite Destruction",
+  "zh": "寄生虫杀灭"
+ },
+ "Parasite Destruction (P)": {
+  "en": "Parasite Destruction (P)",
+  "zh": "寄生虫杀灭 (P)"
+ },
+ "Pasteurized Eggs Substituted for Raw Eggs for Certain Recipes (P)": {
+  "en": "Pasteurized Eggs Substituted for Raw Eggs for Certain Recipes (P)",
+  "zh": "特定菜谱中以巴氏杀菌蛋替代生鸡蛋 (P)"
+ },
+ "Person in charge Assigned": {
+  "en": "Person in charge Assigned",
+  "zh": "指定现场负责人"
+ },
+ "Personnel w/ Infections Restricted/Excluded": {
+  "en": "Personnel w/ Infections Restricted/Excluded",
+  "zh": "感染人员限制工作/禁止上岗"
+ },
+ "Pesticide Usage": {
+  "en": "Pesticide Usage",
+  "zh": "杀虫剂的使用"
+ },
+ "PHF's Properly Thawed": {
+  "en": "PHF's Properly Thawed",
+  "zh": "潜在危害食品(PHF)正确解冻"
+ },
+ "Poisonous or Toxic Material Containers-Container Prohibitions (P)": {
+  "en": "Poisonous or Toxic Material Containers - Container Prohibitions (P)",
+  "zh": "有毒有害物质容器——容器使用禁令 (P)"
+ },
+ "Pre-Flushed  Scrapped  Soaked": {
+  "en": "Pre-Flushed, Scraped, Soaked",
+  "zh": "预冲洗、刮除残渣、浸泡"
+ },
+ "Preclearing (C)": {
+  "en": "Preclearing (C)",
+  "zh": "预清理 (C)"
+ },
+ "Preset Tableware (C)": {
+  "en": "Preset Tableware (C)",
+  "zh": "预先摆放的餐具 (C)"
+ },
+ "Pressure (Pf)": {
+  "en": "Pressure (Pf)",
+  "zh": "压力(供水压力) (Pf)"
+ },
+ "Pressure Measuring Devices  Mechanical Warewashing Equipment (C)": {
+  "en": "Pressure Measuring Devices, Mechanical Warewashing Equipment (C)",
+  "zh": "压力测量装置——机械器皿清洗设备 (C)"
+ },
+ "Preventing Contamination from Hands (C)": {
+  "en": "Preventing Contamination from Hands (C)",
+  "zh": "防止手部污染 (C)"
+ },
+ "Preventing Contamination from Hands (P)": {
+  "en": "Preventing Contamination from Hands (P)",
+  "zh": "防止手部污染 (P)"
+ },
+ "Preventing Contamination from Hands (Pf)": {
+  "en": "Preventing Contamination from Hands (Pf)",
+  "zh": "防止手部污染 (Pf)"
+ },
+ "Preventing Contamination When Tasting (P)": {
+  "en": "Preventing Contamination When Tasting (P)",
+  "zh": "试尝时防止污染 (P)"
+ },
+ "Prevention of Contamination from Hands": {
+  "en": "Prevention of Contamination from Hands",
+  "zh": "防止手部污染"
+ },
+ "Prevention of Foodborne Cases of Viral Gastroenteritis (P)": {
+  "en": "Prevention of Foodborne Cases of Viral Gastroenteritis (P)",
+  "zh": "预防食源性病毒性胃肠炎 (P)"
+ },
+ "Private Homes and Living or Sleeping Quarters  Use Prohibition (P)": {
+  "en": "Private Homes and Living or Sleeping Quarters, Use Prohibition (P)",
+  "zh": "私人住宅及居住或睡眠区——禁止使用 (P)"
+ },
+ "Prohibiting a Cross Connection (P)": {
+  "en": "Prohibiting a Cross Connection (P)",
+  "zh": "禁止交叉连接 (P)"
+ },
+ "Prohibiting a Cross Connection (Pf)": {
+  "en": "Prohibiting a Cross Connection (Pf)",
+  "zh": "禁止交叉连接 (Pf)"
+ },
+ "Prohibiting Animals (Pf)": {
+  "en": "Prohibiting Animals (Pf)",
+  "zh": "禁止动物进入 (Pf)"
+ },
+ "Prohibition-Jewelry (C)": {
+  "en": "Prohibition - Jewelry (C)",
+  "zh": "禁止佩戴首饰 (C)"
+ },
+ "Proper storage of clean linen": {
+  "en": "Proper storage of clean linen",
+  "zh": "洁净布草的正确存放"
+ },
+ "Protection from Unapproved Additives (P)": {
+  "en": "Protection from Unapproved Additives (P)",
+  "zh": "防止使用未经批准的添加剂 (P)"
+ },
+ "Protective Cover or Device (C)": {
+  "en": "Protective Cover or Device (C)",
+  "zh": "防护罩或防护装置 (C)"
+ },
+ "Public Nuisance": {
+  "en": "Public Nuisance",
+  "zh": "公共滋扰"
+ },
+ "Raw Animal Foods-Cooking (P)": {
+  "en": "Raw Animal Foods - Cooking (P)",
+  "zh": "生动物性食品——烹饪 (P)"
+ },
+ "Raw Animal Foods-Cooking (Pf)": {
+  "en": "Raw Animal Foods - Cooking (Pf)",
+  "zh": "生动物性食品——烹饪 (Pf)"
+ },
+ "Re-use of Single Service Articles": {
+  "en": "Re-use of Single Service Articles",
+  "zh": "重复使用一次性餐具"
+ },
+ "Ready-To-Eat Time/Temperature Control for Safety Food  Date Marking (Pf)": {
+  "en": "Ready-To-Eat Time/Temperature Control for Safety Food, Date Marking (Pf)",
+  "zh": "即食温控食品(TCS)——日期标识 (Pf)"
+ },
+ "Ready-To-Eat Time/Temperature Control for Safety Food  Disposition (P)": {
+  "en": "Ready-To-Eat Time/Temperature Control for Safety Food, Disposition (P)",
+  "zh": "即食温控食品(TCS)——超期处置 (P)"
+ },
+ "Receptacles (C)": {
+  "en": "Receptacles (C)",
+  "zh": "垃圾容器 (C)"
+ },
+ "Receptacles or Vehicles (C)": {
+  "en": "Receptacles or Vehicles (C)",
+  "zh": "垃圾容器或运输车辆 (C)"
+ },
+ "Recieving/Sound Condition/Proper Temperatures": {
+  "en": "Receiving/Sound Condition/Proper Temperatures",
+  "zh": "收货/状态完好/温度合规"
+ },
+ "Records  Creation  & Retention (Pf)": {
+  "en": "Records, Creation, & Retention (Pf)",
+  "zh": "记录——建立与保存 (Pf)"
+ },
+ "Reduced Oxygen Packaging": {
+  "en": "Reduced Oxygen Packaging",
+  "zh": "减氧包装(ROP)"
+ },
+ "Reduced Oxygen Packaging  Criteria (P)": {
+  "en": "Reduced Oxygen Packaging, Criteria (P)",
+  "zh": "减氧包装(ROP)——标准 (P)"
+ },
+ "Reduced Oxygen Packaging  Criteria (Pf)": {
+  "en": "Reduced Oxygen Packaging, Criteria (Pf)",
+  "zh": "减氧包装(ROP)——标准 (Pf)"
+ },
+ "Refrigerated Medicines  Storage (P)": {
+  "en": "Refrigerated Medicines, Storage (P)",
+  "zh": "需冷藏药品的存放 (P)"
+ },
+ "Reheating": {
+  "en": "Reheating",
+  "zh": "再加热"
+ },
+ "Reheating for Hot Holding (P)": {
+  "en": "Reheating for Hot Holding (P)",
+  "zh": "热保温前的再加热 (P)"
+ },
+ "Removal  Adjustment  or Retention of Exclusions & Restrictions (P)": {
+  "en": "Removal, Adjustment, or Retention of Exclusions & Restrictions (P)",
+  "zh": "禁止上岗与限制工作的解除、调整或维持 (P)"
+ },
+ "Removing Dead or Trapped Birds  Insects  Rodents and other Pest (C)": {
+  "en": "Removing Dead or Trapped Birds, Insects, Rodents and other Pest (C)",
+  "zh": "清除死亡或被捕获的鸟类、昆虫、鼠类及其他有害生物 (C)"
+ },
+ "Removing Mobile Food Establishment Wastes (Pf)": {
+  "en": "Removing Mobile Food Establishment Wastes (Pf)",
+  "zh": "流动餐饮单位废弃物的清除 (Pf)"
+ },
+ "Repairing-Premises  Structures  Attachments  and Fixtures-Methods (C)": {
+  "en": "Repairing - Premises, Structures, Attachments, and Fixtures - Methods (C)",
+  "zh": "维修——场所、建筑结构、附属设施及固定装置——方法 (C)"
+ },
+ "Reservice of PHF or Unwrapped Foods": {
+  "en": "Reservice of PHF or Unwrapped Foods",
+  "zh": "潜在危害食品(PHF)或无包装食品的重复供应"
+ },
+ "Restricted Use Pesticides  Criteria (P)": {
+  "en": "Restricted Use Pesticides, Criteria (P)",
+  "zh": "限制使用农药——使用标准 (P)"
+ },
+ "Restriction and Storage-Medicines ( Pf)": {
+  "en": "Restriction and Storage - Medicines (Pf)",
+  "zh": "限制与存放——药品 (Pf)"
+ },
+ "Restriction and Storage-Medicines (P)": {
+  "en": "Restriction and Storage - Medicines (P)",
+  "zh": "限制与存放——药品 (P)"
+ },
+ "Restriction-Presence and Use (Pf)": {
+  "en": "Restriction - Presence and Use (Pf)",
+  "zh": "限制——现场存放与使用(有毒有害物品) (Pf)"
+ },
+ "Returned Food and Re-service of Food (P)": {
+  "en": "Returned Food and Re-service of Food (P)",
+  "zh": "退回食品及食品的重复供应 (P)"
+ },
+ "Rinsing Equipment and Utensils after Cleaning and Sanitizing (C)": {
+  "en": "Rinsing Equipment and Utensils after Cleaning and Sanitizing (C)",
+  "zh": "设备和器具清洁消毒后的冲洗 (C)"
+ },
+ "Rinsing Procedures (C)": {
+  "en": "Rinsing Procedures (C)",
+  "zh": "冲洗程序 (C)"
+ },
+ "Rodent Bait Stations (P)": {
+  "en": "Rodent Bait Stations (P)",
+  "zh": "灭鼠饵站 (P)"
+ },
+ "Rooms and Equipment Vented": {
+  "en": "Rooms and Equipment Vented",
+  "zh": "房间与设备通风"
+ },
+ "Safe  Unadulterated and Honestly Presented (P)": {
+  "en": "Safe, Unadulterated and Honestly Presented (P)",
+  "zh": "安全、未掺假且如实呈现 (P)"
+ },
+ "Safe Food Handeling Instructions": {
+  "en": "Safe Food Handling Instructions",
+  "zh": "食品安全处理说明"
+ },
+ "Sanitizing Solutions  Testing Devices (Pf)": {
+  "en": "Sanitizing Solutions, Testing Devices (Pf)",
+  "zh": "消毒液——检测器具 (Pf)"
+ },
+ "Scheduling Inspection and Service for a Water System Device (Pf)": {
+  "en": "Scheduling Inspection and Service for a Water System Device (Pf)",
+  "zh": "供水系统装置的定期检查与维护安排 (Pf)"
+ },
+ "Separation  Segregation Cross Contamination": {
+  "en": "Separation, Segregation, Cross Contamination",
+  "zh": "分隔、隔离与交叉污染"
+ },
+ "Separation-Storage (P)": {
+  "en": "Separation - Storage (P)",
+  "zh": "分隔——存放(有毒有害物品) (P)"
+ },
+ "Separation-Storage and Display  Stock and Retail Sale (P)": {
+  "en": "Separation - Storage and Display, Stock and Retail Sale (P)",
+  "zh": "分隔——库存及零售商品的存放与陈列(有毒有害物品) (P)"
+ },
+ "Separation/Sanitizer Criteria": {
+  "en": "Separation/Sanitizer Criteria",
+  "zh": "分隔存放/消毒剂标准(有毒有害物品)"
+ },
+ "Service Sink (C)": {
+  "en": "Service Sink (C)",
+  "zh": "拖把池 (C)"
+ },
+ "Shell stock  Condition (C)": {
+  "en": "Shell stock, Condition (C)",
+  "zh": "带壳贝类——状况 (C)"
+ },
+ "Shell stock  Maintaining Identification (Pf)": {
+  "en": "Shell stock, Maintaining Identification (Pf)",
+  "zh": "带壳贝类——保留标识 (Pf)"
+ },
+ "Shell stock Identification (C)": {
+  "en": "Shell stock Identification (C)",
+  "zh": "带壳贝类标识 (C)"
+ },
+ "Shell stock Identification (Pf)": {
+  "en": "Shell stock Identification (Pf)",
+  "zh": "带壳贝类标识 (Pf)"
+ },
+ "Shells  Use Limitations (C)": {
+  "en": "Shells, Use Limitations (C)",
+  "zh": "贝壳——使用限制 (C)"
+ },
+ "Shellstock ID": {
+  "en": "Shellstock ID",
+  "zh": "带壳贝类标识"
+ },
+ "Shucked Shellfish  Packaging and Identification (C)": {
+  "en": "Shucked Shellfish, Packaging and Identification (C)",
+  "zh": "去壳贝类——包装与标识 (C)"
+ },
+ "Shucked Shellfish  Packaging and Identification (Pf)": {
+  "en": "Shucked Shellfish, Packaging and Identification (Pf)",
+  "zh": "去壳贝类——包装与标识 (Pf)"
+ },
+ "Single-Service and Single-Use Articles  Required Use (P)": {
+  "en": "Single-Service and Single-Use Articles, Required Use (P)",
+  "zh": "一次性餐具及一次性用品——必须使用的情形 (P)"
+ },
+ "Single-Service and Single-Use Articles-Use Limitations (C)": {
+  "en": "Single-Service and Single-Use Articles - Use Limitations (C)",
+  "zh": "一次性餐具及一次性用品——使用限制 (C)"
+ },
+ "Soiled and Clean Tableware (C)": {
+  "en": "Soiled and Clean Tableware (C)",
+  "zh": "脏餐具与洁净餐具 (C)"
+ },
+ "Soiled Linen Storage": {
+  "en": "Soiled Linen Storage",
+  "zh": "脏布草的存放"
+ },
+ "Specifications-Laundering Frequency (C)": {
+  "en": "Specifications - Laundering Frequency (C)",
+  "zh": "要求——布草洗涤频率 (C)"
+ },
+ "Spoilage Unsafe Food": {
+  "en": "Spoilage, Unsafe Food",
+  "zh": "变质及不安全食品"
+ },
+ "Sponges Use Limitation (C)": {
+  "en": "Sponges, Use Limitation (C)",
+  "zh": "海绵——使用限制 (C)"
+ },
+ "Standards of Identity (C)": {
+  "en": "Standards of Identity (C)",
+  "zh": "食品特性标准(标准定义) (C)"
+ },
+ "Standards-Quality (P)": {
+  "en": "Standards - Quality (P)",
+  "zh": "标准——质量(水质) (P)"
+ },
+ "Storage Areas  Redeeming Machines  Receptacles and Waste Handling Units  Location (C)": {
+  "en": "Storage Areas, Redeeming Machines, Receptacles and Waste Handling Units, Location (C)",
+  "zh": "存放区、回收兑换机、垃圾容器及废弃物处理装置——位置 (C)"
+ },
+ "Storage Areas  Rooms and Receptacles  Capacity and Availability (C)": {
+  "en": "Storage Areas, Rooms and Receptacles, Capacity and Availability (C)",
+  "zh": "存放区、存放间及垃圾容器——容量与可用性 (C)"
+ },
+ "Storage of Soiled Linens (C)": {
+  "en": "Storage of Soiled Linens (C)",
+  "zh": "脏布草的存放 (C)"
+ },
+ "Storage Refuse  Recyclables and Returnable (C)": {
+  "en": "Storage Refuse, Recyclables and Returnable (C)",
+  "zh": "垃圾、可回收物及可退还物品的存放 (C)"
+ },
+ "Storage-First Aid Supplies (P)": {
+  "en": "Storage - First Aid Supplies (P)",
+  "zh": "存放——急救用品 (P)"
+ },
+ "Storage-First Aid Supplies (Pf)": {
+  "en": "Storage - First Aid Supplies (Pf)",
+  "zh": "存放——急救用品 (Pf)"
+ },
+ "Storage-Other Personal Care Items (C)": {
+  "en": "Storage - Other Personal Care Items (C)",
+  "zh": "存放——其他个人护理用品 (C)"
+ },
+ "Storing Maintenance Tools (C)": {
+  "en": "Storing Maintenance Tools (C)",
+  "zh": "清洁维护工具的存放 (C)"
+ },
+ "Surface Characteristics-Outdoor Areas (C)": {
+  "en": "Surface Characteristics - Outdoor Areas (C)",
+  "zh": "表面特性——室外区域 (C)"
+ },
+ "System Flushing and Disinfection (P)": {
+  "en": "System Flushing and Disinfection (P)",
+  "zh": "系统冲洗与消毒 (P)"
+ },
+ "System Flushing and Sanitization-Operation and Maintenance (P)": {
+  "en": "System Flushing and Sanitization - Operation and Maintenance (P)",
+  "zh": "系统冲洗与消毒——运行与维护 (P)"
+ },
+ "System Maintained in Good Repair (C)": {
+  "en": "System Maintained in Good Repair (C)",
+  "zh": "系统保持完好 (C)"
+ },
+ "System-Distribution  Delivery  and Retention (Pf)": {
+  "en": "System - Distribution, Delivery, and Retention (Pf)",
+  "zh": "系统——配水、输水与储水 (Pf)"
+ },
+ "Tags & Records": {
+  "en": "Tags & Records",
+  "zh": "标签与记录"
+ },
+ "Temperature (P)": {
+  "en": "Temperature (P)",
+  "zh": "温度 (P)"
+ },
+ "Temperature Measuring Devices  Ambient Air and Water-Accuracy (Pf)": {
+  "en": "Temperature Measuring Devices, Ambient Air and Water - Accuracy (Pf)",
+  "zh": "测温装置——环境空气与水温的测量准确度 (Pf)"
+ },
+ "Temperature Measuring Devices  Food-Accuracy (Pf)": {
+  "en": "Temperature Measuring Devices, Food - Accuracy (Pf)",
+  "zh": "测温装置——食品温度的测量准确度 (Pf)"
+ },
+ "Temperature Measuring Devices-Functionality (Pf)": {
+  "en": "Temperature Measuring Devices - Functionality (Pf)",
+  "zh": "测温装置——功能正常 (Pf)"
+ },
+ "Thawing (C)": {
+  "en": "Thawing (C)",
+  "zh": "解冻 (C)"
+ },
+ "Three Compartment Sink": {
+  "en": "Three Compartment Sink",
+  "zh": "三格水槽"
+ },
+ "Time as a Public Health Control ( C)": {
+  "en": "Time as a Public Health Control (C)",
+  "zh": "以时间作为公共卫生控制手段 (C)"
+ },
+ "Time as a Public Health Control ( Pf)": {
+  "en": "Time as a Public Health Control (Pf)",
+  "zh": "以时间作为公共卫生控制手段 (Pf)"
+ },
+ "Time as a Public Health Control (P)": {
+  "en": "Time as a Public Health Control (P)",
+  "zh": "以时间作为公共卫生控制手段 (P)"
+ },
+ "Time/Temperature Control for Safety Food  Slacking (C)": {
+  "en": "Time/Temperature Control for Safety Food, Slacking (C)",
+  "zh": "温控食品(TCS)——缓化(冷冻食品逐步回温) (C)"
+ },
+ "Times as a Public Health Control": {
+  "en": "Times as a Public Health Control",
+  "zh": "以时间作为公共卫生控制手段"
+ },
+ "Toilet Room Receptacle  Covered (C)": {
+  "en": "Toilet Room Receptacle, Covered (C)",
+  "zh": "卫生间垃圾容器——加盖 (C)"
+ },
+ "Toilet Rooms  Enclosed (C)": {
+  "en": "Toilet Rooms, Enclosed (C)",
+  "zh": "卫生间——封闭设置 (C)"
+ },
+ "Toilet Tissue  Availability (Pf)": {
+  "en": "Toilet Tissue, Availability (Pf)",
+  "zh": "卫生纸——供应 (Pf)"
+ },
+ "Toilets and Urinals (C)": {
+  "en": "Toilets and Urinals (C)",
+  "zh": "坐便器与小便池 (C)"
+ },
+ "Toxic Items: Original Container": {
+  "en": "Toxic Items: Original Container",
+  "zh": "有毒物品:原包装容器"
+ },
+ "Tracking Powders  Pest Control and Monitoring (C)": {
+  "en": "Tracking Powders, Pest Control and Monitoring (C)",
+  "zh": "示踪粉——虫害防治与监测 (C)"
+ },
+ "Tracking Powders  Pest Control and Monitoring (P)": {
+  "en": "Tracking Powders, Pest Control and Monitoring (P)",
+  "zh": "示踪粉——虫害防治与监测 (P)"
+ },
+ "Treating Juice (P)": {
+  "en": "Treating Juice (P)",
+  "zh": "果汁处理 (P)"
+ },
+ "Treating Juice (Pf)": {
+  "en": "Treating Juice (Pf)",
+  "zh": "果汁处理 (Pf)"
+ },
+ "Unsafe Water": {
+  "en": "Unsafe Water",
+  "zh": "不安全用水"
+ },
+ "Using a Handwashing Sink-Operation and Maintenance (Pf)": {
+  "en": "Using a Handwashing Sink - Operation and Maintenance (Pf)",
+  "zh": "洗手池的使用——运行与维护 (Pf)"
+ },
+ "Using a Pump and Hoses  Backflow Prevention (C)": {
+  "en": "Using a Pump and Hoses, Backflow Prevention (C)",
+  "zh": "使用水泵和软管——防回流 (C)"
+ },
+ "Using Clean Tableware for Second Portions and Refills (C)": {
+  "en": "Using Clean Tableware for Second Portions and Refills (C)",
+  "zh": "续餐及续杯使用洁净餐具 (C)"
+ },
+ "Using Drain Plugs (C)": {
+  "en": "Using Drain Plugs (C)",
+  "zh": "排水塞的使用 (C)"
+ },
+ "Using Dressing Rooms and Lockers (C)": {
+  "en": "Using Dressing Rooms and Lockers (C)",
+  "zh": "更衣室与储物柜的使用 (C)"
+ },
+ "uspension of Permit / Emergency Closure without a Prior Hearing (P)": {
+  "en": "Suspension of Permit / Emergency Closure without a Prior Hearing (P)",
+  "zh": "暂停许可证/未经事先听证的紧急停业 (P)"
+ },
+ "uspension of Permit with Notice (P)": {
+  "en": "Suspension of Permit with Notice (P)",
+  "zh": "经通知暂停许可证 (P)"
+ },
+ "Utensils  Consumer Self-Service (Pf)": {
+  "en": "Utensils, Consumer Self-Service (Pf)",
+  "zh": "器具——顾客自助取用 (Pf)"
+ },
+ "Variance Requirement (Pf)": {
+  "en": "Variance Requirement (Pf)",
+  "zh": "豁免许可要求 (Pf)"
+ },
+ "Variances (C)": {
+  "en": "Variances (C)",
+  "zh": "豁免许可 (C)"
+ },
+ "Vended Time/Temperature Control for Safety Food  Original Container (C)": {
+  "en": "Vended Time/Temperature Control for Safety Food, Original Container (C)",
+  "zh": "自动售卖的温控食品(TCS)——原包装容器 (C)"
+ },
+ "Vending Machine Doors and Openings (C)": {
+  "en": "Vending Machine Doors and Openings (C)",
+  "zh": "自动售货机的门与开口 (C)"
+ },
+ "Vending Machine Vending Stage Closure (C)": {
+  "en": "Vending Machine Vending Stage Closure (C)",
+  "zh": "自动售货机出货口的闭合 (C)"
+ },
+ "Vending Machines  Automatic Shutoff (P)": {
+  "en": "Vending Machines, Automatic Shutoff (P)",
+  "zh": "自动售货机——自动关断装置 (P)"
+ },
+ "Ventilation Hood Systems  Adequacy (C)": {
+  "en": "Ventilation Hood Systems, Adequacy (C)",
+  "zh": "排风罩系统——排风能力充足 (C)"
+ },
+ "Ventilation Hood Systems  Drip Prevention (C)": {
+  "en": "Ventilation Hood Systems, Drip Prevention (C)",
+  "zh": "排风罩系统——防滴漏 (C)"
+ },
+ "Ventilation Hood Systems  Filters (C)": {
+  "en": "Ventilation Hood Systems, Filters (C)",
+  "zh": "排风罩系统——过滤器 (C)"
+ },
+ "Wall and Ceiling Coverings and Coatings (C)": {
+  "en": "Wall and Ceiling Coverings and Coatings (C)",
+  "zh": "墙面与天花板的覆盖层及涂层 (C)"
+ },
+ "Walls and Ceilings  Attachments (C)": {
+  "en": "Walls and Ceilings, Attachments (C)",
+  "zh": "墙面与天花板——附着物 (C)"
+ },
+ "Walls and Ceilings  Studs  Joists  and Rafters (C)": {
+  "en": "Walls and Ceilings, Studs, Joists, and Rafters (C)",
+  "zh": "墙面与天花板——立柱、托梁及椽子 (C)"
+ },
+ "Warewashing Equipment  Clean Solutions (C)": {
+  "en": "Warewashing Equipment, Clean Solutions (C)",
+  "zh": "器皿清洗设备——清洗液保持清洁 (C)"
+ },
+ "Warewashing Equipment  Cleaning Agents (Pf)": {
+  "en": "Warewashing Equipment, Cleaning Agents (Pf)",
+  "zh": "器皿清洗设备——清洁剂 (Pf)"
+ },
+ "Warewashing Equipment  Cleaning Frequency (C)": {
+  "en": "Warewashing Equipment, Cleaning Frequency (C)",
+  "zh": "器皿清洗设备——清洁频率 (C)"
+ },
+ "Warewashing Equipment  Determining Chemical Sanitizer Concentration (Pf)": {
+  "en": "Warewashing Equipment, Determining Chemical Sanitizer Concentration (Pf)",
+  "zh": "器皿清洗设备——化学消毒剂浓度的测定 (Pf)"
+ },
+ "Warewashing Machine  Data Plate Operation Specifications (C)": {
+  "en": "Warewashing Machine, Data Plate Operation Specifications (C)",
+  "zh": "器皿清洗机——铭牌标示的运行参数 (C)"
+ },
+ "Warewashing Machines  Automatic Dispensing of Detergents and Sanitizers (Pf)": {
+  "en": "Warewashing Machines, Automatic Dispensing of Detergents and Sanitizers (Pf)",
+  "zh": "器皿清洗机——洗涤剂与消毒剂的自动投放 (Pf)"
+ },
+ "Warewashing Machines  Flow Pressure Device (C)": {
+  "en": "Warewashing Machines, Flow Pressure Device (C)",
+  "zh": "器皿清洗机——水流压力装置 (C)"
+ },
+ "Warewashing Machines  Internal Baffles (C)": {
+  "en": "Warewashing Machines, Internal Baffles (C)",
+  "zh": "器皿清洗机——内部挡板 (C)"
+ },
+ "Warewashing Machines  Manufacturers’ Operating Instructions (C)": {
+  "en": "Warewashing Machines, Manufacturers’ Operating Instructions (C)",
+  "zh": "器皿清洗机——制造商操作说明 (C)"
+ },
+ "Warewashing Sinks  Use Limitation (C)": {
+  "en": "Warewashing Sinks, Use Limitation (C)",
+  "zh": "器皿清洗水槽——使用限制 (C)"
+ },
+ "Warewashing Sinks and Drain boards  Self-Draining (C)": {
+  "en": "Warewashing Sinks and Drain boards, Self-Draining (C)",
+  "zh": "器皿清洗水槽及沥水板——可自行排净 (C)"
+ },
+ "Wash Rinse Water Clean Proper Temperature.": {
+  "en": "Wash, Rinse Water Clean, Proper Temperature.",
+  "zh": "洗涤、冲洗用水清洁,温度适当。"
+ },
+ "Washing  Procedures for Alternative Manual Warewashing Equipment (C)": {
+  "en": "Washing, Procedures for Alternative Manual Warewashing Equipment (C)",
+  "zh": "清洗——替代性手工器皿清洗设备的操作程序 (C)"
+ },
+ "Washing fruits and veg's.": {
+  "en": "Washing fruits and veg's.",
+  "zh": "清洗水果和蔬菜。"
+ },
+ "Washing Fruits and Vegetables (C)": {
+  "en": "Washing Fruits and Vegetables (C)",
+  "zh": "清洗水果和蔬菜 (C)"
+ },
+ "Washing Fruits and Vegetables (Pf)": {
+  "en": "Washing Fruits and Vegetables (Pf)",
+  "zh": "清洗水果和蔬菜 (Pf)"
+ },
+ "Water Reservoir of Fogging Devices  Cleaning (P)": {
+  "en": "Water Reservoir of Fogging Devices, Cleaning (P)",
+  "zh": "喷雾装置储水箱——清洁 (P)"
+ },
+ "Wet Cleaning (C)": {
+  "en": "Wet Cleaning (C)",
+  "zh": "湿式清洁 (C)"
+ },
+ "When a HACCP Plan is Required (C)": {
+  "en": "When a HACCP Plan is Required (C)",
+  "zh": "须制定HACCP计划的情形 (C)"
+ },
+ "When to Wash (P)": {
+  "en": "When to Wash (P)",
+  "zh": "应洗手的时机 (P)"
+ },
+ "Wild Mushrooms (P)": {
+  "en": "Wild Mushrooms (P)",
+  "zh": "野生蘑菇 (P)"
+ },
+ "Wiping Cloths  Air Drying Location (C)": {
+  "en": "Wiping Cloths, Air Drying Location (C)",
+  "zh": "抹布——晾干位置 (C)"
+ },
+ "Wood  Use Limitation (C)": {
+  "en": "Wood, Use Limitation (C)",
+  "zh": "木材——使用限制 (C)"
  }
 }
