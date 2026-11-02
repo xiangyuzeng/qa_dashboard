@@ -67,7 +67,26 @@ QA-review, then commit + redeploy. Nothing runs on Vercel except serving static 
    Set `data/v2/meta.json` `reportingPeriod` for the period label (the collector sets it to the
    current month automatically).
 
-`npm run prep:build` runs collect → enrich → meta → validate → export in sequence.
+`npm run prep:build` runs collect → enrich → domains → translate → merge → meta → validate → export in sequence.
+
+### Record ids and how a refresh updates the store
+- **Ids are ours.** `prep:merge` is the only step that issues them, from `data/v2/id_registry.json`
+  ((module, externalKey) → id). A known key keeps its id forever; a new key gets a new random id.
+  Collectors never compute an id — they record the source's own identifier in
+  `provenance.externalKey` (e.g. `oath:0184526F0`, `nyc-dohmh:50178654|2026-02-17`), used only to match
+  the record across refreshes and to exchange data with the source.
+- **collect / enrich / domains / translate write today's pull to `.prep/stage/`** (not committed);
+  `prep:merge` folds it into `data/v2/`. Run the steps in order from `prep:collect` — enrich and
+  translate read the stage that collect wrote.
+- **Nothing is auto-deleted.** If a source fails, its stored records stay as they were. If it pulls
+  fine but no longer returns a record, the record is kept and shows "来源已 N 天未返回"; after 3
+  consecutive successful pulls without it, "来源已撤下". Records merely pushed out of a newest-N sample
+  are kept as history (`sourceState: "history"`, no badge). Exception: an owned store's
+  "awaiting first inspection" record is removed once DOHMH stops listing it (it got inspected).
+- **Manual review decisions** (`npm run prep:gate -- --apply`) are stored by id in
+  `data/v2/review_overrides.json` and re-applied after every refresh.
+- `prep:validate` fails if a record has no externalKey, a key repeats within a module, or the store
+  and the registry disagree.
 
 ## Automated monthly refresh (GitHub Action)
 > 中文分步操作指南（含 Secrets 配置）：[docs/AUTO_REFRESH.zh.md](AUTO_REFRESH.zh.md)
@@ -75,7 +94,7 @@ QA-review, then commit + redeploy. Nothing runs on Vercel except serving static 
 `.github/workflows/monthly-refresh.yml` runs the whole pipeline unattended on the **1st of each
 month** (and on demand via *Actions → Monthly data refresh → Run workflow*):
 
-`prep:collect → prep:enrich → prep:domains → prep:meta → prep:validate → prep:export`, then
+`prep:collect → prep:enrich → prep:domains → prep:translate → prep:merge → prep:meta → prep:validate → prep:export`, then
 `typecheck` + `build` to prove the refreshed data renders.
 
 - **Review gate preserved:** by default it opens a **Pull Request** (`data-refresh` branch) with the

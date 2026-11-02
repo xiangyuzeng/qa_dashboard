@@ -177,6 +177,36 @@ export function Badge({
 }
 
 /**
+ * Inline badge for a stored record its source no longer returns (records are kept, never
+ * auto-deleted — see prep/merge.ts). Nothing for current / history records.
+ *   missing   → amber "来源已 N 天未返回"
+ *   withdrawn → slate "来源已撤下" (3+ consecutive successful pulls without it)
+ */
+export function SourceStateBadge({
+  provenance,
+}: {
+  provenance?: { sourceState?: string | null; notReturnedDays?: number | null; lastSeenAt?: string | null } | null;
+}) {
+  const t = useT();
+  const state = provenance?.sourceState;
+  if (state !== "missing" && state !== "withdrawn") return null;
+  const last = provenance?.lastSeenAt ? provenance.lastSeenAt.slice(0, 10) : "—";
+  if (state === "withdrawn") {
+    return (
+      <span className="ml-1.5 align-middle" title={t.common.withdrawnNote.replace("{date}", last)}>
+        <Badge color="#475569" bg="#e2e8f0">{t.common.withdrawn}</Badge>
+      </span>
+    );
+  }
+  const n = provenance?.notReturnedDays ?? 0;
+  return (
+    <span className="ml-1.5 align-middle" title={t.common.notReturnedNote.replace("{date}", last)}>
+      <Badge color="#9a3412" bg="#ffedd5">{n > 0 ? t.common.notReturned.replace("{n}", String(n)) : t.common.notReturnedLatest}</Badge>
+    </span>
+  );
+}
+
+/**
  * Small inline badge for English-only live sources (Federal Register / RSS / FDA / CDC), shown only
  * in 中文 mode next to a title. Two states, mutually exclusive:
  *   - `mtAt` set + a Chinese title present → indigo "机器翻译" (machine-translated by prep:translate)

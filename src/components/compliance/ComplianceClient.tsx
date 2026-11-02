@@ -5,7 +5,7 @@ import { useSearchParams } from "next/navigation";
 import type { ColumnDef } from "@tanstack/react-table";
 import { useLocale, useT } from "@/src/lib/i18n/locale";
 import { DataTable, type FacetCfg } from "@/src/components/table/DataTable";
-import { RiskBadge, Badge, SectionCard, KpiCard, StaticBaselineNotice, ExpandableText } from "@/src/components/ui";
+import { RiskBadge, Badge, SectionCard, KpiCard, StaticBaselineNotice, ExpandableText, SourceStateBadge } from "@/src/components/ui";
 import { StackedBar } from "@/src/components/charts";
 import { ComplianceCountdownGantt } from "@/src/components/viz/ComplianceCountdownGantt";
 import { riskLabel, RISK_COLORS } from "@/src/lib/colors";
@@ -37,6 +37,7 @@ export type ComplianceCommon = {
   enforcementRecord?: string | null;
   inspectionCitationRecord?: string | null;
   complaintEnforcementRecord?: string | null;
+  provenance?: { sourceState?: string | null; notReturnedDays?: number | null; lastSeenAt?: string | null } | null;
 };
 
 type ModuleKey = "labor" | "building" | "environment" | "consumer";
@@ -148,6 +149,7 @@ export function ComplianceClient({
               ) : (
                 <span className="font-medium text-slate-800">{name}</span>
               )}
+              <SourceStateBadge provenance={r.provenance} />
               {summary && <ExpandableText text={summary} className="mt-0.5" />}
             </div>
           );

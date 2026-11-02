@@ -26,10 +26,14 @@ import {
   stampAppliesToUs,
 } from "./domains";
 import { evaluate } from "../src/lib/applicability";
+import { DATA_DIR, STAGE_DIR } from "./lib/stage";
 
-const OUT = join(process.cwd(), "data", "v2");
+// Domain records (and the run's meta) are today's pull → the stage; engine inputs and the cached
+// verdicts are persistent → data/v2. prep:merge assigns ids and folds the stage into data/v2.
+const OUT = DATA_DIR;
 const NOW = new Date().toISOString();
 const load = (f: string) => JSON.parse(readFileSync(join(OUT, f), "utf8"));
+const loadStage = (f: string) => JSON.parse(readFileSync(join(STAGE_DIR, f), "utf8"));
 const isServable = (r: { reviewed: boolean; reviewStatus: string }) => r.reviewed && r.reviewStatus !== "rejected";
 
 // prep:collect writes curated seeds + live-adapter enforcement rows into these files. This step
@@ -40,7 +44,7 @@ const LIVE_SID = new Set([
 ]);
 const preserveLive = <T>(file: string): T[] => {
   try {
-    return (load(file) as { provenance?: { sourceId?: string } }[]).filter((r) => LIVE_SID.has(r?.provenance?.sourceId ?? "")) as T[];
+    return (loadStage(file) as { provenance?: { sourceId?: string } }[]).filter((r) => LIVE_SID.has(r?.provenance?.sourceId ?? "")) as T[];
   } catch {
     return [];
   }
@@ -90,10 +94,10 @@ BuildingFileSchema.parse(building);
 EnvironmentFileSchema.parse(environment);
 ConsumerFileSchema.parse(consumer);
 
-writeFileSync(join(OUT, "labor.json"), JSON.stringify(labor, null, 2) + "\n");
-writeFileSync(join(OUT, "building.json"), JSON.stringify(building, null, 2) + "\n");
-writeFileSync(join(OUT, "environment.json"), JSON.stringify(environment, null, 2) + "\n");
-writeFileSync(join(OUT, "consumer.json"), JSON.stringify(consumer, null, 2) + "\n");
+writeFileSync(join(STAGE_DIR, "labor.json"), JSON.stringify(labor, null, 2) + "\n");
+writeFileSync(join(STAGE_DIR, "building.json"), JSON.stringify(building, null, 2) + "\n");
+writeFileSync(join(STAGE_DIR, "environment.json"), JSON.stringify(environment, null, 2) + "\n");
+writeFileSync(join(STAGE_DIR, "consumer.json"), JSON.stringify(consumer, null, 2) + "\n");
 
 const svLabor = labor.filter(isServable).length;
 const svBuilding = building.filter(isServable).length;
@@ -101,7 +105,7 @@ const svEnv = environment.filter(isServable).length;
 const svConsumer = consumer.filter(isServable).length;
 
 // Patch meta.json (preserve all existing structure; idempotent — set, never increment).
-const meta = load("meta.json");
+const meta = loadStage("meta.json");
 meta.counts.labor = svLabor;
 meta.counts.building = svBuilding;
 meta.counts.environment = svEnv;
@@ -141,8 +145,8 @@ const newProv: SourceProvenance[] = [
 const newIds = new Set(newProv.map((p) => p.sourceId));
 meta.provenance = [...(meta.provenance as SourceProvenance[]).filter((p) => !newIds.has(p.sourceId)), ...newProv];
 
-writeFileSync(join(OUT, "meta.json"), JSON.stringify(meta, null, 2) + "\n");
+writeFileSync(join(STAGE_DIR, "meta.json"), JSON.stringify(meta, null, 2) + "\n");
 
 console.log(
-  `wrote ${labor.length} labor + ${building.length} building + ${environment.length} environment + ${consumer.length} consumer to data/v2/; patched meta.counts + ${newProv.length} provenance entries (snapshot preserved).`,
+  `wrote ${labor.length} labor + ${building.length} building + ${environment.length} environment + ${consumer.length} consumer to ${STAGE_DIR}; patched meta.counts + ${newProv.length} provenance entries (snapshot preserved).`,
 );

@@ -21,6 +21,8 @@ pip3 install openpyxl python-docx
 npm run prep:collect    # 重新拉取实时数据源（FDA、Federal Register、NYC、Boston、RSS…）
 npm run prep:enrich     # 重新补充 OATH 多机构执法数据 + 自有门店 CAMIS 关联
 npm run prep:domains    # 从 seeds 重建 4 个合规领域
+npm run prep:translate  # （可选）DeepL 补中文，无 key 时跳过
+npm run prep:merge      # 唯一发 ID 的步骤：按 id_registry.json 分配我们自己的 ID，并在上次发布的数据上更新
 npm run prep:meta       # 重新计算 meta.json 计数
 npm run prep:validate   # 硬性校验门控 —— 数据异常即失败
 npm run prep:export     # 重新生成 Excel + Word 报告
@@ -28,7 +30,9 @@ npm run prep:export     # 重新生成 Excel + Word 报告
 
 若 `prep:validate` 末尾显示 **"All /data/v2 files valid."**，说明流水线健康。
 随后执行 `git checkout data public/exports` 丢弃本地改动（真正的刷新交给 Action 完成）。
-若只想一键自检，`npm run prep:build` 会按 collect → enrich → meta → validate → export 顺序执行。
+若只想一键自检，`npm run prep:build` 会按 collect → enrich → domains → translate → merge → meta → validate → export 顺序执行。
+
+前四步把当天拉取的结果写到 `.prep/stage/`（不提交），由 `prep:merge` 合并进 `data/v2/`：已知外部编号沿用原 ID，新的发新 ID；来源失败时原记录不动；来源正常但不再返回的记录保留并标注「来源已 N 天未返回」，连续 3 次标为「来源已撤下」。
 
 ---
 

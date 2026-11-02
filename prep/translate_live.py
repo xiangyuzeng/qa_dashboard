@@ -26,6 +26,8 @@ import json, os, sys, hashlib, urllib.request, urllib.parse
 from datetime import datetime, timezone
 
 DATA = os.path.abspath(os.environ.get("PREP_OUTPUT_DIR", os.path.join(os.path.dirname(__file__), "..", "data", "v2")))
+# today's records are translated in the stage (before prep:merge); the cache is persistent (data/v2)
+STAGE = os.path.abspath(os.environ.get("PREP_STAGE_DIR", os.path.join(os.path.dirname(__file__), "..", ".prep", "stage")))
 CACHE_PATH = os.path.join(DATA, "mt_cache.json")
 DEEPL_KEY = os.environ.get("DEEPL_KEY", "").strip()
 MOCK = os.environ.get("DEEPL_MOCK", "") == "1"
@@ -87,7 +89,7 @@ def main():
     plan = []    # (file, record, en_field, zh_field, source_text, key)
     files = {}
     for tgt in TARGETS:
-        path = os.path.join(DATA, tgt["file"])
+        path = os.path.join(STAGE, tgt["file"])
         if not os.path.exists(path):
             continue
         rows = json.load(open(path, encoding="utf-8"))

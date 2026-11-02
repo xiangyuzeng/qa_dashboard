@@ -8,11 +8,13 @@
  *   npm run prep:gate            # dry-run: list what WOULD be gated, change nothing
  *   npm run prep:gate -- --apply # set reviewStatus:"pending" on those records
  *
+ * Decisions are stored by OUR record id in data/v2/review_overrides.json, which prep:merge re-applies
+ * after every refresh — so a hold survives the next pull. --apply also updates inspections.json now.
  * After --apply, re-run `npm run prep:meta` (counts) + `npm run prep:export`.
- * To release an approved record, set its reviewStatus back to "approved" (e.g. from the
- * /review queue's exported decisions JSON) and rebuild.
+ * To release an approved record, set its override's reviewStatus to "approved" (or delete the entry)
+ * and rebuild.
  */
-import { readFileSync, writeFileSync } from "node:fs";
+import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 
 const OUT = join(process.cwd(), "data/v2");
@@ -27,6 +29,10 @@ function gateReason(r: any): string | null {
 }
 
 const file = join(OUT, "inspections.json");
+const overridesFile = join(OUT, "review_overrides.json");
+const overrides: Record<string, { reviewed: boolean; reviewStatus: string; reviewNote: string; at: string }> = existsSync(overridesFile)
+  ? JSON.parse(readFileSync(overridesFile, "utf8"))
+  : {};
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const rows: any[] = JSON.parse(readFileSync(file, "utf8"));
 
@@ -41,11 +47,13 @@ for (const r of rows) {
     r.reviewStatus = "pending";
     r.reviewed = false;
     r.reviewNote = `held for manual review: ${reason}`;
+    overrides[r.id] = { reviewed: false, reviewStatus: "pending", reviewNote: r.reviewNote, at: new Date().toISOString() };
   }
 }
 
 if (apply && gated > 0) {
   writeFileSync(file, JSON.stringify(rows, null, 2) + "\n");
+  writeFileSync(overridesFile, JSON.stringify(overrides, null, 2) + "\n");
   console.log(`\nGated ${gated} record(s) to reviewStatus:"pending". Now run: npm run prep:meta && npm run prep:export`);
 } else if (apply) {
   console.log("\nNothing to gate (all already pending or no matches).");

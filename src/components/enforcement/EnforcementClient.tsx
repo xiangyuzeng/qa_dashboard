@@ -6,7 +6,7 @@ import { useSearchParams } from "next/navigation";
 import type { ColumnDef } from "@tanstack/react-table";
 import { useLocale, useT } from "@/src/lib/i18n/locale";
 import { DataTable, type FacetCfg } from "@/src/components/table/DataTable";
-import { RiskBadge, Badge, KpiCard, SectionCard, ExpandableText } from "@/src/components/ui";
+import { RiskBadge, Badge, KpiCard, SectionCard, ExpandableText, SourceStateBadge } from "@/src/components/ui";
 import { riskLabel } from "@/src/lib/colors";
 import { fmtDate, pickLang } from "@/src/lib/i18n/util";
 import type { EnforcementRecord } from "@/src/lib/data";
@@ -54,6 +54,7 @@ export function EnforcementClient({ data }: { data: EnforcementRecord[] }) {
               <Link href={`/enforcement/${r.id}`} className="font-medium text-brandnavy hover:underline">
                 {title}
               </Link>
+              <SourceStateBadge provenance={r.provenance} />
               {summary && <ExpandableText text={summary} className="mt-0.5" />}
             </div>
           );

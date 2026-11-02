@@ -5,7 +5,7 @@
  * the curated 6-module snapshot untouched). Seeds → records, mirroring `collectRegulationSeeds`.
  */
 import { assessLabor, assessBuilding, assessEnvironment, assessConsumer } from "./lib/risk";
-import { hashId } from "./lib/ids";
+import { UNASSIGNED_ID, extKey } from "./lib/stage";
 import { laborSeeds, buildingSeeds, environmentSeeds, consumerSeeds } from "./seeds";
 import { evaluate, isApplicable } from "../src/lib/applicability";
 import type {
@@ -21,7 +21,8 @@ import type {
 const NOW = new Date().toISOString();
 const TODAY = NOW.slice(0, 10);
 
-const prov = (sourceId: string, url: string | null): Provenance => ({
+// externalKey: the curated seed's own identity (rule name + jurisdiction) — our id comes from prep:merge
+const prov = (sourceId: string, url: string | null, externalKey: string): Provenance => ({
   sourceId,
   agency: null,
   sourceUrl: url && /^https?:\/\//.test(url) ? url : null,
@@ -33,6 +34,12 @@ const prov = (sourceId: string, url: string | null): Provenance => ({
   dataAvailabilityLabel: null,
   njMunicipality: null,
   njRoutedTo: null,
+  externalKey,
+  firstSeenAt: null,
+  lastSeenAt: null,
+  missingRuns: 0,
+  notReturnedDays: null,
+  sourceState: "current",
 });
 
 export function buildLaborRecords(): LaborRecord[] {
@@ -40,7 +47,7 @@ export function buildLaborRecords(): LaborRecord[] {
     const a = assessLabor({ status: s.status, effectiveDate: s.effectiveDate, today: TODAY });
     const riskLevel = s.riskLevel as LaborRecord["riskLevel"];
     return {
-      id: hashId("labor", s.regulationBillName, s.jurisdiction),
+      id: UNASSIGNED_ID,
       module: "labor" as const,
       no: null,
       jurisdiction: s.jurisdiction as LaborRecord["jurisdiction"],
@@ -68,7 +75,7 @@ export function buildLaborRecords(): LaborRecord[] {
       reviewed: true,
       reviewStatus: "approved" as const,
       reviewNote: "curated authoritative rule",
-      provenance: prov("dcwp_dol_labor", s.sourceUrl),
+      provenance: prov("dcwp_dol_labor", s.sourceUrl, extKey("seed-labor", s.regulationBillName, s.jurisdiction)),
     };
   });
 }
@@ -78,7 +85,7 @@ export function buildBuildingRecords(): BuildingRecord[] {
     const a = assessBuilding({ status: s.status, effectiveDate: s.effectiveDate, today: TODAY });
     const riskLevel = s.riskLevel as BuildingRecord["riskLevel"];
     return {
-      id: hashId("bldg", s.codeStandardName, s.jurisdiction),
+      id: UNASSIGNED_ID,
       module: "building" as const,
       no: null,
       jurisdiction: s.jurisdiction as BuildingRecord["jurisdiction"],
@@ -106,7 +113,7 @@ export function buildBuildingRecords(): BuildingRecord[] {
       reviewed: true,
       reviewStatus: "approved" as const,
       reviewNote: "curated authoritative standard",
-      provenance: prov("osha_dob_building", s.sourceUrl),
+      provenance: prov("osha_dob_building", s.sourceUrl, extKey("seed-building", s.codeStandardName, s.jurisdiction)),
     };
   });
 }
@@ -116,7 +123,7 @@ export function buildEnvironmentRecords(): EnvironmentRecord[] {
     const a = assessEnvironment({ status: s.status, effectiveDate: s.effectiveDate, today: TODAY });
     const riskLevel = s.riskLevel as EnvironmentRecord["riskLevel"];
     return {
-      id: hashId("env", s.regulationName, s.jurisdiction),
+      id: UNASSIGNED_ID,
       module: "environment" as const,
       no: null,
       jurisdiction: s.jurisdiction as EnvironmentRecord["jurisdiction"],
@@ -143,7 +150,7 @@ export function buildEnvironmentRecords(): EnvironmentRecord[] {
       reviewed: true,
       reviewStatus: "approved" as const,
       reviewNote: "curated authoritative rule",
-      provenance: prov("dep_dsny_env", s.sourceUrl),
+      provenance: prov("dep_dsny_env", s.sourceUrl, extKey("seed-environment", s.regulationName, s.jurisdiction)),
     };
   });
 }
@@ -153,7 +160,7 @@ export function buildConsumerRecords(): ConsumerRecord[] {
     const a = assessConsumer({ status: s.status, effectiveDate: s.effectiveDate, today: TODAY });
     const riskLevel = s.riskLevel as ConsumerRecord["riskLevel"];
     return {
-      id: hashId("cons", s.regulationName, s.jurisdiction),
+      id: UNASSIGNED_ID,
       module: "consumer" as const,
       no: null,
       jurisdiction: s.jurisdiction as ConsumerRecord["jurisdiction"],
@@ -180,7 +187,7 @@ export function buildConsumerRecords(): ConsumerRecord[] {
       reviewed: true,
       reviewStatus: "approved" as const,
       reviewNote: "curated authoritative rule",
-      provenance: prov("dcwp_ftc_consumer", s.sourceUrl),
+      provenance: prov("dcwp_ftc_consumer", s.sourceUrl, extKey("seed-consumer", s.regulationName, s.jurisdiction)),
     };
   });
 }

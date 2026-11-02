@@ -163,6 +163,8 @@ export type EnforcementRecord = {
   /** finder = this summons' own page on OATH Summons Finder; dataset = OATH case-status open data. */
   govKind: "finder" | "dataset";
   apiUrl: string | null; // raw NYC Open Data API query (data lineage)
+  /** where the stored summons stands relative to its source (see prep/merge.ts) */
+  provenance: { sourceState: string; notReturnedDays: number | null; lastSeenAt: string | null };
 };
 
 // OATH Summons Finder (a.k.a. ECB Ticket Finder): its case-details page takes the summons number as
@@ -207,7 +209,7 @@ type EnforcementSource = {
   riskLevel: string | null;
   sourceUrl: string | null;
   recommendedAction: string | null;
-  provenance?: { sourceId?: string | null; sourceUrl?: string | null } | null;
+  provenance?: { sourceId?: string | null; sourceUrl?: string | null; sourceState?: string; notReturnedDays?: number | null; lastSeenAt?: string | null } | null;
 };
 
 function toEnforcement(r: EnforcementSource, originModule: EnforcementRecord["originModule"]): EnforcementRecord {
@@ -233,6 +235,11 @@ function toEnforcement(r: EnforcementSource, originModule: EnforcementRecord["or
     ticketNumber,
     ...govLookup(agencyGroup, ticketNumber),
     apiUrl,
+    provenance: {
+      sourceState: r.provenance?.sourceState ?? "current",
+      notReturnedDays: r.provenance?.notReturnedDays ?? null,
+      lastSeenAt: r.provenance?.lastSeenAt ?? null,
+    },
   };
 }
 
@@ -267,6 +274,11 @@ function inspectionToEnforcement(r: InspectionRecord): EnforcementRecord {
     ticketNumber,
     ...govLookup(agencyGroup, ticketNumber),
     apiUrl,
+    provenance: {
+      sourceState: r.provenance?.sourceState ?? "current",
+      notReturnedDays: r.provenance?.notReturnedDays ?? null,
+      lastSeenAt: r.provenance?.lastSeenAt ?? null,
+    },
   };
 }
 

@@ -5,7 +5,7 @@ import { useSearchParams } from "next/navigation";
 import type { ColumnDef } from "@tanstack/react-table";
 import { useLocale, useT } from "@/src/lib/i18n/locale";
 import { DataTable, type FacetCfg } from "@/src/components/table/DataTable";
-import { RiskBadge, Badge, SectionCard, StaticBaselineNotice, ExpandableText } from "@/src/components/ui";
+import { RiskBadge, Badge, SectionCard, StaticBaselineNotice, ExpandableText, SourceStateBadge } from "@/src/components/ui";
 import { ComplianceCountdownGantt } from "@/src/components/viz/ComplianceCountdownGantt";
 import { riskLabel } from "@/src/lib/colors";
 import { regStatusLabel, regStatusStyle } from "@/src/lib/regStatus";
@@ -67,6 +67,7 @@ export function RegulationClient({
               ) : (
                 <span className="font-medium text-slate-800">{title}</span>
               )}
+              <SourceStateBadge provenance={r.provenance} />
               {summary && <ExpandableText text={summary} className="mt-0.5" />}
             </div>
           );

@@ -32,13 +32,19 @@
       "agency": null,
       "sourceUrl": "https://www.ftc.gov/legal-library/browse/rules/mail-internet-or-telephone-order-merchandise-rule",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-consumer:Mail, Internet, or Telephone Order Merchandise Rule (16 CFR Part 435)|Federal",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -74,13 +80,19 @@
       "agency": null,
       "sourceUrl": "https://www.ftc.gov/legal-library/browse/rules/cooling-period-sales-made-home-or-other-locations",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-consumer:FTC Cooling-Off Rule (16 CFR Part 429)|Federal",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -116,13 +128,19 @@
       "agency": null,
       "sourceUrl": "https://www.ftc.gov/legal-library/browse/ftc-policy-statement-regarding-advertising-substantiation",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-consumer:FTC Act Unfair or Deceptive Acts or Practices — Advertising Substantiation Doctrine|Federal",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -158,13 +176,19 @@
       "agency": null,
       "sourceUrl": "https://www.ftc.gov/legal-library/browse/federal-register-notices/16-cfr-part-255-guides-concerning-use-endorsements-testimonials-advertising",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-consumer:FTC Guides Concerning the Use of Endorsements and Testimonials in Advertising (16 CFR Part 255)|Federal",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -200,13 +224,19 @@
       "agency": null,
       "sourceUrl": "https://www.ftc.gov/legal-library/browse/federal-register-notices/16-cfr-part-465-trade-regulation-rule-use-consumer-reviews-testimonials-final-rule",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-consumer:FTC Rule on the Use of Consumer Reviews and Testimonials (16 CFR Part 465)|Federal",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -242,13 +272,19 @@
       "agency": null,
       "sourceUrl": "https://www.consumerfinance.gov/rules-policy/regulations/1005/20/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-consumer:Electronic Fund Transfer Act / Regulation E — Gift Card Rules (CARD Act; 12 CFR 1005.20)|Federal",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -284,13 +320,19 @@
       "agency": null,
       "sourceUrl": "https://www.ftc.gov/legal-library/browse/statutes/restore-online-shoppers-confidence-act",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-consumer:Restore Online Shoppers' Confidence Act (ROSCA, 15 U.S.C. 8401-8405) — Online Negative Option / Auto-Renewal|Federal",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -326,13 +368,19 @@
       "agency": null,
       "sourceUrl": "https://www.ftc.gov/legal-library/browse/rules/safeguards-rule",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-consumer:FTC Standards for Safeguarding Customer Information (Safeguards Rule, 16 CFR Part 314) — 2023 Breach-Notification Amendment|Federal",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -368,13 +416,19 @@
       "agency": null,
       "sourceUrl": "https://www.ada.gov/law-and-regs/regulations/title-iii-regulations/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-consumer:Americans with Disabilities Act, Title III — Public Accommodations & 2010 ADA Standards for Accessible Design (28 CFR Part 36)|Federal",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -410,13 +464,19 @@
       "agency": null,
       "sourceUrl": "https://www.nist.gov/pml/owm/nist-handbook-130-current-edition",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-consumer:NIST Handbook 130 — Uniform Regulation for the Method of Sale of Commodities (Model Weights & Measures Law)|Federal",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -452,13 +512,19 @@
       "agency": null,
       "sourceUrl": "https://www.ftc.gov/legal-library/browse/rules/rulemaking-unfair-or-deceptive-fees",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-consumer:FTC Rule on Unfair or Deceptive Fees (\"Junk Fees Rule,\" 16 CFR Part 464)|Federal",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -494,13 +560,19 @@
       "agency": null,
       "sourceUrl": "https://www.ftc.gov/legal-library/browse/federal-register-notices/commercial-surveillance-data-security-rulemaking",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-consumer:FTC Commercial Surveillance and Data Security Rulemaking (ANPR, 2022 — pending/inactive)|Federal",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -536,13 +608,19 @@
       "agency": null,
       "sourceUrl": "https://codelibrary.amlegal.com/codes/newyorkcity/latest/NYCrules/0-0-0-19154",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-consumer:Restaurant Surcharges Rule (6 RCNY § 5-59)|New York City",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -578,13 +656,19 @@
       "agency": null,
       "sourceUrl": "https://codelibrary.amlegal.com/codes/newyorkcity/latest/NYCadmin/0-0-0-114885",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-consumer:Prohibition of Cashless Establishments (Local Law 34 of 2020; NYC Admin. Code § 20-840)|New York City",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -620,13 +704,19 @@
       "agency": null,
       "sourceUrl": "https://dec.ny.gov/environmental-protection/recycling-composting/bag-waste-reduction-law",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-consumer:Bag Waste Reduction Act (ECL Art. 27, Title 28) and NYC 5-Cent Paper Carryout Bag Fee|New York State",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -662,13 +752,19 @@
       "agency": null,
       "sourceUrl": "https://codelibrary.amlegal.com/codes/newyorkcity/latest/NYCrules/0-0-0-46371",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-consumer:Posting of Calorie Information (NYC Health Code § 81.50)|New York City",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -704,13 +800,19 @@
       "agency": null,
       "sourceUrl": "https://www.nysenate.gov/legislation/laws/GBS/349",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-consumer:Deceptive Acts and Practices & False Advertising (General Business Law §§ 349 & 350)|New York State",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -746,13 +848,19 @@
       "agency": null,
       "sourceUrl": "https://www.nysenate.gov/legislation/bills/2025/S8416",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-consumer:FAIR Business Practices Act (Ch. 708 of 2025; S8416 — amends GBL § 349)|New York State",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -788,13 +896,19 @@
       "agency": null,
       "sourceUrl": "https://codelibrary.amlegal.com/codes/newyorkcity/latest/NYCadmin/0-0-0-35314",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-consumer:Consumer Protection Law — Unfair/Deceptive Trade Practices (NYC Admin. Code § 20-700)|New York City",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -830,13 +944,19 @@
       "agency": null,
       "sourceUrl": "https://www.nysenate.gov/legislation/bills/2025/S3044",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-consumer:New York Privacy Act (S3044, 2025-2026 Session) — PROPOSED|New York State",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -872,13 +992,19 @@
       "agency": null,
       "sourceUrl": "https://www.nyc.gov/site/dca/news/003-26/statement-dcwp-mayor-mamdani-s-executive-orders-combatting-hidden-junk-fees-fighting",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-consumer:Executive Orders on Junk Fees & 'Subscription Tricks and Traps' (2026) directing DCWP enforcement|New York City",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -914,13 +1040,19 @@
       "agency": null,
       "sourceUrl": "https://codelibrary.amlegal.com/codes/newyorkcity/latest/NYCrules/0-0-0-46409",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-consumer:Restaurant Letter Grading — Public Posting (NYC Health Code § 81.51; 24 RCNY Ch. 23)|New York City",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -956,13 +1088,19 @@
       "agency": null,
       "sourceUrl": "https://law.justia.com/codes/new-jersey/title-56/section-56-8-2/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-consumer:New Jersey Consumer Fraud Act (NJCFA), N.J.S.A. 56:8-1 et seq. (§56:8-2)|New Jersey",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -998,13 +1136,19 @@
       "agency": null,
       "sourceUrl": "https://law.justia.com/codes/new-jersey/title-56/section-56-8-2-14/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-consumer:Refund Policy Disclosure Act, N.J.S.A. 56:8-2.14 to 56:8-2.16|New Jersey",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1040,13 +1184,19 @@
       "agency": null,
       "sourceUrl": "https://www.law.cornell.edu/regulations/new-jersey/N-J-A-C-13-45A-9-2",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-consumer:General Advertising Rules, N.J.A.C. 13:45A-9.1 et seq. (esp. 9.2 and 9.6 fictitious pricing)|New Jersey",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1082,13 +1232,19 @@
       "agency": null,
       "sourceUrl": "https://law.justia.com/codes/new-jersey/title-56/section-56-8-110/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-consumer:Gift Card / Gift Certificate Law, N.J.S.A. 56:8-110|New Jersey",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1124,13 +1280,19 @@
       "agency": null,
       "sourceUrl": "https://www.njoag.gov/acting-attorney-general-davenport-warns-new-jersey-sellers-against-price-gouging-as-governor-sherrill-declares-state-of-emergency-ahead-of-major-winter-storm/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-consumer:Price Gouging During Declared Emergency, N.J.S.A. 56:8-107 to 56:8-109|New Jersey",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1166,13 +1328,19 @@
       "agency": null,
       "sourceUrl": "https://law.justia.com/codes/new-jersey/title-56/section-56-8-163/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-consumer:Data Breach Notification (Consumer Fraud Act amendment), N.J.S.A. 56:8-161 to 56:8-166; P.L. 2019, c.95|New Jersey",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1208,13 +1376,19 @@
       "agency": null,
       "sourceUrl": "https://law.justia.com/codes/new-jersey/title-56/section-56-12-95-5/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-consumer:Automatic Renewal / Service-Contract Cancellation Law, N.J.S.A. 56:12-95.1 et seq.; P.L. 2022, c.91|New Jersey",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1250,13 +1424,19 @@
       "agency": null,
       "sourceUrl": "https://www.njconsumeraffairs.gov/News/Consumer%20Briefs/credit-card-surcharges-faq.pdf",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-consumer:Credit Card Surcharge Disclosure & Cost Cap, N.J.S.A. 56:8-156.1 and 56:8-156.2; P.L. 2023, c.146|New Jersey",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1292,13 +1472,19 @@
       "agency": null,
       "sourceUrl": "https://www.cyber.nj.gov/guidance-and-best-practices/identity-theft-privacy/data-privacy/nj-data-privacy-prevention-act",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-consumer:New Jersey Data Privacy Act (NJDPA), N.J.S.A. 56:8-166.4 et seq.; S332 / P.L. 2023, c.266|New Jersey",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1334,13 +1520,19 @@
       "agency": null,
       "sourceUrl": "https://legiscan.com/NJ/text/S3877/id/3028463",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-consumer:Consumer Subscription Cancellation Standards Act (S3877 / A5395), 2024–2025 Session|New Jersey",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1376,13 +1568,19 @@
       "agency": null,
       "sourceUrl": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?sectionNum=1723.&lawCode=CIV",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-consumer:California Civil Code Section 1723 — Retail Seller Refund Policy Posting|California",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1418,13 +1616,19 @@
       "agency": null,
       "sourceUrl": "https://oag.ca.gov/hiddenfees",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-consumer:California SB 478 — Honest Pricing Law / Hidden Fees Ban (Civ. Code § 1770(a)(29))|California",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1460,13 +1664,19 @@
       "agency": null,
       "sourceUrl": "https://leginfo.legislature.ca.gov/faces/billTextClient.xhtml?bill_id=202320240SB1524",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-consumer:California SB 1524 — Restaurant/Food Mandatory-Fee Disclosure Exemption|California",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1502,13 +1712,19 @@
       "agency": null,
       "sourceUrl": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?sectionNum=17200.&lawCode=BPC",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-consumer:California Unfair Competition Law & False Advertising Law (Bus. & Prof. Code §§ 17200, 17500)|California",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1544,13 +1760,19 @@
       "agency": null,
       "sourceUrl": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=BPC&sectionNum=12024.2.",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-consumer:California Business & Professions Code § 12024.2 — Weights & Measures Price Accuracy (Scanner/Overcharge)|California",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1586,13 +1808,19 @@
       "agency": null,
       "sourceUrl": "https://oag.ca.gov/consumers/general/credit-card-surcharges",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-consumer:California Song-Beverly Credit Card Act — Surcharge Prohibition (Civ. Code § 1748.1)|California",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1628,13 +1856,19 @@
       "agency": null,
       "sourceUrl": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?sectionNum=1749.5.&lawCode=CIV",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-consumer:California Gift Card / Gift Certificate Law (Civ. Code § 1749.5)|California",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1670,13 +1904,19 @@
       "agency": null,
       "sourceUrl": "https://leginfo.legislature.ca.gov/faces/billTextClient.xhtml?bill_id=202520260SB22",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-consumer:California SB 22 — Gift Card Cash-Out Threshold Increased to $15 (amends Civ. Code § 1749.5)|California",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1712,13 +1952,19 @@
       "agency": null,
       "sourceUrl": "https://leginfo.legislature.ca.gov/faces/billTextClient.xhtml?bill_id=202320240AB2863",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-consumer:California Automatic Renewal Law as amended by AB 2863 (Bus. & Prof. Code §§ 17600–17606)|California",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1754,13 +2000,19 @@
       "agency": null,
       "sourceUrl": "https://oehha.ca.gov/proposition-65/law/proposition-65-law-and-regulations",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-consumer:California Proposition 65 — Safe Drinking Water and Toxic Enforcement Act (Health & Safety Code § 25249.6) with OEHHA Coffee Exemption (27 CCR § 25704)|California",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1796,13 +2048,19 @@
       "agency": null,
       "sourceUrl": "https://cppa.ca.gov/regulations/ccpa_updates.html",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-consumer:CCPA Cybersecurity Audit, Risk Assessment & Automated Decisionmaking Technology (ADMT) Regulations (Cal. Civ. Code § 1798.100 et seq.)|California",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1838,13 +2096,19 @@
       "agency": null,
       "sourceUrl": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXV/Chapter93a/Section2",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-consumer:Massachusetts Consumer Protection Act, M.G.L. c. 93A, § 2 (Unfair and Deceptive Acts and Practices)|Massachusetts",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1880,13 +2144,19 @@
       "agency": null,
       "sourceUrl": "https://www.law.cornell.edu/regulations/massachusetts/940-CMR-3-13",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-consumer:940 CMR 3.13 — Pricing and Refund, Return and Cancellation Privileges|Massachusetts",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1922,13 +2192,19 @@
       "agency": null,
       "sourceUrl": "https://www.gtlaw.com/en/insights/2025/8/massachusetts-tightens-chapter-93a-consumer-protections-with-junk-fee-and-negative-option-regulations",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-consumer:940 CMR 38.00 — Unfair and Deceptive Fees (\"Junk Fee\" & Negative Option Regulations)|Massachusetts",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1964,13 +2240,19 @@
       "agency": null,
       "sourceUrl": "https://www.law.cornell.edu/regulations/massachusetts/department-940-CMR/title-940-CMR-6.00",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-consumer:940 CMR 6.00 — Retail Advertising (General Requirements, incl. 940 CMR 6.04)|Massachusetts",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2006,13 +2288,19 @@
       "agency": null,
       "sourceUrl": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXV/Chapter94/Section184c",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-consumer:M.G.L. c. 94 §§ 184B–184E — Item Pricing Law, Price Accuracy & Scanner Accuracy|Massachusetts",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2048,13 +2336,19 @@
       "agency": null,
       "sourceUrl": "https://www.mass.gov/weights-and-measures-information-state-local-sealers",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-consumer:M.G.L. c. 98 — Weights and Measures (Sealing & Annual Inspection of Commercial Devices)|Massachusetts",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2090,13 +2384,19 @@
       "agency": null,
       "sourceUrl": "https://malegislature.gov/laws/generallaws/partii/titleii/chapter200a/section5d",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-consumer:M.G.L. c. 200A § 5D — Gift Certificate Validity, 7-Year Minimum & Cash Redemption|Massachusetts",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2132,13 +2432,19 @@
       "agency": null,
       "sourceUrl": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleXX/Chapter140d/Section28a",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-consumer:M.G.L. c. 140D § 28A — Prohibition on Credit Card Surcharges|Massachusetts",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2174,13 +2480,19 @@
       "agency": null,
       "sourceUrl": "https://www.mass.gov/regulations/940-CMR-700-debt-collection-regulations",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-consumer:940 CMR 7.00 — Debt Collection Regulations|Massachusetts",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2216,13 +2528,19 @@
       "agency": null,
       "sourceUrl": "https://www.mass.gov/info-details/report-a-data-breach",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-consumer:M.G.L. c. 93H & 201 CMR 17.00 — Data Breach Notification & Written Information Security Program|Massachusetts",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2258,13 +2576,19 @@
       "agency": null,
       "sourceUrl": "https://malegislature.gov/Bills/194/S2619",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-consumer:Massachusetts Data Privacy Act (H.5479 / S.2619) — Comprehensive Consumer Data Privacy (Pending)|Massachusetts",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2300,13 +2624,19 @@
       "agency": null,
       "sourceUrl": "https://www.flsenate.gov/laws/statutes/2015/501.142",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-consumer:Florida Statutes § 501.142 — Retail Sales Establishments; Notice of Refund Policy|Florida",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2342,13 +2672,19 @@
       "agency": null,
       "sourceUrl": "https://www.flsenate.gov/Laws/Statutes/2012/Chapter501/Part_II",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-consumer:Florida Deceptive and Unfair Trade Practices Act (FDUTPA), Fla. Stat. ch. 501 part II (§ 501.204)|Florida",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2384,13 +2720,19 @@
       "agency": null,
       "sourceUrl": "https://law.justia.com/codes/florida/title-xxxiii/chapter-501/part-i/section-501-0117/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-consumer:Florida Statutes § 501.0117 — Credit Card Surcharge Prohibition (held unconstitutional, Dana's R.R. Supply v. AG, 11th Cir. 2015)|Florida",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2426,13 +2768,19 @@
       "agency": null,
       "sourceUrl": "https://www.flsenate.gov/laws/statutes/2023/0501.171",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-consumer:Florida Information Protection Act (FIPA), Fla. Stat. § 501.171 (personal-information definition amendment, ch. 2023-201)|Florida",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2468,13 +2816,19 @@
       "agency": null,
       "sourceUrl": "https://codes.findlaw.com/fl/title-xxxiii-regulation-of-trade-commerce-investments-and-solicitations/fl-st-sect-501-95.html",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-consumer:Florida Statutes § 501.95 — Gift Certificates and Credit Memos (no expiration / no fees)|Florida",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2510,13 +2864,19 @@
       "agency": null,
       "sourceUrl": "https://www.flsenate.gov/Session/Bill/2021/1120",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-consumer:Florida Telephone Solicitation Act (FTSA) amendment, Fla. Stat. § 501.059 (SB 1120, 2021)|Florida",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2552,13 +2912,19 @@
       "agency": null,
       "sourceUrl": "https://code.dccouncil.gov/us/dc/council/code/sections/28-3904",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-consumer:DC Consumer Protection Procedures Act (CPPA), D.C. Code § 28-3904|Washington DC",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2594,13 +2960,19 @@
       "agency": null,
       "sourceUrl": "https://oag.dc.gov/release/attorney-general-brian-schwalb-issues-supplemental",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-consumer:DC OAG Business Advisory on Restaurant Service-Fee Disclosure (CPPA enforcement guidance, Aug. 9, 2023 + supplemental)|Washington DC",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2636,13 +3008,19 @@
       "agency": null,
       "sourceUrl": "https://dlcp.dc.gov/service/get-business-license",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-consumer:DC Basic Business License & Food Establishment License (D.C. Official Code Title 47, ch. 28; DCMR Title 25)|Washington DC",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2678,13 +3056,19 @@
       "agency": null,
       "sourceUrl": "https://code.dccouncil.gov/us/dc/council/code/sections/37-201.33",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-consumer:DC Weights & Measures Device Registration & Inspection (D.C. Code Title 37, ch. 2; § 37-201.33)|Washington DC",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2720,13 +3104,19 @@
       "agency": null,
       "sourceUrl": "https://oag.dc.gov/release/oag-testimony-bill-25-280-workers-and-restaurants",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-consumer:Workers and Restaurants Are Priorities Act of 2023 (DC Bill 25-280) — mandatory-fee disclosure provisions|Washington DC",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2762,13 +3152,19 @@
       "agency": null,
       "sourceUrl": "https://code.dccouncil.gov/us/dc/council/code/sections/41-152.07",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-consumer:DC Uniform Disposition of Unclaimed Property Act — Gift Cards Presumed Abandoned, D.C. Code § 41-152.07|Washington DC",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2804,13 +3200,19 @@
       "agency": null,
       "sourceUrl": "https://www.ecfr.gov/current/title-47/chapter-I/subchapter-B/part-64/subpart-L/section-64.1200",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-consumer:Telephone Consumer Protection Act (TCPA), 47 U.S.C. § 227 — and FCC 2025 Consent-Revocation Rule (47 CFR 64.1200)|Federal",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2846,13 +3248,19 @@
       "agency": null,
       "sourceUrl": "https://www.nysenate.gov/legislation/laws/GBS/396-R",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-consumer:New York General Business Law § 396-r — Price Gouging (and OAG Final Rules / new Proposed Rule, Jan. 28, 2026)|New York State",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2888,13 +3296,19 @@
       "agency": null,
       "sourceUrl": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=CIV&sectionNum=1747.08.",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-consumer:Song-Beverly Credit Card Act — Civil Code § 1747.08 (Personal Identification Information at Point of Sale)|California",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2930,13 +3344,19 @@
       "agency": null,
       "sourceUrl": "https://law.justia.com/codes/new-jersey/title-56/section-56-12-15/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-consumer:Truth-in-Consumer Contract, Warranty and Notice Act (TCCWNA), N.J.S.A. 56:12-14 to -18|New Jersey",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2972,13 +3392,19 @@
       "agency": null,
       "sourceUrl": "https://www.law.cornell.edu/regulations/new-jersey/title-13/chapter-45A/subchapter-14",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-consumer:Unit Price Disclosure Act & Rules, N.J.S.A. 56:8-25 / N.J.A.C. 13:45A-14|New Jersey",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -3014,13 +3440,19 @@
       "agency": null,
       "sourceUrl": "https://www.flsenate.gov/Laws/Statutes/2025/0849.094",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-consumer:Florida Game Promotion Act — Fla. Stat. § 849.094|Florida",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -3056,13 +3488,19 @@
       "agency": null,
       "sourceUrl": "https://www.mass.gov/regulations/201-CMR-12-massachusetts-do-not-call-registry",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-consumer:Massachusetts Do Not Call Law — M.G.L. c. 159C and 201 CMR 12.00|Massachusetts",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -3098,13 +3536,19 @@
       "agency": null,
       "sourceUrl": "https://law.justia.com/codes/new-jersey/title-56/section-56-8-110/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-consumer:New Jersey Gift Card / Gift Certificate Law — N.J.S.A. 56:8-110|New Jersey",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -3140,13 +3584,19 @@
       "agency": null,
       "sourceUrl": "https://code.dccouncil.gov/us/dc/council/laws/23-187",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-consumer:Cashless Retailers Prohibition Amendment Act of 2020 — D.C. Law 23-187 (D.C. Code § 28-3825)|Washington DC",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -3182,13 +3632,19 @@
       "agency": null,
       "sourceUrl": "https://www.ftc.gov/legal-library/browse/federal-register-notices/16-cfr-part-312-coppa-final-rule-amendments",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-consumer:Children's Online Privacy Protection Rule (COPPA Rule), 16 CFR Part 312 — 2025 Amendments|Federal",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -3224,13 +3680,19 @@
       "agency": null,
       "sourceUrl": "https://www.nyc.gov/site/dca/about/consumer-protection-and-licensing-laws.page",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-consumer:NYC Refund Policy Posting Rule (6 RCNY §5-37)|New York City",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -3266,13 +3728,19 @@
       "agency": null,
       "sourceUrl": "https://www.nyc.gov/site/dca/about/consumer-protection-and-licensing-laws.page",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-consumer:NYC Consumer Protection Law — Pricing & Signage (6 RCNY Ch. 5)|New York City",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -3308,13 +3776,19 @@
       "agency": null,
       "sourceUrl": "https://www.ftc.gov/legal-library/browse/statutes/federal-trade-commission-act",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-consumer:FTC Act §5 — Unfair or Deceptive Acts or Practices|Federal",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -3350,13 +3824,19 @@
       "agency": null,
       "sourceUrl": "https://dos.ny.gov/credit-card-surcharge-guidance",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-consumer:NY Credit Card Surcharge Disclosure (GBL §518)|New York State",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -3392,13 +3872,19 @@
       "agency": null,
       "sourceUrl": "https://www.ada.gov/resources/web-guidance/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-consumer:ADA Title III — Website/App Accessibility (Public Accommodation)|Federal",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -3434,13 +3920,19 @@
       "agency": null,
       "sourceUrl": "https://www.nysenate.gov/legislation/laws/GBS/527-A",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-consumer:NY Automatic Renewal Law (GBL §527-a)|New York State",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -3476,13 +3968,19 @@
       "agency": null,
       "sourceUrl": "https://www.nysenate.gov/legislation/laws/GBS/396-I",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-consumer:NY Gift Card Rules (GBL §396-i)|New York State",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -3518,13 +4016,19 @@
       "agency": null,
       "sourceUrl": "https://ag.ny.gov/internet/data-breach",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-consumer:NY SHIELD Act (Data Security & Breach Notification)|New York State",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -3560,13 +4064,19 @@
       "agency": null,
       "sourceUrl": "https://www.nyc.gov/site/dca/about/consumer-protection-and-licensing-laws.page",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-consumer:NYC Item Pricing & Price-Scanner Rules (Admin Code §20-708)|New York City",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -3602,13 +4112,19 @@
       "agency": null,
       "sourceUrl": "https://www.nyc.gov/site/dca/businesses/scale-inspections.page",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-consumer:NYC Weights & Measures Device Inspection|New York City",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -3644,13 +4160,19 @@
       "agency": null,
       "sourceUrl": "https://www.ftc.gov/legal-library/browse/rules/negative-option-rule",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-consumer:FTC Negative Option / \"Click-to-Cancel\" Rule|Federal",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -3686,13 +4208,19 @@
       "agency": null,
       "sourceUrl": "https://www.nyc.gov/site/dca/consumers/file-complaint.page",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-consumer:NYC DCWP Consumer Complaint Process|New York City",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   }
 ]

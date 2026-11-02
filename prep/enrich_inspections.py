@@ -18,10 +18,14 @@ fabricates). Run order: prep:collect → prep:enrich → prep:domains → prep:m
 Run: npm run prep:enrich
 """
 import json, os, re, html, time, urllib.request, urllib.parse
+from datetime import datetime, timezone
 
 DATA = os.environ.get("PREP_OUTPUT_DIR", os.path.join(os.path.dirname(__file__), "..", "data", "v2"))
 DATA = os.path.abspath(DATA)
-NOW = "2026-06-20T00:00:00.000Z"
+# today's inspections live in the stage until prep:merge assigns our ids; owned_stores.json stays in DATA
+STAGE = os.path.abspath(os.environ.get("PREP_STAGE_DIR", os.path.join(os.path.dirname(__file__), "..", ".prep", "stage")))
+UNASSIGNED_ID = "unassigned"  # mirrors prep/lib/stage.ts
+NOW = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%S.") + f"{datetime.now(timezone.utc).microsecond // 1000:03d}Z"
 UA = os.environ.get("HTTP_USER_AGENT", "LuckinNA-QA/1.0")
 DOH = "https://data.cityofnewyork.us/resource/43nn-pn8j.json"
 OATH = "https://data.cityofnewyork.us/resource/jz4z-kudi.json"
@@ -129,7 +133,7 @@ def oath_rows():
             if comp: summ += f" — {comp}"
             risk = ("高风险" if amt >= 5000 else "中风险") if bal > 0 else ("中风险" if amt >= 2500 else "信息参考")
             out.append({
-                "id": "insp-oath-" + re.sub(r"[^A-Za-z0-9]", "", tn)[:18],
+                "id": UNASSIGNED_ID,  # ours comes from prep:merge; the ticket number is the external key
                 "module": "inspection", "no": None,
                 "jurisdiction": "New York City", "regulatoryAgency": agency,
                 "brand": brand, "establishmentType": "快餐竞品 QSR Competitor",
@@ -149,7 +153,9 @@ def oath_rows():
                 "reviewNote": f"competitor {label} enforcement (NYC OATH hearings, strict brand-match, live pull)",
                 "provenance": {"sourceId": "nyc_oath", "agency": agency, "sourceUrl": f"{OATH}?ticket_number={tn}",
                                "docRef": None, "collectedAt": NOW, "aiSummaryAt": None, "dataAvailability": "available",
-                               "dataAvailabilityLabel": None, "njMunicipality": None, "njRoutedTo": None},
+                               "dataAvailabilityLabel": None, "njMunicipality": None, "njRoutedTo": None,
+                               "externalKey": f"oath:{tn}", "firstSeenAt": None, "lastSeenAt": None,
+                               "missingRuns": 0, "notReturnedDays": None, "sourceState": "current"},
             })
             kept += 1
         print(f"  [oath] {label:6}: {kept} genuine rows")
@@ -275,6 +281,10 @@ def bilingualize(insp):
         raw = r.get("englishViolationSummary")
         if not raw:
             continue
+        # only rows still without Chinese: keeps a collector's / manual intake's own zh, and makes this
+        # step safe to re-run (its own output is already rewritten and would no longer match the table)
+        if r.get("chineseViolationSummary"):
+            continue
         en_parts, zh_parts = [], []
         for ph in (p.strip() for p in raw.split(" | ")):
             if not ph:
@@ -307,10 +317,10 @@ def main():
         stores = json.load(open(os.path.join(DATA, "owned_stores.json")))
         camis2name = {s["dohEstablishmentId"]: s["storeName"] for s in stores if s.get("dohEstablishmentId")}
 
-    path = os.path.join(DATA, "inspections.json")
+    path = os.path.join(STAGE, "inspections.json")
     insp = json.load(open(path))
-    # idempotent: drop any prior enforcement rows before re-adding
-    insp = [r for r in insp if not (r["id"].startswith("insp-oath-") or r["id"].startswith("insp-ecb-"))]
+    # idempotent: drop this step's own rows (competitor OATH enforcement) before re-adding
+    insp = [r for r in insp if (r.get("provenance") or {}).get("sourceId") != "nyc_oath"]
     # normalize owned-store all-caps names via the CAMIS roster map
     norm = 0
     for r in insp:
@@ -319,8 +329,8 @@ def main():
             r["storeName"] = f"Luckin Coffee — {nm}" if nm else "Luckin Coffee"
             norm += 1
     new = oath_rows()
-    have = {r["id"] for r in insp}
-    add = [r for r in new if r["id"] not in have]
+    have = {(r.get("provenance") or {}).get("externalKey") for r in insp}
+    add = [r for r in new if r["provenance"]["externalKey"] not in have]
     insp.extend(add)
     bz, miss = bilingualize(insp)
     print(f"  [bilingual] rewrote {bz} violation summaries (en de-truncated + zh filled); {miss} phrase(s) fell back to raw")

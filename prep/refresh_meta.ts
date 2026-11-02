@@ -72,6 +72,18 @@ meta.counts = {
 };
 meta.dataAsOf = today;
 
+// High-risk list on the overview — links records by OUR id, so it is built here (after prep:merge).
+const hrefFor = (m: string, id: string) =>
+  m === "inspection" ? `/inspections/${id}` : m === "import" ? "/import" : m === "regulation" ? "/regulation" : m === "sentiment" ? "/sentiment" : "/intelligence";
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const titleOf = (r: any, lang: "zh" | "en") => (lang === "zh" ? (r.chineseTitle ?? r.storeName ?? null) : (r.englishTitle ?? r.storeName ?? null));
+if (meta.summary) {
+  meta.summary.highRiskItems = all
+    .filter((r) => r.riskLevel === "高风险" && (r.provenance?.sourceState ?? "current") === "current")
+    .slice(0, 12)
+    .map((r) => ({ recordId: r.id, module: r.module, titleZh: titleOf(r, "zh"), titleEn: titleOf(r, "en"), riskLevel: r.riskLevel, href: hrefFor(r.module, r.id) }));
+}
+
 // Keep keyHighlights[0]'s high-risk/watch tally in sync with the recomputed numbers.
 const kh = meta.summary?.keyHighlights;
 if (Array.isArray(kh) && kh[0]) {

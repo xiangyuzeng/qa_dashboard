@@ -145,6 +145,62 @@ if (idProblems) {
   console.log(`  ✓ id uniqueness (no dup/collision across ${idFiles.length} record files)`);
 }
 
+// Identity guard: every record carries the source's key, keys are unique per module, and the store
+// agrees with data/v2/id_registry.json — our ids are issued there once (prep:merge) and never derived.
+{
+  let identityProblems = 0;
+  const registry: Record<string, Record<string, string>> = (() => {
+    try {
+      return load("id_registry.json");
+    } catch {
+      return {};
+    }
+  })();
+  const registryIds = new Map<string, string>();
+  for (const [m, entries] of Object.entries(registry)) {
+    for (const [k, id] of Object.entries(entries)) {
+      const other = registryIds.get(id);
+      if (other) {
+        identityProblems++;
+        console.error(`  ✗ registry: id ${id} issued twice (${other} and ${m}:${k})`);
+      }
+      registryIds.set(id, `${m}:${k}`);
+    }
+  }
+  for (const f of idFiles.filter((x) => x !== "applicability_rules.json")) {
+    const stem = f.replace(/\.json$/, "");
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const rows: any[] = load(f);
+    const keys = new Set<string>();
+    for (const r of rows) {
+      const k = r?.provenance?.externalKey;
+      if (r?.id === "unassigned") {
+        identityProblems++;
+        console.error(`  ✗ ${f}: record without an issued id (${k ?? "no key"}) — run prep:merge`);
+      }
+      if (!k) {
+        identityProblems++;
+        console.error(`  ✗ ${f}: ${r?.id} has no provenance.externalKey`);
+        continue;
+      }
+      if (keys.has(k)) {
+        identityProblems++;
+        console.error(`  ✗ ${f}: externalKey ${k} appears twice`);
+      }
+      keys.add(k);
+      if (registry[stem]?.[k] !== r.id) {
+        identityProblems++;
+        console.error(`  ✗ ${f}: ${r.id} not registered for ${k} (registry has ${registry[stem]?.[k] ?? "nothing"})`);
+      }
+    }
+  }
+  if (identityProblems) {
+    failed++;
+  } else {
+    console.log("  ✓ identity: every record has an externalKey, unique per module, ids match id_registry.json");
+  }
+}
+
 // Export-column drift guard: the Python exporter (prep/export_xlsx.py) hardcodes the same
 // column orders. Print + assert the lengths so any schema reorder shows up next to the
 // Python asserts in one `prep:build` run (see docs/DATA_CONTRACT.md "7-sheet export").

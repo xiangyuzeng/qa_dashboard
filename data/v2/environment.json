@@ -32,13 +32,19 @@
       "agency": null,
       "sourceUrl": "https://www.law.cornell.edu/cfr/text/40/403.5",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-environment:General Pretreatment Regulations — Prohibited Discharge Standards (40 CFR 403.5)|Federal",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -74,13 +80,19 @@
       "agency": null,
       "sourceUrl": "https://www.congress.gov/bill/102nd-congress/house-bill/776",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-environment:Energy Policy Act of 1992 — Water Efficiency Standards for Plumbing Fixtures|Federal",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -116,13 +128,19 @@
       "agency": null,
       "sourceUrl": "https://www.epa.gov/mercury/how-energy-independence-and-security-act-2007-affects-light-bulbs",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-environment:Energy Independence and Security Act of 2007 — General Service Lamp Efficiency Standards|Federal",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -158,13 +176,19 @@
       "agency": null,
       "sourceUrl": "https://www.ecfr.gov/current/title-40/chapter-I/subchapter-I/part-273",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-environment:RCRA Universal Waste Rule — Hazardous Waste Lamps (40 CFR Part 273)|Federal",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -200,13 +224,19 @@
       "agency": null,
       "sourceUrl": "https://www.ecfr.gov/current/title-40/chapter-I/subchapter-D/part-112",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-environment:Oil Pollution Prevention — Spill Prevention, Control, and Countermeasure (SPCC) Rule (40 CFR Part 112)|Federal",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -242,13 +272,19 @@
       "agency": null,
       "sourceUrl": "https://www.epa.gov/npdes/stormwater-discharges-industrial-activities-epas-2021-msgp",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-environment:NPDES 2021 Multi-Sector General Permit for Industrial Stormwater (MSGP)|Federal",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -284,13 +320,19 @@
       "agency": null,
       "sourceUrl": "https://www.epa.gov/hfcs/technology-transitions-hfc-restrictions-sector",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-environment:AIM Act Technology Transitions Rule — HFC Restrictions in Refrigeration (40 CFR Part 84)|Federal",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -326,13 +368,19 @@
       "agency": null,
       "sourceUrl": "https://www.epa.gov/pesticide-registration/pesticide-registration-manual-chapter-13-devices",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-environment:FIFRA Pesticide Device Requirements — Establishment Registration & Labeling (40 CFR 167 / Part 152)|Federal",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -368,13 +416,19 @@
       "agency": null,
       "sourceUrl": "https://www.epa.gov/superfund/designation-perfluorooctanoic-acid-pfoa-and-perfluorooctanesulfonic-acid-pfos-cercla",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-environment:Designation of PFOA and PFOS as CERCLA Hazardous Substances|Federal",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -410,13 +464,19 @@
       "agency": null,
       "sourceUrl": "https://www.epa.gov/ground-water-and-drinking-water/lead-and-copper-rule-improvements",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-environment:Lead and Copper Rule Improvements (LCRI) — National Primary Drinking Water Regulation|Federal",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -452,13 +512,19 @@
       "agency": null,
       "sourceUrl": "https://www.epa.gov/newsreleases/biden-harris-administration-announces-national-strategy-prevent-plastic-pollution",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-environment:National Strategy to Prevent Plastic Pollution|Federal",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -494,13 +560,19 @@
       "agency": null,
       "sourceUrl": "https://www.tax.ny.gov/bus/st/paper-carryout-bag-fee.htm",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-environment:Paper Carryout Bag Reduction Fee (Bag Waste Reduction Act)|New York State",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -536,13 +608,19 @@
       "agency": null,
       "sourceUrl": "https://dec.ny.gov/sites/default/files/2025-05/part494factsheet.pdf",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-environment:6 NYCRR Part 494 - Hydrofluorocarbon Standards and Reporting|New York State",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -578,13 +656,19 @@
       "agency": null,
       "sourceUrl": "https://www.nyc.gov/site/dep/environment/building-construction-emissions.page",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-environment:Air Pollution Control Code - Commercial Cook Stove & Char Broiler Emission Controls (Local Law 38 of 2015)|New York City",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -620,13 +704,19 @@
       "agency": null,
       "sourceUrl": "https://www.nyc.gov/site/bic/industries/trade-waste-fees.page",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-environment:Trade Waste Removal License & Licensed Private Carter Requirement (Admin Code Title 16-B)|New York City",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -662,13 +752,19 @@
       "agency": null,
       "sourceUrl": "https://up.codes/viewer/new_york_city/nyc-plumbing-code-2022/chapter/10/traps-interceptors-and-separators",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-environment:NYC Plumbing Code Section 1003.3.1 - Grease Interceptor Design & Installation Requirement|New York City",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -704,13 +800,19 @@
       "agency": null,
       "sourceUrl": "https://www.nyc.gov/site/dsny/businesses/materials-handling/plastic-straws.page",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-environment:Single-Use Plastic Beverage Stirrer & Splash Stick Ban (Local Law 64 of 2021, Admin Code 16-401)|New York City",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -746,13 +848,19 @@
       "agency": null,
       "sourceUrl": "https://www.nysenate.gov/legislation/bills/2025/S1464",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-environment:Packaging Reduction and Recycling Infrastructure Act (S1464A / A1749A)|New York State",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -788,13 +896,19 @@
       "agency": null,
       "sourceUrl": "https://dec.ny.gov/environmental-protection/recycling-composting/organic-materials-management/food-donation-scraps-recycling-law",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-environment:Food Donation and Food Scraps Recycling Law (ECL Article 27, Title 22)|New York State",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -830,13 +944,19 @@
       "agency": null,
       "sourceUrl": "https://rules.cityofnewyork.us/rule/annual-greenhouse-gas-ghg-emissions-limits-for-buildings/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-environment:Local Law 97 of 2019 - Building Greenhouse Gas Emissions Limits (Climate Mobilization Act)|New York City",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -872,13 +992,19 @@
       "agency": null,
       "sourceUrl": "https://dep.nj.gov/nj-state-of-the-environment/timeline/1987-new-jersey-statewide-source-separation-and-recycling-act/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-environment:New Jersey Statewide Mandatory Source Separation and Recycling Act|New Jersey",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -914,13 +1040,19 @@
       "agency": null,
       "sourceUrl": "https://www.mountolivetwpnj.org/environmental-health/page/retail-food-establishments",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-environment:New Jersey Uniform Construction Code — Plumbing Subcode, Grease Interceptor Requirement|New Jersey",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -956,13 +1088,19 @@
       "agency": null,
       "sourceUrl": "https://dep.nj.gov/dshw/a901/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-environment:Solid Waste Utility Control Act / A-901 Licensing for Waste Transporters|New Jersey",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -998,13 +1136,19 @@
       "agency": null,
       "sourceUrl": "https://www.nj.gov/dep/dshw//recycling/faqs_recycle_tax.pdf",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-environment:Recycling Enhancement Act (P.L. 2007, c.311) — Recycling Tax|New Jersey",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1040,13 +1184,19 @@
       "agency": null,
       "sourceUrl": "https://www.njleg.state.nj.us/2020/Bills/PL20/24_.HTM",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-environment:New Jersey Food Waste Recycling and Food Waste-to-Energy Production Law (P.L. 2020, c.24)|New Jersey",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1082,13 +1232,19 @@
       "agency": null,
       "sourceUrl": "https://business.nj.gov/bags/plastic-ban-law",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-environment:New Jersey Plastic Pollution Reduction Act — Carryout Bag Ban & Plastic Straw-on-Request (P.L. 2020, c.117)|New Jersey",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1124,13 +1280,19 @@
       "agency": null,
       "sourceUrl": "https://dep.nj.gov/get-past-plastic/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-environment:New Jersey Polystyrene Foam Food Service Product Ban (P.L. 2020, c.117) & 2024 NJDEP Exemption Extension|New Jersey",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1166,13 +1328,19 @@
       "agency": null,
       "sourceUrl": "https://pub.njleg.gov/bills/2018/PL19/507_.HTM",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-environment:New Jersey Prohibition on Hydrofluorocarbons in Certain Products and Equipment (P.L. 2019, c.507 / A5583)|New Jersey",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1208,13 +1376,19 @@
       "agency": null,
       "sourceUrl": "https://dep.nj.gov/dwq/wastewater/surface-water-discharge/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-environment:New Jersey Pollutant Discharge Elimination System (NJPDES) — Industrial Wastewater & Sewer Connection Permitting (N.J.A.C. 7:14A)|New Jersey",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1250,13 +1424,19 @@
       "agency": null,
       "sourceUrl": "https://dep.nj.gov/stormwater/industrial-stormwater/general-permits/basic-industrial-stormwater-permit-5g2/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-environment:Basic Industrial Stormwater General Permit (NJPDES Permit No. 5G2)|New Jersey",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1292,13 +1472,19 @@
       "agency": null,
       "sourceUrl": "https://legiscan.com/NJ/text/S208/id/2875807",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-environment:New Jersey Packaging Product Stewardship Act (S208 / S3398, 2024–2025 Session) — Proposed Packaging EPR|New Jersey",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1334,13 +1520,19 @@
       "agency": null,
       "sourceUrl": "https://calrecycle.ca.gov/organics/slcp/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-environment:SB 1383 — Short-Lived Climate Pollutants: Organic Waste Reduction (Mandatory Commercial Organics Recycling)|California",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1376,13 +1568,19 @@
       "agency": null,
       "sourceUrl": "https://leginfo.legislature.ca.gov/faces/billNavClient.xhtml?bill_id=202120220AB1276",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-environment:AB 1276 — Single-Use Foodware Accessories and Standard Condiments|California",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1418,13 +1616,19 @@
       "agency": null,
       "sourceUrl": "https://calrecycle.ca.gov/Laws/Rulemaking/SB54Regulations/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-environment:SB 54 — Plastic Pollution Prevention and Packaging Producer Responsibility Act|California",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1460,13 +1664,19 @@
       "agency": null,
       "sourceUrl": "https://www.oag.ca.gov/news/press-releases/attorney-general-bonta-issues-reminder-eps-foam-food-service-ware-ban-california",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-environment:SB 54 Expanded Polystyrene (EPS) Foam Food Service Ware Prohibition|California",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1502,13 +1712,19 @@
       "agency": null,
       "sourceUrl": "https://leginfo.legislature.ca.gov/faces/billTextClient.xhtml?bill_id=202120220AB1200",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-environment:AB 1200 — Plant-Based Food Packaging: PFAS Prohibition|California",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1544,13 +1760,19 @@
       "agency": null,
       "sourceUrl": "https://ww2.arb.ca.gov/our-work/programs/sb-1206",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-environment:SB 1206 — Hydrofluorocarbons: Prohibition on High-GWP Bulk HFC Sales|California",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1586,13 +1808,19 @@
       "agency": null,
       "sourceUrl": "https://ww2.arb.ca.gov/our-work/programs/refrigerant-management-program",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-environment:Refrigerant Management Program (RMP), Title 17 CCR §§ 95380–95398|California",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1628,13 +1856,19 @@
       "agency": null,
       "sourceUrl": "https://www.waterboards.ca.gov/water_issues/programs/sso/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-environment:Fats, Oils, and Grease (FOG) Control Program & California Plumbing Code Grease Interceptor Requirements|California",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1670,13 +1904,19 @@
       "agency": null,
       "sourceUrl": "https://calrecycle.ca.gov/bevcontainer/bevdistman/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-environment:AB 793 — Recycling: Plastic Beverage Containers: Minimum Recycled Content|California",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1712,13 +1952,19 @@
       "agency": null,
       "sourceUrl": "https://leginfo.legislature.ca.gov/faces/billNavClient.xhtml?bill_id=202120220SB1046",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-environment:SB 1046 — Solid Waste: Precheckout and Carryout Bags (Compostable/Recycled Paper Produce Bags)|California",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1754,13 +2000,19 @@
       "agency": null,
       "sourceUrl": "https://calmatters.digitaldemocracy.org/bills/ca_202320240sb1167",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-environment:SB 1167 (2023–2024) — Solid Waste: Single-Use Drinking Vessels at Chain Restaurants|California",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1796,13 +2048,19 @@
       "agency": null,
       "sourceUrl": "https://www.law.cornell.edu/regulations/massachusetts/310-CMR-19-017",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-environment:Commercial Food Material Disposal Ban (310 CMR 19.017)|Massachusetts",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1838,13 +2096,19 @@
       "agency": null,
       "sourceUrl": "https://www.law.cornell.edu/regulations/massachusetts/310-CMR-19-017",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-environment:MassDEP Waste Disposal Bans — Recyclable Paper, Containers & Cardboard (310 CMR 19.017)|Massachusetts",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1880,13 +2144,19 @@
       "agency": null,
       "sourceUrl": "https://www.law.cornell.edu/regulations/massachusetts/248-CMR-10-09",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-environment:Massachusetts Uniform State Plumbing Code — Grease Interceptors (248 CMR 10.09)|Massachusetts",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1922,13 +2192,19 @@
       "agency": null,
       "sourceUrl": "https://www.mwra.com/sites/default/files/2023-11/360_CMR_10_090619.pdf",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-environment:MWRA Sewer Use Regulations — FOG / Grease Interceptor Requirements (360 CMR 10.000)|Massachusetts",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -1964,13 +2240,19 @@
       "agency": null,
       "sourceUrl": "https://www.bwsc.org/business-customers/programs-guidelines-assistance/commercial-kitchen-grease-trap-guidelines",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-environment:Boston Water and Sewer Commission — Commercial Kitchen Grease Trap Guidelines (100 mg/L FOG limit)|Massachusetts",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2006,13 +2288,19 @@
       "agency": null,
       "sourceUrl": "https://www.law.cornell.edu/regulations/massachusetts/department-310-CMR/title-310-CMR-15.000",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-environment:Septage Hauler Permit — Transport of Grease Trap Waste (M.G.L. c. 111 §31; 310 CMR 15.000)|Massachusetts",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2048,13 +2336,19 @@
       "agency": null,
       "sourceUrl": "https://www.law.cornell.edu/regulations/massachusetts/310-CMR-7-76",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-environment:Prohibitions on Use of Certain Hydrofluorocarbons (310 CMR 7.76)|Massachusetts",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2090,13 +2384,19 @@
       "agency": null,
       "sourceUrl": "https://malegislature.gov/Bills/194/S3050",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-environment:Mass Ready Act (S.3050) — Statewide Single-Use Plastic Bag Ban & Foodware-on-Request|Massachusetts",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2132,13 +2432,19 @@
       "agency": null,
       "sourceUrl": "https://www.bottlebill.org/index.php/current-and-proposed-laws/usa/massachusetts",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-environment:Better Bottle Bill Expansion — Modernization of the Beverage Container Deposit (Proposed Amendment to M.G.L. c. 94 §321 et seq.)|Massachusetts",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2174,13 +2480,19 @@
       "agency": null,
       "sourceUrl": "https://www.mass.gov/info-details/stormwater-permitting",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-environment:Massachusetts NPDES Stormwater Permitting & Stormwater Management Standards|Massachusetts",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2216,13 +2528,19 @@
       "agency": null,
       "sourceUrl": "https://www.law.cornell.edu/regulations/massachusetts/310-CMR-19-017",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-environment:Solid Waste Hauler Waste-Ban Compliance Obligations (310 CMR 19.017)|Massachusetts",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2258,13 +2576,19 @@
       "agency": null,
       "sourceUrl": "https://www.dcwater.com/work-us/customer-compliance-services/fats-ragswipes-oil-and-grease-frog/food-service-establishments-and-compliance",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-environment:DC Water Fats, Oils & Grease (FOG) Control Program for Food Service Establishments|Washington DC",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2300,13 +2624,19 @@
       "agency": null,
       "sourceUrl": "https://code.dccouncil.gov/us/dc/council/code/sections/8-1533",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-environment:Compostable or Recyclable Disposable Food Service Ware Required (Sustainable DC Omnibus Amendment Act of 2014; D.C. Code § 8-1533) — incl. Expanded Polystyrene Foam Ban (§ 8-1532)|Washington DC",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2342,13 +2672,19 @@
       "agency": null,
       "sourceUrl": "https://doee.dc.gov/service/utensils",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-environment:Disposable Food Service Accessories By Request Only (Zero Waste Omnibus Amendment Act of 2020; D.C. Law 23-211)|Washington DC",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2384,13 +2720,19 @@
       "agency": null,
       "sourceUrl": "https://code.dccouncil.gov/us/dc/council/code/sections/8-1031.03a",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-environment:Requirements for Commercial Food Waste — Source Separation (Zero Waste Omnibus Amendment Act of 2020; D.C. Code § 8-1031.03a)|Washington DC",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2426,13 +2768,19 @@
       "agency": null,
       "sourceUrl": "https://dpw.dc.gov/swcinfo",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-environment:Solid Waste Collector Registration and Reporting (D.C. Code §§ 8-1031.05 and 8-1031.06)|Washington DC",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2468,13 +2816,19 @@
       "agency": null,
       "sourceUrl": "https://lims.dccouncil.gov/Legislation/B26-0058",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-environment:Recycling Refund and Litter Reduction Amendment Act of 2025 (DC Bottle Bill, B26-0058)|Washington DC",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2510,13 +2864,19 @@
       "agency": null,
       "sourceUrl": "https://www.dcregs.dc.gov/Common/DCMR/SectionList.aspx?SectionNumber=21-520",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-environment:Stormwater Management Performance Requirements (Title 21 DCMR, Chapter 5; § 21-520)|Washington DC",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2552,13 +2912,19 @@
       "agency": null,
       "sourceUrl": "https://www.flrules.org/gateway/RuleNo.asp?ID=62-6.010",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-environment:Septage and Food Establishment Sludge — Grease Interceptor Pump-Out Permit (Fla. Admin. Code R. 62-6.010)|Florida",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2594,13 +2960,19 @@
       "agency": null,
       "sourceUrl": "https://www.flsenate.gov/laws/statutes/2023/500.90",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-environment:State Preemption of Polystyrene Regulation (Fla. Stat. § 500.90)|Florida",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2636,13 +3008,19 @@
       "agency": null,
       "sourceUrl": "https://www.flsenate.gov/laws/statutes/2024/403.7032",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-environment:Florida 75% Recycling Goal and Recycling Reporting (Fla. Stat. § 403.7032)|Florida",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2678,13 +3056,19 @@
       "agency": null,
       "sourceUrl": "https://codes.iccsafe.org/content/FLEC2023P1/chapter-4-ce-commercial-energy-efficiency",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-environment:Florida Building Code, Energy Conservation — Commercial Water-Efficiency / Plumbing Fixture Requirements|Florida",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2720,13 +3104,19 @@
       "agency": null,
       "sourceUrl": "https://www.epa.gov/cwa-404/clean-water-act-section-402-national-pollutant-discharge-elimination-system",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-environment:Clean Water Act Section 402 — National Pollutant Discharge Elimination System (NPDES) Permit Program|Federal",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2762,13 +3152,19 @@
       "agency": null,
       "sourceUrl": "https://calrecycle.ca.gov/recycle/commercial/",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-environment:AB 341 — Mandatory Commercial Recycling|California",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2804,13 +3200,19 @@
       "agency": null,
       "sourceUrl": "https://www.dgs.ca.gov/BSC/codes",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-environment:CalGreen (Title 24, Part 11) §5.303 — Nonresidential Indoor Water Use Reduction|California",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2846,13 +3248,19 @@
       "agency": null,
       "sourceUrl": "https://dec.ny.gov/environmental-protection/recycling-composting/go-foam-free",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-environment:Expanded Polystyrene Foam Container & Polystyrene Loose Fill Packaging Ban (ECL Article 27, Title 30)|New York State",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2888,13 +3296,19 @@
       "agency": null,
       "sourceUrl": "https://dec.ny.gov/regulatory/permits-licenses/air/air-pollution-control-permit-program",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-environment:Air Pollution Control Permits and Registrations (6 NYCRR Part 201)|New York State",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2930,13 +3344,19 @@
       "agency": null,
       "sourceUrl": "https://doee.dc.gov/foam",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-environment:Sustainable DC Omnibus Amendment Act of 2014 — Expanded Polystyrene (Foam) Food Service Ware Ban|Washington DC",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -2972,13 +3392,19 @@
       "agency": null,
       "sourceUrl": "https://doee.dc.gov/service/purpose-and-impact-bag-law",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-environment:Anacostia River Clean Up and Protection Act of 2009 — Disposable Bag Fee|Washington DC",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -3014,13 +3440,19 @@
       "agency": null,
       "sourceUrl": "https://www.mass.gov/info-details/massachusetts-building-energy-codes",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-environment:Massachusetts Stretch Energy Code & Specialized Opt-In Code (225 CMR 23.00)|Massachusetts",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -3056,13 +3488,19 @@
       "agency": null,
       "sourceUrl": "https://floridadep.gov/water/stormwater/content/construction-activity",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-environment:NPDES Stormwater Construction Generic Permit (Rule 62-621.300(4), F.A.C.)|Florida",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -3098,13 +3536,19 @@
       "agency": null,
       "sourceUrl": "https://www.nyc.gov/site/dep/water/disposing-of-grease-as-a-business.page",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-environment:NYC DEP Fats, Oils & Grease (FOG) Best Management Practices|New York City",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -3140,13 +3584,19 @@
       "agency": null,
       "sourceUrl": "https://www.nyc.gov/assets/dsny/site/services/food-scraps-and-yard-waste-page/overview-commercial-organics",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-environment:NYC Commercial Organics Separation (Local Law 146 of 2013)|New York City",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -3182,13 +3632,19 @@
       "agency": null,
       "sourceUrl": "https://www.nyc.gov/assets/dsny/site/our-work/reduce/commercial-waste-zones",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-environment:NYC Commercial Waste Zones + Trade Waste Hauler Licensing (BIC)|New York City",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -3224,13 +3680,19 @@
       "agency": null,
       "sourceUrl": "https://www.nyc.gov/site/dsny/businesses/materials-handling/businesses-recycling.page",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-environment:NYC Commercial Recycling Source Separation (Local Law 87/1992)|New York City",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -3266,13 +3728,19 @@
       "agency": null,
       "sourceUrl": "https://www.nyc.gov/assets/dsny/site/our-work/reduce-reuse-recycle/foam-ban",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-environment:NYC Single-Use EPS Foam Ban (Local Law 142/2013)|New York City",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -3308,13 +3776,19 @@
       "agency": null,
       "sourceUrl": "https://www.nyc.gov/assets/dsny/site/our-work/reduce-reuse-recycle/skip-the-stuff",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-environment:NYC \"Skip the Stuff\" — Foodware Accessories on Request (Local Law 6/2023)|New York City",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -3350,13 +3824,19 @@
       "agency": null,
       "sourceUrl": "https://www.nyc.gov/site/dsny/businesses/materials-handling/plastic-straws.page",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-environment:NYC Plastic Straw & Stirrer on Request (Local Law 64/2020)|New York City",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -3392,13 +3872,19 @@
       "agency": null,
       "sourceUrl": "https://dec.ny.gov/environmental-protection/recycling-composting/bag-waste-reduction-law",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-environment:NYS Bag Waste Reduction Act (Plastic Bag Ban)|New York State",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -3434,13 +3920,19 @@
       "agency": null,
       "sourceUrl": "https://www.epa.gov/section608",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-environment:EPA Refrigerant Management (CAA Section 608)|Federal",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -3476,13 +3968,19 @@
       "agency": null,
       "sourceUrl": "https://www.epa.gov/pesticide-registration/determining-if-cleaning-product-pesticide-under-fifra",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-environment:EPA Antimicrobial (Sanitizer/Disinfectant) Registration — FIFRA|Federal",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -3518,13 +4016,19 @@
       "agency": null,
       "sourceUrl": "https://www.nyc.gov/site/dep/environment/noise-code.page",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-environment:NYC Noise Code (Equipment / HVAC)|New York City",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -3560,13 +4064,19 @@
       "agency": null,
       "sourceUrl": "https://dec.ny.gov/environmental-protection/recycling-composting/bottle-bill",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:14:28.628Z",
-      "aiSummaryAt": "2026-11-02T19:14:28.628Z",
+      "collectedAt": "2026-11-02T19:48:19.020Z",
+      "aiSummaryAt": "2026-11-02T19:48:19.020Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": null,
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "seed-environment:NYS Returnable Container Act (Bottle Bill)|New York State",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -3602,13 +4112,19 @@
       "agency": "NYC DSNY / OATH",
       "sourceUrl": "https://data.cityofnewyork.us/resource/jz4z-kudi.json?ticket_number=049909567L",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": "respondent-matched enforcement",
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "oath:049909567L",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -3644,13 +4160,19 @@
       "agency": "NYC DSNY / OATH",
       "sourceUrl": "https://data.cityofnewyork.us/resource/jz4z-kudi.json?ticket_number=049853426H",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": "respondent-matched enforcement",
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "oath:049853426H",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -3686,13 +4208,19 @@
       "agency": "NYC DSNY / OATH",
       "sourceUrl": "https://data.cityofnewyork.us/resource/jz4z-kudi.json?ticket_number=049670686M",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": "respondent-matched enforcement",
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "oath:049670686M",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -3728,13 +4256,19 @@
       "agency": "NYC DSNY / OATH",
       "sourceUrl": "https://data.cityofnewyork.us/resource/jz4z-kudi.json?ticket_number=049454923K",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": "respondent-matched enforcement",
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "oath:049454923K",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -3770,13 +4304,19 @@
       "agency": "NYC DSNY / OATH",
       "sourceUrl": "https://data.cityofnewyork.us/resource/jz4z-kudi.json?ticket_number=049454910L",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": "respondent-matched enforcement",
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "oath:049454910L",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   },
   {
@@ -3812,13 +4352,19 @@
       "agency": "NYC DSNY / OATH",
       "sourceUrl": "https://data.cityofnewyork.us/resource/jz4z-kudi.json?ticket_number=049356703J",
       "docRef": null,
-      "collectedAt": "2026-11-02T19:09:52.934Z",
-      "aiSummaryAt": "2026-11-02T19:09:52.934Z",
+      "collectedAt": "2026-11-02T19:42:48.885Z",
+      "aiSummaryAt": "2026-11-02T19:42:48.885Z",
       "mtAt": null,
       "dataAvailability": "available",
       "dataAvailabilityLabel": "respondent-matched enforcement",
       "njMunicipality": null,
-      "njRoutedTo": null
+      "njRoutedTo": null,
+      "externalKey": "oath:049356703J",
+      "firstSeenAt": "2026-11-02T19:42:28.290Z",
+      "lastSeenAt": "2026-11-02T19:48:19.559Z",
+      "missingRuns": 0,
+      "notReturnedDays": null,
+      "sourceState": "current"
     }
   }
 ]
