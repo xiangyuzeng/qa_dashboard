@@ -69,6 +69,19 @@ export function assessInspection(i: InspAssessInput): Assessment {
         reasons.push("Fairfax Failed");
       }
       break;
+    case "Pasadena":
+      // own health dept, LA-style 100-point scoring; permit suspension → general.closed
+      if (i.score != null && i.score < 80) {
+        rules.push("pas.score");
+        reasons.push(`Pasadena Score ${i.score} < 80`);
+      }
+      break;
+    case "San Diego County":
+      if (i.grade === "C") {
+        rules.push("sd.grade");
+        reasons.push("San Diego Grade C");
+      }
+      break;
     case "Southern Nevada (Las Vegas)":
       if (i.grade === "C") {
         rules.push("snhd.grade");
@@ -115,7 +128,7 @@ export function assessInspection(i: InspAssessInput): Assessment {
     (i.result != null && ["Conditional Pass", "Re-inspection Required"].includes(i.result)) ||
     i.hasCritical ||
     (i.jurisdiction === "New York City" && i.score != null && i.score >= 14 && i.score < 28) ||
-    (i.jurisdiction === "Los Angeles County" && i.score != null && i.score >= 80 && i.score < 90);
+    ((i.jurisdiction === "Los Angeles County" || i.jurisdiction === "Pasadena") && i.score != null && i.score >= 80 && i.score < 90);
 
   const riskLevel = alertTriggered ? "高风险" : medium ? "中风险" : "低风险";
   return {

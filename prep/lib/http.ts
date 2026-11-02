@@ -121,7 +121,7 @@ export async function postJson<T = unknown>(
   for (let attempt = 0; attempt <= retries; attempt++) {
     try {
       return await paced(async () => {
-        const res = await fetch(url, {
+        const res = await fetchT(url, {
           method: "POST",
           headers: {
             "User-Agent": UA,
@@ -149,4 +149,32 @@ export function socrata<T = unknown>(base: string, params: Record<string, string
   const token = process.env.SOCRATA_APP_TOKEN;
   const headers = token ? { "X-App-Token": token } : undefined;
   return getJson<T[]>(`${base}?${qs.toString()}`, { headers });
+}
+
+/** POST an application/x-www-form-urlencoded body and parse a JSON reply (same UA / pacing / retry). */
+export async function postForm<T = unknown>(
+  url: string,
+  form: Record<string, string | number>,
+  opts: { headers?: Record<string, string>; retries?: number } = {},
+): Promise<T> {
+  const { headers = {}, retries = 3 } = opts;
+  const body = new URLSearchParams(Object.entries(form).map(([k, v]): [string, string] => [k, String(v)])).toString();
+  let lastErr: unknown;
+  for (let attempt = 0; attempt <= retries; attempt++) {
+    try {
+      return await paced(async () => {
+        const res = await fetchT(url, {
+          method: "POST",
+          headers: { "User-Agent": UA, Accept: "application/json", "Content-Type": "application/x-www-form-urlencoded", ...headers },
+          body,
+        });
+        if (!res.ok) throw new Error(`HTTP ${res.status} ${res.statusText} for ${url}`);
+        return (await res.json()) as T;
+      });
+    } catch (e) {
+      lastErr = e;
+      if (attempt < retries) await sleep(600 * (attempt + 1));
+    }
+  }
+  throw lastErr;
 }
