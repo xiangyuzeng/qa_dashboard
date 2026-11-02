@@ -366,14 +366,25 @@ async function collectNYC(): Promise<SourceResult> {
   const name = "NYC DOHMH Restaurant Inspection Results";
   try {
     const groups = new Map<string, Record<string, string>[]>();
+    const seenRow = new Set<string>();
+    const LIMIT = 40;
     for (const q of SCOPE_QUERIES) {
       const rows = await socrata<Record<string, string>>(base, {
         "$where": `upper(dba) like '%${q}%' AND inspection_date > '2024-01-01T00:00:00'`,
         "$order": "inspection_date DESC",
-        "$limit": 40,
+        "$limit": LIMIT,
       });
+      // Rows are per VIOLATION, so a full page usually ends part-way through its oldest inspection
+      // date (ties come back in any order) — that inspection would carry a different subset of its
+      // violations each day. Keep the page's oldest date only when the page is not full.
+      const cut = rows.length >= LIMIT ? rows[rows.length - 1]?.inspection_date : undefined;
       for (const r of rows) {
+        if (cut && r.inspection_date === cut) continue;
         if (!inScope(r.dba)) continue;
+        // the same row comes back from several queries ("STARBUCKS COFFEE" matches STARBUCKS and COFFEE)
+        const rowKey = [r.camis, r.inspection_date, r.inspection_type, r.violation_code, r.violation_description].join("|");
+        if (seenRow.has(rowKey)) continue;
+        seenRow.add(rowKey);
         const key = `${r.camis}|${(r.inspection_date ?? "").slice(0, 10)}`;
         (groups.get(key) ?? groups.set(key, []).get(key)!).push(r);
       }
@@ -417,6 +428,8 @@ async function collectNYC(): Promise<SourceResult> {
           sourceUrlOrDocRef: `https://data.cityofnewyork.us/resource/43nn-pn8j.json?camis=${r0.camis}`,
           recommendedAction: null,
           violationText: violText,
+          // one record per camis + date (the grouping key) — never derived from which violation rows came back
+          idKey: `nyc:${r0.camis}|${(r0.inspection_date ?? "").slice(0, 10)}`,
           sourceId: "nyc_dohmh",
           sourceUrl: `https://data.cityofnewyork.us/resource/43nn-pn8j.json?camis=${r0.camis}`,
         }),
@@ -429,51 +442,74 @@ async function collectNYC(): Promise<SourceResult> {
 }
 
 async function collectBoston(): Promise<SourceResult> {
+  // Analyze Boston food-establishment inspections: one row per violation item. Fields are resultdttm
+  // (inspection timestamp), result (HE_*), violation (code), viol_level (* Core / ** Priority Foundation /
+  // *** Priority), viol_status (Fail = cited, Pass = previously cited item now corrected). Queried through
+  // the CKAN SQL endpoint so it can be date-filtered and ordered — the full-text `q` search returned rows
+  // from any year in no fixed order.
   const RID = "4582bec6-2b4f-4f9e-bc55-cbaa73117f4c";
+  const SQL = "https://data.boston.gov/api/3/action/datastore_search_sql";
+  const PAGE = "https://data.boston.gov/dataset/food-establishment-inspections";
   const name = "Analyze Boston — Food Establishment Inspections";
+  const LIMIT = 80; // per search term, as before the SQL switch — keeps Boston at NYC-like volume
+  const RESULT: Record<string, string> = {
+    HE_PASS: "Pass", HE_FAIL: "Fail", HE_FAILEXT: "Fail", HE_FAILNOR: "Fail",
+    HE_TSOP: "Permit Suspended", // temporary suspension of permit
+    HE_VOLCLOS: "Closed", HE_CLOSURE: "Closed",
+  };
   try {
-    // Boston returns one row per violation; group by license + result date into one inspection.
     const groups = new Map<string, Record<string, string>[]>();
+    const seenRow = new Set<string>();
     for (const q of ["Starbucks", "Dunkin", "Pret", "Blue Bottle", "McDonald", "Luckin", "coffee", "cafe"]) {
-      const url = `https://data.boston.gov/api/3/action/datastore_search?resource_id=${RID}&limit=80&q=${encodeURIComponent(q)}`;
-      const res = await getJson<{ result?: { records?: Record<string, string>[] } }>(url);
-      for (const r of res.result?.records ?? []) {
-        const nm = r.businessname ?? r.dbaname ?? r.name ?? "";
+      const like = `'%${q.replace(/'/g, "''")}%'`;
+      const sql =
+        `SELECT "licenseno","businessname","dbaname","address","city","zip","resultdttm","result","violation","violdesc","viol_level","viol_status" ` +
+        `FROM "${RID}" WHERE "resultdttm" >= '${BENCH_SINCE}' AND ("businessname" ILIKE ${like} OR "dbaname" ILIKE ${like}) ` +
+        `ORDER BY "resultdttm" DESC, "licenseno", "violation" LIMIT ${LIMIT}`;
+      const res = await getJson<{ success?: boolean; result?: { records?: Record<string, string>[] } }>(`${SQL}?${new URLSearchParams({ sql })}`);
+      const rows = res.result?.records ?? [];
+      // same rule as NYC: a full page can end part-way through its oldest inspection — drop that one
+      const cut = rows.length >= LIMIT ? rows[rows.length - 1]?.resultdttm : undefined;
+      for (const r of rows) {
+        if (cut && r.resultdttm === cut) continue;
+        const nm = r.businessname || r.dbaname || "";
         if (!inScope(nm)) continue;
-        const key = `${r.licenseno ?? nm}|${(r.resultdate ?? "").slice(0, 10)}`;
+        const rowKey = [r.licenseno, r.resultdttm, r.violation, r.violdesc, r.viol_status].join("|");
+        if (seenRow.has(rowKey)) continue;
+        seenRow.add(rowKey);
+        const key = `${r.licenseno ?? nm}|${r.resultdttm}`; // one inspection = license + timestamp
         (groups.get(key) ?? groups.set(key, []).get(key)!).push(r);
       }
     }
     const out: InspectionRecord[] = [];
-    for (const rows of groups.values()) {
-      sortViolationRows(rows, "violcode", "violdesc");
+    for (const [key, rows] of groups) {
+      sortViolationRows(rows, "violation", "violdesc");
       const r0 = rows[0];
-      const nm = r0.businessname ?? r0.dbaname ?? r0.name ?? "";
-      const violText = rows.map((x) => x.violdesc).filter(Boolean).join(" | ");
-      const rawResult = (r0.result ?? "").toLowerCase();
-      const result = rawResult.includes("fail") ? "Fail" : rawResult.includes("pass") ? "Pass" : "N/A";
-      const critical = rows.some((x) => (x.viollevel ?? "").includes("***") || (x.violstatus ?? "").toLowerCase() === "fail");
+      const nm = r0.businessname || r0.dbaname || "";
+      const cited = rows.filter((x) => (x.viol_status ?? "").toLowerCase() === "fail" && x.violdesc);
+      const violText = [...new Set(cited.map((x) => (x.violdesc ?? "").trim()).filter(Boolean))].join(" | ");
+      const result = RESULT[(r0.result ?? "").toUpperCase()] ?? "N/A"; // HE_Filed / HE_Hearing / HE_NotReq / HE_OutBus …
       out.push(
         finalizeInspection({
           no: null, jurisdiction: "Boston", regulatoryAgency: "Boston Inspectional Services",
           brand: brandOrOther(nm), establishmentType: establishmentType(nm), storeName: nm || null,
           establishmentId: r0.licenseno ?? null,
           address: [r0.address, r0.city, r0.zip].filter(Boolean).join(" ") || null,
-          inspectionDate: isoFromYmd(r0.resultdate), inspectionType: r0.licstatus ?? null,
-          inspectionResult: result, score: null, grade: null, violationCode: r0.violcode ?? null,
-          chineseViolationSummary: null, englishViolationSummary: violText.slice(0, 400) || null,
-          violationSeverity: critical ? "严重（主要）Critical" : violText ? "一般 Non-critical" : null,
-          followupRequired: result === "Fail" ? "是 Yes" : "否 No",
+          inspectionDate: isoFromYmd(r0.resultdttm), inspectionType: null,
+          inspectionResult: result, score: null, grade: null, violationCode: cited[0]?.violation ?? null,
+          chineseViolationSummary: null, englishViolationSummary: violText || null,
+          violationSeverity: cited.some((x) => (x.viol_level ?? "") === "***") ? "严重（主要）Critical" : violText ? "一般 Non-critical" : null,
+          followupRequired: result === "Fail" || result === "Closed" || result === "Permit Suspended" ? "是 Yes" : "否 No",
           sourceType: "Open Data API",
-          sourceUrlOrDocRef: "https://data.boston.gov/dataset/food-establishment-inspections",
-          recommendedAction: null,
-          violationText: violText, sourceId: "boston_ckan", sourceUrl: "https://data.boston.gov/dataset/food-establishment-inspections",
+          sourceUrlOrDocRef: PAGE, recommendedAction: null,
+          idKey: `bos:${key}`,
+          violationText: violText, sourceId: "boston_ckan", sourceUrl: PAGE,
         }),
       );
     }
-    return { inspections: out, provenance: provEntry({ sourceId: "boston_ckan", name, jurisdictionId: "Boston", accessType: "open-data", endpointOrUrl: `https://data.boston.gov/api/3/action/datastore_search?resource_id=${RID}`, oneTimePullFeasible: "yes", recordCount: out.length }) };
+    return { inspections: out, provenance: provEntry({ sourceId: "boston_ckan", name, module: "inspection", status: out.length ? "fetched" : "no_update", jurisdictionId: "Boston", accessType: "open-data", endpointOrUrl: `${SQL} (resource ${RID})`, oneTimePullFeasible: "yes", recordCount: out.length, stalenessNote: `Priority brands + café keywords, inspections since ${BENCH_SINCE}, newest ${LIMIT} violation rows per search term (a page's oldest, possibly cut-off inspection is dropped). Cited items only (viol_status Fail); *** = Priority = critical.` }) };
   } catch (e) {
-    return { inspections: [], provenance: provEntry({ sourceId: "boston_ckan", name, jurisdictionId: "Boston", accessType: "open-data", endpointOrUrl: "https://data.boston.gov", oneTimePullFeasible: "yes", stalenessNote: `pull failed: ${String(e).slice(0, 140)}`, reVerifyBeforeRelying: true }) };
+    return { inspections: [], provenance: provEntry({ sourceId: "boston_ckan", name, module: "inspection", jurisdictionId: "Boston", accessType: "open-data", endpointOrUrl: "https://data.boston.gov", oneTimePullFeasible: "yes", stalenessNote: `pull failed: ${String(e).slice(0, 140)}`, reVerifyBeforeRelying: true }) };
   }
 }
 
