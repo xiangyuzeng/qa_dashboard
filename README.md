@@ -60,7 +60,7 @@ denominators) is refreshed separately from a read-only ops-DB extract, since it 
 feed and so is not part of `prep:collect`:
 ```bash
 python3 prep/build_footprint.py            # dry-run: field-by-field diff, writes nothing
-python3 prep/build_footprint.py --apply    # then: prep:domains → prep:validate → prep:export
+python3 prep/build_footprint.py --apply    # then: npm run prep:build (full refresh)
 ```
 It **patches** the committed rows rather than regenerating them — `dohEstablishmentId` (CAMIS),
 `licenseNumbers`, `reviewed` and `estimatedEmployeeCount` do not come from the ops DB and must

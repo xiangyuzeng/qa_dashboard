@@ -39,8 +39,9 @@ Usage:
   python3 prep/build_footprint.py            # dry-run — print the field-by-field diff, write nothing
   python3 prep/build_footprint.py --apply    # write the changes
 
-After --apply, regenerate the engine verdicts and exports:
-  npm run prep:domains && npm run prep:validate && npm run prep:export
+After --apply, run a full refresh so the engine verdicts, the domain records' appliesToUs and the
+exports pick up the new roster (prep:domains writes to the stage; prep:merge publishes it):
+  npm run prep:build
 """
 import json
 import os
@@ -278,7 +279,7 @@ def main():
           f"planned={agg['planned']} closed={agg['closed']}")
     print(f"  company_profile.json: NYC open={agg['nyc_open']} combined={agg['nyc_combined']} sqft · "
           f"area known {agg['known']}/{len(committed)} · largest={agg['max']} sqft")
-    print("\nNext: npm run prep:domains && npm run prep:validate && npm run prep:export")
+    print("\nNext: npm run prep:build   (full refresh — prep:merge publishes the re-stamped domain records)")
 
 
 if __name__ == "__main__":
