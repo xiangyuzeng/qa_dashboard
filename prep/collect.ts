@@ -427,52 +427,6 @@ async function collectNYC(): Promise<SourceResult> {
   }
 }
 
-async function collectCambridge(): Promise<SourceResult> {
-  const base = "https://data.cambridgema.gov/resource/ryb9-qzmw.json";
-  const name = "Cambridge Sanitary Inspections";
-  try {
-    const rows = await socrata<Record<string, string>>(base, { "$order": ":id", "$limit": 2000 });
-    const nameKey = ["businessname", "business_name", "name", "establishment", "dba"].find((k) => rows[0] && k in rows[0]) ?? "businessname";
-    const violKey = ["violation_description", "violationdesc", "description", "violation"].find((k) => rows[0] && k in rows[0]) ?? "violation_description";
-    const dateKey = ["inspection_date", "date", "inspectiondate"].find((k) => rows[0] && k in rows[0]) ?? "inspection_date";
-    const resultKey = ["result", "inspection_result", "status"].find((k) => rows[0] && k in rows[0]) ?? "result";
-    const out: InspectionRecord[] = [];
-    for (const r of rows) {
-      const nm = r[nameKey];
-      if (!inScope(nm)) continue;
-      const violText = r[violKey] ?? "";
-      const rawResult = (r[resultKey] ?? "").toLowerCase();
-      const result = rawResult.includes("fail") ? "Fail" : rawResult.includes("pass") ? "Pass" : "N/A";
-      if (!violText && result === "N/A") continue; // skip permit-only rows with no inspection signal
-      out.push(
-        finalizeInspection({
-          no: null, jurisdiction: "Cambridge", regulatoryAgency: "Cambridge Inspectional Services",
-          brand: brandOrOther(nm) as InspectionRecord["brand"],
-          establishmentType: establishmentType(nm) as InspectionRecord["establishmentType"],
-          storeName: nm ?? null, address: r.address ?? r.location ?? null,
-          inspectionDate: isoFromYmd(r[dateKey]),
-          inspectionType: r.type ?? null,
-          inspectionResult: result as InspectionRecord["inspectionResult"],
-          score: null, grade: null, violationCode: r.code ?? null,
-          chineseViolationSummary: null, englishViolationSummary: violText.slice(0, 400) || null,
-          violationSeverity: violText ? "一般 Non-critical" : null,
-          followupRequired: result === "Fail" ? "是 Yes" : "否 No",
-          sourceType: "Open Data API",
-          sourceUrlOrDocRef: base, recommendedAction: null,
-          violationText: violText, sourceId: "cambridge_socrata", sourceUrl: base,
-        }),
-      );
-      if (out.length >= 80) break;
-    }
-    const note = out.length === 0
-      ? "ryb9-qzmw is a permit-cases dataset (no violation/result fields) — needs the correct Cambridge sanitary-inspections resource or manual intake"
-      : null;
-    return { inspections: out, provenance: provEntry({ sourceId: "cambridge_socrata", name, jurisdictionId: "Cambridge", accessType: "open-data", endpointOrUrl: base, oneTimePullFeasible: out.length ? "yes" : "partial", recordCount: out.length, stalenessNote: note, reVerifyBeforeRelying: out.length === 0 }) };
-  } catch (e) {
-    return { inspections: [], provenance: provEntry({ sourceId: "cambridge_socrata", name, jurisdictionId: "Cambridge", accessType: "open-data", endpointOrUrl: base, oneTimePullFeasible: "yes", stalenessNote: `pull failed: ${String(e).slice(0, 140)}`, reVerifyBeforeRelying: true }) };
-  }
-}
-
 async function collectBoston(): Promise<SourceResult> {
   const RID = "4582bec6-2b4f-4f9e-bc55-cbaa73117f4c";
   const name = "Analyze Boston — Food Establishment Inspections";
@@ -519,6 +473,329 @@ async function collectBoston(): Promise<SourceResult> {
     return { inspections: out, provenance: provEntry({ sourceId: "boston_ckan", name, jurisdictionId: "Boston", accessType: "open-data", endpointOrUrl: `https://data.boston.gov/api/3/action/datastore_search?resource_id=${RID}`, oneTimePullFeasible: "yes", recordCount: out.length }) };
   } catch (e) {
     return { inspections: [], provenance: provEntry({ sourceId: "boston_ckan", name, jurisdictionId: "Boston", accessType: "open-data", endpointOrUrl: "https://data.boston.gov", oneTimePullFeasible: "yes", stalenessNote: `pull failed: ${String(e).slice(0, 140)}`, reVerifyBeforeRelying: true }) };
+  }
+}
+
+/* ─────────────── COMPETITOR BENCHMARK JURISDICTIONS (no Luckin stores) ─────────────── */
+
+// Cities where we benchmark competitors only: the priority brands (no generic café sweep), the newest
+// PER_BRAND_CAP inspections per brand since BENCH_SINCE — a sample for pass/fail rates and violation
+// mix, not a census. Search terms are deliberately broad; matchBrand() (whole-word aliases) is the gate.
+const BENCH_TERMS = ["STARBUCKS", "DUNKIN", "PRET A MANGER", "BLUE BOTTLE", "MCDONALD", "LUCKIN"];
+const BENCH_SINCE = "2024-01-01";
+const PER_BRAND_CAP = 10;
+const BENCH_NOTE = `Priority brands only, newest ${PER_BRAND_CAP} inspections per brand since ${BENCH_SINCE} (benchmark sample, not a census).`;
+
+function capPerBrand(rows: InspectionRecord[], cap = PER_BRAND_CAP): InspectionRecord[] {
+  const byBrand = new Map<string, InspectionRecord[]>();
+  const seen = new Set<string>();
+  for (const r of rows) {
+    if (seen.has(r.id)) continue;
+    seen.add(r.id);
+    const k = r.brand ?? "其他 Other";
+    (byBrand.get(k) ?? byBrand.set(k, []).get(k)!).push(r);
+  }
+  const newestFirst = (a: InspectionRecord, b: InspectionRecord) =>
+    (b.inspectionDate ?? "").localeCompare(a.inspectionDate ?? "") || a.id.localeCompare(b.id);
+  return [...byBrand.values()].flatMap((rs) => rs.sort(newestFirst).slice(0, cap));
+}
+
+// SoQL string literal (single quotes doubled).
+const soqlStr = (s: string) => `'${s.replace(/'/g, "''")}'`;
+
+async function collectChicago(): Promise<SourceResult> {
+  const base = "https://data.cityofchicago.org/resource/4ijn-s7e5.json";
+  const name = "Chicago Dept. of Public Health — Food Inspections";
+  // "Out of Business" / "No Entry" / "Not Ready" / "Business Not Located" are visits, not inspections.
+  const RESULT: Record<string, string> = { pass: "Pass", "pass w/ conditions": "Conditional Pass", fail: "Fail" };
+  try {
+    const out: InspectionRecord[] = [];
+    for (const q of BENCH_TERMS) {
+      const rows = await socrata<Record<string, string>>(base, {
+        "$where": `(upper(dba_name) like '%${q}%' OR upper(aka_name) like '%${q}%') AND inspection_date >= '${BENCH_SINCE}T00:00:00' AND results in ('Pass','Pass w/ Conditions','Fail')`,
+        "$order": "inspection_date DESC, inspection_id DESC",
+        "$limit": 40,
+      });
+      for (const r of rows) {
+        // franchise rows sometimes carry the brand only in aka_name ("HALE FAMILY" / aka "MCDONALD'S")
+        const nm = matchBrand(r.dba_name) ? r.dba_name : r.aka_name;
+        const brand = matchBrand(nm);
+        if (!brand) continue;
+        // "10. ADEQUATE HANDWASHING SINKS … - Comments: OBSERVED …" → keep the standard item, drop the
+        // free-text inspector comments (long, and they sometimes name staff).
+        const items = (r.violations || "")
+          .split(" | ")
+          .map((v) => v.split(" - Comments:")[0].replace(/\s+/g, " ").trim())
+          .filter(Boolean)
+          .map((v) => {
+            const m = /^(\d+)\.\s*(.*)$/.exec(v);
+            return m ? { code: m[1], text: m[2] } : { code: "", text: v };
+          });
+        const violText = items.map((i) => i.text).join(" | ");
+        const result = RESULT[(r.results || "").toLowerCase()] ?? "N/A";
+        const url = `${base}?inspection_id=${r.inspection_id}`;
+        out.push(
+          finalizeInspection({
+            no: null, jurisdiction: "Chicago", regulatoryAgency: "Chicago Dept. of Public Health",
+            brand, establishmentType: establishmentType(nm), storeName: r.dba_name || nm || null,
+            establishmentId: r.license_ || null,
+            address: [r.address, "Chicago, IL", r.zip].filter(Boolean).join(", ") || null,
+            inspectionDate: isoFromYmd(r.inspection_date), inspectionType: r.inspection_type || null,
+            inspectionResult: result, score: null, grade: null, violationCode: items[0]?.code || null,
+            chineseViolationSummary: null, englishViolationSummary: violText || null,
+            // Chicago flags the food-code tier in the comments; "PRIORITY VIOLATION" ≈ NYC critical
+            // ("PRIORITY FOUNDATION VIOLATION" is the lower tier and does not match).
+            violationSeverity: /\bPRIORITY VIOLATION\b/i.test(r.violations || "") ? "严重（主要）Critical" : violText ? "一般 Non-critical" : null,
+            followupRequired: result === "Fail" ? "是 Yes" : "否 No",
+            sourceType: "Open Data API", sourceUrlOrDocRef: url, recommendedAction: null,
+            idKey: `chi:${r.inspection_id}`,
+            violationText: violText, sourceId: "chicago_cdph", sourceUrl: url,
+          }),
+        );
+      }
+    }
+    const capped = capPerBrand(out);
+    return { inspections: capped, provenance: provEntry({ sourceId: "chicago_cdph", name, module: "inspection", status: capped.length ? "fetched" : "no_update", jurisdictionId: "Chicago", accessType: "open-data", endpointOrUrl: base, oneTimePullFeasible: "yes", recordCount: capped.length, stalenessNote: `${BENCH_NOTE} Results: Pass / Pass w/ Conditions / Fail (no score).` }) };
+  } catch (e) {
+    return { inspections: [], provenance: provEntry({ sourceId: "chicago_cdph", name, module: "inspection", jurisdictionId: "Chicago", accessType: "open-data", endpointOrUrl: base, oneTimePullFeasible: "yes", stalenessNote: `pull failed: ${String(e).slice(0, 140)}`, reVerifyBeforeRelying: true }) };
+  }
+}
+
+async function collectSanFrancisco(): Promise<SourceResult> {
+  // Successor to the LIVES feed pyih-qa8i (frozen 2019). Covers 2024-present, ~one row per inspection.
+  const base = "https://data.sf.gov/resource/tvy3-wexg.json";
+  const name = "SF Dept. of Public Health — Health Inspection Scores (2024–present)";
+  const RESULT: Record<string, string> = { pass: "Pass", "conditional pass": "Conditional Pass", closure: "Closed" };
+  try {
+    const out: InspectionRecord[] = [];
+    for (const q of BENCH_TERMS) {
+      const rows = await socrata<Record<string, string>>(base, {
+        // the inspector's name is in the dataset; it is never selected
+        "$select": "permit_number,dba,street_address,inspection_date,inspection_type,facility_rating_status,violation_codes",
+        "$where": `upper(dba) like '%${q}%' AND inspection_date >= '${BENCH_SINCE}T00:00:00' AND inspection_date <= '${TODAY}T23:59:59'`,
+        "$order": "inspection_date DESC, permit_number",
+        "$limit": 40,
+      });
+      for (const r of rows) {
+        const brand = matchBrand(r.dba);
+        if (!brand) continue;
+        // "114135, 114185.1 [d-e] - Store wiping cloths….,  113984(d), 114097 - Properly wash…."
+        // → one "<code list> - <text>." part per violation; keep the text, first code for violationCode.
+        const parts = (r.violation_codes || "")
+          .split(/\.,\s+(?=\d)/)
+          .map((v) => v.replace(/\s+/g, " ").trim())
+          .filter(Boolean)
+          .map((v) => {
+            const i = v.indexOf(" - ");
+            return i >= 0
+              ? { code: (v.slice(0, i).match(/\d[\d.]*/) ?? [""])[0], text: v.slice(i + 3).replace(/\.$/, "") }
+              : { code: "", text: v.replace(/\.$/, "") };
+          });
+        const violText = parts.map((x) => x.text).join(" | ");
+        const result = RESULT[(r.facility_rating_status || "").toLowerCase()] ?? "N/A";
+        const date = isoFromYmd(r.inspection_date);
+        const url = `${base}?permit_number=${r.permit_number}`;
+        out.push(
+          finalizeInspection({
+            no: null, jurisdiction: "San Francisco", regulatoryAgency: "SF Dept. of Public Health",
+            brand, establishmentType: establishmentType(r.dba), storeName: r.dba || null,
+            establishmentId: r.permit_number || null,
+            address: r.street_address ? `${r.street_address.replace(/\s+/g, " ").trim()}, San Francisco, CA` : null,
+            inspectionDate: date, inspectionType: r.inspection_type || null,
+            inspectionResult: result, score: null, grade: null, violationCode: parts[0]?.code || null,
+            chineseViolationSummary: null, englishViolationSummary: violText || null,
+            // SF only places a yellow (conditional) or red (closure) placard for major violations
+            violationSeverity: result === "Conditional Pass" || result === "Closed" ? "严重（主要）Critical" : violText ? "一般 Non-critical" : null,
+            followupRequired: result === "Conditional Pass" || result === "Closed" ? "是 Yes" : "否 No",
+            sourceType: "Open Data API", sourceUrlOrDocRef: url, recommendedAction: null,
+            // ~6% of rows repeat permit+date+type with a different total_time — same inspection
+            idKey: `sf:${r.permit_number}|${date ?? ""}|${r.inspection_type ?? ""}`,
+            violationText: violText, sourceId: "sf_dph", sourceUrl: url,
+          }),
+        );
+      }
+    }
+    const capped = capPerBrand(out);
+    return { inspections: capped, provenance: provEntry({ sourceId: "sf_dph", name, module: "inspection", status: capped.length ? "fetched" : "no_update", jurisdictionId: "San Francisco", accessType: "open-data", endpointOrUrl: base, oneTimePullFeasible: "yes", recordCount: capped.length, stalenessNote: `${BENCH_NOTE} Placard result Pass / Conditional Pass / Closure (no numeric score; blank = not rated).` }) };
+  } catch (e) {
+    return { inspections: [], provenance: provEntry({ sourceId: "sf_dph", name, module: "inspection", jurisdictionId: "San Francisco", accessType: "open-data", endpointOrUrl: base, oneTimePullFeasible: "yes", stalenessNote: `pull failed: ${String(e).slice(0, 140)}`, reVerifyBeforeRelying: true }) };
+  }
+}
+
+async function collectSantaClara(): Promise<SourceResult> {
+  // Three tables (SoQL cannot join): businesses → inspections (by business_id) → violations (by id).
+  const BIZ = "https://data.sccgov.org/resource/vuw7-jmjk.json";
+  const INSP = "https://data.sccgov.org/resource/2u2d-8jej.json";
+  const VIOL = "https://data.sccgov.org/resource/wkaa-4ccv.json";
+  const name = "Santa Clara County DEH — Food Facility Inspections";
+  const RESULT: Record<string, string> = { G: "Pass", Y: "Conditional Pass", R: "Closed" }; // placard colour
+  const chunks = <T,>(xs: T[], n: number) => Array.from({ length: Math.ceil(xs.length / n) }, (_, i) => xs.slice(i * n, i * n + n));
+  try {
+    const biz = new Map<string, Record<string, string>>();
+    for (const q of BENCH_TERMS) {
+      const rows = await socrata<Record<string, string>>(BIZ, { "$where": `upper(name) like '%${q}%'`, "$order": "business_id", "$limit": 500 });
+      for (const b of rows) if (matchBrand(b.name)) biz.set(b.business_id, b);
+    }
+    const insps: Record<string, string>[] = [];
+    for (const ids of chunks([...biz.keys()], 80)) {
+      insps.push(
+        ...(await socrata<Record<string, string>>(INSP, {
+          "$where": `business_id in (${ids.map(soqlStr).join(",")}) AND date >= '${BENCH_SINCE.replace(/-/g, "")}'`,
+          "$order": "date DESC, inpsection_id",
+          "$limit": 2000,
+        })),
+      );
+    }
+    // cap per brand BEFORE fetching violations so the violation pull stays small
+    const byBrand = new Map<string, Record<string, string>[]>();
+    for (const i of insps) {
+      const brand = matchBrand(biz.get(i.business_id)?.name)!;
+      (byBrand.get(brand) ?? byBrand.set(brand, []).get(brand)!).push(i);
+    }
+    const kept = [...byBrand.values()].flatMap((rs) =>
+      rs.sort((a, b) => (b.date ?? "").localeCompare(a.date ?? "") || (a.inpsection_id ?? "").localeCompare(b.inpsection_id ?? "")).slice(0, PER_BRAND_CAP),
+    );
+    const viols = new Map<string, Record<string, string>[]>();
+    for (const ids of chunks(kept.map((i) => i.inpsection_id), 60)) {
+      const rows = await socrata<Record<string, string>>(VIOL, { "$where": `inspection_id in (${ids.map(soqlStr).join(",")})`, "$limit": 2000 });
+      for (const v of rows) (viols.get(v.inspection_id) ?? viols.set(v.inspection_id, []).get(v.inspection_id)!).push(v);
+    }
+    const out = kept.map((i) => {
+      const b = biz.get(i.business_id)!;
+      const vs = sortViolationRows(viols.get(i.inpsection_id) ?? [], "code", "description");
+      const violText = vs.map((v) => (v.description || "").replace(/\s+/g, " ").trim()).filter(Boolean).join(" | ");
+      const result = RESULT[(i.result || "").toUpperCase()] ?? "N/A";
+      const score = /^\d+$/.test(i.score ?? "") ? Number(i.score) : null; // 0–100, higher = better
+      const url = `${INSP}?inpsection_id=${i.inpsection_id}`;
+      return finalizeInspection({
+        no: null, jurisdiction: "Santa Clara County", regulatoryAgency: "Santa Clara County Dept. of Environmental Health",
+        brand: matchBrand(b.name)!, establishmentType: establishmentType(b.name), storeName: b.name || null,
+        establishmentId: i.business_id || null,
+        address: [b.address, b.city, b.postal_code ? `CA ${b.postal_code}` : "CA"].filter(Boolean).join(", "),
+        inspectionDate: isoFromYmd(i.date), inspectionType: i.type || null,
+        inspectionResult: result, score, grade: null, violationCode: vs[0]?.code || null,
+        chineseViolationSummary: null, englishViolationSummary: violText || null,
+        violationSeverity: vs.some((v) => String(v.critical) === "true") ? "严重（主要）Critical" : violText ? "一般 Non-critical" : null,
+        followupRequired: result === "Conditional Pass" || result === "Closed" ? "是 Yes" : "否 No",
+        sourceType: "Open Data API", sourceUrlOrDocRef: url, recommendedAction: null,
+        idKey: `scc:${i.inpsection_id}`,
+        violationText: violText, sourceId: "scc_deh", sourceUrl: url,
+      });
+    });
+    return { inspections: out, provenance: provEntry({ sourceId: "scc_deh", name, module: "inspection", status: out.length ? "fetched" : "no_update", jurisdictionId: "Santa Clara County", accessType: "open-data", endpointOrUrl: INSP, oneTimePullFeasible: "yes", recordCount: out.length, stalenessNote: `${BENCH_NOTE} Placard G/Y/R → Pass / Conditional Pass / Closed; score 0–100 (higher = better). Rolling ~2-year window, refreshed ~monthly. Covers San Jose & Palo Alto.` }) };
+  } catch (e) {
+    return { inspections: [], provenance: provEntry({ sourceId: "scc_deh", name, module: "inspection", jurisdictionId: "Santa Clara County", accessType: "open-data", endpointOrUrl: INSP, oneTimePullFeasible: "yes", stalenessNote: `pull failed: ${String(e).slice(0, 140)}`, reVerifyBeforeRelying: true }) };
+  }
+}
+
+async function collectFairfax(): Promise<SourceResult> {
+  const FS = "https://www.fairfaxcounty.gov/gispub2/rest/services/Health/PermittedFoodEstablishments/FeatureServer";
+  const name = "Fairfax County Health Dept. — Food Establishment Inspections (ArcGIS)";
+  const RESULT: Record<string, string> = { passed: "Pass", "partial pass": "Conditional Pass", failed: "Fail", "failed - self closed": "Closed" };
+  const q = (layer: number, params: Record<string, string | number>) =>
+    getJson<{ features?: { attributes: Record<string, unknown> }[]; error?: { message?: string } }>(
+      `${FS}/${layer}/query?${new URLSearchParams({ f: "json", ...Object.fromEntries(Object.entries(params).map(([k, v]) => [k, String(v)])) })}`,
+    );
+  try {
+    const out: InspectionRecord[] = [];
+    const rows: Record<string, unknown>[] = [];
+    for (const term of BENCH_TERMS) {
+      const res = await q(1, {
+        where: `UPPER(ESTABLISHMENT_NAME) LIKE '%${term}%' AND INSPECTIONDATE >= DATE '${BENCH_SINCE}'`,
+        outFields: "INSPECTIONID,RECORDID,INSPECTIONDATE,INSPECTIONRESULT,WEBSITE_LINK,ESTABLISHMENT_NAME",
+        orderByFields: "INSPECTIONDATE DESC",
+        resultRecordCount: 40,
+      });
+      if (res.error) throw new Error(res.error.message ?? "ArcGIS query error");
+      rows.push(...(res.features ?? []).map((f) => f.attributes));
+    }
+    // establishment layer carries the address
+    const recIds = [...new Set(rows.map((r) => String(r.RECORDID ?? "")).filter(Boolean))];
+    const addr = new Map<string, string>();
+    // 40 per call: the county's IIS front end 404s query strings over ~2 KB (80 ids is too many)
+    for (let i = 0; i < recIds.length; i += 40) {
+      const ids = recIds.slice(i, i + 40);
+      const res = await q(0, { where: `RECORDID IN (${ids.map((x) => `'${x.replace(/'/g, "''")}'`).join(",")})`, outFields: "RECORDID,PERMIT_ADDRESS,PERMIT_CITY,PERMIT_STATE,PERMIT_ZIP" });
+      for (const f of res.features ?? []) {
+        const a = f.attributes;
+        addr.set(String(a.RECORDID), [a.PERMIT_ADDRESS, a.PERMIT_CITY, [a.PERMIT_STATE, a.PERMIT_ZIP].filter(Boolean).join(" ")].filter(Boolean).join(", "));
+      }
+    }
+    for (const r of rows) {
+      const nm = String(r.ESTABLISHMENT_NAME ?? "");
+      const brand = matchBrand(nm);
+      if (!brand) continue;
+      const result = RESULT[String(r.INSPECTIONRESULT ?? "").toLowerCase()] ?? "N/A";
+      const ts = Number(r.INSPECTIONDATE ?? 0);
+      const report = r.WEBSITE_LINK ? String(r.WEBSITE_LINK) : `${FS}/1`;
+      out.push(
+        finalizeInspection({
+          no: null, jurisdiction: "Fairfax County, VA", regulatoryAgency: "Fairfax County Health Dept.",
+          brand, establishmentType: establishmentType(nm), storeName: nm || null,
+          establishmentId: String(r.RECORDID ?? "") || null, address: addr.get(String(r.RECORDID)) ?? null,
+          inspectionDate: ts ? new Date(ts).toISOString().slice(0, 10) : null, inspectionType: null,
+          inspectionResult: result, score: null, grade: null, violationCode: null,
+          // the feed has the outcome only; violation detail lives in the linked Accela report
+          chineseViolationSummary: null, englishViolationSummary: null,
+          violationSeverity: null,
+          followupRequired: result === "Fail" || result === "Closed" ? "是 Yes" : "否 No",
+          sourceType: "Open Data API", sourceUrlOrDocRef: report, recommendedAction: null,
+          idKey: `ffx:${r.INSPECTIONID}`,
+          violationText: "", sourceId: "fairfax_hd", sourceUrl: report,
+        }),
+      );
+    }
+    const capped = capPerBrand(out);
+    return { inspections: capped, provenance: provEntry({ sourceId: "fairfax_hd", name, module: "inspection", status: capped.length ? "fetched" : "no_update", jurisdictionId: "Fairfax County, VA", accessType: "open-data", endpointOrUrl: `${FS}/1`, oneTimePullFeasible: "yes", recordCount: capped.length, stalenessNote: `${BENCH_NOTE} Outcome only (Passed / Partial Pass / Failed / Failed - Self Closed) — no score or violation detail in the feed; each row links its Accela inspection report.` }) };
+  } catch (e) {
+    return { inspections: [], provenance: provEntry({ sourceId: "fairfax_hd", name, module: "inspection", jurisdictionId: "Fairfax County, VA", accessType: "open-data", endpointOrUrl: `${FS}/1`, oneTimePullFeasible: "yes", stalenessNote: `pull failed: ${String(e).slice(0, 140)}`, reVerifyBeforeRelying: true }) };
+  }
+}
+
+async function collectCambridge(): Promise<SourceResult> {
+  // One row per cited violation, grouped by case id (= one sanitary inspection). The dataset records
+  // what was cited and when it was corrected — there is NO pass/fail, score or grade, so the result
+  // is N/A (never counted in pass/fail rates). Severity comes from the (P)/(Pf)/(C) code marker.
+  const base = "https://data.cambridgema.gov/resource/ryb9-qzmw.json";
+  const name = "Cambridge Inspectional Services — Sanitary Inspections";
+  try {
+    const cases = new Map<string, Record<string, string>[]>();
+    for (const q of BENCH_TERMS) {
+      const rows = await socrata<Record<string, string>>(base, {
+        "$select": "id,business_name,full_address,code_number,code_description,case_open_date,case_closed_date,issue_date,permit_type",
+        "$where": `upper(business_name) like '%${q}%' AND coalesce(case_open_date, case_closed_date, issue_date) >= '${BENCH_SINCE}T00:00:00'`,
+        "$order": "id DESC",
+        "$limit": 400,
+      });
+      for (const r of rows) if (matchBrand(r.business_name)) (cases.get(r.id) ?? cases.set(r.id, []).get(r.id)!).push(r);
+    }
+    const out: InspectionRecord[] = [];
+    for (const [id, rows] of cases) {
+      sortViolationRows(rows, "code_number", "code_description");
+      const r0 = rows[0];
+      const violText = [...new Set(rows.map((x) => (x.code_description || "").replace(/\s+/g, " ").trim()).filter(Boolean))].join(" | ");
+      const date = rows.map((x) => isoFromYmd(x.case_open_date) ?? isoFromYmd(x.case_closed_date) ?? isoFromYmd(x.issue_date)).filter(Boolean).sort()[0] ?? null;
+      const url = `${base}?id=${id}`;
+      out.push(
+        finalizeInspection({
+          no: null, jurisdiction: "Cambridge", regulatoryAgency: "Cambridge Inspectional Services",
+          brand: matchBrand(r0.business_name)!, establishmentType: establishmentType(r0.business_name),
+          storeName: r0.business_name || null, establishmentId: r0.full_address || null, address: r0.full_address || null,
+          inspectionDate: date, inspectionType: r0.permit_type || null,
+          inspectionResult: "N/A", score: null, grade: null, violationCode: r0.code_number || null,
+          chineseViolationSummary: null, englishViolationSummary: violText || null,
+          violationSeverity: rows.some((x) => /\(P\)\s*$/.test(x.code_description || "")) ? "严重（主要）Critical" : violText ? "一般 Non-critical" : null,
+          followupRequired: "否 No",
+          sourceType: "Open Data API", sourceUrlOrDocRef: url, recommendedAction: null,
+          idKey: `cam:${id}`,
+          violationText: violText, sourceId: "cambridge_socrata", sourceUrl: url,
+        }),
+      );
+    }
+    const capped = capPerBrand(out);
+    return { inspections: capped, provenance: provEntry({ sourceId: "cambridge_socrata", name, module: "inspection", status: capped.length ? "fetched" : "no_update", jurisdictionId: "Cambridge", accessType: "open-data", endpointOrUrl: base, oneTimePullFeasible: "yes", recordCount: capped.length, stalenessNote: `${BENCH_NOTE} Cited violations per case only — no pass/fail, score or grade in this dataset (result N/A).` }) };
+  } catch (e) {
+    return { inspections: [], provenance: provEntry({ sourceId: "cambridge_socrata", name, module: "inspection", jurisdictionId: "Cambridge", accessType: "open-data", endpointOrUrl: base, oneTimePullFeasible: "yes", stalenessNote: `pull failed: ${String(e).slice(0, 140)}`, reVerifyBeforeRelying: true }) };
   }
 }
 
@@ -1978,6 +2255,10 @@ async function main() {
     collectOwnedRegisteredDOHMH(),
     collectCambridge(),
     collectBoston(),
+    collectChicago(),
+    collectSanFrancisco(),
+    collectSantaClara(),
+    collectFairfax(),
     collectLA(),
     collectIntake(),
     collectImportSeeds(),

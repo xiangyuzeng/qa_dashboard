@@ -124,7 +124,7 @@ export function BenchmarkClient({
           <HBar data={metricBars} />
           {metric === "avgScore" && (
             <p className="mt-2 text-xs text-slate-400">
-              ⚠️ Scores are jurisdiction-relative (NYC high = worse; LA &lt;80 = worse) — compare within a jurisdiction.
+              {t.benchmark.avgScoreNote}
             </p>
           )}
         </SectionCard>

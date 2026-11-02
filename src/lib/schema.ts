@@ -56,6 +56,15 @@ export const JurisdictionEnum = z.enum([
   "Cambridge",
   "Washington DC",
   "Florida (FDACS)",
+  // competitor-benchmark jurisdictions (issue #44) — no Luckin stores; registry in jurisdictions.json
+  "Chicago",
+  "Santa Clara County",
+  "Alameda County",
+  "San Mateo County",
+  "Pasadena",
+  "San Diego County",
+  "Southern Nevada (Las Vegas)",
+  "Fairfax County, VA",
 ]);
 
 /** Sheet2 门店类型 Establishment Type (9) */

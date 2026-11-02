@@ -177,10 +177,17 @@ export type BrandStat = {
 /** Is this row a multi-agency enforcement action (vs a routine health-grade inspection)? */
 const isEnforcement = isInspectionSummons;
 
+/**
+ * Scores only compare on one scale. NYC DOHMH = violation points (higher = worse); SF / LA County /
+ * most others = 100-point (higher = better). Averaging across them is meaningless (4 SF 92–98 scores
+ * once lifted Starbucks' NYC 7.1 average to 19.3), so the benchmark average is NYC points only.
+ */
+export const AVG_SCORE_JURISDICTION = "New York City";
+
 export function brandStats(insp: InspectionRecord[]): BrandStat[] {
   return BrandEnum.options.map((brand) => {
     const rows = insp.filter((r) => r.brand === brand);
-    const scored = rows.filter((r) => typeof r.score === "number");
+    const scored = rows.filter((r) => typeof r.score === "number" && r.jurisdiction === AVG_SCORE_JURISDICTION);
     return {
       brand,
       records: rows.length,

@@ -57,6 +57,19 @@ export function assessInspection(i: InspAssessInput): Assessment {
         reasons.push(`${i.jurisdiction} ${r}`);
       }
       break;
+    case "Chicago":
+      if (r === "Fail") {
+        rules.push("chi.fail");
+        reasons.push("Chicago Fail");
+      }
+      break;
+    case "Fairfax County, VA":
+      if (r === "Fail") {
+        rules.push("ffx.fail");
+        reasons.push("Fairfax Failed");
+      }
+      break;
+    // Santa Clara red placard → result Closed → general.closed; yellow → Conditional Pass → medium tier.
     case "Washington DC":
       if (r === "Fail") {
         rules.push("dc.fail");
