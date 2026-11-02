@@ -7,6 +7,7 @@ import { fmtDate, pickLang } from "@/src/lib/i18n/util";
 import type { EnforcementRecord } from "@/src/lib/data";
 
 const AGENCY_COLOR: Record<string, { color: string; bg: string }> = {
+  DOHMH: { color: "#9f1239", bg: "#ffe4e6" },
   DSNY: { color: "#065f46", bg: "#d1fae5" },
   DOB: { color: "#9a3412", bg: "#ffedd5" },
   DCWP: { color: "#3730a3", bg: "#e0e7ff" },
@@ -70,14 +71,14 @@ export function EnforcementDetailClient({ record: r }: { record: EnforcementReco
         </SectionCard>
 
         <SectionCard title={m.lookupTitle}>
-          <p className="text-sm text-slate-600">{m.govNote}</p>
+          <p className="text-sm text-slate-600">{r.govKind === "finder" ? m.govNoteFinder : m.govNoteDataset}</p>
           <a
             href={r.govUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="mt-3 inline-block rounded-md bg-brandnavy px-3 py-2 text-sm font-medium text-white hover:opacity-90"
           >
-            {m.viewOnGov} ↗
+            {r.govKind === "finder" ? m.viewOnFinder : m.viewOnDataset} ↗
           </a>
           {r.apiUrl && (
             <a

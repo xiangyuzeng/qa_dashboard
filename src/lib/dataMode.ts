@@ -28,12 +28,35 @@ export const ENFORCEMENT_SOURCE_IDS = new Set<string>([
   "nyc_dcwp_consumer", // consumer — DCWP summonses (OATH)
 ]);
 
+/**
+ * OATH hearing summonses collected INTO inspections.json (they share the inspection schema so a
+ * store's inspection and the summons it produced sit side by side). They are penalties, not graded
+ * inspections: benchmark counts them as enforcement and never as a pass/fail inspection.
+ *   nyc_oath       — competitor summonses (prep/enrich_inspections.py, capped sample per agency)
+ *   nyc_dohmh_oath — DOHMH health summonses issued to us (Luckin / First Ray), complete
+ */
+export const INSPECTION_SUMMONS_SOURCE_IDS = new Set<string>(["nyc_oath", "nyc_dohmh_oath"]);
+/** The subset issued to us — also listed on /enforcement next to DSNY/DOB/DCWP. */
+export const OWNED_INSPECTION_SUMMONS_SOURCE_IDS = new Set<string>(["nyc_dohmh_oath"]);
+
 type WithProvenance = { provenance?: { sourceId?: string | null } | null };
 
 /** True when the record is a live enforcement action (a penalty), not a regulation. */
 export function isEnforcement(r: WithProvenance): boolean {
   const sid = r.provenance?.sourceId ?? null;
   return sid != null && ENFORCEMENT_SOURCE_IDS.has(sid);
+}
+
+/** True when an inspections.json row is an OATH summons (ours or a competitor's), not an inspection. */
+export function isInspectionSummons(r: WithProvenance): boolean {
+  const sid = r.provenance?.sourceId ?? null;
+  return sid != null && INSPECTION_SUMMONS_SOURCE_IDS.has(sid);
+}
+
+/** True when an inspections.json row is an OATH summons issued to us. */
+export function isOwnedInspectionSummons(r: WithProvenance): boolean {
+  const sid = r.provenance?.sourceId ?? null;
+  return sid != null && OWNED_INSPECTION_SUMMONS_SOURCE_IDS.has(sid);
 }
 
 /**

@@ -214,10 +214,43 @@ _PEN_RE = re.compile(r"^penalty \$(?P<amt>[\d,]+)(?:, balance due \$(?P<bal>[\d,
                      r"(?P<paid>, paid)?(?: — (?P<status>.+))?$")
 
 
+# OATH hearing results on DOHMH summonses (the collector's outcome line, see oathOutcomeLine in
+# prep/collect.ts). Exact terms first, then by family so a new variant still reads sensibly.
+_HEARING_ZH = {"sustained": "违规成立", "default/ no appearance": "缺席判决（未出庭）",
+               "dismissed no violation/on the merits": "撤销（经审理不构成违规）",
+               "dismissed defective service": "撤销（送达有瑕疵）", "reserved": "待裁决",
+               "withdrawn prior to hearing": "听证前撤回", "withdrawn": "撤回"}
+_HEARING_FAMILY = (("dismiss", "撤销"), ("adjourn", "延期"), ("withdraw", "撤回"), ("appeal", "上诉中"))
+# a family match must LOOK like a hearing result (short, starts with the term) — violation narratives
+# can contain "withdraw"/"dismiss" too and must fall through to the raw-text fallback.
+_HEARING_FAMILY_RE = re.compile(r"^(?:hbam )?(dismiss|adjourn|withdraw|appeal)")
+_HEARING_SCHED_RE = re.compile(r"^hearing scheduled (\d{4}-\d{2}-\d{2})$")
+
+
+def _hearing_zh(term):
+    t = term.strip()
+    k = t.lower()
+    if k in _HEARING_ZH:
+        return _HEARING_ZH[k]
+    m = _HEARING_FAMILY_RE.match(k)
+    if m and len(k) <= 80:
+        return f"{dict(_HEARING_FAMILY)[m.group(1)]}（{t}）"
+    return None
+
+
+def _status_zh(term):
+    t = term.strip()
+    return _PEN_STATUS_ZH.get(t.lower()) or _hearing_zh(t) or t
+
+
 def _penalty_zh(phrase):
-    m = _PEN_RE.match(phrase.strip())
+    ph = phrase.strip()
+    m = _PEN_RE.match(ph)
     if not m:
-        return None
+        sched = _HEARING_SCHED_RE.match(ph)
+        if sched:
+            return f"已排听证 {sched.group(1)}"
+        return _hearing_zh(ph)  # bare hearing result (no penalty figure yet), else None
     parts = [f"罚款 ${m.group('amt')}"]
     if m.group("bal"):
         parts.append(f"待缴 ${m.group('bal')}")
@@ -225,7 +258,7 @@ def _penalty_zh(phrase):
         parts.append("已缴清")
     zh = "，".join(parts)
     if m.group("status"):
-        zh += " — " + _PEN_STATUS_ZH.get(m.group("status").strip().lower(), m.group("status").strip())
+        zh += " — " + _status_zh(m.group("status"))
     return zh
 
 

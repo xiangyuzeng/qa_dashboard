@@ -11,8 +11,9 @@ import { riskLabel } from "@/src/lib/colors";
 import { fmtDate, pickLang } from "@/src/lib/i18n/util";
 import type { EnforcementRecord } from "@/src/lib/data";
 
-/** Agency badge palette (DSNY green · DOB orange · DCWP indigo). */
+/** Agency badge palette (DOHMH rose · DSNY green · DOB orange · DCWP indigo). */
 const AGENCY_COLOR: Record<string, { color: string; bg: string }> = {
+  DOHMH: { color: "#9f1239", bg: "#ffe4e6" },
   DSNY: { color: "#065f46", bg: "#d1fae5" },
   DOB: { color: "#9a3412", bg: "#ffedd5" },
   DCWP: { color: "#3730a3", bg: "#e0e7ff" },
@@ -93,6 +94,7 @@ export function EnforcementClient({ data }: { data: EnforcementRecord[] }) {
   const byAgency = (g: string) => data.filter((r) => r.agencyGroup === g).length;
   const kpis = [
     { label: m.kpiTotal, value: data.length, accent: "#C00000" },
+    { label: "DOHMH", value: byAgency("DOHMH") },
     { label: "DSNY", value: byAgency("DSNY") },
     { label: "DOB", value: byAgency("DOB") },
     { label: "DCWP", value: byAgency("DCWP") },
@@ -106,7 +108,7 @@ export function EnforcementClient({ data }: { data: EnforcementRecord[] }) {
         <p className="mt-1 text-xs text-slate-400">{m.note}</p>
       </div>
 
-      <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+      <div className="grid grid-cols-2 gap-3 md:grid-cols-5">
         {kpis.map((k) => (
           <KpiCard key={k.label} label={k.label} value={k.value} accent={k.accent} />
         ))}

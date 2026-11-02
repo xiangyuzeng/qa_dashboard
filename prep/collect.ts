@@ -1724,6 +1724,42 @@ function loadOwnedStores(): Array<Record<string, unknown>> {
 }
 // agencies handled by collectDSNYEnvironment / collectDCWPConsumer — kept out of the food-safety bucket.
 const NON_FOODSAFETY_AGENCIES = ["%SANITATION%", "%DSNY%", "DOS -%", "%DCA %", "%DCA-%", "%CONSUMER%", "%WORKER%"];
+
+// All charges on an OATH summons (charge_1..charge_10), whitespace-normalized and sorted by
+// code → section → text so the order (and the row's violationCode) is the same on every pull.
+function oathCharges(r: Record<string, string>): Array<{ code: string; section: string; description: string }> {
+  const out: Array<{ code: string; section: string; description: string }> = [];
+  for (let i = 1; i <= 10; i++) {
+    const description = (r[`charge_${i}_code_description`] || "").replace(/\s+/g, " ").trim();
+    if (!description) continue;
+    out.push({
+      code: (r[`charge_${i}_code`] || "").trim(),
+      section: (r[`charge_${i}_code_section`] || "").trim(),
+      description,
+    });
+  }
+  const key = (c: { code: string; section: string; description: string }) => `${c.code}\u0000${c.section}\u0000${c.description}`;
+  return out.sort((a, b) => key(a).localeCompare(key(b)));
+}
+
+// One-line hearing outcome for a DOHMH summons, in the "penalty $X[, balance due $Y | , paid] — result"
+// shape enrich_inspections.py already templates into Chinese. Before a decision: "hearing scheduled <date>".
+// OATH leaves paid_amount / balance_due blank on DOHMH rows, so payment status is only stated when present.
+function oathOutcomeLine(r: Record<string, string>): string | null {
+  const result = (r.hearing_result || "").replace(/\s+/g, " ").trim();
+  const imposed = r.penalty_imposed == null || r.penalty_imposed === "" ? null : Number(r.penalty_imposed);
+  const balance = Number(r.balance_due || 0);
+  const paid = Number(r.paid_amount || 0);
+  if (imposed == null || Number.isNaN(imposed)) {
+    if (result) return result;
+    const when = isoFromYmd(r.hearing_date);
+    return when ? `hearing scheduled ${when}` : null;
+  }
+  let line = `penalty $${imposed.toFixed(0)}`;
+  if (balance > 0) line += `, balance due $${balance.toFixed(0)}`;
+  else if (paid > 0 && paid >= imposed) line += ", paid";
+  return result ? `${line} — ${result}` : line;
+}
 async function collectOwnedFoodSafetyOATH(): Promise<SourceResult> {
   const name = "NYC DOHMH / owned-entity food-safety summonses (via OATH)";
   const stores = loadOwnedStores();
@@ -1736,12 +1772,13 @@ async function collectOwnedFoodSafetyOATH(): Promise<SourceResult> {
       "$limit": 100,
     });
     const out: InspectionRecord[] = rows.map((r) => {
-      const charges = [r.charge_1_code_description, r.charge_2_code_description, r.charge_3_code_description]
-        .filter(Boolean)
-        .map((c) => c.replace(/\s+/g, " ").trim())
-        .join(" | ");
+      // every charge (a DOHMH NOV carries up to 10), sorted: Socrata returns charge_1..n in a
+      // different order between identical requests, so "first charge" is not stable on its own.
+      const chargeList = oathCharges(r);
+      const charges = chargeList.map((c) => c.description).join(" | ");
       const hr = (r.hearing_result || "").toLowerCase();
       const pen = Number(r.penalty_imposed || 0);
+      const outcome = oathOutcomeLine(r);
       const sustained = hr.includes("sustain") || hr.includes("default");
       const dismissed = hr.includes("dismiss");
       const result = sustained ? "Fail" : dismissed ? "Pass" : "N/A";
@@ -1759,15 +1796,24 @@ async function collectOwnedFoodSafetyOATH(): Promise<SourceResult> {
         establishmentType: "甲方门店 Owned Store",
         storeName: (st?.storeName as string) ?? r.respondent_last_name ?? null,
         establishmentId: (st?.dohEstablishmentId as string) ?? r.ticket_number ?? null,
-        address: addr ?? (st ? `${st.address as string}, ${st.city as string}, ${st.state as string} ${st.zip as string}` : null),
+        // a matched store's own address beats OATH's zip-only DOHMH geocode ("New York 10013")
+        address: st ? `${st.address as string}, ${st.city as string}, ${st.state as string} ${st.zip as string}` : addr,
         inspectionDate: isoFromYmd(r.violation_date),
         inspectionType: isDohmh ? "OATH 卫生传票 Health Summons" : "OATH 传票 Summons (机构待定 agency pending)",
         inspectionResult: result,
         score: null,
         grade: null,
-        violationCode: r.charge_1_code || null,
+        violationCode: chargeList[0]?.code || null,
         chineseViolationSummary: null,
-        englishViolationSummary: charges.slice(0, 400) || (isDohmh ? null : "OATH summons filed against owned entity — issuing agency / charge not yet populated in NYC Open Data; verify on CityPay."),
+        // outcome first (penalty + hearing result), then every charge; enrich bilingualizes each " | " part
+        englishViolationSummary:
+          [
+            outcome,
+            charges ||
+              (isDohmh ? null : "OATH summons filed against owned entity — issuing agency / charge not yet populated in NYC Open Data; verify on CityPay."),
+          ]
+            .filter(Boolean)
+            .join(" | ") || null,
         violationSeverity: sustained && pen > 0 ? "严重（主要）Critical" : "一般 Non-critical",
         followupRequired: sustained || result === "N/A" ? "是 Yes" : "否 No",
         sourceType: "Open Data API",
