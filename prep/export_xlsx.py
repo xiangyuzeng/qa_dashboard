@@ -136,7 +136,7 @@ HDR_ENF = {
     "englishTitle": "违规事项\nViolation (EN)", "chineseSummary": "中文摘要\nSummary (ZH)",
     "englishSummary": "英文摘要\nSummary (EN)", "originModule": "来源模块\nOrigin Module",
     "riskLevel": "风险等级\nRisk Level", "recommendedAction": "建议行动\nRecommended Action",
-    "govUrl": "缴费/申诉\nPay / Dispute", "apiUrl": "数据溯源\nData Lineage",
+    "govUrl": "官网查询\nGov Lookup", "apiUrl": "数据溯源\nData Lineage",
 }
 
 MODULE_LABEL = {
@@ -153,14 +153,35 @@ MODULE_LABEL = {
 #    same split, or a penalty ships in a regulation sheet with its summons date read as an
 #    "effective date". ──
 ENFORCEMENT_SOURCE_IDS = {"nyc_dsny_enforcement", "nyc_dob_violations", "nyc_dcwp_consumer"}
+# DOHMH health summonses issued to us live in inspections.json (MIRRORS
+# OWNED_INSPECTION_SUMMONS_SOURCE_IDS); they stay on the inspection sheet AND list under 执法罚单.
+OWNED_INSPECTION_SUMMONS_SOURCE_IDS = {"nyc_dohmh_oath"}
 AGENCY_GROUP = {"nyc_dsny_enforcement": "DSNY", "nyc_dob_violations": "DOB", "nyc_dcwp_consumer": "DCWP"}
-# Human, actionable NYC lookup for OATH/ECB summonses (view charges, pay/dispute/settle).
-CITYPAY_ECB_URL = "https://a836-citypay.nyc.gov/citypay/ecb"
 TICKET_RE = re.compile(r"(?:ticket_number|ecb_violation_number)=([^&]+)")
+# Government lookup — MIRRORS govLookup() in src/lib/data.ts. DSNY/DOB summonses deep-link to their
+# own OATH Summons Finder case page; DOHMH (restaurant) and DCWP summonses are not in the finder
+# (per OATH), so they point at the OATH case-status open data set.
+SUMMONS_FINDER_URL = "https://a820-ecbticketfinder.nyc.gov/searchHome.action"
+SUMMONS_FINDER_CASE = "https://a820-ecbticketfinder.nyc.gov/getViolationbyID.action?searchViolationObject.violationNo="
+OATH_CASE_STATUS_DATASET = "https://data.cityofnewyork.us/City-Government/OATH-Hearings-Division-Case-Status/jz4z-kudi/data"
+FINDER_GROUPS = {"DSNY", "DOB"}
+
+
+def gov_lookup(group, ticket):
+    if group not in FINDER_GROUPS:
+        return OATH_CASE_STATUS_DATASET
+    t = (ticket or "").strip().upper()
+    if re.fullmatch(r"\d{8}[A-Z]", t):
+        t = "0" + t
+    return SUMMONS_FINDER_CASE + t if re.fullmatch(r"\d{9}[A-Z]", t) else SUMMONS_FINDER_URL
 
 
 def is_enforcement(r):
     return ((r.get("provenance") or {}).get("sourceId")) in ENFORCEMENT_SOURCE_IDS
+
+
+def is_owned_inspection_summons(r):
+    return ((r.get("provenance") or {}).get("sourceId")) in OWNED_INSPECTION_SUMMONS_SOURCE_IDS
 
 
 def to_enforcement(r, origin_module):
@@ -173,10 +194,12 @@ def to_enforcement(r, origin_module):
         su = r.get("sourceUrl")
         api_url = su if su and "data.cityofnewyork.us" in su else None
     m = TICKET_RE.search(api_url) if api_url else None
+    group = AGENCY_GROUP.get(sid, "OTHER")
+    ticket = m.group(1) if m else None
     return {
-        "agencyGroup": AGENCY_GROUP.get(sid, "OTHER"),
+        "agencyGroup": group,
         "agency": r.get("agency"),
-        "ticketNumber": m.group(1) if m else None,
+        "ticketNumber": ticket,
         "date": r.get("effectiveDate"),  # summons/adjudication date, stored as effectiveDate
         "jurisdiction": r.get("jurisdiction"),
         "chineseTitle": r.get("chineseTitle"),
@@ -186,9 +209,51 @@ def to_enforcement(r, origin_module):
         "originModule": MODULE_LABEL[origin_module],
         "riskLevel": r.get("riskLevel"),
         "recommendedAction": r.get("recommendedAction"),
-        "govUrl": CITYPAY_ECB_URL,
+        "govUrl": gov_lookup(group, ticket),
         "apiUrl": api_url,
     }
+
+
+def inspection_to_enforcement(r):
+    """A DOHMH health summons row from inspections.json → the flat enforcement shape
+    (mirrors inspectionToEnforcement in src/lib/data.ts)."""
+    ref = r.get("sourceUrlOrDocRef") or ""
+    api_url = ref if "data.cityofnewyork.us" in ref else None
+    m = TICKET_RE.search(api_url) if api_url else None
+    ticket = m.group(1) if m else None
+    is_dohmh = "DOHMH" in (r.get("regulatoryAgency") or "").upper()
+    group = "DOHMH" if is_dohmh else "OTHER"
+    store = r.get("storeName") if r.get("storeName") and r.get("storeName") != r.get("brand") else None
+    addr = r.get("address")
+    where = f"{store} · {addr}" if store and addr and not addr.startswith(store) else (addr or store)
+    zh_sum = "".join(p for p in [f"门店:{where}。" if where else None, r.get("chineseViolationSummary")] if p) or None
+    en_sum = " · ".join(p for p in [f"Store: {where}" if where else None, r.get("englishViolationSummary")] if p) or None
+    return {
+        "agencyGroup": group,
+        "agency": r.get("regulatoryAgency"),
+        "ticketNumber": ticket,
+        "date": r.get("inspectionDate"),
+        "jurisdiction": r.get("jurisdiction"),
+        "chineseTitle": ("DOHMH 卫生罚单" if is_dohmh else "OATH 罚单(机构待定)") + (f"({store})" if store else ""),
+        "englishTitle": ("DOHMH health summons" if is_dohmh else "OATH summons (agency pending)") + (f" @ {store}" if store else ""),
+        "chineseSummary": zh_sum,
+        "englishSummary": en_sum,
+        "originModule": MODULE_LABEL["inspection"],
+        "riskLevel": r.get("riskLevel"),
+        "recommendedAction": r.get("recommendedAction"),
+        "govUrl": gov_lookup(group, ticket),
+        "apiUrl": api_url,
+    }
+
+
+def enforcement_rows(insp, environment_all, building_all, consumer_all):
+    """Every summons issued to us, newest first — the same set /enforcement shows (getEnforcement)."""
+    rows = ([to_enforcement(r, "environment") for r in environment_all if is_enforcement(r)]
+            + [to_enforcement(r, "building") for r in building_all if is_enforcement(r)]
+            + [to_enforcement(r, "consumer") for r in consumer_all if is_enforcement(r)]
+            + [inspection_to_enforcement(r) for r in insp if is_owned_inspection_summons(r)])
+    rows.sort(key=lambda r: r.get("date") or "", reverse=True)
+    return rows
 # mirrors the bilingual glosses in src/lib/schema.ts PullStatusEnum comments
 STATUS_LABEL = {
     "fetched": "已抓取 Fetched", "filtered": "已筛选 Filtered", "no_update": "未发现更新 No update",
@@ -625,10 +690,7 @@ def main():
     building = [r for r in building_all if not is_enforcement(r)]
     environment = [r for r in environment_all if not is_enforcement(r)]
     consumer = [r for r in consumer_all if not is_enforcement(r)]
-    enforcement = ([to_enforcement(r, "environment") for r in environment_all if is_enforcement(r)]
-                   + [to_enforcement(r, "building") for r in building_all if is_enforcement(r)]
-                   + [to_enforcement(r, "consumer") for r in consumer_all if is_enforcement(r)])
-    enforcement.sort(key=lambda r: r.get("date") or "", reverse=True)  # newest first, as on /enforcement
+    enforcement = enforcement_rows(insp, environment_all, building_all, consumer_all)  # newest first, as on /enforcement
 
     verdicts = load("applicability_verdicts.json")
     meta = load("meta.json")

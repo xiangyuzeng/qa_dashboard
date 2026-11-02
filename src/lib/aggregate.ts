@@ -11,6 +11,7 @@ import type {
 } from "./schema";
 import { ResultEnum, JurisdictionEnum, BrandEnum } from "./schema";
 import { getViolationCategories } from "./data";
+import { isInspectionSummons } from "./dataMode";
 // RISK_LEVELS_ORDER + daysToEffective live in pure modules (colors/util) so CLIENT components can
 // import them WITHOUT pulling aggregate.ts → data.ts (the whole ~1MB JSON) into their bundles.
 // Re-exported here for back-compat with server callers that import them from aggregate.
@@ -28,22 +29,29 @@ export const COMPETITOR_BRANDS = [
   "McDonald's",
 ];
 
+/**
+ * The graded-inspection outcome of a row — null for an OATH summons (ours or a competitor's). A
+ * summons' Fail/Pass is a hearing outcome, not an inspection result, so it never enters a pass/fail
+ * rate or result chart; benchmark counts it as enforcement instead (same treatment on both sides).
+ */
+const inspResult = (r: InspectionRecord) => (isInspectionSummons(r) ? null : r.inspectionResult);
+
 const isEvaluable = (r: InspectionRecord) =>
   r.provenance.dataAvailability === "available" &&
-  r.inspectionResult != null &&
-  r.inspectionResult !== "N/A";
+  inspResult(r) != null &&
+  inspResult(r) !== "N/A";
 
 function passRate(records: InspectionRecord[]): number | null {
   const evaluable = records.filter(isEvaluable);
   if (evaluable.length === 0) return null;
-  const pass = evaluable.filter((r) => PASS_RESULTS.includes(r.inspectionResult as string));
+  const pass = evaluable.filter((r) => PASS_RESULTS.includes(inspResult(r) as string));
   return Math.round((pass.length / evaluable.length) * 100);
 }
 
 function failRate(records: InspectionRecord[]): number | null {
   const evaluable = records.filter(isEvaluable);
   if (evaluable.length === 0) return null;
-  const fail = evaluable.filter((r) => FAIL_RESULTS.includes(r.inspectionResult as string));
+  const fail = evaluable.filter((r) => FAIL_RESULTS.includes(inspResult(r) as string));
   return Math.round((fail.length / evaluable.length) * 100);
 }
 
@@ -88,7 +96,7 @@ export function resultDistribution(insp: InspectionRecord[]) {
   return ResultEnum.options
     .map((result) => ({
       name: result,
-      value: insp.filter((r) => r.inspectionResult === result).length,
+      value: insp.filter((r) => inspResult(r) === result).length,
     }))
     .filter((d) => d.value > 0);
 }
@@ -99,7 +107,7 @@ export function resultByJurisdiction(insp: InspectionRecord[]) {
       const rows = insp.filter((r) => r.jurisdiction === j);
       const entry: Record<string, string | number> = { jurisdiction: j };
       for (const result of ResultEnum.options) {
-        entry[result] = rows.filter((r) => r.inspectionResult === result).length;
+        entry[result] = rows.filter((r) => inspResult(r) === result).length;
       }
       entry.__total = rows.length;
       return entry;
@@ -167,7 +175,7 @@ export type BrandStat = {
 };
 
 /** Is this row a multi-agency enforcement action (vs a routine health-grade inspection)? */
-const isEnforcement = (r: InspectionRecord) => r.provenance?.sourceId === "nyc_oath";
+const isEnforcement = isInspectionSummons;
 
 export function brandStats(insp: InspectionRecord[]): BrandStat[] {
   return BrandEnum.options.map((brand) => {
@@ -276,7 +284,7 @@ export function resultMixByBrand(insp: InspectionRecord[]): Record<string, strin
     .map((b) => {
       const rows = insp.filter((r) => r.brand === b);
       const e: Record<string, string | number> = { brand: b, __total: rows.length };
-      for (const res of ResultEnum.options) e[res] = rows.filter((r) => r.inspectionResult === res).length;
+      for (const res of ResultEnum.options) e[res] = rows.filter((r) => inspResult(r) === res).length;
       return e;
     })
     .filter((e) => (e.__total as number) > 0);
@@ -291,7 +299,7 @@ export function trendsOverTime(insp: InspectionRecord[]): Record<string, string 
     byMonth[m] ??= { inspections: 0, highRisk: 0, fail: 0 };
     byMonth[m].inspections++;
     if (r.riskLevel === "高风险") byMonth[m].highRisk++;
-    if (FAIL_RESULTS.includes(r.inspectionResult as string)) byMonth[m].fail++;
+    if (FAIL_RESULTS.includes(inspResult(r) as string)) byMonth[m].fail++;
   }
   return Object.entries(byMonth)
     .sort((a, b) => a[0].localeCompare(b[0]))

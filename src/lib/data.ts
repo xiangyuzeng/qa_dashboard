@@ -41,7 +41,7 @@ import {
   type Meta,
 } from "./schema";
 import { reasonText, type ReviewItem } from "./review";
-import { isEnforcement } from "./dataMode";
+import { isEnforcement, isOwnedInspectionSummons } from "./dataMode";
 
 import regulatoryJson from "@/data/v2/regulatory.json";
 import inspectionsJson from "@/data/v2/inspections.json";
@@ -141,13 +141,14 @@ export function getConsumer(): ConsumerRecord[] {
 
 /**
  * Enforcement & penalties — real summonses/violations issued to Luckin (First Ray), pulled
- * from the domain files by provenance and normalized to one shape. Newest first.
+ * from the domain files (DSNY/DOB/DCWP) and from inspections.json (DOHMH health summonses) by
+ * provenance and normalized to one shape. Newest first.
  */
 export type EnforcementRecord = {
   id: string;
   sourceId: string;
-  originModule: "environment" | "building" | "consumer";
-  agencyGroup: "DSNY" | "DOB" | "DCWP" | "OTHER";
+  originModule: "environment" | "building" | "consumer" | "inspection";
+  agencyGroup: "DOHMH" | "DSNY" | "DOB" | "DCWP" | "OTHER";
   agency: string | null;
   jurisdiction: string | null;
   chineseTitle: string | null;
@@ -158,18 +159,41 @@ export type EnforcementRecord = {
   riskLevel: string | null;
   recommendedAction: string | null;
   ticketNumber: string | null; // OATH summons / ECB violation number (from the open-data query)
-  govUrl: string; // human government lookup page (NYC CityPay ECB)
+  govUrl: string; // human government lookup page (see govKind)
+  /** finder = this summons' own page on OATH Summons Finder; dataset = OATH case-status open data. */
+  govKind: "finder" | "dataset";
   apiUrl: string | null; // raw NYC Open Data API query (data lineage)
 };
 
-// Human, actionable NYC government lookup for OATH/ECB summonses (view charges, pay/dispute/settle).
-const CITYPAY_ECB_URL = "https://a836-citypay.nyc.gov/citypay/ecb";
+// OATH Summons Finder (a.k.a. ECB Ticket Finder): its case-details page takes the summons number as
+// a plain GET parameter, so each summons gets its own deep link (status, charges, balance, payment).
+// Ticket numbers are 10 characters; the finder's own instructions say to left-pad a 9-character one.
+const SUMMONS_FINDER_URL = "https://a820-ecbticketfinder.nyc.gov/searchHome.action";
+const SUMMONS_FINDER_CASE = "https://a820-ecbticketfinder.nyc.gov/getViolationbyID.action?searchViolationObject.violationNo=";
+// Per OATH, summonses issued to restaurants (DOHMH) or by DCWP are NOT in the Summons Finder; the
+// official status source for them is the OATH Hearings Division Case Status open data set.
+const OATH_CASE_STATUS_DATASET = "https://data.cityofnewyork.us/City-Government/OATH-Hearings-Division-Case-Status/jz4z-kudi/data";
+const FINDER_GROUPS = new Set<EnforcementRecord["agencyGroup"]>(["DSNY", "DOB"]);
+
+function govLookup(
+  group: EnforcementRecord["agencyGroup"],
+  ticketNumber: string | null,
+): Pick<EnforcementRecord, "govUrl" | "govKind"> {
+  if (!FINDER_GROUPS.has(group)) return { govUrl: OATH_CASE_STATUS_DATASET, govKind: "dataset" };
+  const t = (ticketNumber ?? "").trim().toUpperCase();
+  const padded = /^\d{8}[A-Z]$/.test(t) ? `0${t}` : t;
+  return /^\d{9}[A-Z]$/.test(padded)
+    ? { govUrl: SUMMONS_FINDER_CASE + padded, govKind: "finder" }
+    : { govUrl: SUMMONS_FINDER_URL, govKind: "finder" };
+}
 
 const AGENCY_GROUP: Record<string, EnforcementRecord["agencyGroup"]> = {
   nyc_dsny_enforcement: "DSNY",
   nyc_dob_violations: "DOB",
   nyc_dcwp_consumer: "DCWP",
 };
+
+const TICKET_RE = /(?:ticket_number|ecb_violation_number)=([^&]+)/;
 
 type EnforcementSource = {
   id: string;
@@ -190,12 +214,13 @@ function toEnforcement(r: EnforcementSource, originModule: EnforcementRecord["or
   const sid = r.provenance?.sourceId ?? "";
   // The raw open-data query (provenance, else the legacy sourceUrl) carries the summons number.
   const apiUrl = r.provenance?.sourceUrl ?? (r.sourceUrl && /data\.cityofnewyork\.us/.test(r.sourceUrl) ? r.sourceUrl : null);
-  const ticketNumber = apiUrl?.match(/(?:ticket_number|ecb_violation_number)=([^&]+)/)?.[1] ?? null;
+  const ticketNumber = apiUrl?.match(TICKET_RE)?.[1] ?? null;
+  const agencyGroup = AGENCY_GROUP[sid] ?? "OTHER";
   return {
     id: r.id,
     sourceId: sid,
     originModule,
-    agencyGroup: AGENCY_GROUP[sid] ?? "OTHER",
+    agencyGroup,
     agency: r.agency,
     jurisdiction: r.jurisdiction,
     chineseTitle: r.chineseTitle,
@@ -206,7 +231,41 @@ function toEnforcement(r: EnforcementSource, originModule: EnforcementRecord["or
     riskLevel: r.riskLevel,
     recommendedAction: r.recommendedAction,
     ticketNumber,
-    govUrl: CITYPAY_ECB_URL,
+    ...govLookup(agencyGroup, ticketNumber),
+    apiUrl,
+  };
+}
+
+/**
+ * A DOHMH health summons issued to us lives in inspections.json (next to the inspection that
+ * produced it). Its title is built here; the summary is the collector's penalty/hearing line plus
+ * every charge, prefixed with the store it was attributed to.
+ */
+function inspectionToEnforcement(r: InspectionRecord): EnforcementRecord {
+  const apiUrl = r.sourceUrlOrDocRef && /data\.cityofnewyork\.us/.test(r.sourceUrlOrDocRef) ? r.sourceUrlOrDocRef : null;
+  const ticketNumber = apiUrl?.match(TICKET_RE)?.[1] ?? null;
+  const isDohmh = (r.regulatoryAgency ?? "").toUpperCase().includes("DOHMH");
+  const agencyGroup: EnforcementRecord["agencyGroup"] = isDohmh ? "DOHMH" : "OTHER";
+  const store = r.storeName && r.storeName !== r.brand ? r.storeName : null;
+  const where = store && r.address && !r.address.startsWith(store) ? `${store} · ${r.address}` : (r.address ?? store);
+  const join = (lead: string | null, body: string | null, sep: string) =>
+    [lead, body].filter(Boolean).join(sep) || null;
+  return {
+    id: r.id,
+    sourceId: r.provenance?.sourceId ?? "",
+    originModule: "inspection",
+    agencyGroup,
+    agency: r.regulatoryAgency,
+    jurisdiction: r.jurisdiction,
+    chineseTitle: `${isDohmh ? "DOHMH 卫生罚单" : "OATH 罚单(机构待定)"}${store ? `(${store})` : ""}`,
+    englishTitle: `${isDohmh ? "DOHMH health summons" : "OATH summons (agency pending)"}${store ? ` @ ${store}` : ""}`,
+    chineseSummary: join(where ? `门店:${where}。` : null, r.chineseViolationSummary, ""),
+    englishSummary: join(where ? `Store: ${where}` : null, r.englishViolationSummary, " · "),
+    date: r.inspectionDate,
+    riskLevel: r.riskLevel,
+    recommendedAction: r.recommendedAction,
+    ticketNumber,
+    ...govLookup(agencyGroup, ticketNumber),
     apiUrl,
   };
 }
@@ -216,6 +275,7 @@ export function getEnforcement(): EnforcementRecord[] {
   for (const r of ALL_ENVIRONMENT) if (isServable(r) && isEnforcement(r)) out.push(toEnforcement(r, "environment"));
   for (const r of ALL_BUILDING) if (isServable(r) && isEnforcement(r)) out.push(toEnforcement(r, "building"));
   for (const r of ALL_CONSUMER) if (isServable(r) && isEnforcement(r)) out.push(toEnforcement(r, "consumer"));
+  for (const r of ALL_INSPECTIONS) if (isServable(r) && isOwnedInspectionSummons(r)) out.push(inspectionToEnforcement(r));
   return out.sort((a, b) => (b.date ?? "").localeCompare(a.date ?? ""));
 }
 

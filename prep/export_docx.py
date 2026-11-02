@@ -37,7 +37,7 @@ from export_xlsx import (
     fmt,
     risk_mix,
     is_enforcement,
-    to_enforcement,
+    enforcement_rows,
     OUT_DIR,
 )
 
@@ -76,8 +76,8 @@ ENV_COLS = [("no", "序号 No."), ("jurisdiction", "地区 Jur."), ("regulationN
             ("appliesToUs", "适用 Applies"), ("status", "状态 Status"), ("riskLevel", "风险 Risk")]
 CONSUMER_COLS = [("no", "序号 No."), ("jurisdiction", "地区 Jur."), ("regulationName", "法规 Regulation"),
                  ("appliesToUs", "适用 Applies"), ("status", "状态 Status"), ("riskLevel", "风险 Risk")]
-# 执法罚单 — real summonses issued to us. Keeps 传票号 (the CityPay/OATH lookup key); the full
-# 15-column table (incl. summaries, pay/dispute + lineage URLs) lives in the .xlsx.
+# 执法罚单 — real summonses issued to us. Keeps 传票号 (the OATH lookup key); the full
+# 15-column table (incl. summaries, gov-lookup + lineage URLs) lives in the .xlsx.
 ENF_COLS = [("no", "序号 No."), ("agencyGroup", "机构 Agency"), ("ticketNumber", "传票号 Summons No."),
             ("date", "罚单日期 Date"), ("title", "违规事项 Violation"), ("riskLevel", "风险 Risk")]
 # Verdict cell shading for the Applicability section (mirror export_xlsx APPLIES_FILL fgColors).
@@ -314,8 +314,10 @@ def build_field_guide(doc):
         _set_cell(row.cells[1], RISK_DESC[lvl], size=8)
     doc.add_paragraph("数据源状态 Status：" + " · ".join(STATUS_LABEL.values()))
     doc.add_paragraph("门店编号 Establishment ID：NYC camis / Boston licenseno / 设施编号；重复违规检测的稳定关联键。")
-    doc.add_paragraph("传票号 Summons No.：OATH / ECB 传票号，可在 NYC CityPay 查询缴费或申诉。执法罚单为已开具给我方的真实罚单，"
-                      "按数据来源从环境卫生 / 建筑与职业安全 / 消费者与员工保护三节中抽出单列——罚单不是法规，其日期为开单日而非生效日。")
+    doc.add_paragraph("传票号 Summons No.：OATH / ECB 传票号。DSNY / DOB 罚单可在 OATH Summons Finder 按传票号查询并缴费；"
+                      "DOHMH 卫生罚单与 DCWP 罚单按 OATH 说明不在 Summons Finder 中，以 OATH 听证处案件状态开放数据为准。"
+                      "执法罚单为已开具给我方的真实罚单，从环境卫生 / 建筑与职业安全 / 消费者与员工保护三节按数据来源抽出单列"
+                      "（罚单不是法规，其日期为开单日而非生效日）；DOHMH 卫生罚单同时保留在咖啡馆检查一节。")
     doc.add_paragraph("负面舆情 Sentiment：仅汇总于月度摘要（KPI + 风险分布矩阵），明细见仪表盘 /sentiment，绝不转载文章正文。")
 
 
@@ -382,10 +384,7 @@ def main():
     building = [r for r in building_all if not is_enforcement(r)]
     environment = [r for r in environment_all if not is_enforcement(r)]
     consumer = [r for r in consumer_all if not is_enforcement(r)]
-    enforcement = ([to_enforcement(r, "environment") for r in environment_all if is_enforcement(r)]
-                   + [to_enforcement(r, "building") for r in building_all if is_enforcement(r)]
-                   + [to_enforcement(r, "consumer") for r in consumer_all if is_enforcement(r)])
-    enforcement.sort(key=lambda r: r.get("date") or "", reverse=True)  # newest first
+    enforcement = enforcement_rows(insp, environment_all, building_all, consumer_all)  # newest first
 
     verdicts = load("applicability_verdicts.json")
     meta = load("meta.json")
@@ -414,9 +413,10 @@ def main():
     doc.add_heading("消费者与员工保护 Consumer & Worker Protection", level=1)
     add_module_table(doc, CONSUMER_COLS, consumer)
     doc.add_heading("执法罚单 Enforcement & Penalties", level=1)
-    doc.add_paragraph("已开具给我方的真实罚单/传票（从环境卫生 / 建筑与职业安全 / 消费者与员工保护三个模块按数据来源抽出）。"
-                      "可凭传票号在 NYC CityPay 查询、缴纳或申诉：https://a836-citypay.nyc.gov/citypay/ecb"
-                      "  /  Summonses issued to us; look up, pay or dispute by summons number at NYC CityPay.")
+    doc.add_paragraph("已开具给我方的真实罚单/传票（DOHMH 卫生 · DSNY 环卫 · DOB 建筑 · DCWP 消费者）。"
+                      "DSNY / DOB：OATH Summons Finder https://a820-ecbticketfinder.nyc.gov/searchHome.action ；"
+                      "DOHMH / DCWP：OATH 案件状态开放数据 https://data.cityofnewyork.us/City-Government/OATH-Hearings-Division-Case-Status/jz4z-kudi/data"
+                      "  /  Summonses issued to us; DSNY/DOB on the OATH Summons Finder, DOHMH/DCWP in the OATH case-status open data.")
     add_module_table(doc, ENF_COLS, enforcement)
     doc.add_heading("咖啡馆检查 Café Inspections", level=1)
     add_module_table(doc, INSP_COLS, insp)
