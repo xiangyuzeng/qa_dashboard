@@ -14,7 +14,7 @@
       "accessType": "none", "accessMethod": "Local Health Dept / OPRA / 人工导入",
       "mainTargets": "咖啡馆、重点品牌、甲方NJ实体",
       "endpointOrUrl": null,
-      "oneTimePullFeasible": "no", "stalenessNote": "No statewide/online DB (confirmed). OPRA request per municipality (~10 business days). NJ special handling: route by municipality; never record missing data as 'no inspection'.", "reVerifyBeforeRelying": false
+      "oneTimePullFeasible": "no", "stalenessNote": "No statewide/online DB (confirmed). OPRA request per municipality (~10 business days). NJ special handling: route by municipality; never record missing data as 'no inspection'. Paramus (requested in #44) is the same: borough OPRA records request only (paramusborough.gov/178/Records-Request-OPRA) — no online data.", "reVerifyBeforeRelying": false
     },
     {
       "region": "New Jersey", "jurisdiction": "Newark, NJ",
@@ -30,15 +30,15 @@
       "accessType": "bulk-download", "accessMethod": "ArcGIS Hub CSV / Open Data",
       "mainTargets": "咖啡馆、饮品店、重点品牌",
       "endpointOrUrl": "https://lacounty.maps.arcgis.com/sharing/rest/content/items/19b6607ac82c4512b10811870975dbdc/data",
-      "oneTimePullFeasible": "yes", "stalenessNote": "Use the County ArcGIS set (rolling 3yr). Do NOT use data.lacity.org/29fd-3paw — it is FROZEN at 2018.", "reVerifyBeforeRelying": false
+      "oneTimePullFeasible": "yes", "stalenessNote": "Collector pending (batch 2): County ArcGIS Hub CSVs — inspections item 19b6607ac82c4512b10811870975dbdc (~24 MB) + violations item 5eaea9f89b7549ee841da7617d3a9cba (~40 MB), cp1252, rolling 3-yr window; score 0–100 (higher = better) + grade A/B/C. Excludes Pasadena / Long Beach / Vernon (own health depts). Do NOT use data.lacity.org/29fd-3paw (frozen 2018) or the old Restaurant_Inspection_Grades layer (stale).", "reVerifyBeforeRelying": false
     },
     {
       "region": "California", "jurisdiction": "San Francisco",
-      "dataSource": "SF DPH via DataSF (Socrata LIVES pyih-qa8i)",
-      "accessType": "open-data", "accessMethod": "查询页 / 浏览器自动化 / 人工导出",
-      "mainTargets": "咖啡馆、重点品牌",
-      "endpointOrUrl": "https://data.sfgov.org/resource/pyih-qa8i.json",
-      "oneTimePullFeasible": "partial", "stalenessNote": "SF LIVES feed (pyih-qa8i) confirmed frozen — last inspection 2019-11-28; no current per-establishment successor (ramz-vejd/6ud7-8ksb are aggregated views). Real 2019 café/brand rows seeded via intake/inspections.json (true dates, so staleness is visible); treat as historical until a live SF export is confirmed.", "reVerifyBeforeRelying": true
+      "dataSource": "SF DPH via DataSF — Health Inspection Scores 2024–present (Socrata tvy3-wexg)",
+      "accessType": "open-data", "accessMethod": "Open Data API",
+      "mainTargets": "重点品牌竞品对标（Blue Bottle 主场）",
+      "endpointOrUrl": "https://data.sf.gov/resource/tvy3-wexg.json",
+      "oneTimePullFeasible": "yes", "stalenessNote": "Live successor to the LIVES feed pyih-qa8i (frozen at 2019-11-28; its 2019 café/brand rows stay as intake history). ~1 row per inspection — dedupe permit+date+type (~6% repeat rows); placard Pass / Conditional Pass / Closure, no numeric score, no zip. The inspections.myhealthdepartment.com SF portal 403s non-browser clients and is not needed (same inspections).", "reVerifyBeforeRelying": false
     },
     {
       "region": "Massachusetts", "jurisdiction": "Boston",
@@ -54,15 +54,15 @@
       "accessType": "open-data", "accessMethod": "Open Data API / 批量抓取",
       "mainTargets": "咖啡馆、重点品牌",
       "endpointOrUrl": "https://data.cambridgema.gov/resource/ryb9-qzmw.json",
-      "oneTimePullFeasible": "yes", "stalenessNote": "Use ryb9-qzmw — the widely-cited mh73-gjid id is dead/404.", "reVerifyBeforeRelying": false
+      "oneTimePullFeasible": "yes", "stalenessNote": "Use ryb9-qzmw (the widely-cited mh73-gjid id is dead/404). One row per cited violation, grouped by case id; NO pass/fail, score or grade (result N/A); severity = (P)/(Pf)/(C) marker in code_description; case_open_date null on ~19% of rows (fall back to case_closed_date / issue_date).", "reVerifyBeforeRelying": false
     },
     {
       "region": "Washington, DC", "jurisdiction": "Washington DC",
       "dataSource": "DC Health Food Establishment Inspection Reports (HealthSpace)",
       "accessType": "html-scrape", "accessMethod": "查询页 / PDF / HTML 报告",
       "mainTargets": "咖啡馆、重点品牌",
-      "endpointOrUrl": "https://dc.healthinspections.us/",
-      "oneTimePullFeasible": "partial", "stalenessNote": "No open dataset found — per-record HTML/PDF manual intake.", "reVerifyBeforeRelying": true
+      "endpointOrUrl": "https://dc.healthinspections.us/?a=inspections",
+      "oneTimePullFeasible": "yes", "stalenessNote": "Collector pending (batch 3): no open dataset, but the site is server-rendered — 36 alphabetical listing pages (?a=inspections&alpha=A…Z, 0-9) + per-inspection report pages, plain GET, no JS/CAPTCHA. Pass/fail with Priority / Priority Foundation / Core counts, no grade or score. Report pages show staff names/emails — never store them.", "reVerifyBeforeRelying": false
     },
     {
       "region": "Florida", "jurisdiction": "Florida (FDACS)",
@@ -71,6 +71,70 @@
       "mainTargets": "coffee shops、bakeries、juice/smoothie bars、food warehouses",
       "endpointOrUrl": "https://foodpermit.fdacs.gov/Reports/SearchFoodEntity.aspx",
       "oneTimePullFeasible": "no", "stalenessNote": "fdacs.gov robots.txt is default-deny and disallows /search — do NOT scrape. Use the UI manually or a public-records request. (Restaurants proper are DBPR, out of scope.)", "reVerifyBeforeRelying": false
+    },
+    {
+      "region": "Illinois", "jurisdiction": "Chicago",
+      "dataSource": "Chicago Dept. of Public Health — Food Inspections (Socrata 4ijn-s7e5)",
+      "accessType": "open-data", "accessMethod": "Open Data API",
+      "mainTargets": "重点品牌竞品对标（无瑞幸门店）",
+      "endpointOrUrl": "https://data.cityofchicago.org/resource/4ijn-s7e5.json",
+      "oneTimePullFeasible": "yes", "stalenessNote": "Daily refresh. 1 row per inspection; violations in one ' | '-separated field (inspector comments dropped). Result Pass / Pass w/ Conditions / Fail, no score. Brand sometimes only in aka_name (franchisee dba).", "reVerifyBeforeRelying": false
+    },
+    {
+      "region": "California", "jurisdiction": "Santa Clara County",
+      "dataSource": "Santa Clara County DEH — businesses vuw7-jmjk / inspections 2u2d-8jej / violations wkaa-4ccv (Socrata)",
+      "accessType": "open-data", "accessMethod": "Open Data API（采集器内三表关联）",
+      "mainTargets": "重点品牌竞品对标（无瑞幸门店）",
+      "endpointOrUrl": "https://data.sccgov.org/resource/2u2d-8jej.json",
+      "oneTimePullFeasible": "yes", "stalenessNote": "San Jose & Palo Alto. Placard G/Y/R + score 0–100 (higher = better, stored as text). Rolling ~2-yr window, refreshed ~monthly. Source column is misspelled 'inpsection_id'.", "reVerifyBeforeRelying": false
+    },
+    {
+      "region": "California", "jurisdiction": "Alameda County",
+      "dataSource": "Alameda County Environmental Health — Food Safety Program inspection results",
+      "accessType": "none", "accessMethod": "电话查询 510-567-6700 / 人工",
+      "mainTargets": "重点品牌竞品对标（无瑞幸门店）",
+      "endpointOrUrl": "https://health.alamedacountyca.gov/program/food-safety-program-inspection-results/",
+      "oneTimePullFeasible": "no", "stalenessNote": "Not online: the county is migrating its inspection software and asks the public to phone; data.acgov.org has no food-inspection dataset (checked 2026-11-02). Re-check after the migration.", "reVerifyBeforeRelying": true
+    },
+    {
+      "region": "California", "jurisdiction": "San Mateo County",
+      "dataSource": "San Mateo County Environmental Health — MyEHS portal (Salesforce)",
+      "accessType": "none", "accessMethod": "JS-only portal / 人工查询",
+      "mainTargets": "重点品牌竞品对标（无瑞幸门店）",
+      "endpointOrUrl": "https://www.smchealth.org/my-ehs-online-portal",
+      "oneTimePullFeasible": "no", "stalenessNote": "JavaScript-only Salesforce Experience Cloud app — no server-rendered data or public API; data.smcgov.org has no food dataset (checked 2026-11-02). Manual lookup only.", "reVerifyBeforeRelying": true
+    },
+    {
+      "region": "California", "jurisdiction": "Pasadena",
+      "dataSource": "Pasadena Public Health — Health Inspection Reports (JSON behind the search page)",
+      "accessType": "html-scrape", "accessMethod": "查询页 JSON（关键词搜索）",
+      "mainTargets": "重点品牌竞品对标（无瑞幸门店）",
+      "endpointOrUrl": "https://healthinspectionreports.cityofpasadena.net/InspectionSearch",
+      "oneTimePullFeasible": "yes", "stalenessNote": "Collector pending (batch 3): POST /Inspection/SearchPermits + /Inspection/GetInspections (current system; violations only in PDF) and legacy /SearchEnvisionPermits + /GetEnvisionInspections (2014–2025-11, score 0–100 + violations). Keyword search only. Own health dept — not in LA County data.", "reVerifyBeforeRelying": false
+    },
+    {
+      "region": "California", "jurisdiction": "San Diego County",
+      "dataSource": "San Diego County DEHQ — sdfoodinfo.org (JSON behind the search page)",
+      "accessType": "html-scrape", "accessMethod": "查询页 JSON（POST search.htm）",
+      "mainTargets": "重点品牌竞品对标（无瑞幸门店）",
+      "endpointOrUrl": "https://sdfoodinfo.org/restaurants/search.htm",
+      "oneTimePullFeasible": "yes", "stalenessNote": "Collector pending (batch 3): POST name=<term> returns business → inspections → violations; score 0–100 + grade A/B/C on routine inspections. Whole-word search — query 'MCDONALDS' etc. and filter by name.", "reVerifyBeforeRelying": false
+    },
+    {
+      "region": "Nevada", "jurisdiction": "Southern Nevada (Las Vegas)",
+      "dataSource": "Southern Nevada Health District — nightly restaurant data ZIP",
+      "accessType": "bulk-download", "accessMethod": "每晚 ZIP（分号 CSV，latin-1）",
+      "mainTargets": "重点品牌竞品对标（无瑞幸门店）",
+      "endpointOrUrl": "https://www.southernnevadahealthdistrict.org/restaurants/download/restaurants.zip",
+      "oneTimePullFeasible": "yes", "stalenessNote": "Collector pending (batch 2): ~9 MB ZIP rebuilt nightly; inspections (2020-09+) join establishments by permit_number and violations by a comma ID list. Demerits (lower = better) + grade A/B/C/X. Establishments file has latitude/longitude swapped.", "reVerifyBeforeRelying": false
+    },
+    {
+      "region": "Virginia", "jurisdiction": "Fairfax County, VA",
+      "dataSource": "Fairfax County Health Dept. — Permitted Food Establishments (ArcGIS FeatureServer)",
+      "accessType": "open-data", "accessMethod": "ArcGIS REST query",
+      "mainTargets": "重点品牌竞品对标（无瑞幸门店）（Tysons）",
+      "endpointOrUrl": "https://www.fairfaxcounty.gov/gispub2/rest/services/Health/PermittedFoodEstablishments/FeatureServer/1",
+      "oneTimePullFeasible": "yes", "stalenessNote": "Outcome only (Passed / Partial Pass / Failed / Failed - Self Closed) — no score or violation detail in the feed; each row links its Accela report. Rolling ~2-yr window; max 2,000 records per query.", "reVerifyBeforeRelying": false
     }
   ],
   "alertRules": [
@@ -80,6 +144,8 @@
     { "id": "sf.result", "scope": "San Francisco", "conditionZh": "Closed / Failed / Conditional Pass", "conditionEn": "Closed / Failed / Conditional Pass" },
     { "id": "bos.cam", "scope": "Boston / Cambridge", "conditionZh": "Fail / Closed / Permit Suspension / 紧急复查", "conditionEn": "Fail / Closed / Permit Suspension / urgent re-inspection" },
     { "id": "dc.fail", "scope": "Washington DC", "conditionZh": "Fail / 多个 Priority Violations", "conditionEn": "Fail / multiple Priority Violations" },
+    { "id": "chi.fail", "scope": "Chicago", "conditionZh": "Fail（Pass w/ Conditions 为中风险）", "conditionEn": "Fail (Pass w/ Conditions = medium)" },
+    { "id": "ffx.fail", "scope": "Fairfax County, VA", "conditionZh": "Failed（Partial Pass 为中风险；Failed - Self Closed 按关闭处理）", "conditionEn": "Failed (Partial Pass = medium; Failed - Self Closed = closure)" },
     { "id": "fl.fdacs", "scope": "Florida (FDACS)", "conditionZh": "Stop Sale / Closure / Permit Suspension / Imminent Health Hazard", "conditionEn": "Stop Sale / Closure / Permit Suspension / Imminent Health Hazard" },
     { "id": "newark", "scope": "Newark, NJ", "conditionZh": "Unsatisfactory·Fail / embargo / condemnation / closure / permit suspension / foodborne illness investigation", "conditionEn": "Unsatisfactory or Fail / embargo / condemnation / closure / permit suspension / foodborne illness investigation" },
     { "id": "bergen", "scope": "Bergen County, NJ", "conditionZh": "Unsatisfactory·Fail / multiple critical violations / 紧急复查 / 执法行动", "conditionEn": "Unsatisfactory or Fail / multiple critical violations / urgent re-inspection / enforcement action" },

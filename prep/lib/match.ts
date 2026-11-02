@@ -4,12 +4,21 @@ import brandsJson from "../../data/v2/brands.json";
 const BRANDS = brandsJson.brands.filter((b) => b.standard !== "其他 Other");
 const CAFE_KW = brandsJson.cafeKeywords.map((k) => k.toUpperCase());
 
+// Aliases match as whole words: a bare substring test made "PRET" hit pretzel shops and "LUCKIN" hit
+// "THE KLUCKIN CHICKEN" (which would then be typed as our own store). "STARBUCKS COFFEE#68256",
+// "DUNKIN DONUTS/BASKIN ROBBINS" and "HALE FAMILY MCDONALD'S" still match.
+const escapeRe = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+const ALIAS_RES = BRANDS.map((b) => ({
+  standard: b.standard,
+  res: b.aliases.map((a) => new RegExp(`(?:^|[^A-Z0-9])${escapeRe(a.toUpperCase())}(?=$|[^A-Z0-9])`)),
+}));
+
 /** Returns a standardized priority brand if the name matches an alias, else null. */
 export function matchBrand(name: string | null | undefined): string | null {
   const u = (name ?? "").toUpperCase();
   if (!u) return null;
-  for (const b of BRANDS) {
-    if (b.aliases.some((a) => u.includes(a.toUpperCase()))) return b.standard;
+  for (const b of ALIAS_RES) {
+    if (b.res.some((re) => re.test(u))) return b.standard;
   }
   return null;
 }
