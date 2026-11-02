@@ -30,7 +30,7 @@
       "accessType": "bulk-download", "accessMethod": "ArcGIS Hub CSV / Open Data",
       "mainTargets": "咖啡馆、饮品店、重点品牌",
       "endpointOrUrl": "https://lacounty.maps.arcgis.com/sharing/rest/content/items/19b6607ac82c4512b10811870975dbdc/data",
-      "oneTimePullFeasible": "yes", "stalenessNote": "Collector pending (batch 2): County ArcGIS Hub CSVs — inspections item 19b6607ac82c4512b10811870975dbdc (~24 MB) + violations item 5eaea9f89b7549ee841da7617d3a9cba (~40 MB), cp1252, rolling 3-yr window; score 0–100 (higher = better) + grade A/B/C. Excludes Pasadena / Long Beach / Vernon (own health depts). Do NOT use data.lacity.org/29fd-3paw (frozen 2018) or the old Restaurant_Inspection_Grades layer (stale).", "reVerifyBeforeRelying": false
+      "oneTimePullFeasible": "yes", "stalenessNote": "County ArcGIS Hub CSVs, downloaded whole each run — inspections item 19b6607ac82c4512b10811870975dbdc (~24 MB) + violations item 5eaea9f89b7549ee841da7617d3a9cba (~40 MB, joined on SERIAL NUMBER), cp1252, rolling 3-yr window; score 0–100 (higher = better) + grade A/B/C; violations 1/2/4 points (4 = major, 11 = imminent hazard). Excludes Pasadena / Long Beach / Vernon (own health depts). Do NOT use data.lacity.org/29fd-3paw (frozen 2018) or the old Restaurant_Inspection_Grades layer (stale).", "reVerifyBeforeRelying": false
     },
     {
       "region": "California", "jurisdiction": "San Francisco",
@@ -126,7 +126,7 @@
       "accessType": "bulk-download", "accessMethod": "每晚 ZIP（分号 CSV，latin-1）",
       "mainTargets": "重点品牌竞品对标（无瑞幸门店）",
       "endpointOrUrl": "https://www.southernnevadahealthdistrict.org/restaurants/download/restaurants.zip",
-      "oneTimePullFeasible": "yes", "stalenessNote": "Collector pending (batch 2): ~9 MB ZIP rebuilt nightly; inspections (2020-09+) join establishments by permit_number and violations by a comma ID list. Demerits (lower = better) + grade A/B/C/X. Establishments file has latitude/longitude swapped.", "reVerifyBeforeRelying": false
+      "oneTimePullFeasible": "yes", "stalenessNote": "~9 MB ZIP rebuilt nightly; inspections (2020-09+) join establishments on permit_number (not facility_id — one facility holds many permits) and violations through a comma list of violation ids. Demerits (lower = better; per violation 5 = critical, 3 = major, 1 = minor) + grade A/B/C, X = closed. Establishments file has latitude/longitude swapped (unused).", "reVerifyBeforeRelying": false
     },
     {
       "region": "Virginia", "jurisdiction": "Fairfax County, VA",
@@ -145,6 +145,7 @@
     { "id": "bos.cam", "scope": "Boston / Cambridge", "conditionZh": "Fail / Closed / Permit Suspension / 紧急复查", "conditionEn": "Fail / Closed / Permit Suspension / urgent re-inspection" },
     { "id": "dc.fail", "scope": "Washington DC", "conditionZh": "Fail / 多个 Priority Violations", "conditionEn": "Fail / multiple Priority Violations" },
     { "id": "chi.fail", "scope": "Chicago", "conditionZh": "Fail（Pass w/ Conditions 为中风险）", "conditionEn": "Fail (Pass w/ Conditions = medium)" },
+    { "id": "snhd.grade", "scope": "Southern Nevada (Las Vegas)", "conditionZh": "C 级降级 / 关闭（X 级、Closed with/without Fees）；B 级为中风险", "conditionEn": "Grade C downgrade / closure (grade X, Closed with/without Fees); Grade B = medium" },
     { "id": "ffx.fail", "scope": "Fairfax County, VA", "conditionZh": "Failed（Partial Pass 为中风险；Failed - Self Closed 按关闭处理）", "conditionEn": "Failed (Partial Pass = medium; Failed - Self Closed = closure)" },
     { "id": "fl.fdacs", "scope": "Florida (FDACS)", "conditionZh": "Stop Sale / Closure / Permit Suspension / Imminent Health Hazard", "conditionEn": "Stop Sale / Closure / Permit Suspension / Imminent Health Hazard" },
     { "id": "newark", "scope": "Newark, NJ", "conditionZh": "Unsatisfactory·Fail / embargo / condemnation / closure / permit suspension / foodborne illness investigation", "conditionEn": "Unsatisfactory or Fail / embargo / condemnation / closure / permit suspension / foodborne illness investigation" },

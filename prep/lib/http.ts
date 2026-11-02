@@ -76,6 +76,37 @@ export async function getText(
 }
 
 /**
+ * Binary GET for bulk files (ZIP / large CSV). Unlike getJson/getText, the timeout also covers the
+ * BODY read — a stalled multi-MB download must not hang the pipeline either. Default 3 minutes.
+ */
+export async function getBytes(
+  url: string,
+  opts: { headers?: Record<string, string>; retries?: number; timeoutMs?: number } = {},
+): Promise<Buffer> {
+  const { headers = {}, retries = 2, timeoutMs = 180000 } = opts;
+  let lastErr: unknown;
+  for (let attempt = 0; attempt <= retries; attempt++) {
+    try {
+      return await paced(async () => {
+        const ac = new AbortController();
+        const timer = setTimeout(() => ac.abort(new Error(`timeout after ${timeoutMs}ms`)), timeoutMs);
+        try {
+          const res = await fetch(url, { headers: { "User-Agent": UA, ...headers }, signal: ac.signal });
+          if (!res.ok) throw new Error(`HTTP ${res.status} ${res.statusText} for ${url}`);
+          return Buffer.from(await res.arrayBuffer());
+        } finally {
+          clearTimeout(timer);
+        }
+      });
+    } catch (e) {
+      lastErr = e;
+      if (attempt < retries) await sleep(1500 * (attempt + 1));
+    }
+  }
+  throw lastErr;
+}
+
+/**
  * POST JSON with a JSON body + custom headers (same UA / pacing / retry-backoff as getJson).
  * Infra for key-gated collectors not yet wired — e.g. the FDA OII Import Refusals API,
  * which authenticates via `Authorization-User` + `Authorization-Key` headers. See docs/API_KEYS.md.

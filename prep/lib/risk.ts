@@ -69,6 +69,12 @@ export function assessInspection(i: InspAssessInput): Assessment {
         reasons.push("Fairfax Failed");
       }
       break;
+    case "Southern Nevada (Las Vegas)":
+      if (i.grade === "C") {
+        rules.push("snhd.grade");
+        reasons.push("Southern Nevada Grade C downgrade");
+      }
+      break;
     // Santa Clara red placard → result Closed → general.closed; yellow → Conditional Pass → medium tier.
     case "Washington DC":
       if (r === "Fail") {

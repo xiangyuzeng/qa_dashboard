@@ -10,7 +10,8 @@
  */
 import { writeFileSync, mkdirSync, existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
-import { getJson, getText, postJson, socrata } from "./lib/http";
+import { getBytes, getJson, getText, postJson, socrata } from "./lib/http";
+import { parseDelimited, toObjects, unzip } from "./lib/bulk";
 import { matchBrand, brandOrOther, establishmentType, inScope } from "./lib/match";
 import { classify } from "./lib/classify";
 import { assessInspection, assessRegulatory, assessImport, assessRegulation } from "./lib/risk";
@@ -804,51 +805,143 @@ async function collectCambridge(): Promise<SourceResult> {
 // Reads intake/inspections.json (manually-collected via OPRA / web lookup / PDF / email).
 // Lets QA represent no-API jurisdictions truthfully (incl. NJ 'not_public_online') without
 // fabricating. See intake/README.md + intake/inspections.example.json.
-// LA County restaurant inspection GRADES (ArcGIS, no auth). Recency-gated: if the dataset is stale
-// (newest inspection older than ~18 months), emit a truthful stub rather than ship old grades (cf. SF).
+// LA County Environmental Health — the County's ArcGIS Hub CSV exports (rolling 3-year window):
+// one row per inspection (SCORE 0–100 higher = better + GRADE A/B/C) and one row per violation joined
+// on SERIAL NUMBER. Single files with no server-side query, so both are downloaded (~24 MB + ~40 MB,
+// cp1252) and filtered here. Covers the County health jurisdiction — NOT Pasadena, Long Beach or
+// Vernon (own health departments). Recency-gated: a stale export ships a truthful stub, not old grades.
 async function collectLA(): Promise<SourceResult> {
-  const name = "LA County Environmental Health (ArcGIS grades)";
-  const base = "https://services1.arcgis.com/JXBurs0uwQlwOiHt/arcgis/rest/services/Restaurant_Inspection_Grades/FeatureServer/0/query";
-  const url = `${base}?where=1%3D1&outFields=facilityname,Address,City,Zip,InspectionDate,7score&orderByFields=InspectionDate%20DESC&resultRecordCount=2000&f=json`;
+  const name = "LA County Environmental Health — Restaurant & Market Inspections (ArcGIS Hub CSV)";
+  const INSP = "https://www.arcgis.com/sharing/rest/content/items/19b6607ac82c4512b10811870975dbdc/data";
+  const VIOL = "https://www.arcgis.com/sharing/rest/content/items/5eaea9f89b7549ee841da7617d3a9cba/data";
+  const PAGE = "https://www.arcgis.com/home/item.html?id=19b6607ac82c4512b10811870975dbdc";
+  const cp1252 = new TextDecoder("windows-1252");
+  const mdy = (s: string | undefined): string | null => {
+    const m = /(\d{1,2})\/(\d{1,2})\/(\d{4})/.exec(s ?? "");
+    return m ? `${m[3]}-${m[1].padStart(2, "0")}-${m[2].padStart(2, "0")}` : null;
+  };
   try {
-    const res = await getJson<{ features?: { attributes: Record<string, unknown> }[] }>(url);
-    const feats = res.features ?? [];
-    const newest = feats.length ? Math.max(...feats.map((f) => Number(f.attributes?.InspectionDate ?? 0))) : 0;
-    const cutoff = Date.parse(TODAY) - 550 * 86400000; // ~18 months
-    if (!feats.length || newest < cutoff) {
-      const newestStr = newest ? new Date(newest).toISOString().slice(0, 10) : "n/a";
-      return { inspections: [], provenance: provEntry({ sourceId: "la_county_arcgis", name, jurisdictionId: "Los Angeles County", accessType: "open-data", endpointOrUrl: base, oneTimePullFeasible: "partial", recordCount: 0, stalenessNote: `ArcGIS grades dataset is stale (newest ${newestStr}) — no current LA County feed; manual export needed. No stale rows shipped.`, reVerifyBeforeRelying: true }) };
+    const insp = toObjects(parseDelimited(cp1252.decode(await getBytes(INSP))));
+    const newest = insp.reduce((mx, r) => {
+      const d = mdy(r["ACTIVITY DATE"]);
+      return d && d > mx && d <= TODAY ? d : mx;
+    }, "");
+    const cutoff = new Date(Date.parse(TODAY) - 550 * 86400000).toISOString().slice(0, 10); // ~18 months
+    if (!newest || newest < cutoff) {
+      return { inspections: [], provenance: provEntry({ sourceId: "la_county_arcgis", name, module: "inspection", status: "no_update", jurisdictionId: "Los Angeles County", accessType: "bulk-download", endpointOrUrl: INSP, oneTimePullFeasible: "partial", recordCount: 0, stalenessNote: `County export is stale (newest inspection ${newest || "n/a"}) — no stale rows shipped; re-pin the ArcGIS item.`, reVerifyBeforeRelying: true }) };
     }
-    const out: InspectionRecord[] = [];
-    for (const f of feats) {
-      const a = f.attributes;
-      const nm = String(a.facilityname ?? "");
-      if (!inScope(nm)) continue;
-      const score = a["7score"] != null ? Number(a["7score"]) : null;
-      const ts = Number(a.InspectionDate ?? 0);
-      out.push(
-        finalizeInspection({
-          no: null, jurisdiction: "Los Angeles County", regulatoryAgency: "LA County Public Health",
-          brand: brandOrOther(nm) as InspectionRecord["brand"],
-          establishmentType: establishmentType(nm) as InspectionRecord["establishmentType"],
-          storeName: nm || null,
-          address: [a.Address, a.City, a.Zip].filter(Boolean).join(", ") || null,
-          inspectionDate: ts ? new Date(ts).toISOString().slice(0, 10) : null,
-          inspectionType: "Routine",
-          inspectionResult: (score == null ? "N/A" : score >= 90 ? "Pass" : score >= 80 ? "Conditional Pass" : "Fail") as InspectionRecord["inspectionResult"],
-          score, grade: null, violationCode: null,
-          chineseViolationSummary: null, englishViolationSummary: null,
-          violationSeverity: (score != null && score < 80 ? "严重（主要）Critical" : "一般 Non-critical") as InspectionRecord["violationSeverity"],
-          followupRequired: (score != null && score < 80 ? "是 Yes" : "否 No") as InspectionRecord["followupRequired"],
-          sourceType: "Open Data API", sourceUrlOrDocRef: base, recommendedAction: null,
-          violationText: "", sourceId: "la_county_arcgis", sourceUrl: base,
-        }),
-      );
-      if (out.length >= 80) break;
+    // newest PER_BRAND_CAP per brand, decided before the (larger) violations file is read
+    const byBrand = new Map<string, { r: Record<string, string>; date: string }[]>();
+    for (const r of insp) {
+      const brand = matchBrand(r["FACILITY NAME"]);
+      const date = mdy(r["ACTIVITY DATE"]);
+      if (!brand || !date || date < BENCH_SINCE || date > TODAY) continue;
+      (byBrand.get(brand) ?? byBrand.set(brand, []).get(brand)!).push({ r, date });
     }
-    return { inspections: out, provenance: provEntry({ sourceId: "la_county_arcgis", name, jurisdictionId: "Los Angeles County", accessType: "open-data", endpointOrUrl: base, oneTimePullFeasible: "yes", recordCount: out.length, stalenessNote: "Grades only (no per-violation detail); café/priority-brand scope." }) };
+    const kept = [...byBrand.values()].flatMap((xs) =>
+      xs.sort((a, b) => b.date.localeCompare(a.date) || a.r["SERIAL NUMBER"].localeCompare(b.r["SERIAL NUMBER"])).slice(0, PER_BRAND_CAP),
+    );
+    const serials = new Set(kept.map((k) => k.r["SERIAL NUMBER"]));
+    const viol = new Map<string, Record<string, string>[]>();
+    for (const v of toObjects(parseDelimited(cp1252.decode(await getBytes(VIOL))))) {
+      const sn = v["SERIAL NUMBER"];
+      if (serials.has(sn)) (viol.get(sn) ?? viol.set(sn, []).get(sn)!).push(v);
+    }
+    const out = kept.map(({ r, date }) => {
+      const sn = r["SERIAL NUMBER"];
+      const vs = sortViolationRows(viol.get(sn) ?? [], "VIOLATION CODE", "VIOLATION DESCRIPTION");
+      // "# 07. PROPER HOT AND COLD HOLDING TEMPERATURES" → drop the "# 07." item number
+      const violText = vs.map((v) => v["VIOLATION DESCRIPTION"].replace(/^#\s*\d+\.\s*/, "").replace(/\s+/g, " ").trim()).filter(Boolean).join(" | ");
+      const score = /^\d+(\.\d+)?$/.test((r.SCORE ?? "").trim()) ? Number(r.SCORE) : null;
+      const g = (r.GRADE ?? "").trim().toUpperCase();
+      const grade = g === "A" || g === "B" || g === "C" ? g : null;
+      const band = grade ?? (score == null ? null : score >= 90 ? "A" : score >= 80 ? "B" : "C");
+      const result = band === "A" ? "Pass" : band === "B" ? "Conditional Pass" : band === "C" ? "Fail" : "N/A";
+      return finalizeInspection({
+        no: null, jurisdiction: "Los Angeles County", regulatoryAgency: "LA County Dept. of Public Health — Environmental Health",
+        brand: matchBrand(r["FACILITY NAME"])!, establishmentType: establishmentType(r["FACILITY NAME"]),
+        storeName: r["FACILITY NAME"] || null, establishmentId: r["FACILITY ID"] || null,
+        address: [r["FACILITY ADDRESS"], r["FACILITY CITY"], [r["FACILITY STATE"], r["FACILITY ZIP"]].filter(Boolean).join(" ")].filter(Boolean).join(", ") || null,
+        inspectionDate: date, inspectionType: (r["SERVICE DESCRIPTION"] || "").trim() || null,
+        inspectionResult: result, score, grade, violationCode: vs[0]?.["VIOLATION CODE"] || null,
+        chineseViolationSummary: null, englishViolationSummary: violText || null,
+        // LA weights violations 1 / 2 / 4 points; 4 = major (holding temps, food-contact sanitation),
+        // 11 = imminent health hazard (vermin, sewage)
+        violationSeverity: vs.some((v) => Number(v.POINTS) >= 4) ? "严重（主要）Critical" : violText ? "一般 Non-critical" : null,
+        followupRequired: result === "Fail" ? "是 Yes" : "否 No",
+        sourceType: "Open Data API", sourceUrlOrDocRef: PAGE, recommendedAction: null,
+        idKey: `la:${sn}`,
+        violationText: violText, sourceId: "la_county_arcgis", sourceUrl: PAGE,
+      });
+    });
+    return { inspections: out, provenance: provEntry({ sourceId: "la_county_arcgis", name, module: "inspection", status: out.length ? "fetched" : "no_update", jurisdictionId: "Los Angeles County", accessType: "bulk-download", endpointOrUrl: INSP, oneTimePullFeasible: "yes", recordCount: out.length, stalenessNote: `${BENCH_NOTE} Score 0–100 (higher = better) + grade A/B/C; newest inspection in the export ${newest}. Excludes Pasadena / Long Beach / Vernon.` }) };
   } catch (e) {
-    return { inspections: [], provenance: provEntry({ sourceId: "la_county_arcgis", name, jurisdictionId: "Los Angeles County", accessType: "open-data", endpointOrUrl: base, oneTimePullFeasible: "partial", stalenessNote: `pull failed: ${String(e).slice(0, 120)}`, recordCount: 0, reVerifyBeforeRelying: true }) };
+    return { inspections: [], provenance: provEntry({ sourceId: "la_county_arcgis", name, module: "inspection", jurisdictionId: "Los Angeles County", accessType: "bulk-download", endpointOrUrl: INSP, oneTimePullFeasible: "yes", stalenessNote: `pull failed: ${String(e).slice(0, 140)}`, recordCount: 0, reVerifyBeforeRelying: true }) };
+  }
+}
+
+// Southern Nevada Health District (Las Vegas / Clark County) — one ZIP rebuilt nightly with the
+// whole restaurant database as semicolon-delimited latin-1 CSVs. Inspections join establishments on
+// permit_number (NOT facility_id — one casino/hotel facility holds many permits, incl. long-deleted
+// seasonal kiosks) and violations through a comma list of violation ids. Demerits: lower = better;
+// grade A/B/C, X = closed. The inspector id column (employee_id) is never read.
+async function collectSouthernNevada(): Promise<SourceResult> {
+  const name = "Southern Nevada Health District — Restaurant Inspections (nightly ZIP)";
+  const ZIP = "https://www.southernnevadahealthdistrict.org/restaurants/download/restaurants.zip";
+  const PAGE = "https://www.southernnevadahealthdistrict.org/permits-and-regulations/restaurant-inspections/restaurant-inspection-search/";
+  const FILES = ["restaurant_inspections.csv", "restaurant_establishments.csv", "restaurant_violations.csv", "restaurant_inspection_types.csv"];
+  try {
+    const files = unzip(await getBytes(ZIP), (n) => FILES.includes(n));
+    const latin1 = new TextDecoder("latin1");
+    const read = (n: string) => {
+      const b = files.get(n);
+      if (!b) throw new Error(`${n} missing from ZIP`);
+      return toObjects(parseDelimited(latin1.decode(b), ";"));
+    };
+    const est = new Map(read("restaurant_establishments.csv").map((e) => [e.permit_number, e]));
+    const vio = new Map(read("restaurant_violations.csv").map((v) => [v.violation_id, v]));
+    const types = new Map(read("restaurant_inspection_types.csv").map((t) => [t.inspection_type_id, t.inspection_type]));
+    const brandOf = (e: Record<string, string> | undefined) => (e ? matchBrand(e.restaurant_name) ?? matchBrand(e.location_name) : null);
+    const byBrand = new Map<string, Record<string, string>[]>();
+    for (const i of read("restaurant_inspections.csv")) {
+      const date = (i.inspection_date || "").slice(0, 10);
+      if (date < BENCH_SINCE || date > TODAY) continue;
+      const brand = brandOf(est.get(i.permit_number));
+      if (brand) (byBrand.get(brand) ?? byBrand.set(brand, []).get(brand)!).push(i);
+    }
+    const kept = [...byBrand.values()].flatMap((xs) =>
+      xs.sort((a, b) => b.inspection_date.localeCompare(a.inspection_date) || a.serial_number.localeCompare(b.serial_number)).slice(0, PER_BRAND_CAP),
+    );
+    const out = kept.map((i) => {
+      const e = est.get(i.permit_number)!;
+      const vs = (i.violations || "").split(",").map((x) => vio.get(x.trim())).filter((v): v is Record<string, string> => !!v);
+      const violText = vs.map((v) => (v.violation_description || "").replace(/\s+/g, " ").trim()).filter(Boolean).join(" | ");
+      const g = (i.inspection_grade || "").trim().toUpperCase();
+      const closed = g === "X" || /closed/i.test(i.inspection_result || "");
+      const result = closed ? "Closed" : g === "A" ? "Pass" : g === "B" ? "Conditional Pass" : g === "C" ? "Fail" : "N/A";
+      const store = e.location_name && e.location_name !== e.restaurant_name ? `${e.restaurant_name} (${e.location_name})` : e.restaurant_name;
+      return finalizeInspection({
+        no: null, jurisdiction: "Southern Nevada (Las Vegas)", regulatoryAgency: "Southern Nevada Health District",
+        brand: brandOf(e)!, establishmentType: establishmentType(matchBrand(e.restaurant_name) ? e.restaurant_name : e.location_name),
+        storeName: store || null, establishmentId: i.permit_number || null,
+        address: [e.address, e.city_name, e.zip_code ? `NV ${e.zip_code}` : "NV"].filter(Boolean).join(", "),
+        inspectionDate: i.inspection_date.slice(0, 10), inspectionType: types.get(i.inspection_type_id) ?? null,
+        inspectionResult: result,
+        score: /^\d+$/.test(i.inspection_demerits || "") ? Number(i.inspection_demerits) : null, // demerits, lower = better
+        grade: g === "A" || g === "B" || g === "C" ? g : null,
+        violationCode: null, // SNHD exposes internal violation ids, not citable codes
+        chineseViolationSummary: null, englishViolationSummary: violText || null,
+        // SNHD demerits: 5 = critical, 3 = major, 1 = good food management practice
+        violationSeverity: vs.some((v) => Number(v.violation_demerits) >= 5) ? "严重（主要）Critical" : violText ? "一般 Non-critical" : null,
+        followupRequired: result === "Fail" || result === "Closed" ? "是 Yes" : "否 No",
+        sourceType: "Open Data API", sourceUrlOrDocRef: PAGE, recommendedAction: null,
+        idKey: `snhd:${i.serial_number}`,
+        violationText: violText, sourceId: "snhd", sourceUrl: PAGE,
+      });
+    });
+    return { inspections: out, provenance: provEntry({ sourceId: "snhd", name, module: "inspection", status: out.length ? "fetched" : "no_update", jurisdictionId: "Southern Nevada (Las Vegas)", accessType: "bulk-download", endpointOrUrl: ZIP, oneTimePullFeasible: "yes", recordCount: out.length, stalenessNote: `${BENCH_NOTE} Demerits (lower = better) + grade A/B/C; X / "Closed with/without Fees" = closure. ZIP rebuilt nightly.` }) };
+  } catch (e) {
+    return { inspections: [], provenance: provEntry({ sourceId: "snhd", name, module: "inspection", jurisdictionId: "Southern Nevada (Las Vegas)", accessType: "bulk-download", endpointOrUrl: ZIP, oneTimePullFeasible: "yes", stalenessNote: `pull failed: ${String(e).slice(0, 140)}`, reVerifyBeforeRelying: true }) };
   }
 }
 
@@ -2260,6 +2353,7 @@ async function main() {
     collectSantaClara(),
     collectFairfax(),
     collectLA(),
+    collectSouthernNevada(),
     collectIntake(),
     collectImportSeeds(),
     collectFederalRegisterImport(),
