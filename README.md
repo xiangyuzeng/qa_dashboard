@@ -99,7 +99,8 @@ step no-ops (rows stay English) and a DeepL API error never fails the build.
 
 ### Wire it in
 - **Production (auto-translate on every refresh):** GitHub repo → **Settings → Secrets and variables
-  → Actions → New repository secret** → name it exactly `DEEPL_KEY`, paste the `…:fx` key. The next
+  → Actions** → the secret is named **`DEEP_API_KEY`** (update it, paste the `…:fx` key; the workflow passes it
+  to `prep:translate` as the `DEEPL_KEY` env var). The next
   weekday refresh — or a manual **Actions → Weekday data refresh → Run workflow** — translates the
   live rows and redeploys. No code change.
 - **Verify the key first:** `./scripts/check-deepl-key.sh YOUR_KEY:fx` — checks auth via `/v2/usage`

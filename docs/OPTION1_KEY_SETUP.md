@@ -41,7 +41,7 @@ All are **free** government/civic APIs (none are AI keys). Add each as a repo Se
 
 | `.env` / Secret var | Unlocks | Module | Where to register | Free tier |
 |---|---|---|---|---|
-| `DEEPL_KEY` *(optional)* | auto-translate English-only live rows → 中文 (`prep:translate`) | Import + Intelligence/regulatory + Sentiment | deepl.com → **API Free** plan → Authorization key (ends `:fx`) | 500,000 chars / mo |
+| `DEEPL_KEY` env · repo secret **`DEEP_API_KEY`** *(optional)* | auto-translate English-only live rows → 中文 (`prep:translate`) | Import + Intelligence/regulatory + Sentiment | deepl.com → **API Free** plan → Authorization key (ends `:fx`) | 500,000 chars / mo |
 
 This is the one **non-government** key: a machine-translation service, not an AI/LLM key. Purely an
 enhancement — **without it the site is fully correct**, it just shows the English original for the

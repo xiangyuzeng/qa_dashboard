@@ -56,7 +56,8 @@ jobs:
           NY_SENATE_KEY: ${{ secrets.NY_SENATE_KEY }}
           OPENSTATES_KEY: ${{ secrets.OPENSTATES_KEY }}
           DOL_ENFORCE_KEY: ${{ secrets.DOL_ENFORCE_KEY }}
-          DEEPL_KEY: ${{ secrets.DEEPL_KEY }}
+          # repo secret DEEP_API_KEY (added 2026-11-02; the 07-22 DEEPL_KEY secret returns 403) → env DEEPL_KEY for prep:translate
+          DEEPL_KEY: ${{ secrets.DEEP_API_KEY }}
         run: |
           exec > >(tee -a prep.log) 2>&1
           npm run prep:collect
