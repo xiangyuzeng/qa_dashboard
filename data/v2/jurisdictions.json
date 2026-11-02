@@ -62,7 +62,7 @@
       "accessType": "html-scrape", "accessMethod": "查询页 / PDF / HTML 报告",
       "mainTargets": "咖啡馆、重点品牌",
       "endpointOrUrl": "https://dc.healthinspections.us/?a=inspections",
-      "oneTimePullFeasible": "yes", "stalenessNote": "Collector pending (batch 3): no open dataset, but the site is server-rendered — 36 alphabetical listing pages (?a=inspections&alpha=A…Z, 0-9) + per-inspection report pages, plain GET, no JS/CAPTCHA. Pass/fail with Priority / Priority Foundation / Core counts, no grade or score. Report pages show staff names/emails — never store them.", "reVerifyBeforeRelying": false
+      "oneTimePullFeasible": "yes", "stalenessNote": "No open dataset, but the site is server-rendered: alphabetical listing pages (?a=inspections&alpha=X — only the brand initials are read) + one HTML report per inspection, plain GET, no JS/CAPTCHA. DC runs a pass/fail inspection but the report has no pass/fail field → result N/A; Priority / Priority Foundation / Core tallies + OUT items are kept. Report pages show person-in-charge / CFPM names, phone and e-mail — never stored.", "reVerifyBeforeRelying": false
     },
     {
       "region": "Florida", "jurisdiction": "Florida (FDACS)",
@@ -110,7 +110,7 @@
       "accessType": "html-scrape", "accessMethod": "查询页 JSON（关键词搜索）",
       "mainTargets": "重点品牌竞品对标（无瑞幸门店）",
       "endpointOrUrl": "https://healthinspectionreports.cityofpasadena.net/InspectionSearch",
-      "oneTimePullFeasible": "yes", "stalenessNote": "Collector pending (batch 3): POST /Inspection/SearchPermits + /Inspection/GetInspections (current system; violations only in PDF) and legacy /SearchEnvisionPermits + /GetEnvisionInspections (2014–2025-11, score 0–100 + violations). Keyword search only. Own health dept — not in LA County data.", "reVerifyBeforeRelying": false
+      "oneTimePullFeasible": "yes", "stalenessNote": "POST /Inspection/SearchPermits + /Inspection/GetInspections (current system: score + rating, violations only in PDF) and legacy /SearchEnvisionPermits + /GetEnvisionInspections (2014–2025-11: score 0–100 + itemised violations); an inspection in both keeps the legacy copy. Keyword search only. Own health dept — not in LA County data.", "reVerifyBeforeRelying": false
     },
     {
       "region": "California", "jurisdiction": "San Diego County",
@@ -118,7 +118,7 @@
       "accessType": "html-scrape", "accessMethod": "查询页 JSON（POST search.htm）",
       "mainTargets": "重点品牌竞品对标（无瑞幸门店）",
       "endpointOrUrl": "https://sdfoodinfo.org/restaurants/search.htm",
-      "oneTimePullFeasible": "yes", "stalenessNote": "Collector pending (batch 3): POST name=<term> returns business → inspections → violations; score 0–100 + grade A/B/C on routine inspections. Whole-word search — query 'MCDONALDS' etc. and filter by name.", "reVerifyBeforeRelying": false
+      "oneTimePullFeasible": "yes", "stalenessNote": "POST name=<term> (form) returns business → inspections → violations; score 0–100 + grade A/B/C on routine inspections only (other visit types report 0 / no grade); 'Ordered Closed' / 'Self Closed' = closure. Whole-word search — query 'MCDONALDS' etc. and filter by name. Phone numbers in the payload are not stored.", "reVerifyBeforeRelying": false
     },
     {
       "region": "Nevada", "jurisdiction": "Southern Nevada (Las Vegas)",
@@ -145,6 +145,8 @@
     { "id": "bos.cam", "scope": "Boston / Cambridge", "conditionZh": "Fail / Closed / Permit Suspension / 紧急复查", "conditionEn": "Fail / Closed / Permit Suspension / urgent re-inspection" },
     { "id": "dc.fail", "scope": "Washington DC", "conditionZh": "Fail / 多个 Priority Violations", "conditionEn": "Fail / multiple Priority Violations" },
     { "id": "chi.fail", "scope": "Chicago", "conditionZh": "Fail（Pass w/ Conditions 为中风险）", "conditionEn": "Fail (Pass w/ Conditions = medium)" },
+    { "id": "pas.score", "scope": "Pasadena", "conditionZh": "Score < 80 / 暂停许可证（80–89 为中风险）", "conditionEn": "Score < 80 / permit suspension (80–89 = medium)" },
+    { "id": "sd.grade", "scope": "San Diego County", "conditionZh": "Grade C / 勒令关闭（Grade B 为中风险）", "conditionEn": "Grade C / ordered closed (Grade B = medium)" },
     { "id": "snhd.grade", "scope": "Southern Nevada (Las Vegas)", "conditionZh": "C 级降级 / 关闭（X 级、Closed with/without Fees）；B 级为中风险", "conditionEn": "Grade C downgrade / closure (grade X, Closed with/without Fees); Grade B = medium" },
     { "id": "ffx.fail", "scope": "Fairfax County, VA", "conditionZh": "Failed（Partial Pass 为中风险；Failed - Self Closed 按关闭处理）", "conditionEn": "Failed (Partial Pass = medium; Failed - Self Closed = closure)" },
     { "id": "fl.fdacs", "scope": "Florida (FDACS)", "conditionZh": "Stop Sale / Closure / Permit Suspension / Imminent Health Hazard", "conditionEn": "Stop Sale / Closure / Permit Suspension / Imminent Health Hazard" },

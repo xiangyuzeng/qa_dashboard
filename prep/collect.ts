@@ -10,7 +10,7 @@
  */
 import { writeFileSync, mkdirSync, existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
-import { getBytes, getJson, getText, postJson, socrata } from "./lib/http";
+import { getBytes, getJson, getText, postForm, postJson, socrata } from "./lib/http";
 import { parseDelimited, toObjects, unzip } from "./lib/bulk";
 import { matchBrand, brandOrOther, establishmentType, inScope } from "./lib/match";
 import { classify } from "./lib/classify";
@@ -942,6 +942,232 @@ async function collectSouthernNevada(): Promise<SourceResult> {
     return { inspections: out, provenance: provEntry({ sourceId: "snhd", name, module: "inspection", status: out.length ? "fetched" : "no_update", jurisdictionId: "Southern Nevada (Las Vegas)", accessType: "bulk-download", endpointOrUrl: ZIP, oneTimePullFeasible: "yes", recordCount: out.length, stalenessNote: `${BENCH_NOTE} Demerits (lower = better) + grade A/B/C; X / "Closed with/without Fees" = closure. ZIP rebuilt nightly.` }) };
   } catch (e) {
     return { inspections: [], provenance: provEntry({ sourceId: "snhd", name, module: "inspection", jurisdictionId: "Southern Nevada (Las Vegas)", accessType: "bulk-download", endpointOrUrl: ZIP, oneTimePullFeasible: "yes", stalenessNote: `pull failed: ${String(e).slice(0, 140)}`, reVerifyBeforeRelying: true }) };
+  }
+}
+
+// San Diego County DEHQ — the JSON the sdfoodinfo.org search page calls (POST search.htm). One call
+// returns business → inspections (full history) → violations. Search is whole-word: "MCDONALD'S"
+// finds nothing and "MCDONALD" matches unrelated names, so the brand list is spelled for it and
+// matchBrand() is the gate. Phone numbers in the payload are never stored.
+async function collectSanDiego(): Promise<SourceResult> {
+  const API = "https://sdfoodinfo.org/restaurants/search.htm";
+  const PAGE = "https://sdfoodinfo.org/restaurants/list_restaurants.html";
+  const name = "San Diego County DEHQ — Food Facility Inspections (sdfoodinfo.org)";
+  const TERMS = ["STARBUCKS", "DUNKIN", "PRET", "BLUE BOTTLE", "MCDONALDS", "LUCKIN"];
+  type Viol = { violation?: string; violation_accela?: string; major_violation?: string; status?: string };
+  type Insp = { inspection_id: string | number; type?: string; score?: string | number; grade?: string; completed_date?: string; status?: string; violations?: Viol[] };
+  type Biz = { business_id: string | number; name?: string; address?: string; inspections?: Insp[] };
+  try {
+    const biz = new Map<string, Biz>();
+    for (const q of TERMS) {
+      for (let page = 1; page <= 5; page++) {
+        const res = await postForm<{ result?: Biz[]; total_count?: number }>(API, { name: q, page_number: page, page_count: 200, lat: 32.7157, lng: -117.1611 });
+        const rows = res.result ?? []; // no-match searches return no `result` key at all
+        for (const b of rows) if (matchBrand(b.name)) biz.set(String(b.business_id), b);
+        if (rows.length < 200 || page * 200 >= (res.total_count ?? 0)) break;
+      }
+    }
+    const out: InspectionRecord[] = [];
+    for (const b of biz.values()) {
+      for (const i of b.inspections ?? []) {
+        const date = isoFromYmd(i.completed_date);
+        if (!date || date < BENCH_SINCE || date > TODAY) continue;
+        const g = (i.grade ?? "").trim().toUpperCase();
+        const closed = /closed/i.test(i.status ?? ""); // "Ordered Closed" / "Self Closed"
+        const result = closed ? "Closed" : g === "A" ? "Pass" : g === "B" ? "Conditional Pass" : g === "C" ? "Fail" : "N/A";
+        const sc = Number(i.score);
+        // routine inspections carry score + grade; other visit types report 0 with no grade
+        const score = g && Number.isFinite(sc) && sc > 0 ? sc : null;
+        const vs = (i.violations ?? [])
+          .map((v) => {
+            const raw = (v.violation_accela || v.violation || "").replace(/\s+/g, " ").trim();
+            const m = /^(\d+)\.\s*(.*)$/.exec(raw);
+            return { code: m ? m[1] : "", text: m ? m[2] : raw, major: v.major_violation === "Y" || /major/i.test(v.status ?? "") };
+          })
+          .filter((v) => v.text);
+        const violText = vs.map((v) => v.text).join(" | ");
+        out.push(
+          finalizeInspection({
+            no: null, jurisdiction: "San Diego County", regulatoryAgency: "San Diego County Dept. of Environmental Health & Quality",
+            brand: matchBrand(b.name)!, establishmentType: establishmentType(b.name), storeName: b.name || null,
+            establishmentId: String(b.business_id), address: b.address || null,
+            inspectionDate: date, inspectionType: i.type || null,
+            inspectionResult: result, score, grade: g === "A" || g === "B" || g === "C" ? g : null,
+            violationCode: vs[0]?.code || null,
+            chineseViolationSummary: null, englishViolationSummary: violText || null,
+            violationSeverity: vs.some((v) => v.major) ? "严重（主要）Critical" : violText ? "一般 Non-critical" : null,
+            followupRequired: result === "Fail" || result === "Closed" ? "是 Yes" : "否 No",
+            sourceType: "Open Data API", sourceUrlOrDocRef: PAGE, recommendedAction: null,
+            idKey: `sd:${i.inspection_id}`,
+            violationText: violText, sourceId: "sd_dehq", sourceUrl: PAGE,
+          }),
+        );
+      }
+    }
+    const capped = capPerBrand(out);
+    return { inspections: capped, provenance: provEntry({ sourceId: "sd_dehq", name, module: "inspection", status: capped.length ? "fetched" : "no_update", jurisdictionId: "San Diego County", accessType: "html-scrape", endpointOrUrl: API, oneTimePullFeasible: "yes", recordCount: capped.length, stalenessNote: `${BENCH_NOTE} Score 0–100 + grade A/B/C on routine inspections; "Ordered Closed" / "Self Closed" = closure.` }) };
+  } catch (e) {
+    return { inspections: [], provenance: provEntry({ sourceId: "sd_dehq", name, module: "inspection", jurisdictionId: "San Diego County", accessType: "html-scrape", endpointOrUrl: API, oneTimePullFeasible: "yes", stalenessNote: `pull failed: ${String(e).slice(0, 140)}`, reVerifyBeforeRelying: true }) };
+  }
+}
+
+// Pasadena Public Health (own health department — not in LA County data). The search page is backed
+// by JSON endpoints with keyword search only. Two systems: the current one (score + rating; violation
+// detail only in a PDF) and the legacy Envision one (2014 → 2025-11, score + itemised violations).
+// Both are read; an inspection present in both (around the switch-over) keeps the legacy copy.
+async function collectPasadena(): Promise<SourceResult> {
+  const B = "https://healthinspectionreports.cityofpasadena.net/Inspection";
+  const PAGE = "https://healthinspectionreports.cityofpasadena.net/InspectionSearch";
+  const name = "Pasadena Public Health — Health Inspection Reports";
+  const TERMS = ["STARBUCKS", "DUNKIN", "PRET", "BLUE BOTTLE", "MCDONALD", "LUCKIN"];
+  type Permit = { DBA?: string; CompanyName?: string; FullAddressLine1?: string; FullAddressLine2?: string; BlLicenseId: string };
+  type Cur = { InspectionNumber?: string; InspectionActualStartDateTime?: string; ViolationScore?: number | null; ViolationRating?: string; InspectionType?: string; InspectionStatus?: string };
+  type LegViol = { ViolationCode?: string; Score?: number; ViolationItem?: string };
+  type Leg = { InspectionDate?: string; InspectionType?: string; InspectionScore?: number | null; Violations?: LegViol[] };
+  const search = async (path: string, q: string) =>
+    (await postJson<{ Rows?: Permit[] }>(`${B}/${path}`, { keyword: q, permitType: null, city: null, zipCode: null, limit: 100, offset: 0 })).Rows ?? [];
+  const brandOf = (p: Permit) => matchBrand(p.DBA) ?? matchBrand(p.CompanyName);
+  const band = (score: number | null) => (score == null ? null : score >= 90 ? "Pass" : score >= 80 ? "Conditional Pass" : "Fail");
+  const norm = (a?: string) => (a ?? "").toUpperCase().replace(/\s+/g, " ").trim();
+  try {
+    const permits = { cur: new Map<string, Permit>(), leg: new Map<string, Permit>() };
+    for (const q of TERMS) {
+      for (const p of await search("SearchPermits", q)) if (brandOf(p)) permits.cur.set(p.BlLicenseId, p);
+      for (const p of await search("SearchEnvisionPermits", q)) if (brandOf(p)) permits.leg.set(p.BlLicenseId, p);
+    }
+    const byKey = new Map<string, InspectionRecord>();
+    const add = (key: string, rec: InspectionRecord, preferNew: boolean) => {
+      if (preferNew || !byKey.has(key)) byKey.set(key, rec);
+    };
+    const base = (p: Permit, date: string, type: string | null, score: number | null, result: string, viols: LegViol[], idKey: string) => {
+      const nm = p.DBA || p.CompanyName || "";
+      const violText = viols.map((v) => (v.ViolationItem || "").replace(/\s+/g, " ").trim()).filter(Boolean).join(" | ");
+      return finalizeInspection({
+        no: null, jurisdiction: "Pasadena", regulatoryAgency: "Pasadena Public Health Dept. — Environmental Health",
+        brand: brandOf(p)!, establishmentType: establishmentType(matchBrand(p.DBA) ? p.DBA : p.CompanyName), storeName: nm || null,
+        establishmentId: p.BlLicenseId, address: [p.FullAddressLine1, p.FullAddressLine2].filter(Boolean).join(", ") || null,
+        inspectionDate: date, inspectionType: type,
+        inspectionResult: result, score, grade: null, violationCode: viols[0]?.ViolationCode || null,
+        chineseViolationSummary: null, englishViolationSummary: violText || null,
+        // Pasadena weights violations like LA County (1 / 2 / 4 points); 4+ = major
+        violationSeverity: viols.some((v) => Number(v.Score) >= 4) ? "严重（主要）Critical" : violText ? "一般 Non-critical" : null,
+        followupRequired: result === "Fail" || result === "Permit Suspended" ? "是 Yes" : "否 No",
+        sourceType: "Open Data API", sourceUrlOrDocRef: PAGE, recommendedAction: null,
+        idKey, violationText: violText, sourceId: "pasadena_ph", sourceUrl: PAGE,
+      });
+    };
+    for (const p of permits.leg.values()) {
+      const res = await postJson<{ Inspections?: Leg[] }>(`${B}/GetEnvisionInspections`, { entityId: p.BlLicenseId });
+      for (const i of res.Inspections ?? []) {
+        const date = isoFromYmd(i.InspectionDate);
+        if (!date || date < BENCH_SINCE || date > TODAY) continue;
+        const viols = [...(i.Violations ?? [])].sort((a, b) => (a.ViolationCode ?? "").localeCompare(b.ViolationCode ?? ""));
+        const score = typeof i.InspectionScore === "number" ? i.InspectionScore : null;
+        const suspended = viols.some((v) => /permit suspension/i.test(v.ViolationItem ?? ""));
+        const result = suspended ? "Permit Suspended" : band(score) ?? "N/A";
+        add(`${norm(p.FullAddressLine1)}|${date}`, base(p, date, i.InspectionType ?? null, score, result, viols, `pas:env:${p.BlLicenseId}|${date}|${i.InspectionType ?? ""}`), true);
+      }
+    }
+    for (const p of permits.cur.values()) {
+      const res = await postJson<{ Inspections?: Cur[] }>(`${B}/GetInspections`, { entityId: p.BlLicenseId });
+      for (const i of res.Inspections ?? []) {
+        const date = isoFromYmd(i.InspectionActualStartDateTime);
+        if (!date || date < BENCH_SINCE || date > TODAY) continue;
+        const score = typeof i.ViolationScore === "number" ? i.ViolationScore : null;
+        const rating = (i.ViolationRating ?? "").toLowerCase();
+        const result = /suspend|closed|closure/.test(rating) ? "Permit Suspended" : rating === "pass" ? "Pass" : band(score) ?? "N/A";
+        add(`${norm(p.FullAddressLine1)}|${date}`, base(p, date, i.InspectionType ?? null, score, result, [], `pas:${i.InspectionNumber ?? `${p.BlLicenseId}|${date}`}`), false);
+      }
+    }
+    const capped = capPerBrand([...byKey.values()]);
+    return { inspections: capped, provenance: provEntry({ sourceId: "pasadena_ph", name, module: "inspection", status: capped.length ? "fetched" : "no_update", jurisdictionId: "Pasadena", accessType: "html-scrape", endpointOrUrl: PAGE, oneTimePullFeasible: "yes", recordCount: capped.length, stalenessNote: `${BENCH_NOTE} Score 0–100 (higher = better). Current system: score + rating only (violations in PDF); legacy Envision system (to 2025-11): itemised violations.` }) };
+  } catch (e) {
+    return { inspections: [], provenance: provEntry({ sourceId: "pasadena_ph", name, module: "inspection", jurisdictionId: "Pasadena", accessType: "html-scrape", endpointOrUrl: PAGE, oneTimePullFeasible: "yes", stalenessNote: `pull failed: ${String(e).slice(0, 140)}`, reVerifyBeforeRelying: true }) };
+  }
+}
+
+// DC Health — no open dataset, but dc.healthinspections.us is server-rendered: alphabetical listing
+// pages (establishment, permit id, address, every inspection with its report link) and one HTML
+// report per inspection with the Priority / Priority Foundation / Core violation tallies and the
+// IN/OUT mark per item (the selected mark is styled red). Only the brand initials' listing pages are
+// read. DC states it runs a pass/fail inspection but the report carries no pass/fail field, so the
+// result is N/A and severity follows the Priority tally. Report pages also show the person in charge,
+// CFPM names, phone and e-mail — only the tallies and standard item names are kept.
+async function collectDC(): Promise<SourceResult> {
+  const BASE = "https://dc.healthinspections.us/";
+  const name = "DC Health — Food Establishment Inspection Reports";
+  const report = (id: string) => `${BASE}lib/mod/inspection/paper/_paper_food_inspection_report.cfm?inspectionID=${id}&wguid=1367&wgunm=sysact&wgdmn=431`;
+  const MONTHS = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"];
+  const longDate = (s: string): string | null => {
+    const m = /([A-Za-z]+)\s+(\d{1,2}),\s*(\d{4})/.exec(s);
+    const mi = m ? MONTHS.indexOf(m[1].toLowerCase()) : -1;
+    return m && mi >= 0 ? `${m[3]}-${String(mi + 1).padStart(2, "0")}-${m[2].padStart(2, "0")}` : null;
+  };
+  const NAMED: Record<string, string> = { amp: "&", lt: "<", gt: ">", quot: '"', apos: "'", nbsp: " " };
+  const decode = (h: string) =>
+    h.replace(/&(#\d+|#x[0-9a-f]+|[a-z]+);/gi, (m, e: string) =>
+      e[0] === "#" ? String.fromCodePoint(e[1] === "x" || e[1] === "X" ? parseInt(e.slice(2), 16) : Number(e.slice(1))) : NAMED[e.toLowerCase()] ?? m,
+    );
+  const text = (h: string) => decode(h.replace(/<[^>]+>/g, " ")).replace(/\s+/g, " ").trim();
+  try {
+    type Visit = { brand: string; store: string; permitId: string; address: string | null; id: string; type: string; date: string };
+    const visits: Visit[] = [];
+    for (const alpha of [...new Set(BENCH_TERMS.map((t) => t[0]))]) {
+      const page = await getText(`${BASE}?a=inspections&alpha=${alpha}`);
+      for (const block of page.split("<h3>").slice(1)) {
+        const est = /<a href="\?a=inspections&(?:amp;)?permitID=(\d+)">([^<]+)<\/a>/.exec(block);
+        if (!est) continue;
+        const store = text(est[2]);
+        const brand = matchBrand(store);
+        if (!brand) continue;
+        const addr = /<\/h3>\s*([^<]+?)\s*<br/.exec(block);
+        for (const m of block.matchAll(/inspectionID=(\d+)[^>]*>([^:<]+):\s*([^<]+)</g)) {
+          const date = longDate(m[3]);
+          if (date && date >= BENCH_SINCE && date <= TODAY)
+            visits.push({ brand, store, permitId: est[1], address: addr ? text(addr[1]) : null, id: m[1], type: text(m[2]), date });
+        }
+      }
+    }
+    const byBrand = new Map<string, Visit[]>();
+    for (const v of visits) (byBrand.get(v.brand) ?? byBrand.set(v.brand, []).get(v.brand)!).push(v);
+    const kept = [...byBrand.values()].flatMap((vs) => vs.sort((a, b) => b.date.localeCompare(a.date) || a.id.localeCompare(b.id)).slice(0, PER_BRAND_CAP));
+    const out: InspectionRecord[] = [];
+    for (const v of kept) {
+      const h = await getText(report(v.id));
+      const flat = text(h.replace(/<(script|style)[\s\S]*?<\/\1>/g, " ").replace(/<[^>]+>/g, " | ")).replace(/(\s*\|\s*)+/g, " | ");
+      const tally = (label: string) => {
+        const m = new RegExp(`\\| ${label} \\| Violations \\| (\\d+) \\| COS \\| (\\d+)`).exec(flat);
+        return m ? Number(m[1]) : null;
+      };
+      const p = tally("Priority"), pf = tally("Priority Foundation"), c = tally("Core");
+      const items: { code: string; text: string }[] = [];
+      for (const row of h.matchAll(/<tr>([\s\S]*?)<\/tr>/g)) {
+        if (!/<td[^>]*color:#CC0000[^>]*>\s*OUT\s*<\/td>/i.test(row[1])) continue;
+        const it = />\s*(\d+[A-Z]?)\.\s*<\/td>\s*<td[^>]*>\s*([^<]+?)\s*<\/td>/.exec(row[1]);
+        if (it) items.push({ code: it[1], text: text(it[2]) });
+      }
+      const tallyPhrase = p == null ? null : `Priority ${p} · Priority Foundation ${pf ?? 0} · Core ${c ?? 0} violations`;
+      const violText = items.map((i) => i.text).join(" | ");
+      const url = report(v.id);
+      out.push(
+        finalizeInspection({
+          no: null, jurisdiction: "Washington DC", regulatoryAgency: "DC Health — Food Safety and Hygiene Inspection Services",
+          brand: v.brand, establishmentType: establishmentType(v.store), storeName: v.store,
+          establishmentId: v.permitId, address: v.address,
+          inspectionDate: v.date, inspectionType: v.type,
+          inspectionResult: "N/A", score: null, grade: null, violationCode: items[0]?.code ?? null,
+          chineseViolationSummary: null, englishViolationSummary: [tallyPhrase, violText].filter(Boolean).join(" | ") || null,
+          violationSeverity: (p ?? 0) > 0 ? "严重（主要）Critical" : (pf ?? 0) + (c ?? 0) > 0 || violText ? "一般 Non-critical" : null,
+          followupRequired: (p ?? 0) > 0 ? "是 Yes" : "否 No",
+          sourceType: "PDF/HTML 报告", sourceUrlOrDocRef: url, recommendedAction: null,
+          idKey: `dc:${v.id}`,
+          violationText: violText, sourceId: "dc_health", sourceUrl: url,
+        }),
+      );
+    }
+    return { inspections: out, provenance: provEntry({ sourceId: "dc_health", name, module: "inspection", status: out.length ? "fetched" : "no_update", jurisdictionId: "Washington DC", accessType: "html-scrape", endpointOrUrl: `${BASE}?a=inspections`, oneTimePullFeasible: "yes", recordCount: out.length, stalenessNote: `${BENCH_NOTE} Server-rendered listing + report pages. No pass/fail field on the report (result N/A); Priority / Priority Foundation / Core tallies + OUT items. Person-in-charge / CFPM names and contact details are never stored.` }) };
+  } catch (e) {
+    return { inspections: [], provenance: provEntry({ sourceId: "dc_health", name, module: "inspection", jurisdictionId: "Washington DC", accessType: "html-scrape", endpointOrUrl: `${BASE}?a=inspections`, oneTimePullFeasible: "yes", stalenessNote: `pull failed: ${String(e).slice(0, 140)}`, reVerifyBeforeRelying: true }) };
   }
 }
 
@@ -2354,6 +2580,9 @@ async function main() {
     collectFairfax(),
     collectLA(),
     collectSouthernNevada(),
+    collectSanDiego(),
+    collectPasadena(),
+    collectDC(),
     collectIntake(),
     collectImportSeeds(),
     collectFederalRegisterImport(),

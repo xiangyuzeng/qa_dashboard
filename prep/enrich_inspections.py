@@ -225,6 +225,8 @@ _HEARING_FAMILY = (("dismiss", "撤销"), ("adjourn", "延期"), ("withdraw", "�
 # can contain "withdraw"/"dismiss" too and must fall through to the raw-text fallback.
 _HEARING_FAMILY_RE = re.compile(r"^(?:hbam )?(dismiss|adjourn|withdraw|appeal)")
 _HEARING_SCHED_RE = re.compile(r"^hearing scheduled (\d{4}-\d{2}-\d{2})$")
+# DC Health report tally (collectDC in prep/collect.ts)
+_DC_TALLY_RE = re.compile(r"^Priority (\d+) · Priority Foundation (\d+) · Core (\d+) violations$")
 
 
 def _hearing_zh(term):
@@ -250,6 +252,9 @@ def _penalty_zh(phrase):
         sched = _HEARING_SCHED_RE.match(ph)
         if sched:
             return f"已排听证 {sched.group(1)}"
+        tally = _DC_TALLY_RE.match(ph)
+        if tally:
+            return f"优先级违规 {tally.group(1)} · 优先级基础违规 {tally.group(2)} · 一般（Core）违规 {tally.group(3)}"
         return _hearing_zh(ph)  # bare hearing result (no penalty figure yet), else None
     parts = [f"罚款 ${m.group('amt')}"]
     if m.group("bal"):
